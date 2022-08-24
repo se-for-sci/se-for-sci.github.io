@@ -3,7 +3,7 @@ name: deploy-book
 on:
   push:
     branches:
-    - main
+      - main
 
 permissions:
   contents: read
@@ -21,27 +21,25 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        environment-file: environment.yml
-        activate-environment: se-for-sci
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: environment.yml
+          activate-environment: se-for-sci
 
-    - name: Install the kernel
-      run: |
-        python -m ipykernel install --user --name conda-env-se-for-sci
+      - name: Install the kernel
+        run: |
+          python -m ipykernel install --user --name conda-env-se-for-sci
 
-    - name: Build the book
-      run: |
-        jupyter-book build .
+      - name: Build the book
+        run: |
+          jupyter-book build .
 
-    - uses: actions/upload-artifact@v3
-      with:
-        name: jupyterbook
-        path: _build/html/*
-
-
+      - uses: actions/upload-artifact@v3
+        with:
+          name: jupyterbook
+          path: _build/html/*
 
   deploy:
     environment:
@@ -50,19 +48,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-book]
     steps:
-    - name: Setup Pages
-      uses: actions/configure-pages@v1
+      - name: Setup Pages
+        uses: actions/configure-pages@v1
 
-    - uses: actions/download-artifact@v3
-      with:
-        name: jupyterbook
-        path: public
+      - uses: actions/download-artifact@v3
+        with:
+          name: jupyterbook
+          path: public
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
-      with:
-        path: public
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: public
 
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v1
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

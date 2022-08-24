@@ -1,8 +1,6 @@
 # Introductions and motivation
 
-
 ## The importance of software engineering in scientific computing
-
 
 It's really easy to learn to code. In fact, it's easier to _write_ code than _read_ code.
 
@@ -24,10 +22,9 @@ tools and practices.
 
 The key topics are:
 
-* Version control
-* Testing and debugging
-* Design principles
-
+- Version control
+- Testing and debugging
+- Design principles
 
 ## Problem-solution ordering
 
@@ -48,7 +45,7 @@ needed math yet that it's a useful skill to learn?
 
 This is what we face in Software Engineering. If you've never had to collaborate
 with others or manage a large software project, you might not see why "git" is
-worth learning.  If you haven't spend days or weeks trying to track down a
+worth learning. If you haven't spend days or weeks trying to track down a
 hard-to-find bug, you might not get why you should spend time learning a
 debugger. If you've never had a compiler catch a bug that would have been
 disastrous at runtime, you might not recognize the usefulness of static typing.
