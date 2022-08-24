@@ -3,7 +3,9 @@
 
 format: jb-book
 root: content/intro
-chapters:
-- file: content/markdown
-- file: content/notebooks
-- file: content/markdown-notebooks
+parts:
+  - caption: Week 1
+    chapters:
+      - file: content/week1/intro.md
+      - file: content/week1/setup.md
+      - file: content/week1/vcs.md
