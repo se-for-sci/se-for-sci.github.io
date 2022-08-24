@@ -20,6 +20,46 @@ parts:
     chapters:
       - file: content/week3/oodesign.md
 
-  - caption: "Week 4: Design patterns"
+  - caption: "Week 4: Design Patterns"
     chapters:
       - file: content/week4/designpatt.md
+
+  - caption: "Week 5: Static Typing"
+    chapters:
+      - file: content/week5/typing.md
+  
+  - caption: "Week 6: Version Control"
+    chapters:
+      - file: content/week6/git.md
+
+  - caption: "Week 7: Packaging and Quality Control"
+    chapters:
+      - file: content/week7/packaging.md
+
+  - caption: "Week 8: Continuous Integration"
+    chapters:
+      - file: content/week8/ci.md
+
+  - caption: "Week 9: Intro to Compilation"
+    chapters:
+      - file: content/week9/compiled.md
+
+  - caption: "Week 10: Profiling"
+    chapters:
+      - file: content/week10/profiling.md
+
+  - caption: "Week 11: Parallel Computing"
+    chapters:
+      - file: content/week11/threading.md
+      - file: content/week11/openmp.md
+      - file: content/week11/mpi.md
+
+  - caption: "Week 12: Mixing Languages"
+    chapters:
+      - file: content/week12/so.md
+      - file: content/week12/pybind11.md
+
+  - caption: "Bonus: Exotic topics"
+    chapters:
+      - file: content/week13/webassembly.md
+      - file: content/week13/shell.md
