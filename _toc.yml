@@ -27,7 +27,7 @@ parts:
   - caption: "Week 5: Static Typing"
     chapters:
       - file: content/week5/typing.md
-  
+
   - caption: "Week 6: Version Control"
     chapters:
       - file: content/week6/git.md

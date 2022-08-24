@@ -61,7 +61,7 @@ advanced method was created.
 I'd like to know who you are and what you are interested in! Let's do a round of
 introductions. Suggested topics:
 
-* Name
-* Field of study
-* Preferred programming Language(s)
-* A project you are working on or want to work on
+- Name
+- Field of study
+- Preferred programming Language(s)
+- A project you are working on or want to work on
