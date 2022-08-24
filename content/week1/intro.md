@@ -55,3 +55,13 @@ effort to design with memory safety in mind. And so on.
 We'll try to motivate what we do, but the best motivator is experience and
 exposure to the "simple" way to do things; then you will understand why the more
 advanced method was created.
+
+## Introductions
+
+I'd like to know who you are and what you are interested in! Let's do a round of
+introductions. Suggested topics:
+
+* Name
+* Field of study
+* Preferred programming Language(s)
+* A project you are working on or want to work on

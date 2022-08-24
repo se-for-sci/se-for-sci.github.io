@@ -1,4 +1,4 @@
-name: level-up-your-python
+name: se-for-sci
 channels:
   - conda-forge
 dependencies:

@@ -4,8 +4,22 @@
 format: jb-book
 root: content/intro
 parts:
-  - caption: Week 1
+  - caption: "Week 1: Intro"
     chapters:
       - file: content/week1/intro.md
       - file: content/week1/setup.md
       - file: content/week1/vcs.md
+      - file: content/week1/languages.md
+
+  - caption: "Week 2: Testing"
+    chapters:
+      - file: content/week2/testing.md
+      - file: content/week2/debugging.md
+
+  - caption: "Week 3: Object Oriented design"
+    chapters:
+      - file: content/week3/oodesign.md
+
+  - caption: "Week 4: Design patterns"
+    chapters:
+      - file: content/week4/designpatt.md
