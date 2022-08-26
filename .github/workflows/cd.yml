@@ -32,7 +32,7 @@ jobs:
 
       - name: Install the kernel
         run: |
-          python -m ipykernel install --user --name conda-env-se-for-sci
+          python -m ipykernel install --user --name conda-env-se-for-sci-py
 
       - name: Build the book
         run: |
