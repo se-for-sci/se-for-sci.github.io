@@ -19,11 +19,11 @@ Python used to have three major choices for tests; but now [pytest][] is used al
 >
 > The alternative library, `nose`, has been abandoned in favor of `pytest`, which can run nose-style tests. The standard library has a test suite as well, but it's extremely verbose and complex; and since "developers" run tests, your test requirements don't affect users. And `pytest` can run stdlib style testing too. So just use `pytest`. All major packages use it too, including `NumPy`. Most other choices, like [Hypothesis][], are related to `pytest` and just extend it.
 
-## Test Driven Development
+# Test Driven Development
 
-## Parametrizing
+# Parametrizing
 
-## Fixtures
+# Fixtures
 
 [hypothesis]: https://hypothesis.readthedocs.io
 [pytest]: https://docs.pytest.org

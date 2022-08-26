@@ -43,12 +43,26 @@ jobs:
           name: jupyterbook
           path: _build/html/*
 
+  build-pyodide:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build the Pyodide output
+        run: |
+          pipx run nox -s pyodide
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: jupyterlite
+          path: _output/*
+
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: [build-book]
+    needs: [build-book, build-pyodide]
     steps:
       - name: Setup Pages
         uses: actions/configure-pages@v1
@@ -57,6 +71,11 @@ jobs:
         with:
           name: jupyterbook
           path: public
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: jupyterlite
+          path: public/live
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
