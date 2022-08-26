@@ -70,7 +70,7 @@ Why? Because it's conventional, and a C++ programmer will have to think less abo
 
 ```python
 for i in range(10):
-    ... # i goes from 0 to 9
+    ...  # i goes from 0 to 9
 ```
 
 In a different language, like Matlab, the conventions may be different; follow the conventions of the language you are using.
@@ -98,7 +98,7 @@ What do you think of this code?
 
 ```python
 def simulate_plasma(x_i, v_i, t_i, t_f, E_i, B_i, N, result_array, printflag):
-    ... # do some stuff
+    ...  # do some stuff
 ```
 
 This has a lot of parameters, making it hard to use / easy to misuse. In Python, you can pass parameters by name, which helps (you can even force it), which helps. In C++, you can only pass positionally.
@@ -112,7 +112,8 @@ Here's an example of bundling. Let's take a simpler example:
 
 ```python
 def get_rect_area(x1, y1, x2, y2):
-    ... # does stuff
+    ...  # does stuff
+
 
 get_rect_area(x1, y1, x2, y2)
 ```
@@ -121,7 +122,8 @@ Someone calling the function could easily make a mistake: `get_rect_area(x1, x2,
 
 ```python
 def get_rect_area(point_1, point_2):
-    ... # does stuff
+    ...  # does stuff
+
 
 get_rect_area(Point(x1, y1), Point(x2, y2))
 ```

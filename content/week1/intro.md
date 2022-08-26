@@ -29,6 +29,8 @@ The key topics are:
 - Testing and debugging
 - Design principles
 
+## Some important overarching concepts
+
 ## Problem-solution ordering
 
 [Problem-solution ordering](https://mkremins.github.io/blog/doors-headaches-intellectual-need/)
@@ -58,6 +60,31 @@ effort to design with memory safety in mind. And so on.
 We'll try to motivate what we do, but the best motivator is experience and
 exposure to the "simple" way to do things; then you will understand why the more
 advanced method was created.
+
+### New features are restrictions
+
+Each new concept in programming _restricts_ rather than _enables_. When we go further into topics like functional programming, this will continue to be the case. This is odd but true: we could write any program with a very small set of constructs; very simple languages are Turing Complete. However, the most important feature of programming is _organization_ (also called design).
+
+Compare this hypothetical pseudo-code:
+
+```text
+i = 0
+label start
+compute(i)
+i = i + 1
+if i < 10: goto start
+```
+
+Verses real code:
+
+```python
+for i in range(10):
+    compute(i)
+```
+
+Now imagine a complex program with 1,000 of `goto` statements; you would have to work through every line of code to understand it. But if you restrict yourself to common structures, like loops, objects, functions, etc., you no longer have to look at the whole program, but just parts you recognize.
+
+Everyone learning the language could learn what these special constructs are. No one will know what your special constructs are.
 
 ## Course structure
 
