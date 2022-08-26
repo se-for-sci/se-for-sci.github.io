@@ -191,6 +191,3 @@ There are some exceptions to this, but it's a decent rule of thumb.
 
 Global constants are generally ok. For instance, you probably want to define `PI` once and let all your code reference it (that's more DRY).
 
-## Example
-
-Let's take a look at a piece of code. This is from Computational Physics: Problem Solving with Python, 3rd edition, by Landau, Páez, and Bordeianu.

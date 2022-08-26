@@ -9,7 +9,9 @@ parts:
       - file: content/week1/intro.md
       - file: content/week1/setup.md
       - file: content/week1/vcs.md
-      - file: content/week1/languages.md
+      - file: content/week1/practices.md
+      - file: content/week1/cleanup_bessel.ipynb
+      - file: content/week1/programming_basics.ipynb
 
   - caption: "Week 2: Testing"
     chapters:
