@@ -27,3 +27,7 @@ For Python, we'll use a recent version of Python (3.10 highly recommended, 3.8+ 
 ## Compiler
 
 We'll be using CMake and a moderately recent system compiler. GCC or Clang should be fine. We won't need these till later in the course.
+
+## Editor
+
+You should have an editor you like. I'll be using a VI interface, either natively or in VS Code. You can pick EMacs, or something else.

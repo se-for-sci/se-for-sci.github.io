@@ -1,5 +1,8 @@
 # Introductions and motivation
 
+- Course by Henry Schreiner & Romain Teyssier. Some material written
+  by Gabriel Perez-Giz for previous iterations of this course.
+
 ## The importance of software engineering in scientific computing
 
 It's really easy to learn to code. In fact, it's easier to _write_ code than _read_ code.
@@ -55,6 +58,14 @@ effort to design with memory safety in mind. And so on.
 We'll try to motivate what we do, but the best motivator is experience and
 exposure to the "simple" way to do things; then you will understand why the more
 advanced method was created.
+
+## Course structure
+
+The challenges of APC 524:
+
+- Often introducing solutions before problems
+- Large variance in the audience in terms of skill and background
+- Good coding basics rarely taught elsewhere
 
 ## Introductions
 
