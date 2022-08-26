@@ -18,7 +18,7 @@ The UNIX shell is Bash (or a Bashwards compatible shell like Zsh). We'll be usin
 
 ## Version control
 
-We'll cover this in the next section in more detail, but the VCS of choice is Git. It's wildly popular and very fast, capable of handling millions of lines of code (it was designed for the Linux kernel).
+We'll cover this in the next section in more detail, but the VCS of choice is Git. It's wildly popular and very fast, capable of handling millions of lines of code (it was designed for the Linux kernel). You should have access to Git on your machine from a terminal. We will use GitHub as the remote hosting service. If you like the command line, you can also get the "gh" tool, though the web UI is also fine. At some point in the course, you should set up a ssh key pair so we can push to GitHub.
 
 ## Python
 

@@ -190,4 +190,3 @@ So try to make your variable fairly local in scope (i.e. only the function in wh
 There are some exceptions to this, but it's a decent rule of thumb.
 
 Global constants are generally ok. For instance, you probably want to define `PI` once and let all your code reference it (that's more DRY).
-
