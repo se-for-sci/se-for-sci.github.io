@@ -1,23 +1,23 @@
 # Introductions and motivation
 
-- Course by Henry Schreiner & Romain Teyssier. Some material written
-  by Gabriel Perez-Giz for previous iterations of this course.
+- Course by Henry Schreiner & Romain Teyssier. Some material written by Gabriel
+  Perez-Giz for previous iterations of this course.
 
 ## The importance of software engineering in scientific computing
 
-It's really easy to learn to code. In fact, it's easier to _write_ code than _read_ code.
-Often this leads to the desire to rewrite legacy codebases instead of deciphering
-what the original author intended. Since a main goal of good software engineering
-is to reuse code, this is clearly wasteful! Good code is easy to read, always
-strive for readability.
+It's really easy to learn to code. In fact, it's easier to _write_ code than
+_read_ code. Often this leads to the desire to rewrite legacy codebases instead
+of deciphering what the original author intended. Since a main goal of good
+software engineering is to reuse code, this is clearly wasteful! Good code is
+easy to read, always strive for readability.
 
 What does someone working on code spend time on? Rewriting code that others have
-already written. The action of rewriting code to improve its readability or performance
-without changing how it operates is commonly called refactoring. Other reasons
-to rewrite code is because it didn't scale or was not flexible enough. It also
-can feel like you spend a lot of time debugging. Lots of painful debugging.
-Having strong unit tests and using version control can simplify or eliminate
-some debugging problems.
+already written. The action of rewriting code to improve its readability or
+performance without changing how it operates is commonly called refactoring.
+Other reasons to rewrite code is because it didn't scale or was not flexible
+enough. It also can feel like you spend a lot of time debugging. Lots of painful
+debugging. Having strong unit tests and using version control can simplify or
+eliminate some debugging problems.
 
 There are a lot of tools, practices, and techniques available to help you read
 other people's code, write code that others can read (including yourself in six
@@ -31,8 +31,8 @@ much planning or design. It's much easier just to get something working than
 study design principles. You pay the price in the end, when trying to publish,
 distribute, or replicate your results.
 
-This course aims to fix that by providing a structured introduction to common, useful
-tools and practices.
+This course aims to fix that by providing a structured introduction to common,
+useful tools and practices.
 
 ## Some important overarching concepts
 
@@ -54,8 +54,8 @@ Because they didn't encounter the locked door before they picked up the key, so
 they don't know that it was the key that made the door open. (The "key" and the
 "door" could be any cause and effect relationship.)
 
-This occurs in a lot of fields, like math. How do you convince someone who hasn't
-needed math yet that it's a useful skill to learn?
+This occurs in a lot of fields, like math. How do you convince someone who
+hasn't needed math yet that it's a useful skill to learn?
 
 This is what we face in Software Engineering. If you've never had to collaborate
 with others or manage a large software project, you might not see why "git" is
@@ -63,9 +63,9 @@ worth learning. If you haven't spent days or weeks trying to track down a
 hard-to-find bug, you might not get why you should spend time learning a
 debugger or unit testing your code. If you've never had a compiler catch a bug
 that would have been disastrous at runtime, you might not recognize the
-usefulness of static typing. If you've never had a memory leak or segfault,
-you might not see why it's worth effort to design with memory safety in mind.
-And so on.
+usefulness of static typing. If you've never had a memory leak or segfault, you
+might not see why it's worth effort to design with memory safety in mind. And so
+on.
 
 We'll try to motivate what we do, but the best motivator is experience and
 exposure to the "simple" way to do things and its shortcomings; then you will
@@ -101,7 +101,8 @@ have to work through every line of code to understand it. But if you restrict
 yourself to common structures, like loops, objects, functions, etc., you no
 longer have to look at the whole program, but just smaller, digestible parts.
 
-Everyone learning a language will know what these common constructs are. No one will know what your special constructs are.
+Everyone learning a language will know what these common constructs are. No one
+will know what your special constructs are.
 
 ## Course structure
 

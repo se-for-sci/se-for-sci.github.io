@@ -17,13 +17,13 @@ z = 3 * x
 A comment should help the reader understand something in the code that they
 can't easily get from reading the code. If you are just describing _what_ the
 code does, that's probably bad unless it's a tricky expression. If you are
-describing _why_ the code does it, that's much better. Always strive for
-self documenting code by using small, well named functions with any implementation
+describing _why_ the code does it, that's much better. Always strive for self
+documenting code by using small, well named functions with any implementation
 details in the function description or docstring.
 
-Beware that comments can lie. Code may be modified without updating a comment
-or do something completely different. Comments are what the developer wants
-to happen (or wanted to at some point), code is the truth.
+Beware that comments can lie. Code may be modified without updating a comment or
+do something completely different. Comments are what the developer wants to
+happen (or wanted to at some point), code is the truth.
 
 Another bad comment: commented out code. Commented out code will quickly become
 outdated, and is not helpful to the reader. If you are using VCS, old versions
@@ -39,7 +39,8 @@ Examples of good comments:
 
 ### Variable names
 
-If you select reasonable names, you can often make the code itself read like comments. Compare:
+If you select reasonable names, you can often make the code itself read like
+comments. Compare:
 
 ```python
 # Compute the volume using width x depth x height
@@ -63,7 +64,8 @@ of decoding variables can limit overall code readability.
 
 ### Follow conventions
 
-A programming language has conventions for naming and various idioms; try to follow them whenever possible. For example, naming in Python & C++:
+A programming language has conventions for naming and various idioms; try to
+follow them whenever possible. For example, naming in Python & C++:
 
 - Variable: `snake_case`
 - Global constant: `ALL_CAPS`
@@ -84,29 +86,32 @@ for (i=1; i <= 10; i++) {
 }
 ```
 
-Why? Because it's conventional, and a C++ programmer will have to think less about the loop if they see the form they are used to. This is the same in Python:
+Why? Because it's conventional, and a C++ programmer will have to think less
+about the loop if they see the form they are used to. This is the same in
+Python:
 
 ```python
 for i in range(10):
     ...  # i goes from 0 to 9
 ```
 
-In a different language, like Matlab, the conventions may be different; follow the conventions of the language you are using.
+In a different language, like Matlab, the conventions may be different; follow
+the conventions of the language you are using.
 
 ### Be consistent
 
 Clean &emsp; formatting helps &emsp;you process &emsp;&emsp;&emsp; things
 quickly. We &emsp; use &emsp; &emsp; consistent style &emsp; so that readers
-&emsp; &emsp; can &emsp; focus on &emsp; content, rather than
-&emsp;&emsp;&emsp; on how things are &emsp;&emsp; written. The human brain
-interprets style differences as meaningful, adding cognitive load to future
-readers (including you). Avoid it!
+&emsp; &emsp; can &emsp; focus on &emsp; content, rather than &emsp;&emsp;&emsp;
+on how things are &emsp;&emsp; written. The human brain interprets style
+differences as meaningful, adding cognitive load to future readers (including
+you). Avoid it!
 
 For Python, style is described in PEP 8, and the most popular autoformatter is
 Black. I'd highly recommend sticking to that style if you don't have strong
 preferences otherwise. For C++, there are more to choose from - pick one and be
-consistent. LLVM's styling is good. Again, styling can be enforced by tools
-like clang-format. We'll cover those sorts of things later.
+consistent. LLVM's styling is good. Again, styling can be enforced by tools like
+clang-format. We'll cover those sorts of things later.
 
 ```python
 def f(x, y):
@@ -128,9 +133,9 @@ def simulate_plasma(x_i, v_i, t_i, t_f, E_i, B_i, N, result_array, printflag):
     ...  # do some stuff
 ```
 
-This has a lot of parameters, making it hard to use / easy to misuse. In
-Python, you can pass parameters by name, which helps (you can even force it),
-which helps. In C++, you can only pass positionally.
+This has a lot of parameters, making it hard to use / easy to misuse. In Python,
+you can pass parameters by name, which helps (you can even force it), which
+helps. In C++, you can only pass positionally.
 
 Some helpful hints:
 
@@ -147,7 +152,8 @@ def get_rect_area(x1, y1, x2, y2):
 get_rect_area(x1, y1, x2, y2)
 ```
 
-Someone calling the function could easily make a mistake: `get_rect_area(x1, x2, y1, y1)` for example. However, if you bundle this:
+Someone calling the function could easily make a mistake:
+`get_rect_area(x1, x2, y1, y1)` for example. However, if you bundle this:
 
 ```python
 def get_rect_area(point_1, point_2):
@@ -162,7 +168,8 @@ like a dataclass or a NamedTuple (or a struct or tuple in C++). We'll cover
 these topics when we get to object oriented programming. It may even make sense
 to create a `rectangle` object with the method `get_area` with no arguments.
 
-Think about designing the _interface_ to code; how functions are called and used.
+Think about designing the _interface_ to code; how functions are called and
+used.
 
 ## Think in terms of creating tools, not accomplishing tasks
 
@@ -173,12 +180,11 @@ and the code as a whole is providing you a service, namely repeating monotonous
 tasks for you in a certain order.
 
 With experience, you start to pick up a different view: pieces of code can be
-users, too... of other pieces of code. In a given context, one code is
-providing the service, while the other uses that service. And you as the human
-may only request service from a couple of very "high-level" pieces of code,
-which in turn execute the details of their tasks by making service requests of
-other pieces of code, without you the top-level user needing to worry about the
-details.
+users, too... of other pieces of code. In a given context, one code is providing
+the service, while the other uses that service. And you as the human may only
+request service from a couple of very "high-level" pieces of code, which in turn
+execute the details of their tasks by making service requests of other pieces of
+code, without you the top-level user needing to worry about the details.
 
 This way of thinking becomes the driving force behind good code design, and we
 can think of a several sub-ideas under this umbrella.
@@ -220,9 +226,9 @@ within the same code unit that are logically orthogonal to one another.
 Think more in terms of interfaces, less in terms of implementation.
 
 A mechanic provides you with a service when your car breaks. To do her job, she
-has to rely on a host of other services: parts vendors, her tools, the
-hydraulic lift in her garage. You don't care about the details of how she does
-her job -- you just know car goes in, money goes in, car comes back in 3 days.
+has to rely on a host of other services: parts vendors, her tools, the hydraulic
+lift in her garage. You don't care about the details of how she does her job --
+you just know car goes in, money goes in, car comes back in 3 days.
 
 How you doing your job is the implementation -- code that _provides_ a service
 knows how it's implemented, but code that _uses_ a service shouldn't know or
@@ -251,12 +257,12 @@ think it is too slow. Why? Because you'll almost certainly guess wrong about
 where (and why) your code is slow or inefficient, and complicate it needlessly.
 
 Memory is cheap. Disk space is cheap. CPU cycles are cheap. Your time is
-expensive. If you are being wasteful, but your code runs in 2 seconds, does
-what you want, and it's not interfering with anyone else's work, then who
-cares? Let the computer do the work.
+expensive. If you are being wasteful, but your code runs in 2 seconds, does what
+you want, and it's not interfering with anyone else's work, then who cares? Let
+the computer do the work.
 
-"Premature optimization is the root of all evil." --popularized by Donald
-Knuth, the creator of TeX
+"Premature optimization is the root of all evil." --popularized by Donald Knuth,
+the creator of TeX
 
 ### Avoid global variables
 
