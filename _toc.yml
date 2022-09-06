@@ -16,6 +16,8 @@ parts:
   - caption: "Week 2: Testing"
     chapters:
       - file: content/week2/testing.md
+      - file: content/week2/pytest.md
+      - file: content/week2/tdd.md
       - file: content/week2/debugging.md
 
   - caption: "Week 3: Object Oriented design"
