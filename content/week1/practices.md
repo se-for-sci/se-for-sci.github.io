@@ -167,7 +167,7 @@ How are you doing your job = implementation -- code that provides a service know
 
 What is the job you do and what do I need to give you so you can do it = interface. This is the only thing the users of code should care about. It is a contract.
 
-In this class, we will gradually learn to think and design in terms of resuable tools and their interfaces, so that higher-level code can use lower-level code via that interface without worrying about implementation details (which the low-level code can change, without breaking high-level code --- you get easier extensibility).
+In this class, we will gradually learn to think and design in terms of reusable tools and their interfaces, so that higher-level code can use lower-level code via that interface without worrying about implementation details (which the low-level code can change, without breaking high-level code --- you get easier extensibility).
 
 Key concept: To the extent possible, decouple code that provides a service from code that uses the service.
 
