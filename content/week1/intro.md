@@ -89,7 +89,7 @@ i = i + 1
 if i < 10: goto start
 ```
 
-Verses real code:
+Versus real code:
 
 ```python
 for i in range(10):

@@ -48,3 +48,8 @@ repos:
         language: pygrep
         entry: PyBind|Numpy|Cmake|CCache|Github|PyTest
         exclude: .pre-commit-config.yaml
+
+  - repo: https://github.com/PrincetonUniversity/blocklint
+    rev: v0.2.3
+    hooks:
+      - id: blocklint
