@@ -1,7 +1,8 @@
 # Introductions and motivation
 
 - Course by Henry Schreiner & Romain Teyssier. Some material written by Gabriel
-  Perez-Giz for previous iterations of this course.
+  Perez-Giz for previous iterations of this course. Thanks to Troy Comi for
+  extensive review, additions, and corrections.
 
 ## The importance of software engineering in scientific computing
 
