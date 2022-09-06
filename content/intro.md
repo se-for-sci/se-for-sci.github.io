@@ -1,5 +1,9 @@
 # Software Engineering for Scientific Computing
 
+Course by Henry Schreiner & Romain Teyssier. Some material written by Gabriel
+Perez-Giz for previous iterations of this course. Thanks to Troy Comi for
+extensive review, additions, and corrections.
+
 ## APC 524 / AST 506 / MAE 506
 
 The goal of this course is to teach basic tools and principles of writing good
@@ -11,6 +15,9 @@ parallel computing in both shared memory and distributed memory environments.
 The focus is on writing code that is easy to maintain and share with others. You
 will develop these skills through a series of programming assignments and a
 group project.
+
+[Source repository](https://github.com/henryiii/se-for-sci) •
+[WebAssembly version](https://henryiii.github.io/se-for-sci/live)
 
 ```{tableofcontents}
 
