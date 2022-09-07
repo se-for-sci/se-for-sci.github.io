@@ -1,43 +1,5 @@
 # Intro to pytest
 
-Python used to have three major choices for tests; but now [pytest][] is used
-almost exclusively. Testing is never an install requirement, so there's no harm
-in using pytest. The goals of writing good tests are:
-
-- Simplicity: the easier / nicer your tests are to write, the more you will
-  write.
-- Coverage: using as many inputs as possible increases the chances of finding
-  something that breaks.
-- Performance: the faster the tests, the more situations you can run your tests
-  in CI.
-- Reporting: when things break, you should get good information about what
-  broke.
-
-```{admonition} What about other choices?
-The alternative library, `nose`, has been abandoned in favor of `pytest`,
-which can run nose-style tests. The standard library has a test suite as well,
-but it's extremely verbose and complex; and since "developers" run tests, your
-test requirements don't affect users. And `pytest` can run stdlib style
-testing too. So just use `pytest`. All major packages use it too, including
-`NumPy`. Most other choices, like [Hypothesis][], are related to `pytest` and
-just extend it. One new take is [ward](https://github.com/darrenburns/ward),
-but the same basic ideas and structure still follow there, just with some
-lightly changed syntax.
-```
-
-```{admonition} What about other languages?
-While the details are fairly specific to Python + pytest, the concepts are
-general. You can look for similar tools in other languages. Catch2, doctest,
-GoogleTest, and Boost::Test for C++, for example, are all somewhat similar,
-but adapted for C++ and its lack of reflection.[^1]
-```
-
-<!-- prettier-ignore-start -->
-[^1]: Reflection is the ability of a programming language to inspect and process
-      itself. "Please give me every function that starts with `test_`" is an
-      example of a question you can ask in a language that supports reflection.
-<!-- prettier-ignore-end -->
-
 ## Basics of writing a test
 
 ### Starting your first test

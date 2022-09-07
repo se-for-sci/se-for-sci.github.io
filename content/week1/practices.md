@@ -282,3 +282,50 @@ There are some exceptions to this, but it's a decent rule of thumb.
 
 Global **constants** are generally ok. For instance, you probably want to define
 `PI` once and let all your code reference it (that's more DRY).
+
+You can take this one step further:
+
+### Minimize capture
+
+Python has automatic variable capture[^1] from outer scope. In C++ lambda
+functions, you have to explicitly list variables you want to capture, but Python
+hides this. This makes this a common source of errors and makes reading the code
+much harder! There are a few rare cases where you do need this, but it should be
+reserved for functions with short bodies and written in such a way to make it
+obvious you need capture. And also consider `functools.partial`, which not only
+advertises the intent to capture to the reader, but actually captures the value
+when it is created, rather than when it is called later.
+
+```python
+# Bad
+x = 2
+
+
+def f():
+    print(x)
+
+
+x = 3
+```
+
+```python
+# Better
+x = 2
+
+
+def f_needs_x(x_value):
+    print(x_value)
+
+
+f = functools.partial(f_needs_x, x)
+x = 3
+```
+
+Remember, the signature of a function is not just for Python, it's telling the
+reader what the function expects and what it returns. Capture causes the
+function to lie to the reader.
+
+<!-- prettier-ignore-start -->
+[^1]: Actually does a lookup when calling, which can be surprising; not true
+      capture. But we'll use the common term "capture" here.
+<!-- prettier-ignore-end -->
