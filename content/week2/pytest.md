@@ -24,8 +24,7 @@ if __name__ == "__main__":
 
 This is a working unit test for the function `f(x)`. If you were to run this
 file, you would be running a test which will verify that f does square a few
-inputs. But there are a few problems with this, especially related to scaling
-out:
+inputs. But there are a few problems with this, especially related to scaling:
 
 - The test does not report that it passed, it's silent.
 - If the test fails, you get very little helpful output, just the line which
@@ -67,7 +66,7 @@ could have both the simple syntax _and_ nice running features?
 
 ### Writing pytest tests
 
-We can by using pytest. While pytest _can_ run unittest code, it has it's own
+We can by using pytest. While pytest _can_ run unittest code, it has its own
 preferred native testing style:
 
 ```python
