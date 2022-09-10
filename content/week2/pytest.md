@@ -94,9 +94,107 @@ in a separate directories, like `tests/`. Pytest will look everywhere for tests,
 though you can configure it to only look in certain directories if you wish.
 ```
 
+## Fixtures
+
+One of the key features of x-unit style tests is setup/teardown code. Often you
+need to do something like open files, prepare resources, precompute an expensive
+input, etc. The classes had overridable methods for this. Pytest offers
+something even better: **fixtures**. A fixture is:
+
+- **Modular**: It is not tied to a class. You can reuse fixtures however you
+  want.
+- **Scoped**: You can make a fixture that is class level, but you can also make
+  function level, module level, and session level fixtures too! Want do do
+  something every test? Or something once for the whole testing session?
+  Fixtures can do that.
+- **Composable**: You can make a new fixture using an old one. You can use as
+  many fixtures as you want.
+- **Optionally Automatic**: You can activate "autouse" on a fixture, which
+  causes it to always apply to all tests where it's defined. This is great for
+  fixtures that mock expensive or dangerous system calls.
+
+This is an example of _using_ a built-in fixture:
+
+```python
+def test_printout(capsys):
+    print("hello")
+    captured = capsys.readouterr()
+    assert "hello" in captured.out
+```
+
+Notice the argument - you never "call" tests, so pytest looks up fixtures by the
+name of the argument you are requesting and passes them in.
+
+The `capsys` fixture captures the system level text output. The `print` call is
+captured. Then we can call `.readouterr()` on the fixture and that gives us the
+stdout and stderr streams.
+
+A few good built-in fixtures
+([full list in pytest 7](https://docs.pytest.org/en/7.1.x/reference/fixtures.html)):
+
+- `capsys`: Capture stdout/stderr (most Python printing)
+- `capfd`: Capture using file descriptors (C extensions, etc) - use this if
+  `capsys` doesn't get it.
+- `monkeypatch`: temporarily modify pretty much anything (undoes the mod after
+  running the test)
+- `request`: Used when making new fixtures
+- `tmp_path`: Provide a temporary, unique path (test scope)
+- `tmp_path_factory`: Session scoped temporary path creation
+- `cache`: Store and access values across multiple runs.
+
+Plugins often add fixtures. It's also easy to write your own! Fixtures can be
+added to a test file, or they can be placed in `conftest.py`, where they will be
+available to all files in the same directory or any subdirectories.
+
+Here's a simple fixture:
+
+```python
+import pytest
+
+
+@pytest.fixture
+def something():
+    return "world"
+
+
+def test_something(something):
+    assert something == "world"
+```
+
+Notice that we told pytest we were making a fixture by adding the
+`pytest.fixture` decorator. We can return anything we want. We use the fixture
+in a test (function with `test` in the title) by putting in the name as an
+argument. Inside the function, we get the value the fixture returns.
+
+This is not quite the x-unit style setup yet - the fixture return will be rerun
+for every test (which is sometimes handy). If we want to change the scope, we
+can just tell the fixture what scope we want:
+
+```python
+import pytest
+import time
+
+
+@pytest.fixture(scope="session")
+def slow():
+    time.sleep(5)
+    return "world"
+
+
+def test_a(something):
+    assert something == "world"
+
+
+def test_b(something):
+    assert something == "world"
+```
+
+- TODO: monkeypatching
+
 ## Parametrizing
 
-## Fixtures
+- TODO: mark parametrizing
+- TODO: fixture parametrizing
 
 [hypothesis]: https://hypothesis.readthedocs.io
 [pytest]: https://docs.pytest.org
