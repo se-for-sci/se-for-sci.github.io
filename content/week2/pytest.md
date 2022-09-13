@@ -112,6 +112,8 @@ something even better: **fixtures**. A fixture is:
 - **Optionally Automatic**: You can activate "autouse" on a fixture, which
   causes it to always apply to all tests where it's defined. This is great for
   fixtures that mock expensive or dangerous system calls.
+- **Easy to add Teardown**: There's a simple way to add teardown to any fixture.
+- **Easy to Parametrize**: You can parametrize tests via fixtures too.
 
 This is an example of _using_ a built-in fixture:
 
@@ -189,12 +191,116 @@ def test_b(something):
     assert something == "world"
 ```
 
-- TODO: monkeypatching
+Fixtures support setup _and_ teardown, and they do so using the same "trick"
+`contextlib.contextmanager` uses:
+
+```python
+@pytest.fixture
+def before_after():
+    print("Setting up")
+    yield "world"
+    print("Tearing down")
+```
+
+Just swap "return" for "yield", and place teardown code after the yield. That's
+it. If you have multiple fixtures with different scopes, they all setup and
+teardown correctly.
+
+One really powerful built-in fixture is monkeypatch. Let's say you have code
+like this:
+
+```python
+import sys
+
+
+def some_function():
+    if sys.platform.startswith("linux"):
+        ...
+```
+
+If the contents of the function work on any os, you can actually test it on any
+os! We can monkeypatch `sys.platform` to be something that it's not.
+
+```python
+import sys
+
+
+def test_some_function_linux(monkeypatch):
+    monkepatch.setattr(sys, "platform", "linux")
+    # stuff here will think it's on linux
+    ...
+    # after the test, the monkeypatching is removed!
+```
 
 ## Parametrizing
 
-- TODO: mark parametrizing
-- TODO: fixture parametrizing
+Now let's say we want to test all three OS's on our little function. Assuming
+the logic inside works on all os's, and it doesn't call anything that breaks if
+we lie about the os (monkeypatching is best on what you own!), we can
+parametrize:
+
+```python
+import pytest
+import sys
+
+
+@pytest.mark.parametrize("platform", ["linux", "win32", "darwin"])
+def test_some_function_linux(monkeypatch, platform):
+    monkepatch.setattr(sys, "platform", platform)
+    ...
+```
+
+This is a "mark" in pytest. It's really just a way to add arbitrary metadata to
+a test, but pytest recognizes a few marks by default during test collection, and
+this is one of them. You give it the name of the argument(s), and the values
+(and optionally an `id=` for nice names). It generates three test functions,
+each runs and is reported separately.
+
+This is great for one-off parametrization, but if we want to do this on several
+tests, we can use a fixture! Let's rewrite this as a fixture:
+
+```python
+import pytest
+import sys
+
+
+@pytest.fixture("platform", ["linux", "win32", "darwin"])
+def platform(request):
+    return request.param
+
+
+def test_some_function_linux(monkeypatch, platform):
+    monkepatch.setattr(sys, "platform", platform)
+    ...
+```
+
+Anything that asks for "platform" will run three times. However, we can go one
+step further in this case, and combine the monkeypatching into our platform
+fixture:
+
+```python
+import pytest
+import sys
+
+
+@pytest.fixture("platform", ["linux", "win32", "darwin"])
+def platform(request, monkeypatch):
+    monkepatch.setattr(sys, "platform", platform)
+    return request.param
+
+
+def test_some_function_linux(monkeypatch, platform):
+    ...
+```
+
+Now we automatically get the monkeypatching each time, too!
+
+You can move your fixture to a file called `conftest.py` in the same test
+directory (or above), and it will still be usable, no import needed. This allows
+you to easily share fixtures between test modules.
+
+You can see how you can build these into powerful composable tools for testing
+hard-to-test functionality!
 
 [hypothesis]: https://hypothesis.readthedocs.io
 [pytest]: https://docs.pytest.org
