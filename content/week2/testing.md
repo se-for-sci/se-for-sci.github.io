@@ -64,6 +64,11 @@ Testing well isn't trivial --- tools can help, but it's a skill and an art.
 Code that passes all tests may still suck --- verification vs validation;
 Quality Assurance (QA) is also important.
 
+Tests actually _save_ time --- You are probably already writing tests when you
+write your code, you are just likely deleting them. If you record them instead,
+they will continue to be useful, and will cut hours of debugging and problem
+solving.
+
 ## Types of tests
 
 There are several levels / types of tests:
