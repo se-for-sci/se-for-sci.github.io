@@ -30,6 +30,8 @@ inputs. But there are a few problems with this, especially related to scaling:
 - If the test fails, you get very little helpful output, just the line which
   failed. You can't see what `f(x)` actually returned.
 - You have to add each test manually to be run (duplication).
+- Only the first test fails, if you were to put in multiple test function; it
+  would be better to see all failures at the end of the test run.
 - You have no controls over what tests run, or what to do if one fails.
 - You are giving up running the file to running tests - maybe you want to run
   the file and run `f(sys.argv[1])` or something like that.
