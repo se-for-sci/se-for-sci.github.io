@@ -96,6 +96,38 @@ in a separate directories, like `tests/`. Pytest will look everywhere for tests,
 though you can configure it to only look in certain directories if you wish.
 ```
 
+## Floating point comparisons
+
+What is the result of this code:
+
+```python
+0.1 + 0.2 == 0.3
+```
+
+You can run it in your favorite language. Is the result what you thought it
+would be?
+
+As a general rule, avoid `==` and `!=` with floating point numbers. It's much
+better to test approximate ranges - and most testing frameworks have a mechanism
+to make this easy. Pytest's is `pytest.approx`.
+
+```python
+import pytest
+
+assert 0.1 + 0.2 == pytest.approx(0.3)
+```
+
+This will check a range around the value. The default is good for a few
+operations on floating point numbers, and you can customize it via keyword
+arguments.
+
+```{admonition} Correct calculations
+If this bothers you, there are two libraries in the standard library
+that help with exact calculations: `decimal.Decimal` and `fraction.Fraction`. These
+do exact arithmetic, but are many times slower and bulkier than normal floating point calculations.
+99% of the time, you just learn to work around floating point limitations.
+```
+
 ## Fixtures
 
 One of the key features of x-unit style tests is setup/teardown code. Often you
@@ -303,6 +335,131 @@ you to easily share fixtures between test modules.
 
 You can see how you can build these into powerful composable tools for testing
 hard-to-test functionality!
+
+## Skipping tests
+
+You can put any arbitrary marks on tests you want, and use them to select a
+subset of tests very quickly. There a couple of other really important built-in
+marks: `skipif` will skip a test if a condition is True, `skip` will always skip
+a test, and `xfail` will tell pytest that failing the test is okay (or even
+required with `strict=True`) - this one also optionally supports a condition.
+
+```python
+import pytest
+import sys
+
+
+@pytest.mark.skip
+def test_never_runs():
+    assert False
+
+
+@pytest.mark.skipif(sys.version_info < (3, 10), reason="Requires Python 3.10 to run")
+def test_py310_plus():
+    assert True
+
+
+@pytest.mark.xfail(strict=True, reason="This is currently expected to fail")
+def test_xfail():
+    assert False
+```
+
+There are a few other options for these marks; they are very useful if you have
+not yet implemented a feature or fixed a bug, or if you have a flaky test, or if
+you have tests that don't apply to all systems.
+
+One more really common need is skipping a test if an import is missing. You can
+do that with `pytest.importorskip`:
+
+```python
+np = pytest.importorskip("numpy")
+```
+
+This will skip everything after it in a module, or the test if placed inside a
+test.
+
+If you want to apply a mark to the entire test module, assign it to the global
+variable `pytestmark=`; pytest will look for this when it reads the module.
+
+## Running and configuring pytest
+
+### Configuring pytest
+
+pytest supports configuration in `pytest.ini`, `setup.cfg`, or, since version 6,
+`pyproject.toml`. If you can require pytest 6 (in other words, if Python 3.6+ is
+fine - pytest is a developer requirement, not a user one, so limiting it is
+fine), then use `pyproject.toml`. This is an example configuration:
+
+```toml
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
+xfail_strict = true
+filterwarnings = ["error"]
+log_cli_level = "info"
+testpaths = ["tests"]
+```
+
+The `minversion` will print a nicer error if your `pytest` is too old (though,
+ironically, it won't read this is the version is too old, so setting "6" or less
+in `pyproject.toml` is rather pointless). The `addopts` setting will add
+whatever you put there to the command line when you run; `-ra` will print a
+summary "r"eport of "a"ll results, which gives you a quick way to review what
+tests failed and were skipped, and why. `--showlocals` will print locals in
+tracebacks. `--strict-markers` will make sure you don't try to use an
+unspecified fixture. And `--strict-config` will error if you make a mistake in
+your config. `xfail_strict` will change the default for `xfail` to fail the
+tests if it doesn't fail - you can still override locally in a specific xfail
+for a flaky failure. `filter_warnings` will cause all warnings to be errors (you
+can add allowed warnings here too). `log_cli_level` will report `INFO` and above
+log messages on a failure. Finally, `testpaths` will limit `pytest` to just
+looking in the folders given - useful if it tries to pick up things that are not
+tests from other directories.
+[See the docs](https://docs.pytest.org/en/stable/customize.html) for more
+options.
+
+pytest also checks the current and parent directories for a `conftest.py` file.
+If it finds them, they will get run outer-most to inner-most. These files let
+you add fixtures and other pytest configurations (like hooks for test discovery,
+etc) for each directory. For example, you could have a "mock" folder, and in
+that folder, you could have a `conftest.py` that has a mock fixture with
+`autouse=True`, then every test in that folder will get this mock applied.
+
+In general, do not place a `__init__.py` file in your tests; there's not often a
+reason to make the test directory importable, and it can confuse package
+discovery algorithms.
+
+Python hides important warnings by default, mostly because it's trying to be
+nice to users. If you are a developer, you don't want it to be "nice". You want
+to find and fix warnings before they cause user errors! Locally, you should run
+with `-Wd`, or set `export PYTHONWARNINGS=d` in your environment. The `pytest`
+warning filter "error" will ensure that `pytest` will fail if it finds any
+warnings.
+
+### Running pytest
+
+You can run pytest directly with `pytest` or `python -m pytest`. You can
+optionally give a directory or file to run on. You can also select just some
+subset of tests with `-k <expression>`, or an exact test with
+`filename.py::test_name`.
+
+If a test fails, you have lots of options to save time in debugging. Adding
+`-l`/`--showlocals` will print out the local values in the tracebacks (and can
+be added by default, see above). You can run `pytest` with `--pdb`, which will
+drop you into a debugger on each failure. Or you can use `--trace` which will
+drop you into a debugger at the start of each test selected (so probably use the
+selection methods above). `pytest` also supports `breakpoint()` in Python 3.7+.
+You can also start out in your debugger at the beginning of the last failed test
+with `--trace --lf`.
+[See the docs](https://docs.pytest.org/en/stable/usage.html) for more running
+tips.
+
+```{admonition} Further reading and useful links
+* [Scikit-HEP Develoepr Pages](https://scikit-hep.org/developer/pytest)
+* [Test and Code](https://testandcode.com): a podcast on testing and related topics
+* [The Good Research Code Handbook](https://goodresearch.dev): General resource with a strong focus on testing
+* [Research Software Engineering with Python](https://merely-useful.tech/py-rse/): Also has a testing section.
+```
 
 [hypothesis]: https://hypothesis.readthedocs.io
 [pytest]: https://docs.pytest.org
