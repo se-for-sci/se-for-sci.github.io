@@ -17,7 +17,11 @@ will develop these skills through a series of programming assignments and a
 group project.
 
 [Source repository](https://github.com/henryiii/se-for-sci) •
-[WebAssembly version](https://henryiii.github.io/se-for-sci/live)
+[WebAssembly version](https://henryiii.github.io/se-for-sci/live) •
+[Binder version](https://mybinder.org/v2/gh/henryiii/se-for-sci/main?urlpath=lab)
+
+Note the WebAssembly version does not have a shell, and `time.sleep` doesn't
+work (the web is async).
 
 ```{tableofcontents}
 

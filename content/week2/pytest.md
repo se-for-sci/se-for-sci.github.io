@@ -381,6 +381,17 @@ test.
 If you want to apply a mark to the entire test module, assign it to the global
 variable `pytestmark=`; pytest will look for this when it reads the module.
 
+## Organising tests
+
+Pytest allows quite a bit of organization: you have a test folder (or more), any
+number of subfolders, any number of test files, an optional class, and then test
+functions (or methods in the class case). Unlike x-unit style testing, the test
+class is simply a normal class and is just used for organisation (the self
+arguments are useless). One benefit of the class is that you can apply a mark to
+the whole class without applying it to the whole file. You could also use
+subclassing, etc. like normal. But 95% of tests in pytest are better as simple
+test functions.
+
 ## Running and configuring pytest
 
 ### Configuring pytest
