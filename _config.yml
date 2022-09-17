@@ -27,3 +27,9 @@ html:
   use_repository_button: true
 
 only_build_toc_files: true
+
+sphinx:
+  extra_extensions:
+    - sphinxcontrib.mermaid
+  config:
+    execution_show_tb: True

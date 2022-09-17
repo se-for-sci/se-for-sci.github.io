@@ -22,6 +22,7 @@ parts:
 
   - caption: "Week 3: Object Oriented design"
     chapters:
+      - file: content/week3/introoo.md
       - file: content/week3/oodesign.md
 
   - caption: "Week 4: Design Patterns"

@@ -16,3 +16,4 @@ dependencies:
   - pytest >7
   - python ==3.10.*
   - rich >=11
+  - sphinxcontrib-mermaid
