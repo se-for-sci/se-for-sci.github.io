@@ -261,7 +261,7 @@ print(f"{isinstance(rascal, Animal)}")
 You can look up the exact method resolution order by looking at `__mro__`:
 
 ```{code-cell} python3
-print(f"{Racoon.__mro__}")
+print(f"{Racoon.__mro__ = }")
 ```
 
 This is how error catching works in Python. If you see custom errors, they often
@@ -269,7 +269,7 @@ have no members or methods at all; they are just utilizing this inheritance
 concept!
 
 ```{code-cell} python3
-print(f"{KeyError.__mro__}")
+print(f"{KeyError.__mro__ = }")
 ```
 
 This means you'll catch a `KeyError` if you ask for a `KeyError`, `LookupError`,
@@ -282,7 +282,38 @@ We've already seen a special method in Python: `__init__`. You can customize
 almost every aspect of the behavior with special methods; it's easier to go over
 what you can't do than what you can. You can't change assignment, `and`/`or`
 behavior (due to short-circuiting logic and some limitations that might be
-removed in the future).
+removed in the future). That's about it, almost every other behavior can be
+changed.
+
+One point to note about special behavior: Python shortcuts the object lookup
+check for special operations, meaning the operation must be defined in the class
+or above.
+
+Here are a few to give you a taste of what is available
+
+- `__add__`/`__sub__`/`__mul__`/`__truediv__`: The standard math operators.
+- `__iadd__`/`__isub__`/`__imul__`/`__itruediv__`: Inplace versions of math
+  operators.
+- `__radd__`/`__rsub__`/`__rmul__`/`__rtruediv__`: Reversed versions of math
+  operators. These are called if the other direction is not supported.
+- `__eq__`/`__neq__`/`__lt__`/...: The comparison operators. You can just
+  specify two and then let `@functools.totalordering` generate the rest for you.
+- `__repr__`/`__str__`: Controls hows the object is printed. Unlike some other
+  languages, Python allows customizing the repr ("programmer view") and the str
+  ("user view").
+
+Want more? There are many, many more, handling other operators, conversion to
+various things, indexing, attribute access, you name it. The
+[Python Data Model](https://docs.python.org/3/reference/datamodel.html)
+describes all of them.
+
+Other languages have equivalents. C++ uses `operator +` as the function name,
+for example. Matlab uses normal names like `plus` (AFAICK, it's the only one not
+to call this `add`) Ruby allows almost anything as a function name, so it uses
+the operator by itself as the function name. JavaScript is the only one with no
+operator overloading at all (and ironically, the defaults are horrible, with "1"
+
+- 2 producing 3). It still has some special named methods, though.
 
 ## Dataclasses
 
@@ -294,3 +325,64 @@ be limited to a pre-defined collection in Python (look up `__slots__` and
 **init** is very repetitive to write, especially for the common use case of
 classes as "data + functions". Python has a trick to write this very nicely
 these days:
+
+`````{tab-set}
+````{tab-item} Dataclass
+```python
+from dataclasses import dataclass
+
+
+@dataclasses.dataclass
+class Vector:
+    x: float
+    y: float
+```
+````
+````{tab-item} Classic class
+```python
+from typing import Any
+
+
+class Vector:
+    __match_args__ = ("x", "y")
+
+    def __init__(self, x: float, y: float) -> None:
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}(x={self.x!r}, y={self.y!r})"
+
+    def __eq__(self, other):
+        if other.__class__ is self.__class__:
+            return (self.x, self.y) == (other.x, other.y)
+        return NotImplemented
+
+    __hash__ = None
+```
+````
+`````
+
+You can use the toggle to see what dataclasses automatically generates for you.
+I've included type annotations, because dataclasses include them for free -
+we'll cover those later. You get a free `__init__`, `__repr__`, and `__eq__`. If
+you add options to the decorator, you can generate even more useful things.
+`order=True` will generate all the ordering methods. `frozen=True` will make the
+members unsettable by wrapping every member with a property (a non-trivial
+amount of code!) and will generate a `__hash__` as well. Python 3.10 added two
+more fantastic options, `slots=True` and `kw_only=True`, too.
+
+The `dataclasses` module has other useful tools in it, as well. You have tools
+to control each field when you define them. You also have a way to iterate over
+all the fields. There's a tool to convert to a `dict` or a `tuple`; dicts can be
+then combined with other libraries like the `json` library. And there's a
+`replace` function that will make a new dataclass but with a subset of fields
+replaced, which can help you "modify" a frozen instance by making a new one.
+
+Dataclasses are a really great way to use OOP as data + actions (which is a
+really important usage) without having to write a learn/write a lot of
+boilerplate. But you also get one more feature: dataclasses are a standard.
+Other third-party tools can detect them `using dataclasses.is_dataclass(...)`,
+and work with them. The `rich` library can pretty-print their reprs. The
+`cattrs` library has tools to convert - you can get modularity and separation of
+concerns by building a `cattrs` converter separate from your dataclass.
