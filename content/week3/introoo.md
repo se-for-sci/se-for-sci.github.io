@@ -186,6 +186,14 @@ use it. Python provides a handy shortcut for calling `Path.exists(instance)`;
 you can just call `instance.exists()` instead, and it passes the instance in as
 the first value to the function (traditionally called `self`).
 
+In real world classes, each instance will contain multiple attributes and
+methods that use those attributes.  By bundling the data and methods together,
+you limit namespace pollution and lessen the mental load required to use those
+methods.  Think of a `FileSystem` class with several `Path` attributes for
+documents, downloads, backups, etc.  A method like `backup_home` in such a
+class would require no arguments; in a non-OOP implementation, each path would
+need a unique variable name to track what it contains.
+
 The "template" function in this case was `__init__`. In this function, you get
 the new, empty class and you have to add the members manually, just like in our
 template example. This will always run when classes are constructed, and it gets
@@ -232,7 +240,7 @@ Notice that `self.__class__` inside `eat` was `Dog`, even though we defined the
 method on `Animal`. That's because `self` was `bluey`, which is an instance of
 `Dog`.
 
-We can override an method if we want:
+We can override a method if we want:
 
 ```{code-cell} python3
 class Racoon(Animal):
@@ -287,7 +295,7 @@ changed.
 
 One point to note about special behavior: Python shortcuts the object lookup
 check for special operations, meaning the operation must be defined in the class
-or above.
+or immediate super class.
 
 Here are a few to give you a taste of what is available
 
@@ -295,7 +303,8 @@ Here are a few to give you a taste of what is available
 - `__iadd__`/`__isub__`/`__imul__`/`__itruediv__`: Inplace versions of math
   operators.
 - `__radd__`/`__rsub__`/`__rmul__`/`__rtruediv__`: Reversed versions of math
-  operators. These are called if the other direction is not supported.
+  operators. These are called if the first operator is not a member of this
+  class.
 - `__eq__`/`__neq__`/`__lt__`/...: The comparison operators. You can just
   specify two and then let `@functools.totalordering` generate the rest for you.
 - `__repr__`/`__str__`: Controls hows the object is printed. Unlike some other
@@ -308,12 +317,11 @@ various things, indexing, attribute access, you name it. The
 describes all of them.
 
 Other languages have equivalents. C++ uses `operator +` as the function name,
-for example. Matlab uses normal names like `plus` (AFAICK, it's the only one not
+for example. Matlab uses normal names like `plus` (AFAIK, it's the only one not
 to call this `add`) Ruby allows almost anything as a function name, so it uses
 the operator by itself as the function name. JavaScript is the only one with no
-operator overloading at all (and ironically, the defaults are horrible, with "1"
-
-- 2 producing 3). It still has some special named methods, though.
+operator overloading at all (and ironically, the defaults are horrible, with
+`"1" - 2` producing 3). It still has some special named methods, though.
 
 ## Dataclasses
 
@@ -380,9 +388,9 @@ then combined with other libraries like the `json` library. And there's a
 replaced, which can help you "modify" a frozen instance by making a new one.
 
 Dataclasses are a really great way to use OOP as data + actions (which is a
-really important usage) without having to write a learn/write a lot of
+really important usage) without having to learn or write a lot of
 boilerplate. But you also get one more feature: dataclasses are a standard.
-Other third-party tools can detect them `using dataclasses.is_dataclass(...)`,
+Other third-party tools can detect them using `dataclasses.is_dataclass(...)`,
 and work with them. The `rich` library can pretty-print their reprs. The
 `cattrs` library has tools to convert - you can get modularity and separation of
 concerns by building a `cattrs` converter separate from your dataclass.
