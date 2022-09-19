@@ -233,7 +233,7 @@ class Dog(Animal):
     pass
 
 bluey = Dog()
-rascal.eat("fruit")
+bluey.eat("fruit")
 ```
 
 Notice that `self.__class__` inside `eat` was `Dog`, even though we defined the
@@ -283,6 +283,24 @@ print(f"{KeyError.__mro__ = }")
 This means you'll catch a `KeyError` if you ask for a `KeyError`, `LookupError`,
 or an `Exception`! (Or a `BaseException`, but don't ask for that, too general,
 catches things like `MemoryError` too!)
+
+### Multiple Inheritance
+
+If one parent is good, why not allow more? Some languages allow you to combine
+multiple classes into one child - this is called multiple inheritance. It is
+quite tricky to get right, and there are a host of potential issues (Which
+method do you call if both parents have it? What happens if you get a diamond
+pattern by having both parents share a common parent? Etc.). However, if you
+restrict multiple inheritance to a specific subset of uses, it can be very
+powerful. Python, Matlab, and C++ allow multiple inheritance. Ruby doesn't, but
+it has an alternative more limited mechanism that covers the usage we cover in
+the next chapters.
+
+One suggestion to make sure you are as ready as possible: always use `super()`
+to call a parent method; don't just manually name the parent. There are special
+mechanisms in super that kick in if you have multiple parents. In short, always
+check the `__mro__`; that's always linear and super will always go up the
+`__mro__`.
 
 ### Special methods
 

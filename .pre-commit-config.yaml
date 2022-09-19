@@ -39,7 +39,7 @@ repos:
     rev: "v2.2.1"
     hooks:
       - id: codespell
-        args: ["-L", "hist,whet"]
+        args: ["-L", "hist,whet,classe"]
 
   - repo: local
     hooks:
