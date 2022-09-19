@@ -206,7 +206,7 @@ def test_my_max():
     assert my_max([3, 5]) == 5
 ```
 
-As a refactor, we can chance the argument name to something descriptive that
+As a refactor, we can change the argument name to something descriptive that
 won't shadow the built-in `input` function of python. `maxval` should be
 `max_val` and we can add types hints, restricting our code to ints for now:
 
