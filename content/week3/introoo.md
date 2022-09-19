@@ -187,12 +187,12 @@ you can just call `instance.exists()` instead, and it passes the instance in as
 the first value to the function (traditionally called `self`).
 
 In real world classes, each instance will contain multiple attributes and
-methods that use those attributes.  By bundling the data and methods together,
+methods that use those attributes. By bundling the data and methods together,
 you limit namespace pollution and lessen the mental load required to use those
-methods.  Think of a `FileSystem` class with several `Path` attributes for
-documents, downloads, backups, etc.  A method like `backup_home` in such a
-class would require no arguments; in a non-OOP implementation, each path would
-need a unique variable name to track what it contains.
+methods. Think of a `FileSystem` class with several `Path` attributes for
+documents, downloads, backups, etc. A method like `backup_home` in such a class
+would require no arguments; in a non-OOP implementation, each path would need a
+unique variable name to track what it contains.
 
 The "template" function in this case was `__init__`. In this function, you get
 the new, empty class and you have to add the members manually, just like in our
@@ -388,9 +388,9 @@ then combined with other libraries like the `json` library. And there's a
 replaced, which can help you "modify" a frozen instance by making a new one.
 
 Dataclasses are a really great way to use OOP as data + actions (which is a
-really important usage) without having to learn or write a lot of
-boilerplate. But you also get one more feature: dataclasses are a standard.
-Other third-party tools can detect them using `dataclasses.is_dataclass(...)`,
-and work with them. The `rich` library can pretty-print their reprs. The
-`cattrs` library has tools to convert - you can get modularity and separation of
-concerns by building a `cattrs` converter separate from your dataclass.
+really important usage) without having to learn or write a lot of boilerplate.
+But you also get one more feature: dataclasses are a standard. Other third-party
+tools can detect them using `dataclasses.is_dataclass(...)`, and work with them.
+The `rich` library can pretty-print their reprs. The `cattrs` library has tools
+to convert - you can get modularity and separation of concerns by building a
+`cattrs` converter separate from your dataclass.
