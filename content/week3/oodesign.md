@@ -152,6 +152,36 @@ classDiagram
     classO .. classP : Link(Dashed)
 ```
 
+## SOLID
+
+- **S**ingle responsibility.
+  - Classes should aim to do one thing (modular) - can do more, but be careful!
+  - Minimize number of reasons to alter a class/function/module, etc.
+- **O**pen-closed principle.
+  - Design your interfaces well, everything should conform to that.
+  - API should be stable (closed) but extensible (open).
+- **L**iskov substitution principle.
+  - You should be able to substitute a child class anywhere a parent class is
+    expected.
+  - You should not remove arguments from an overloaded function, for example.
+- **I**nterfaces should be specific and segregated.
+  - You shouldn't depend on methods you don't use.
+  - Protocols will really help with this - we'll get there in static typing!
+  - You can add an interface class layer to limit access.
+- **D**ependency inversion (depend on abstractions, not concretions)
+  - High level code _should not_ depend on low level code details
+    (implementations)
+  - Low level code _should_ depend on high level abstractions.
+
+Interfaces example:
+
+Let's say Xerox makes a multifunction machine, with Stapler and Printer objects
+of class Job. Job holds _everything_ for interacting with the machine -
+printing, copying, stapling, etc. This quickly will become a maintenance
+nightmare - what if Printer starts accessing Stapler functions (accidentally or
+on purpose)? What if Xerox decides to make a copier that can't staple? There's
+too much interdependency; this also makes testing much harder.
+
 ## Design principles
 
 ### Provide minimal public API
@@ -258,7 +288,7 @@ remains. That leads into the next, more common pattern.
 This allows you to request a user specify an interface to use your code. For
 example:
 
-#### integrator_example/integrator/**init**.py
+#### `integrator_example/integrator/__init__.py`
 
 ```{literalinclude} ./integrator_example/integrator/__init__.py
 :language: python
@@ -280,10 +310,28 @@ We can implement more:
 :start-at: class RK4Integrator(IntegratorBase)
 ```
 
+The UML diagram is:
+
+```{mermaid}
+classDiagram
+    IntegratorBase <|-- EulerIntegrator
+    IntegratorBase <|-- RK4Integrator
+    class IntegratorBase {
+        integrate(f, t, init_y)
+        compute_step(f, t_n, y_n, h)*
+    }
+    class EulerIntegrator {
+        compute_step(f, t_n, y_n, h)
+    }
+    class RK4Integrator {
+        compute_step(f, t_n, y_n, h)
+    }
+```
+
 Now we can use it:
 
 ```{code-cell} ipython3
-:tags: [hide-cell]
+:tags: [remove-cell]
 
 import sys
 sys.path.append("integrator_example")
@@ -302,9 +350,9 @@ def f(t, y):
 
 ts = np.linspace(0, 40, 1000 + 1)
 euler = EulerIntegrator()
-y_euler = euler.integrate(f, [1, 0], ts)
+y_euler = euler.integrate(f, ts, [1, 0])
 rk4 = RK4Integrator()
-y_rk4 = rk4.integrate(f, [1, 0], ts)
+y_rk4 = rk4.integrate(f, ts, [1, 0])
 
 fig, ax = plt.subplots()
 ax.plot(ts, y_euler[:, 0], "--", label="Euler")
@@ -314,8 +362,150 @@ ax.legend()
 plt.show()
 ```
 
+### Functors
+
+You can use classes to create Functors, as well. Functors are things that you
+can call, but hold some state as well. A classic functor would be a counter.
+Without classes, you'd have to write something horrifying like this:
+
+```{code-cell} python3
+_start = 0
+
+
+def incr():
+    global _start
+    _start += 1
+    return _start
+
+print(f"{incr() = }")
+print(f"{incr() = }")
+print(f"{incr() = }")
+```
+
+This has to use a global, and there can only be one of them; if you wanted two
+counters, this design wouldn't work. You _could_ use capture and generate a new
+function:
+
+```{code-cell} python3
+def make_incr():
+    _start = 0
+    def incr():
+        nonlocal _start
+        _start += 1
+        return _start
+    return incr
+
+incr1 = make_incr()
+incr2 = make_incr()
+print(f"{incr1() = }")
+print(f"{incr1() = }")
+print(f"{incr2() = }")
+print(f"{incr2() = }")
+```
+
+And in fact, when lambda functions (which include capture semantics) were added
+to C++, the need for custom functors really went down. However, the class
+version of this is very likely easier to read:
+
+`````{tab-set}
+````{tab-item} Dataclasses
+```python
+import dataclasses
+
+
+class Incr:
+    start: int
+
+    def __call__(self):
+        self.start += 1
+        return self.start
+
+
+incr = Incr()
+incr()
+```
+````
+````{tab-item} Classic
+```python
+class Incr:
+    def __init__(self, start=0):
+        self.start = start
+
+    def __call__(self):
+        self.start += 1
+        return self.start
+
+
+incr = Incr()
+incr()
+```
+````
+`````
+
+This is explicit, clear, multiple instances can be created without having them
+interfere, I can see exactly what’s going on without having to trace down a
+global, and you can even set the default value when you make a new instance!
+
 ### Separation of concerns
 
-### Overloading
+Classes allow you to organize code so that each each class address a specific
+concern.
+
+Some languages (Ruby) support partial classes, which can load portions based on
+what you are interested in doing. Python and C++ do not, however. Type dispatch
+(C++, Julia) can be used to help with this, as well. For Python, see mixins
+below, which are not quite the same (Ruby has both partial classes and mixins
+but not multiple inheritance), but can help.
+
+### eDSLs
+
+You can use classes to make embedded Domain Specific Languages (eDSLs). You can
+build a custom mini-language on top of the Python syntax.
+
+For example, let's say I want to make path-like objects that I can join with
+`/`:
+
+```{code-cell} Python
+class Path(str):
+    def __truediv__(self, other):
+        return self.__class__(f"{self}/{other}")
+
+
+print(Path("one") / Path("two"))
+```
+
+Just in case you want to make a `Path` class like the one above - don’t, use
+`pathlib.Path` instead.
 
 ### Mixins
+
+Multiple inheritance can be tricky to use, but one very useful way to use it is
+a limited subset called mixins. With mixins, you provide just the features you
+want, and then compose the class from smaller parts. Let's rewrite the Path
+example using mixins:
+
+```
+class PathMixin:
+    def __truediv__(self, other):
+        return self.__class__(f"{self}/{other}")
+
+
+class Path(str, PathMixin):
+    pass
+
+
+print(Path("one") / Path("two"))
+```
+
+Notice we now built the mixin without subclassing anything - we could mix it
+into any class we want later. We could mix in multiple classes if we wanted.
+It's quite powerful. Just remember a few rules for simple mixins:
+
+- Mixins shouldn't have `__init__`'s.
+- Mixins shouldn't add members (since that should only be done in `__init__`)
+- Mixins shouldn't have `super()` calls or overload something in the base class.
+- Once we get to static typing, mixins should always have a Protocol to define
+  what interface the class they mix into needs to have.
+
+You _can_ bend these rules a bit, but then you are moving into multiple
+inheritance territory, so be very careful.

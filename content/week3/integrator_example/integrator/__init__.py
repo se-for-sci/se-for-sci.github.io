@@ -4,10 +4,10 @@ import abc
 
 class IntegratorBase(abc.ABC):
     @abc.abstractmethod
-    def compute_step(self, f, t, y):
+    def compute_step(self, f, t_n, y_n, h):
         pass
 
-    def integrate(self, f, init_y, t):
+    def integrate(self, f, t, init_y):
         steps = len(t)
         order = len(init_y)  # Number of equations
 
@@ -22,21 +22,21 @@ class IntegratorBase(abc.ABC):
 
 
 class EulerIntegrator(IntegratorBase):
-    def compute_step(self, f, t, y, h):
+    def compute_step(self, f, t_n, y_n, h):
         # Compute dydt based on *current* position
-        dydt = f(t, y)
+        dydt = f(t_n, y_n)
 
         # Return next velocity and position
-        return y - dydt * h
+        return y_n - dydt * h
 
 
 class RK4Integrator(IntegratorBase):
-    def compute_step(self, f, t, y, h):
+    def compute_step(self, f, t_n, y_n, h):
         # Compute k1 through k4
-        k1 = h * f(t, y)
-        k2 = h * f(t + h / 2, y + k1 / 2)
-        k3 = h * f(t + h / 2, y + k2 / 2)
-        k4 = h * f(t + h, y + k3)
+        k1 = h * f(t_n, y_n)
+        k2 = h * f(t_n + h / 2, y_n + k1 / 2)
+        k3 = h * f(t_n + h / 2, y_n + k2 / 2)
+        k4 = h * f(t_n + h, y_n + k3)
 
         # Return next velocity and position
-        return y + 1 / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
+        return y_n + 1 / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
