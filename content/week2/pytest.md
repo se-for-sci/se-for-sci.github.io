@@ -381,16 +381,37 @@ test.
 If you want to apply a mark to the entire test module, assign it to the global
 variable `pytestmark=`; pytest will look for this when it reads the module.
 
-## Organising tests
+## Organizing tests
 
 Pytest allows quite a bit of organization: you have a test folder (or more), any
 number of subfolders, any number of test files, an optional class, and then test
 functions (or methods in the class case). Unlike x-unit style testing, the test
-class is simply a normal class and is just used for organisation (the self
+class is simply a normal class and is just used for organization (the self
 arguments are useless). One benefit of the class is that you can apply a mark to
 the whole class without applying it to the whole file. You could also use
 subclassing, etc. like normal. But 95% of tests in pytest are better as simple
 test functions.
+
+Every test folder can have a `conftest.py`, and that's where you put fixtures
+and pytest hooks. This also helps you avoid adding a `__init__.py`, which is not
+ideal for tests - they don't have to be importable. The fixtures are available
+for any tests in that folder, and any subfolders.
+
+## Plugins
+
+Pytest supports plugins, and there's a thriving ecosystem - there are nearly 1K
+plugins according to
+[pytest's automated page](https://docs.pytest.org/en/7.0.x/reference/plugin_list.html).
+A few plugins of note:
+
+- `pytest-mock`: Makes the excellent `unittest.mock` built-in library nicer to
+  use from pytest as native fixtures.
+- `pytest-ascyncio`: Allows pytest to natively test ascync functions.
+- `pytest-xdist`: Distributed testing, loop on failing.
+- `pytest-subprocess`: Mocks subprocess calls.
+- `pytest-benchmark`: Compute benchmarks as part of testing (also see
+  [ASV](https://github.com/airspeed-velocity/asv) if interested in
+  benchmarking).
 
 ## Running and configuring pytest
 
@@ -404,7 +425,7 @@ fine), then use `pyproject.toml`. This is an example configuration:
 ```toml
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
 xfail_strict = true
 filterwarnings = ["error"]
 log_cli_level = "info"
@@ -416,16 +437,15 @@ ironically, it won't read this is the version is too old, so setting "6" or less
 in `pyproject.toml` is rather pointless). The `addopts` setting will add
 whatever you put there to the command line when you run; `-ra` will print a
 summary "r"eport of "a"ll results, which gives you a quick way to review what
-tests failed and were skipped, and why. `--showlocals` will print locals in
-tracebacks. `--strict-markers` will make sure you don't try to use an
-unspecified fixture. And `--strict-config` will error if you make a mistake in
-your config. `xfail_strict` will change the default for `xfail` to fail the
-tests if it doesn't fail - you can still override locally in a specific xfail
-for a flaky failure. `filter_warnings` will cause all warnings to be errors (you
-can add allowed warnings here too). `log_cli_level` will report `INFO` and above
-log messages on a failure. Finally, `testpaths` will limit `pytest` to just
-looking in the folders given - useful if it tries to pick up things that are not
-tests from other directories.
+tests failed and were skipped, and why. `--strict-markers` will make sure you
+don't try to use an unspecified fixture. And `--strict-config` will error if you
+make a mistake in your config. `xfail_strict` will change the default for
+`xfail` to fail the tests if it doesn't fail - you can still override locally in
+a specific xfail for a flaky failure. `filter_warnings` will cause all warnings
+to be errors (you can add allowed warnings here too). `log_cli_level` will
+report `INFO` and above log messages on a failure. Finally, `testpaths` will
+limit `pytest` to just looking in the folders given - useful if it tries to pick
+up things that are not tests from other directories.
 [See the docs](https://docs.pytest.org/en/stable/customize.html) for more
 options.
 

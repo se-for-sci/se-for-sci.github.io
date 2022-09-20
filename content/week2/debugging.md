@@ -1,4 +1,114 @@
-# Debugging
+# Logging & Debugging
+
+## Logging
+
+Something broke. Add a print statement! Fixed. Take it out! We’ve all been here.
+A steady stream of adding and (hopefully) removing print statements. But there
+is a better way, if you are willing to pay the (rather ugly) cost of setting it
+up: Logging. Here’s what it looks like (yes, it looks like it was designed in
+the 80's, even though Python only dates back to '91):
+
+```python
+import logging
+```
+
+Next we get a logger, these are usually given names that match the package they
+are in (globally unique). If there is no logger to match, one is created.
+
+```python
+log = logging.getLogger("unique")
+```
+
+You'll often see this shortcut used in modules:
+
+```python
+log = logging.getLogger(__module__)
+```
+
+Your call, your module name isn't really that likely to change, and not sure you
+want it to.
+
+Here are a couple of logging statements:
+
+```python
+log.warning("Very important")
+log.info("Logging this here")
+log.debug("Logging this here")
+```
+
+To get the logger to show anything, you'll need to tell it what level to
+display:
+
+```python
+# Global setting
+logging.basicConfig(level="INFO")
+```
+
+This is a global setting that affects all loggers, including the ones in the
+libraries you are using (hopefully). You can also change in individual logger.
+
+You can set fancier handlers, too, which can add timestamps and such.
+
+This is very powerful for adding printouts that only show up if you ask for info
+or debug printouts (the normal setting is "WARN"). Sadly the design is very old,
+with classic `%` style formatting baked in you _can_ use f-strings in the
+logging messages, though; that works well unless you want to avoid evaluating
+the string formatting), global logger pool, and such. See Rich for a much more
+beautiful setting (for use in applications, not libraries).
+
+The hardest part is generally setting up the infrastructure for controlling the
+logger, usually; it’s best if you have a flag or environment variable that can
+control this, and you have to decide or allow a choice on whether you want all
+loggers or just yours to change level. And you have might want to log to a file,
+rotate logs, etc; everything doable but not all that pretty.
+
+### Combining with pytest
+
+You can have pytest add your logs whenever tests fail! This can save a lot of
+time debugging failures.
+
+This configuration causes logging to be reported for test failures:
+
+```toml
+[tool.pytest.ini_options]
+log_cli_level = "info"
+```
+
+### Pretty logging with Rich
+
+You can use the `rich` third party library to produce beautiful logs. Here's how
+you could do it:
+
+```python
+from rich.logging import RichHandler
+
+FORMAT = "%(message)s"
+logging.basicConfig(
+    level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()]
+)
+
+log = logging.getLogger("rich_example")
+log.info("Hello, World!")
+```
+
+Notice that the _logging code is exactly the same_; the only thing that changes
+is the configuration setting, which is done by the application running the
+library, not the library itself.
+
+Also look up [structlog](https://www.structlog.org/) if you'd like nicer, more
+modern logging.
+
+### What to log
+
+Tell a story with your logging. If you are wrapping a command line tool, print
+out every interaction with the command line tool as INFO messages. Then you can
+turn on INFO logging and observe what is happening behind the scenes. You can
+put DEBUG messages in for things you needed for debugging, instead of using
+print and then deleting it when you are done. Logging has almost no cost if it's
+not activated (especially if you use `%` formatting or go through hoops to make
+`format` formatting work, which you can do via custom classes).
+
+## Debugging
 
 Code always eventually breaks. Let’s look at some broken code:
 

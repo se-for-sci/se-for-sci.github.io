@@ -102,8 +102,11 @@ remove. Be very careful if you are exposing more public API than you want to!
 ### UML diagrams
 
 UML, or Unified Modeling Language, is a method of displaying class diagrams
-[(read more here)](https://www.lucidchart.com/pages/what-is-UML-unified-modeling-language).
-Let's see what our simple Geom example looks like:
+[(read more here)](https://www.lucidchart.com/pages/what-is-UML-unified-modeling-language),
+or read about it for
+[mermaid](https://mermaid-js.github.io/mermaid/#/classDiagram), which is
+supported quite a lot of places these days, including GitHub. Let's see what our
+simple Geom example looks like:
 
 ```{mermaid}
 classDiagram
@@ -414,7 +417,7 @@ import dataclasses
 
 
 class Incr:
-    start: int
+    start: int = 0
 
     def __call__(self):
         self.start += 1
