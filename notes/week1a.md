@@ -1,0 +1,15 @@
+- Syllabus
+- Ungraded survey
+- Initial discussion
+  - Reading vs. Writing code
+  - Refactoring, debugging
+  - Lots of tooling to help
+- Problem/solution ordering
+- New features help you by restricting you
+- Challenges of APC 524
+  - Large variance in backgrounds
+  - Lots of material compressed into a single class
+  - But very valuable (in $$$)
+- Intros around the room
+- Setup - what we'll be using in the course
+- Git - a whirlwind intro

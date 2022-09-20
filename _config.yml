@@ -27,6 +27,15 @@ html:
   use_repository_button: true
 
 only_build_toc_files: true
+exclude_patterns:
+  [
+    _build,
+    Thumbs.db,
+    .DS_Store,
+    "**.ipynb_checkpoints",
+    "**.pytest_cache",
+    "notes",
+  ]
 
 sphinx:
   extra_extensions:
