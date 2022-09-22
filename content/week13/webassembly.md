@@ -9,10 +9,10 @@
 There is no terminal in WASM. You _do_ have a filesystem, though it is a
 sandboxed one - you can't access arbitrary files on a users computer. There is
 an opt-in experiment for chrome that loads a a directory with user permissions.
-JuptyerLite keeps it's directory in your browser's cache, so it is persistent.
+JuptyerLite keeps its directory in your browser's cache, so it is persistent.
 
 Sync IO does not work in WASM. This includes `time.sleep`, which just returns
-instantly. Use `await ascyncio.sleep` instead.
+instantly. Use `await asyncio.sleep` instead.
 
 Threading is not available (yet?), including `multiprocessing`, `threading`, and
 `sockets`. Use async programming instead.

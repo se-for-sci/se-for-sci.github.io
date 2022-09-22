@@ -396,7 +396,13 @@ you add options to the decorator, you can generate even more useful things.
 `order=True` will generate all the ordering methods. `frozen=True` will make the
 members unsettable by wrapping every member with a property (a non-trivial
 amount of code!) and will generate a `__hash__` as well. Python 3.10 added two
-more fantastic options, `slots=True` and `kw_only=True`, too.
+more fantastic options, `slots=True` and `kw_only=True`, too. Notice the
+`__match_args__` that got added for free in Python 3.10; you get free improved
+support for Python 3.10 pattern matching for free just by using dataclasses!
+
+You can use [undataclasses](https://www.pythonmorsels.com/undataclass/) to see
+exactly what dataclasses is supposed to be doing for you. (It's recomputed, so
+could be _slightly_ off. `__hash__ = None` is missing at time of writing.)
 
 The `dataclasses` module has other useful tools in it, as well. You have tools
 to control each field when you define them. You also have a way to iterate over
@@ -412,3 +418,106 @@ tools can detect them using `dataclasses.is_dataclass(...)`, and work with them.
 The `rich` library can pretty-print their reprs. The `cattrs` library has tools
 to convert - you can get modularity and separation of concerns by building a
 `cattrs` converter separate from your dataclass.
+
+### Example of using dataclasses
+
+Let's just look at how dataclasses can transform the way you think. We have an
+example of reading an JSON file, but we'll try a bit of a fancier one:
+
+#### Input JSON
+
+```{code-cell} python3
+:tags: [remove-input]
+
+from pathlib import Path
+import tempfile
+import rich
+import json
+
+
+json_contents = {
+  "size": 100,
+  "name": "Test",
+  "simulation": True,
+  "details": {
+    "info": "Something or other",
+  },
+  "duration": 10.0,
+}
+
+rich.print(json.dumps(json_contents, indent=2))
+```
+
+#### Dataclass schema
+
+If you'd like to read that into a structure, you could manually implement all
+that code imperatively. But wouldn't it be nice if you could just declare the
+data structure as it is, something like this:
+
+```{code-cell} python3
+import dataclasses
+
+@dataclasses.dataclass
+class Details:
+    info: str
+
+
+@dataclasses.dataclass
+class Run:
+    size: int
+    name: str
+    simulation: bool
+    details: Details
+    duration: float
+```
+
+#### Conversion from JSON
+
+And then implement it's conversion separately (modular design!)? Well, this is a
+standard, introspectable structure, so there's a third party library for
+converting them called `cattrs`:
+
+```{code-cell} python3
+from cattrs.preconf.json import make_converter
+
+
+converter = make_converter()
+
+data = converter.structure(json_contents, Run)
+print(data)
+```
+
+#### Pretty printing
+
+We can also use another third party library, `rich`, to provide a rich, colorful
+display of dataclasses:
+
+```python3
+from rich import print
+```
+
+```{code-cell} python3
+:tags: [remove-cell]
+
+from rich.console import Console
+
+console = Console(width=80)
+print = console.print
+```
+
+```{code-cell} python3
+print(data)
+```
+
+#### Quick conversion to dicts/tuples
+
+And we can use the built-in tools to quickly convert dataclasses to dicts &
+tuples, recursively:
+
+```{code-cell} python3
+print(dataclasses.asdict(data))
+```
+
+```{code-cell} python3
+print(dataclasses.astuple(data))
+```

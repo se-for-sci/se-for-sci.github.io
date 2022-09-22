@@ -14,6 +14,21 @@ kernelspec:
 
 ## Intro
 
+Why design classes? We want an interface that is _easy to use correctly_ and
+_hard to use incorrectly_. OOP gives us tools to remove user mistakes via API
+design, rather than by asking users nicely to follow conventions. We remove the
+potential for mistakes and enhance readability.
+
+We will _not_ be giving up on the other things we've emphasized before, like
+_modularity_. You can make bad designs with OOP, just like you can make bad
+designs with any paradigm. In fact, with OOP you can make some _really_ bad
+spaghetti code if you really want to prove how smart you are[^1] or want job
+security!
+
+[^1]:
+    When I've try this I usually manage to prove just the opposite a month
+    later...
+
 Let's define some terminology we've been seeing, along with a bit of new stuff:
 
 - **Encapsulation** (meaning 1): The idea of bundling data & operations together
@@ -52,6 +67,9 @@ Python refers to an Interface (Java terminology, technically) as a Protocol. C++
 calls it a Concept. The basic idea is simply that a set of methods/members are
 required in order for a class to be used, without requiring formal inheritance.
 We'll save this until we look at static typing, however.
+
+We also will refer to "interface" meaning the interaction with your API by
+consumers (possibly also you).
 ```
 
 ### Why Inheritance?

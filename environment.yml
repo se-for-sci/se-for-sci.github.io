@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - black
+  - cattrs
   - ipykernel >=6.0
   - ipython >=8.0
   - ipywidgets
