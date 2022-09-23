@@ -28,6 +28,7 @@ parts:
   - caption: "Week 4: Design Patterns"
     chapters:
       - file: content/week4/designpatt.md
+      - file: content/week4/functional.md
 
   - caption: "Week 5: Static Typing"
     chapters:

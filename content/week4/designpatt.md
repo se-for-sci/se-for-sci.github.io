@@ -25,282 +25,59 @@ Let's move beyond OO and learn from other paradigms and patterns. These are not
 exclusive - you may use some or all of the ideas here to inform your class
 design. You might use OOP ideas to help your functional patterns. Etc.
 
-## Mutability and state
+## Functional Programming
 
-We talked a bit about mutability in Python already. Python's concept of
-mutability has two aspects:
+In it's own section.
 
-- Some built-in (implemented in C) objects are immutable. You can't really
-  imitate this in only Python with custom classes - all user classes make
-  mutable objects.
-- Immutable objects have a hash (`__hash__` is not None). This is the actual
-  property checked most of the time - so you can make classes that can be put in
-  sets and dict keys by making them hashable. It is up to you to make them
-  immutable by convention (you can make it pretty hard to do).
+## Type dispatch
 
-Notice the second point: immutability really is by convention, not forced by the
-language - and that's okay. Immutability / mutability is a design pattern!
+Type dispatch can be seen as an alternative to OOP, though it's often used in
+conjunction with it (unless you are in Julia). Type dispatch is a bit
+"non-Pythonic" in that it's a bit problematic with duck typing, but you can use
+it.
 
-### Why do we tend toward mutable?
-
-#### Memory saving (implementation detail)
-
-If you have a large structure, you can simply change part in place, avoiding
-copying the entire thing. This is nice - but it could be seen as an
-implementation detail. If the language was smart enough to detect that you never
-used the "original" object again, it could do the mutation for you even when you
-asked for a new copy. That is, the difference here:
-
-```{code-cell} python3
-import dataclasses
-
-@dataclasses.dataclass
-class Mutable:
-    x: int
-    y: int
-
-mutable = Mutable(1, 2)
-mutable.x = 2
-print(mutable)
-```
-
-Verses:
-
-```{code-cell} python3
-import dataclasses
-
-@dataclasses.dataclass
-class Immutable:
-    x: int
-    y: int
-
-immutable_1 = Immutable(1, 2)
-immutable_2 = dataclasses.replace(immutable_1, x=2)
-print(immutable_2)
-```
-
-is really an implementation detail if "immutable_1" is never used again. A smart
-compiler (not Python, which doesn't have a compiler) could learn to rewrite the
-second example into the first behind the scenes.
-
-We'll get into why we think the second version is better in some cases soon!
-
-#### Mutable is easy to change a small part
-
-As you saw above, it's easy to change a small part of code. Dataclasses really
-helped us in the immutable case write something that was quite reasonable
-instead of having to manually call the constructor ourselves with the replaced
-values and forwarding in all the rest. But it's still a bit easier / more
-natural, and much easier if you are not dealing with something like dataclasses.
-
-#### Easy to build API in a way that you maybe shouldn't
-
-Some APIs just don't fit well with immutable designs (we'll see some solutions,
-though). Things with a non-linear progression, for example. Something like:
-
-```python
-data = Data()
-data.load_data()
-data.prepare()
-data.do_calculations()
-data.plot()
-```
-
-That's easy and simple. **Unless you forget a step.** Oh, yeah, and static
-analysis tools can't tell you if you forget a step, the API doesn't statically
-"know" that `.prepare()` is required, for example. Tab completion tells you that
-`.plot()` is valid immediately. The problem is that `Data` has a changing state,
-and not all operations are valid in all possible states.
-
-If we replaced the single `Data` with multiple immutable classes, then our
-problem would be solved:
-
-```python
-empty_data = EmptyData()
-loaded_data = empty_data.load_data()
-prepared_data = loaded_data.prepare()
-computed_data = prepared_data.do_calculations()
-computed_data.plot()
-```
-
-These classes don't have to be immutable. Maybe you can load more data to loaded
-data. But they are harder to use incorrectly when they at least not have a
-mutating state that makes subsets of operations invalid. Note that tab
-completion in this case would show exactly the allowed set of operations each
-time.
-
-We could avoid naming the temporaries, too:
-
-```python
-computed_data = EmptyData().load_data().prepare().do_calculations()
-computed_data.plot()
-```
-
-This "chaining" style is a hallmark of functional programming (which is where we
-are headed).
-
-### Copy vs. reference
-
-As you might already know, everything in Python is copied by reference. If you
-have a mutable object, you have to make a copy (or a deepcopy) to ensure that
-it's contents (or contents of it's contents) are not changed. For example, this
-function is evil:
-
-```{code-cell} python3
-def evil(x):
-    x.append("Muhahaha")
-
-mutable = []
-evil(mutable)
-print(mutable)
-```
-
-A function should be of the form `name(input, ...) -> output`, but instead, this
-function is mutating the argument it was given! If we used a immutable object
-instead, we would have been forced to use the return value of the function,
-making it much easier to understand when you are using it. Functions are much
-nicer when arguments are not mutated. `self` is kind of a special case - a
-programmer is much more likely to expect `x.do_something()` to modify `x` than
-`do_something(x)`. But as we've seen above, there are limits/drawbacks.
-
-### What do we get with immutability?
-
-Let's summarize above:
-
-- Optimization choices for the compiler (if you have one) - it's much simpler to
-  reason about.
-- Chaining of methods
-- No worry about copying
-
-Notice I didn't actually require immutability on the points, I simply required
-_we don't mutate_. The fact that we can or can't mutate it is less important
-than if we do mutate it.
-
-## Functional programming
-
-Let's define a **pure function**. This is a function that:
-
-- Does not mutate it's arguments
-- Does not contain internal state (doesn't mutate itself or a global, basically)
-- Has no side effects (like printing to the screen)
-
-Functors are not pure functions (they mutate themselves). `print` is not a pure
-function (it mutates the screen). And many of the methods on lists and dicts are
-not pure functions (they mutate the first argument, self). But there are lots of
-pure functions, like most built-ins and most non-method functions, and methods
-of tuples and such.
-
-### Map, filter, reduce
-
-Functional programming often involves passing functions to functions. Three very
-common ones are `map` (apply a function to each item of a sequence), `filter`
-(remove items from a sequence based on a function), and reduce (apply a function
-to successive pairs of a sequence).
-
-Let's take the following Pythonic code using a comprehension:
-
-```{code-cell} python3
-items = [1, 2, 3, 4, 5]
-sum_sq_odds = sum(x**2 for x in items if x % 2)
-print(sum_sq_odds)
-```
-
-And instead write it following in a functional style:
+First we start with the "general" implementation; this will get called if none
+of the types match:
 
 ```{code-cell} python3
 import functools
 
-
-items = [1, 2, 3, 4, 5]
-sum_sq_odds = functools.reduce(lambda x, y: x + y, filter(lambda x: x % 2, map(lambda x: x**2, items)))
-print(sum_sq_odds)
+@functools.singledispatch
+def generic(x):
+    raise NotImplementedError("General implementation")
 ```
 
-Notice the data structure I chose was a list, which is mutable - but that's
-okay, I didn't mutate it - the functions were pure.
-
-Notice how horribly this reads; our operations are in reverse order (right to
-left). In a more functional language, you can chain these left to right instead.
-Or with a library.
-
-We'll write a little wrapper that will allow us to chain operations as if we
-were in a proper functional language:
+Now we can register one or more types:
 
 ```{code-cell} python3
-class FunctionalIterable:
-    def __init__(self, this, /):
-        self._this = this
-    def __repr__(self):
-        return repr(self.this)
-    def map(self, func):
-        return self.__class__(map(func, self._this))
-    def filter(self, func):
-        return self.__class__(filter(func, self._this))
-    def reduce(self, func):
-        return functools.reduce(func, self._this)
+@generic.register(int)
+def _(x):
+    print(f"I know how to compute {x}, it's an int!")
+
+@generic.register(float)
+def _(x):
+    print(f"I know how to compute {x}, it's an float!")
 ```
 
-Now, let's compare readability:
+Now we can call this with ints or floats, but nothing else. It dispatches
+different versions depending on the types it sees.
 
-```{code-cell} python3
-items = FunctionalIterable([1, 2, 3, 4, 5])
-sum_sq_odds = items.map(lambda x: x**2).filter(lambda x: x % 2).reduce(lambda x,y: x + y)
-print(sum_sq_odds)
+```{admonition} Python specific tips
+* Only the first argument will be used for the dispatch. Other arguments are ignored.
+* You can use type annotations instead (Python 3.7+)
+* You can stack multiple registers
+    * Or use Unions (Python 3.11+)
+* Duck typing supported through Protocols (Python 3.8+ or `typing_extensions` backport)
 ```
 
-Notice that we now read this left to right. Our items are squared then filtered
-then reduced. Compare that to some languages with better support for functional
-programming:
+Other languages have varying levels of support for type dispatch. C++ supports
+it, while C does not. Julia is designed around it. It's a key part of Rust
+(though in a rather different form).
 
-`````{tab-set}
-````{tab-item} Ruby 2.7+
-```ruby
-items = [1,2,3,4,5]
-sum_sq_odds = items.map{_1**2}.filter{_1 % 2 == 1}.reduce{_1 + _2}
-puts items
-```
-````
-````{tab-item} Scala
-```scala
-val arr = (1 to 5)
-val sum_sq_odds = arr.map(x => x*x).filter(_ % 2 == 1).reduce(_ + _)
-println(sum_sq_odds)
-```
-````
-````{tab-item} C++20 Ranges
-```cpp
-#include <iostream>
-#include <vector>
-#include <ranges>
-#include <numeric>
+A benefit of type dispatch over OOP is that it tends to be more modular. A
+drawback is that some patterns of code reuse are not available.
 
-int main() {
-    std::vector<int> items {1, 2, 3, 4, 5};
-    auto odd_sq = items | std::views::transform([](int i){return i*i;})
-                        | std::views::filter([](int i){return i%2==1;});
-    sum_sq_odds = std::accumulate(std::begin(odd_sq), std::end(odd_sq), 0, [](int a, int b){return a + b;})
-    std::cout << result << std::endl;
-    return 0;
-}
-```
-````
-````{tab-item} Rust
-```rust
-fn main() {
-    let items = [1,2,3,4,5];
-    let sum_sq_odds = items.iter()
-                      .map(|x| x*x)
-                      .filter(|&x| x%2==1)
-                      .fold(0, |acc, x| acc + x);
-    println!("{}", sum_sq_odds);
-}
-```
-````
-`````
-
-Notice how many of them use similar terms & try to read well when chained.
-
-## Type dispatch
+## Array programming
 
 ## Memory safety
 
