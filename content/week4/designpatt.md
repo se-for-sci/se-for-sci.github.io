@@ -201,8 +201,8 @@ Let's take the following Pythonic code using a comprehension:
 
 ```{code-cell} python3
 items = [1, 2, 3, 4, 5]
-sum_sq_evens = sum(x**2 for x in items if x % 2)
-print(sum_sq_evens)
+sum_sq_odds = sum(x**2 for x in items if x % 2)
+print(sum_sq_odds)
 ```
 
 And instead write it following in a functional style:
@@ -212,8 +212,8 @@ import functools
 
 
 items = [1, 2, 3, 4, 5]
-sum_sq_evens = functools.reduce(lambda x, y: x + y, filter(lambda x: x % 2, map(lambda x: x**2, items)))
-print(sum_sq_evens)
+sum_sq_odds = functools.reduce(lambda x, y: x + y, filter(lambda x: x % 2, map(lambda x: x**2, items)))
+print(sum_sq_odds)
 ```
 
 Notice the data structure I chose was a list, which is mutable - but that's
@@ -222,6 +222,83 @@ okay, I didn't mutate it - the functions were pure.
 Notice how horribly this reads; our operations are in reverse order (right to
 left). In a more functional language, you can chain these left to right instead.
 Or with a library.
+
+We'll write a little wrapper that will allow us to chain operations as if we
+were in a proper functional language:
+
+```{code-cell} python3
+class FunctionalIterable:
+    def __init__(self, this, /):
+        self._this = this
+    def __repr__(self):
+        return repr(self.this)
+    def map(self, func):
+        return self.__class__(map(func, self._this))
+    def filter(self, func):
+        return self.__class__(filter(func, self._this))
+    def reduce(self, func):
+        return functools.reduce(func, self._this)
+```
+
+Now, let's compare readability:
+
+```{code-cell} python3
+items = FunctionalIterable([1, 2, 3, 4, 5])
+sum_sq_odds = items.map(lambda x: x**2).filter(lambda x: x % 2).reduce(lambda x,y: x + y)
+print(sum_sq_odds)
+```
+
+Notice that we now read this left to right. Our items are squared then filtered
+then reduced. Compare that to some languages with better support for functional
+programming:
+
+`````{tab-set}
+````{tab-item} Ruby 2.7+
+```ruby
+items = [1,2,3,4,5]
+sum_sq_odds = items.map{_1**2}.filter{_1 % 2 == 1}.reduce{_1 + _2}
+puts items
+```
+````
+````{tab-item} Scala
+```scala
+val arr = (1 to 5)
+val sum_sq_odds = arr.map(x => x*x).filter(_ % 2 == 1).reduce(_ + _)
+println(sum_sq_odds)
+```
+````
+````{tab-item} C++20 Ranges
+```cpp
+#include <iostream>
+#include <vector>
+#include <ranges>
+#include <numeric>
+
+int main() {
+    std::vector<int> items {1, 2, 3, 4, 5};
+    auto odd_sq = items | std::views::transform([](int i){return i*i;})
+                        | std::views::filter([](int i){return i%2==1;});
+    sum_sq_odds = std::accumulate(std::begin(odd_sq), std::end(odd_sq), 0, [](int a, int b){return a + b;})
+    std::cout << result << std::endl;
+    return 0;
+}
+```
+````
+````{tab-item} Rust
+```rust
+fn main() {
+    let items = [1,2,3,4,5];
+    let sum_sq_odds = items.iter()
+                      .map(|x| x*x)
+                      .filter(|&x| x%2==1)
+                      .fold(0, |acc, x| acc + x);
+    println!("{}", sum_sq_odds);
+}
+```
+````
+`````
+
+Notice how many of them use similar terms & try to read well when chained.
 
 ## Type dispatch
 
