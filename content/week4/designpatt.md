@@ -121,6 +121,10 @@ performance for simple operations. It's also a different paradigm when working
 with arrays; it's short and concise, and can read very well (though sometimes
 it's a bit harder to write).
 
+See
+[this SciPy tutorial: loopy programming](https://github.com/jpivarski-talks/2022-07-11-scipy-loopy-tutorial/blob/main/narrative.ipynb)
+for more about array based languages & NumPy.
+
 ## Memory safety
 
 ## Modularity
