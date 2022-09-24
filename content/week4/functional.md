@@ -326,8 +326,46 @@ returns an iterator of the returned values. Filter removes iterations based on
 the truthiness of the return value. And reduce (or fold) does a binary reduction
 (most languages also have sum for this common reduction).
 
-Most templating languages like Liquid and Jenja have "filters", which are
-applied left to right in a similar style.
+Most templating languages like Liquid and Jinja have "filters", which are
+applied left to right in a similar style. Hugo's templating system is
+functional, too.
+
+#### Currying
+
+Another common feature of functional languages is currying. Let's say a function
+takes two arguments. Currying means that if you give it one argument, you now
+have a function that requires one argument. Purely functional or heavily
+functional languages will often curry by default; in Python, you have to
+manually curry with `functools.partial`.
+
+Here's an example of a two argument function:
+
+```{code-cell} python3
+def power(y, x):
+    return x**y
+```
+
+Now, we can "curry it":
+
+```{code-cell} python3
+import functools
+
+
+pow2 = functools.partial(power, 2)
+pow3 = functools.partial(power, 3)
+```
+
+Now we have two new functions that have `y` pre-specified:
+
+```{code-cell} python3
+print(f"{pow2(10) = }")
+print(f"{pow3(10) = }")
+```
+
+Note that this is a (better) way to do a subset of Functors (from the previous
+chapter on OOP). If you are using a Functor to capture state, then you can use
+currying with `partial` to be much more explicit as to your intent _and_ this
+method will capture the current value, not a reference that could change later.
 
 ### So what do you get?
 

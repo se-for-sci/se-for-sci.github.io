@@ -25,9 +25,10 @@ designs with any paradigm. In fact, with OOP you can make some _really_ bad
 spaghetti code if you really want to prove how smart you are[^1] or want job
 security!
 
-[^1]:
-    When I've try this I usually manage to prove just the opposite a month
-    later...
+<!-- prettier-ignore-start -->
+[^1]: When I've try this I usually manage to prove just the opposite a month
+      later...
+<!-- prettier-ignore-end -->
 
 Let's define some terminology we've been seeing, along with a bit of new stuff:
 

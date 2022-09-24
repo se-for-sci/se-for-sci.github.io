@@ -79,6 +79,48 @@ drawback is that some patterns of code reuse are not available.
 
 ## Array programming
 
+This is not always mentioned as a programming paradigm, but it is one, and an
+important one for the sciences. Consider the following square of an array in
+imperative code:
+
+```python3
+import numpy as np
+
+
+input_data = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+output_data = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+for i in range(len(input_data)):
+    output_data[i] = input_data[i]**2
+```
+
+This describes what happens to each element. We could have chosen a functional
+procedure instead:
+
+```python3
+output_data = np.fromiter(map(lambda x: x**2, input_data), int)
+```
+
+This still describes what happens on each element in Python. Python has to loop
+over the array, doing a lot of work like checking the types, looking up methods,
+creating and destroying Python objects, when really this could be done much more
+efficiently if you just had a pre-compiled function to do this.
+
+Interpreted languages (like Matlab) as well as a library for Python (NumPy) came
+upon a solution to this problem, from the original APL: array-at-a-time
+calculations. It looks like this:
+
+```python3
+output_data = input_data**2
+```
+
+NumPy has overloaded most of the special methods for arrays so that actions on
+an array run a pre-compiled routine that does not have to do all the checks
+Python does to be general and dynamic. This means you get full compiled like
+performance for simple operations. It's also a different paradigm when working
+with arrays; it's short and concise, and can read very well (though sometimes
+it's a bit harder to write).
+
 ## Memory safety
 
 ## Modularity
