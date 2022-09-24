@@ -177,6 +177,25 @@ class Path {
 }
 ```
 ````
+````{tab-item} Rust
+```rust
+use std::fs;
+
+struct Path {
+    string_location: &'static str
+}
+
+impl Path {
+    fn new(value: &'static str) -> Self {
+        Path { string_location: value }
+    }
+
+    fn exists(&self) -> bool {
+        fs::metadata(self.string_location).is_ok()
+    }
+}
+```
+````
 `````
 
 This gives us several benefits: If we get a Path, we know it has
