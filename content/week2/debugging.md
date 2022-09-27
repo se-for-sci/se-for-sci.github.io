@@ -12,8 +12,9 @@ the 80's, even though Python only dates back to '91):
 import logging
 ```
 
-Next we get a logger, these are usually given names that match the package they
-are in (globally unique). If there is no logger to match, one is created.
+Next we get a logger, these are usually given globally unique names that match
+their package name. If the name doesn't match an existing logger, a new one is
+created.
 
 ```python
 log = logging.getLogger("unique")
@@ -25,9 +26,6 @@ You'll often see this shortcut used in modules:
 log = logging.getLogger(__module__)
 ```
 
-Your call, your module name isn't really that likely to change, and not sure you
-want it to.
-
 Here are a couple of logging statements:
 
 ```python
@@ -36,7 +34,7 @@ log.info("Logging this here")
 log.debug("Logging this here")
 ```
 
-To get the logger to show anything, you'll need to tell it what level to
+To get the logger to show anything, you'll need to set the severity level to
 display:
 
 ```python
@@ -45,22 +43,25 @@ logging.basicConfig(level="INFO")
 ```
 
 This is a global setting that affects all loggers, including the ones in the
-libraries you are using (hopefully). You can also change in individual logger.
+libraries you are using (hopefully they utilize logging). You can also change
+this setting for an individual logger.
 
-You can set fancier handlers, too, which can add timestamps and such.
+You can set fancier handlers, too, which can add timestamps and other
+information.
 
 This is very powerful for adding printouts that only show up if you ask for info
 or debug printouts (the normal setting is "WARN"). Sadly the design is very old,
-with classic `%` style formatting baked in you _can_ use f-strings in the
+relying on the classic `%` style formatting. You _can_ use f-strings in the
 logging messages, though; that works well unless you want to avoid evaluating
-the string formatting), global logger pool, and such. See Rich for a much more
+the string formatting, global logger pool, and such. See Rich for a much more
 beautiful setting (for use in applications, not libraries).
 
-The hardest part is generally setting up the infrastructure for controlling the
-logger, usually; it’s best if you have a flag or environment variable that can
-control this, and you have to decide or allow a choice on whether you want all
-loggers or just yours to change level. And you have might want to log to a file,
-rotate logs, etc; everything doable but not all that pretty.
+The hardest part of logging is generally setting up the infrastructure for
+controlling the logger, usually; it’s best if you have a flag or environment
+variable that can control this, and you have to decide or allow a choice on
+whether you want all loggers or just yours to change level. And you have might
+want to log to a file, rotate logs, etc; everything is doable but not all that
+pretty.
 
 ### Combining with pytest
 
@@ -77,7 +78,7 @@ log_cli_level = "info"
 ### Pretty logging with Rich
 
 You can use the `rich` third party library to produce beautiful logs. Here's how
-you could do it:
+you do it:
 
 ```python
 from rich.logging import RichHandler
