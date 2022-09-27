@@ -77,6 +77,151 @@ it, while C does not. Julia is designed around it. It's a key part of Rust
 A benefit of type dispatch over OOP is that it tends to be more modular. A
 drawback is that some patterns of code reuse are not available.
 
+## Coroutines
+
+A powerful flow control scheme is Generators / Iterators / Coroutines. These are
+objects that can stop and resume. In Python, a Generator looks like this:
+
+```{code-cell} python3
+def my_range(n):
+    for i in range(n):
+        yield i
+```
+
+The presence of a `yield` causes this to become a generator. The return value of
+this function is not an int, it's an iterable object. So expressions like
+`for i in my_range(3)` or `list(my_range(3))` are valid ways to use this.
+
+````{admonition} Empty generator
+The presence of a `yield` anywhere in a function causes a function to be a generator. So
+this is actually an empty generator:
+
+```python
+def empty():
+    return
+    yield
+```
+
+The yield in the body forces a generator, which then never yields, but simply
+returns immediately, making an empty iterator. That's probably a bit less readable
+than this alternative, though:
+
+```python
+def empty():
+    yield from ()
+```
+````
+
+The examples above are a subset of generators often called "iterators", because
+they only produce values, and do not take values in. There is a way to "send"
+values into a generator, though it doesn't really have a special in-language
+syntax like a `for` loop or `list`/`tuple`.
+
+There is a second sort of coroutine in Python called an `async` function. It is
+conceptually the same sort of thing as a generator, except with `yield from`
+being written as `await`. They also fixed the language issue with a single word
+being found in the body changing the return type by replacing `def` with
+`async def`. If generators were written today, there probably would be some
+keyword before `def` for them, removing the "empty generator" weirdness and
+keeping the reader from having to manually look at the body of the entire
+function for any yields. If you've had experience with compiled languages, you
+know that the signature of a function is supposed to be the public interface of
+the function, and users should not have to look into the body! This issue in
+Python will be corrected when we cover static types.
+
+Generators can be used as a programming model. For example, you might have the
+following imperative code to counts the words in a file:
+
+```python
+with open(name, encoding="utf-8") as f:
+    lines = list(f)
+
+stripped_lines = [line.strip() for line in lines]
+words_lines = [line.split() for line in stripped_lines]
+words_per_line = [len(words) for words in words_lines]
+print("Total words:", sum(words_per_line))
+```
+
+This has a problem: every line in the file gets stored in memory (multiple
+times!). The lists `lines`, `stripped_lines`, `words_lines`, and
+`words_per_line` are all intermediate copies we don't want. Now we could
+redesign this doing all the computation in one go:
+
+```python
+with open(name, encoding="utf-8") as f:
+    total = 0
+    for line in f:
+        stripped_line = line.strip()
+        words_line = stripped_line.split()
+        words_per_line = len(words_line)
+        total += words_per_line
+
+print("Total words:", total)
+```
+
+But this might not match the problem very well. Also we might want the
+words-per-line list, which would be harder to get from the second example.
+
+We could rewrite this using a generator:
+
+`````{tab-set}
+````{tab-item} Inline generators
+```python
+with open(name, encoding="utf-8") as f:
+    stripped_lines = (line.strip() for line in f)
+    words_lines = (line.split() for line in stripped_lines)
+    words_per_line = (len(words) for words in words_lines)
+    print("Total words:", sum(words_per_line))
+```
+````
+````{tab-item} Generator function
+```python
+def word_counter(name):
+    with open(name, encoding="utf-8") as f:
+        for line in f:
+            stripped_line = line.strip()
+            words_line = stripped_line.split()
+            words_per_line = len(words_line)
+            yield words_per_line
+
+
+print("Total words:", sum(word_counter(name)))
+```
+````
+`````
+
+In both examples above, _a list is never made_. You never store more than one
+line of a file in memory. Notice how in the inline version, we needed to keep
+the file open, since at each step we were building a generator that had not yet
+iterated over the source material. In both cases, the iteration only happens
+when we call `sum`.
+
+```{admonition} Refactoring
+When programming with functions, a key feature is we can always take a
+subsection of the function out and place it in a new function. With generators,
+if that section of code includes one or more `yield`s, you can do the same thing
+with `yield from` starting in Python 3.3, which made generators fully
+refactorable.
+```
+
+This syntax is really just a shortcut for making iterable objects, which is done
+through magic methods. Iterators can be restartable and have an estimated length
+(neither of which is available on the shortcut syntax using `yield`).
+
+Reading a file is a particularly good use case for this, as Python's performance
+is about equal or faster than file IO, meaning the most optimized file read and
+a Python program that runs Python code on each line of a file are likely to be
+competitive. One terrible use case for this style is array programming, due to
+the extreme overhead of an interpreted language. An alternative is array based
+programming, which is up next.
+
+Other languages have this concept (and it's not that hard to write it yourself
+with objects, it's just better to have a standard). C++ traditionally prefers
+"start/end iterators" which are objects that can be +1'd and eventually compare
+equal, but modern C++ has coroutines (C++20) and a helper to make iterators
+(`std::generator`, C++23). The C++ version was designed to be general enough to
+back async support, too, in a single concept.
+
 ## Array programming
 
 This is not always mentioned as a programming paradigm, but it is one, and an
