@@ -138,7 +138,7 @@ something even better: **fixtures**. A fixture is:
 - **Modular**: It is not tied to a class. You can reuse fixtures however you
   want.
 - **Scoped**: You can make a fixture that is class level, but you can also make
-  function level, module level, and session level fixtures too! Want do do
+  function level, module level, and session level fixtures too! Want to do
   something every test? Or something once for the whole testing session?
   Fixtures can do that.
 - **Composable**: You can make a new fixture using an old one. You can use as
@@ -158,8 +158,8 @@ def test_printout(capsys):
     assert "hello" in captured.out
 ```
 
-Notice the argument - you never "call" tests, so pytest looks up fixtures by the
-name of the argument you are requesting and passes them in.
+Notice the argument, `capsys` - you never "call" tests, so pytest looks up
+fixtures by the name of the argument you are requesting and passes them in.
 
 The `capsys` fixture captures the system level text output. The `print` call is
 captured. Then we can call `.readouterr()` on the fixture and that gives us the
@@ -266,6 +266,11 @@ def test_some_function_linux(monkeypatch):
     # after the test, the monkeypatching is removed!
 ```
 
+Fixtures are great for keeping your tests DRY.  If you notice you setup the
+same object for multiple tests, extract it to a fixture.  Combined with
+parameterizing, you can generate tests suites from collections of fixtures
+easily.
+
 ## Parametrizing
 
 Now let's say we want to test all three OS's on our little function. Assuming
@@ -333,16 +338,17 @@ You can move your fixture to a file called `conftest.py` in the same test
 directory (or above), and it will still be usable, no import needed. This allows
 you to easily share fixtures between test modules.
 
-You can see how you can build these into powerful composable tools for testing
+You can see how you can build these into powerful, composable tools for testing
 hard-to-test functionality!
 
 ## Skipping tests
 
-You can put any arbitrary marks on tests you want, and use them to select a
-subset of tests very quickly. There a couple of other really important built-in
-marks: `skipif` will skip a test if a condition is True, `skip` will always skip
-a test, and `xfail` will tell pytest that failing the test is okay (or even
-required with `strict=True`) - this one also optionally supports a condition.
+You can put any arbitrary marks on any test, and use them to select a subset of
+tests very quickly from the command line. There a couple of other really
+important built-in marks: `skipif` will skip a test if a condition is True,
+`skip` will always skip a test, and `xfail` will tell pytest that failing the
+test is okay (or even required with `strict=True`) - this one also optionally
+supports a condition.
 
 ```python
 import pytest

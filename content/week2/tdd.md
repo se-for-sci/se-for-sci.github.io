@@ -50,8 +50,8 @@ def test_my_max_non_list():
 ```
 
 Now you know exactly what you expect to happen when an empty or non-list object
-is passed to `my_max`. These tests fail, but now you know exactly what behavior
-the function should have and when to _stop_ coding.
+is passed to `my_max`. These tests fail, but now you know what behavior the
+function should have and when to _stop_ coding.
 
 ## TDD
 
@@ -110,7 +110,7 @@ think about what it would mean if the above test _passed_. Since the intention
 was to write a failing test, having the test pass means that you have failed to
 test what you intended! In this case, it would indicate a name conflict,
 `my_max` already exists and another name should be used. It's also possible the
-file is not located in the correct directory to be run.
+test file is not located in the correct directory to be run.
 
 Even failing this test provides important information. You have pytest
 installed, it is finding your file, and if it is failing at the expected line,

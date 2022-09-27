@@ -67,7 +67,8 @@ Quality Assurance (QA) is also important.
 Tests actually _save_ time --- You are probably already writing tests when you
 write your code, you are just likely deleting them. If you record them instead,
 they will continue to be useful, and will cut hours of debugging and problem
-solving.
+solving.  If you are manually running a few known inputs, recording those in
+a framework that runs automatically can be a huge time saver.
 
 ## Types of tests
 
@@ -199,8 +200,8 @@ It's not a replacement, but it can help.
 
 - Every new feature needs test(s)
 - If you (or someone else) finds a bug, write a test. Before the fix if you
-  can - that way you can verify the fix does in fact fix it, and that it stays
-  fixed in the future.
+  can - that way you can verify the bug is reproducible, the fix does in fact
+  fix it, and that it stays fixed in the future.
 - If you find a bug in someone else's code, it's nice to write a failing (unit)
   test and include it in the report.
 - Run tests automatically, in CI, on all PRs (we'll show how to do this later).
@@ -210,7 +211,7 @@ It's not a replacement, but it can help.
 ## Testing frameworks
 
 Let's be honest: no one likes writing tests (at least I know I don't). And the
-last think I want to do is write a lot of boiler-plate code that makes the tests
+last thing I want to do is write a lot of boiler-plate code that makes the tests
 runnable & easy to use. Specifically, I want these features:
 
 - Easy to run all tests.
