@@ -39,13 +39,10 @@ language - and that's okay. Immutability / mutability is a design pattern!
 
 ### Why do we tend toward mutable?
 
-#### Memory saving (implementation detail)
+#### Mutable is easy to change a small part
 
-If you have a large structure, you can simply change part in place, avoiding
-copying the entire thing. This is nice - but it could be seen as an
-implementation detail. If the language was smart enough to detect that you never
-used the "original" object again, it could do the mutation for you even when you
-asked for a new copy. That is, the difference here:
+It's conceptually and syntactically easy to change a small part of a structure.
+For example:
 
 ```{code-cell} python3
 import dataclasses
@@ -60,34 +57,48 @@ mutable.x = 2
 print(mutable)
 ```
 
-Verses:
+If we wanted to change this without mutation, we'd have to do:
 
 ```{code-cell} python3
-import dataclasses
-
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class Immutable:
     x: int
     y: int
 
 immutable_1 = Immutable(1, 2)
+immutable_2 = Immutable(2, immutable_1.y)
+print(immutable_2)
+```
+
+Imagine if the class was larger! Dataclasses can really help us here in the
+immutable case write something that is quite reasonable instead of having to
+manually call the constructor ourselves with the replaced values and forwarding
+in all the rest:
+
+```{code-cell} python3
+immutable_1 = Immutable(1, 2)
 immutable_2 = dataclasses.replace(immutable_1, x=2)
 print(immutable_2)
 ```
 
-is really an implementation detail if "immutable_1" is never used again. A smart
-compiler (not Python, which doesn't have a compiler) could learn to rewrite the
-second example into the first behind the scenes.
+This scales much better to larger dataclasses. But it's still a bit easier /
+more natural, and much easier if you are not dealing with something like
+dataclasses (though as we'll see, things that tend heavily toward immutability
+will provide tools similar to `dataclasses.replace`)
 
-We'll get into why we think the second version is better in some cases soon!
+#### Memory saving (but immutable could too as an implementation detail)
 
-#### Mutable is easy to change a small part
+If you have a large structure, you can simply change part in place, avoiding
+copying the entire thing. This is nice - but it could be seen as an
+implementation detail if you never were to touch the original structure again.
+If the language was smart enough to detect this, it could do the mutation for
+you even when you asked for a new copy. That is, the difference the examples
+above is really an implementation detail if "immutable_1" is never used again. A
+smart compiler (not Python, which doesn't have a compiler) could learn to
+rewrite the second example into the first behind the scenes.
 
-As you saw above, it's easy to change a small part of code. Dataclasses really
-helped us in the immutable case write something that was quite reasonable
-instead of having to manually call the constructor ourselves with the replaced
-values and forwarding in all the rest. But it's still a bit easier / more
-natural, and much easier if you are not dealing with something like dataclasses.
+We'll get into why we think the immutable versions may be better in some cases
+soon!
 
 #### Easy to build API in a way that you maybe shouldn't
 
@@ -190,14 +201,15 @@ of tuples and such.
 
 Functional programming often involves passing functions to functions. Three very
 common ones are `map` (apply a function to each item of a sequence), `filter`
-(remove items from a sequence based on a function), and reduce (apply a function
-to successive pairs of a sequence).
+(remove items from a sequence based on a function), and `reduce` (apply a
+function to successive pairs of a sequence). You'll sometimes see map called
+`apply`, and reduce called `fold`.
 
 Let's take the following Pythonic code using a comprehension:
 
 ```{code-cell} python3
 items = [1, 2, 3, 4, 5]
-sum_sq_odds = sum(x**2 for x in items if x % 2)
+sum_sq_odds = sum(x**2 for x in items if x % 2 == 1)
 print(sum_sq_odds)
 ```
 
@@ -208,7 +220,7 @@ import functools
 
 
 items = [1, 2, 3, 4, 5]
-sum_sq_odds = functools.reduce(lambda x, y: x + y, filter(lambda x: x % 2, map(lambda x: x**2, items)))
+sum_sq_odds = functools.reduce(lambda x, y: x + y, filter(lambda x: x % 2 == 1, map(lambda x: x**2, items)))
 print(sum_sq_odds)
 ```
 
