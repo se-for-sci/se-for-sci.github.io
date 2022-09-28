@@ -62,8 +62,8 @@ _so_ different. The key feature is is we are "templating" new object creation to
 ensure they all have the attributes we require. As you'll see, languages
 formalize this in something called "constructors".
 
-There's one other issue above. We make a brand new function "exist" every single
-object we create. If "exists" simply had access to the object it was being
+There's one other issue above. We make a brand new function `exists` every single
+object we create. If `exists` simply had access to the object it was being
 called from, you could make it completely generic and just share it between all
 objects that are "similar". But first, let's formalize "similar"!
 
@@ -239,7 +239,7 @@ graph TD
     A[Path] --> B(home_directory)
 ```
 
-First, is in contained in `home_directory`? No, then is it contained in `Path`?
+First, is it in contained in `home_directory`? No, then is it contained in `Path`?
 The final look up is in `object`, which is the implicit parent at the top of all
 MRO's.
 
@@ -302,6 +302,13 @@ print(f"{KeyError.__mro__ = }")
 This means you'll catch a `KeyError` if you ask for a `KeyError`, `LookupError`,
 or an `Exception`! (Or a `BaseException`, but don't ask for that, too general,
 catches things like `MemoryError` too!)
+
+Many novice object oriented programmers are tempted to use subclassing for
+every object relationship.  Often, it is more appropriate (and easier to read
+and write) if objects are composed with one another, instead of inherit from
+one another. Remember, inheritance indicates an "is a" relationship.
+Subclasses can specialize, but if you are overriding every method of a
+superclass with distinct implementations you aren't really inheriting anything.
 
 ### Multiple Inheritance
 
@@ -417,7 +424,7 @@ members unsettable by wrapping every member with a property (a non-trivial
 amount of code!) and will generate a `__hash__` as well. Python 3.10 added two
 more fantastic options, `slots=True` and `kw_only=True`, too. Notice the
 `__match_args__` that got added for free in Python 3.10; you get free improved
-support for Python 3.10 pattern matching for free just by using dataclasses!
+support for Python 3.10 pattern matching just by using dataclasses!
 
 You can use [undataclasses](https://www.pythonmorsels.com/undataclass/) to see
 exactly what dataclasses is supposed to be doing for you. (It's recomputed, so
