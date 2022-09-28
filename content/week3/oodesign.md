@@ -43,7 +43,7 @@ Let's define some terminology we've been seeing, along with a bit of new stuff:
 - **Method**/**Member function**: A callable attribute stored in a class and
   callable from an object
 - **Constructor**/**Initializer**: A function that creates instances of a class
-- **Destructor**: A function that runs with an instance is destroyed. Much more
+- **Destructor**: A function that runs when an instance is destroyed. Much more
   interesting in non-garbaged collected languages (C++); they tend to be rather
   useless when combined with a garbage collector, because you can't guarantee
   when or if they will be called.
@@ -91,10 +91,11 @@ doing so would give you an error (from the `abc` module). However, the
 subclasses of `Shape` like `Rectangle` and `Circle` do know how to compute this,
 so they can be instantiated.
 
-When you use it, you can take any concrete (no abstract methods left) subclass
-of `Shape`. Again, when we get to static typing, we'll learn how to formalize
-this, for now, we have to trust duck typing and willpower to avoid using
-anything that's not in `Shape` when we accept it as an argument.
+When you require a `Shape` object, you can accept any concrete subclass of
+`Shape` (no abstract methods left). Again, when we get to static typing, we'll
+learn how to formalize this requirement, for now, we have to trust duck typing
+and willpower to avoid using anything that's not in `Shape` when we accept it
+as an argument.
 
 ### Why Composition/Aggregation?
 
@@ -210,9 +211,11 @@ too much interdependency; this also makes testing much harder.
 
 You should try to limit the Public API as much as possible. Everything you add
 as public API means something someone might depend on and something you can't
-easily refactor. Some languages provide ways to forcibly lock down access;
-Python only provides convention with an `_` at the start of names, but that's
-fine - use it.
+easily refactor. Attributes or methods that are implementation details (not part
+of the public API) should be hidden or have restricted access. Some languages
+provide ways to forcibly lock down access; Python only provides convention with
+an `_` at the start of names, but that's fine - use it with your methods and
+don't use `_` methods of other classes.
 
 In some languages, you should avoid/limit direct access to members, as this
 could limit you from ever adding an operation that occurs when setting or
@@ -255,7 +258,7 @@ print(f"{c.x = }")
 
 ## Object Oriented Programming design patterns
 
-The following are a collection of design patterns for OOP.
+The following is a collection of design patterns for OOP.
 
 ### Code reuse
 
@@ -386,9 +389,9 @@ plt.show()
 
 ### Functors
 
-You can use classes to create Functors, as well. Functors are things that you
-can call, but hold some state as well. A classic functor would be a counter.
-Without classes, you'd have to write something horrifying like this:
+Functors are things that you can call, but hold some state as well. A classic
+functor would be a counter.  You can use classes to create Functors.  Without
+classes, you'd have to write something horrifying like this:
 
 ```{code-cell} python3
 _start = 0
@@ -426,8 +429,8 @@ print(f"{incr2() = }")
 ```
 
 And in fact, when lambda functions (which include capture semantics) were added
-to C++, the need for custom functors really went down. However, the class
-version of this is very likely easier to read:
+to C++, the need for custom functors really decreased. However, the class
+version of a counter is easier to read:
 
 `````{tab-set}
 ````{tab-item} Dataclasses
@@ -470,14 +473,14 @@ global, and you can even set the default value when you make a new instance!
 
 ### Separation of concerns
 
-Classes allow you to organize code so that each each class address a specific
+Classes allow you to organize code so that each each class addresses a specific
 concern.
 
 Some languages (Ruby) support partial classes, which can load portions based on
-what you are interested in doing. Python and C++ do not, however. Type dispatch
-(C++, Julia) can be used to help with this, as well. For Python, see mixins
-below, which are not quite the same (Ruby has both partial classes and mixins
-but not multiple inheritance), but can help.
+what you are interested in doing, but Python and C++ do not. Type dispatch
+(C++, Julia) can be used as an alternative. Python has mixins, covered below,
+which are not quite the same as partial classes, but prvode similar benefits
+Ruby has both partial classes and mixins but not multiple inheritance.
 
 ### eDSLs
 
@@ -501,10 +504,10 @@ Just in case you want to make a `Path` class like the one above - don’t, use
 
 ### Mixins
 
-Multiple inheritance can be tricky to use, but one very useful way to use it is
-a limited subset called mixins. With mixins, you provide just the features you
-want, and then compose the class from smaller parts. Let's rewrite the Path
-example using mixins:
+Multiple inheritance can be tricky to use, but a common, useful pattern is a
+limited form of multiple inhertitance called mixins. With mixins, you provide
+a few reusable features, and then compose the classes from one or more mixins,
+with an optional superclass.  Let's rewrite the Path example using mixins:
 
 ```
 class PathMixin:
