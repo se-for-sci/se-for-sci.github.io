@@ -21,11 +21,11 @@ universities through a special program are connecting via Zoom, as well.
 - Static "checks" vs. Dynamic testing
 - Black (hidden) box vs. white (visible) box testing
 - Waterfall vs. AGILE - two common methodologies
-- Test Driven Development, Example 1: vector_example (code in content/week2
+- Test Driven Development, Example 1 vector_example (code in content/week2
   folder)
-  - `tests/test\_simple.py` -> add test
-  - `vector/__init__.py` -> add file, add class, add constructor, fix
-    constructor, add `__add__()`, add `mag()`
+  - `tests/test\_simple.py`: add test
+  - `vector/__init__.py`: add file, add class, add constructor, fix constructor,
+    add `__add__()`, add `mag()`
   - Starting with tests gives you a different perspective
   - Try TDD, find balance that works for you - but test and code should be
     written close together, harder to add long after the fact

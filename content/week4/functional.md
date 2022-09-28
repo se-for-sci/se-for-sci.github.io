@@ -239,7 +239,7 @@ class FunctionalIterable:
     def __init__(self, this, /):
         self._this = this
     def __repr__(self):
-        return repr(self.this)
+        return repr(self._this)
     def map(self, func):
         return self.__class__(map(func, self._this))
     def filter(self, func):
