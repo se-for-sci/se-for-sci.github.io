@@ -277,8 +277,8 @@ print(f"{radius[50,400] = }")
 
 Here, we make a grid of values that represent `x` and `y` over a fixed grid.
 Then we can work with the values much like we'd write math, and everything
-happens elementwise. We can also take these values, mask out values more than 5,
-then plot the result:
+happens element-wise. We can also take these values, mask out values more than
+5, then plot the result:
 
 ```{code-cell} python3
 import matplotlib.pyplot as plt
@@ -315,7 +315,7 @@ The problems with garbage collection:
 - Reference cycles: Have to use weakref to protect against cycles
 - Objects may never be deleted: implementation defined.
 
-The last point is an imporant one. Take the following class:
+The last point is an important one. Take the following class:
 
 ```{code-cell} python3
 class CheckDestruct:
@@ -788,6 +788,27 @@ so is safe to copy.
 
 Feel free to look through the different versions above.
 
+A great read on
+[memory safety is here](https://stanford-cs242.github.io/f18/lectures/05-1-rust-memory-safety.html).
+
+## Interfaces
+
+One growing trend in modern programming design is the idea that you can specify
+a set of requirements to use a class in a stand-alone form, not just through
+inherence. In Java this was called Interfaces, C++ this is called Concepts, in
+Rust this is called Traits, and we'll see this in Python as Protocols. Since
+we'll be go into it in detail next week, we won't cover it here.
+
+Rust's implementation of this is _partial parametric polymorphism_, which is the
+other unique thing about Rust (besides the memory model). This allows you to
+extend an existing type to support an Trait (including built-in types!), and it
+gives a little more control over what types have what Traits than other
+languages that just use name matching. Method lookup uses Traits.
+
+A great read on Traits (after you've mastered the basics of interfaces next
+week) is
+[here](https://stanford-cs242.github.io/f18/lectures/05-2-rust-traits.html).
+
 ## Other patterns
 
 We didn't cover every pattern (and we can't), so here are a few more you can
@@ -799,11 +820,3 @@ look up if you are curious:
 - Factory pattern: We've touched on this lightly, classes `__init__` method, for
   example. You can have other factories with `@classmethod`'s that return new
   instances. (or static methods in C++, etc)
-
-## Traits, Concepts, and Protocols
-
-One growing trend in modern programming design is the idea that you can specify
-a set of requirements to use a class in a stand-alone form, not just through
-inherence. In Java this was called Interfaces, C++ this is called Concepts, in
-Rust this is called Traits, and we'll see this in Python as Protocols. Since
-we'll be go into it in detail next week, we won't cover it here.
