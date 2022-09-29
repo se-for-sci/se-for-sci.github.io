@@ -442,8 +442,9 @@ reclaimed at the end of scope. In C or C++, defining a local variable places it
 on the stack:
 
 ```cpp
-int main() { // The stack is allocated here
+int main() { // The "main" stack is allocated here
     int x = 2;
+    return 0;
 } // The stack is removed here
 ```
 
@@ -455,8 +456,8 @@ stack for you. It's still placed at the top, because the stack is contagious.
 The biggest problem with the stack is it's not dynamic. You can request a
 runtime dependent amount of it. It's also limited (you can adjust the limit in
 the linker); each program gets a free continuous block of memory equal to the
-maximum stack size, around 1MB by default on most systems. It's (mostly) hard to
-run out of it unless you try. And of course, since it's loaded/unloaded with the
+maximum stack size, 1MB by default on most systems. It's (mostly) hard to run
+out of it unless you try. And of course, since it's loaded/unloaded with the
 function you are in, it's not shared between different parts of your program. It
 was designed to hold local variables required for a function's operation.
 
@@ -482,14 +483,14 @@ int main() {
 }
 ```
 
-This has one stack variable `x`, which a pointer to an int. It's a (probably) 64
-bit number pointing to a memory address. We request a new allocation on the heap
-on line `a`, and the pointer points at this place in the heap. In line `b`, we
-are dereferencing the pointer (`*x`, and yes this feels backwards, since the `*`
-in the line above indicated a pointer, while here it's getting the thing the
-pointer points at), and then assigning 2 into that memory location. If we were
-to use `*x` again, it would be 2. Finally, we have to delete our heap memory
-manually in line `c`.
+This has one stack variable `x`, which a pointer to an int. It's a 64-bit number
+(on a 64-bit OS, anyway - that's what the bitiness of the OS refers to) pointing
+to a memory address. We request a new allocation on the heap on line `a`, and
+the pointer points at this place in the heap. In line `b`, we are dereferencing
+the pointer (`*x`, and yes this feels backwards, since the `*` in the line above
+indicated a pointer, while here it's getting the thing the pointer points at),
+and then assigning 2 into that memory location. If we were to use `*x` again, it
+would be 2. Finally, we have to delete our heap memory manually in line `c`.
 
 The biggest issue is the `new` / `delete` pattern. We have to have the `delete`
 in order to keep from leaking memory (during the program execution, the OS
@@ -501,7 +502,14 @@ delete it twice, or delete before new, or call new twice before delete, etc. If
 an exception is thrown (yes, C++ has those), then we could easily take a path
 that misses delete. Really, it's a mess.
 
-Simple rule: never call `new` / `delete` manually. There are better patterns.
+One useful convention: set the pointer to `nullptr` after you delete. This way,
+if you try to use it again, you'll be trying to use `nullptr`, which is a crash,
+instead of using some random place in memory that might be a crash or might be
+all sorts of weird behavior. Even better, you can then also check to see if it's
+`nullptr`!
+
+Simplest convention, though: never call `new` / `delete` manually. There are
+better patterns.
 
 ##### Pattern 0: Classes
 
@@ -823,6 +831,10 @@ look up if you are curious:
 - Singleton pattern: There can only be one instance of a class. `None`, `True`,
   and `False` are singletons in Python.
 - Registries: `logging` uses this design.
+- State machine: this is used heavily by Matlab, and sometimes is seen in things
+  mimicking it, like matplotlib's "easy" interface.
 - Factory pattern: We've touched on this lightly, classes `__init__` method, for
   example. You can have other factories with `@classmethod`'s that return new
   instances. (or static methods in C++, etc)
+- Ascync patterns: Lightly touched on during generators.
+- Event loop: A common pattern for reacting to multiple possible inputs.
