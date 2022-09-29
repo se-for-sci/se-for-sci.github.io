@@ -27,7 +27,7 @@ design. You might use OOP ideas to help your functional patterns. Etc.
 
 ## Functional Programming
 
-In it's own section.
+In its own section, see following page.
 
 ## Type dispatch
 
@@ -68,6 +68,7 @@ different versions depending on the types it sees.
 * You can stack multiple registers
     * Or use Unions (Python 3.11+)
 * Duck typing supported through Protocols (Python 3.8+ or `typing_extensions` backport)
+* Methods start with `self` - so there's a `singledispatchmethod` too (Python 3.8+)
 ```
 
 Other languages have varying levels of support for type dispatch. C++ supports
@@ -219,8 +220,9 @@ Other languages have this concept (and it's not that hard to write it yourself
 with objects, it's just better to have a standard). C++ traditionally prefers
 "start/end iterators" which are objects that can be +1'd and eventually compare
 equal, but modern C++ has coroutines (C++20) and a helper to make iterators
-(`std::generator`, C++23). The C++ version was designed to be general enough to
-back async support, too, in a single concept.
+(`std::generator`, C++23) - it looks about like you'd expect, with `co_yield`
+instead of `yield`. The C++ version was designed to be general enough to back
+async support, too, in a single concept.
 
 ## Array programming
 
@@ -269,10 +271,9 @@ it's a bit harder to write).
 Here's a quick example:
 
 ```{code-cell} python3
-x, y = np.mgrid[2.5:3.5:101j, 0:5:501j]
+x, y = np.mgrid[0:5:501j, 0.5:3.5:301j]
 radius = np.sqrt(x**2 + y**2)
-print(f"{x.shape=}, {y.shape=}")
-print(f"{radius[50,400] = }")
+print(f"{x.shape=}, {y.shape=}\n{radius[400,250] = }")
 ```
 
 Here, we make a grid of values that represent `x` and `y` over a fixed grid.
@@ -298,10 +299,11 @@ for more about array based languages & NumPy.
 
 ### Garbage collected languages
 
-Languages with a garbage collector (most interpreted languages, and languages
-like C#, D, Java, Go) These work by keeping a reference count, and tracking how
-many ways you can reference an object. Once that hits zero, the garbage
-collector is allowed to remove the object to free memory.
+Many higher level languages have a garbage collector (most interpreted
+languages, and languages like C#, D, Java, Go). These work by keeping a
+reference count, and tracking how many ways you can reference an object. Once
+that hits zero, the garbage collector is allowed to remove the object to free
+memory.
 
 This means we almost don't have to think about memory management. But it also
 means we can't think about memory management very much. We don't have much
@@ -312,10 +314,13 @@ The problems with garbage collection:
 
 - Performance unpredictable: you might have a garbage collector running in the
   middle of what you are doing.
-- Reference cycles: Have to use weakref to protect against cycles
+- Reference cycles can take time to detect.
 - Objects may never be deleted: implementation defined.
 
-The last point is an important one. Take the following class:
+The last point is an important one. One useful way to think of it: A valid
+garbage collector implementation could be a computer with infinite memory. Real
+implementations instead usually run the collector at some frequency and detect
+some number of reference cycles. Take the following class:
 
 ```{code-cell} python3
 class CheckDestruct:
@@ -356,10 +361,11 @@ interpreter shutdown. At that point, the interpreter may have started deleting
 `sys.modules`, so using something that was imported from elsewhere can be
 problematic. In general, very few classes have `__del__` in Python, and they are
 very defensively programmed when they do, and only used for emergency cleanup.
-For required cleanup, context managers (`with` blocks) are used instead.
+For required cleanup, context managers (`with` blocks) are used instead. Python
+3.4 also significantly improved finalization, making `__del__` less dangerous.
 
-Reference cycles are rare, but very annoying. Let's say you have two of these
-objects and they reference each other:
+Reference cycles are the main reason for the garbage collector running. Let's
+say you have two of these objects and they reference each other:
 
 ```{code-cell} python3
 a = CheckDestruct()
