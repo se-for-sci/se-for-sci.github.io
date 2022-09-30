@@ -86,16 +86,16 @@ more natural, and much easier if you are not dealing with something like
 dataclasses (though as we'll see, things that tend heavily toward immutability
 will provide tools similar to `dataclasses.replace`)
 
-#### Memory saving (but immutable could too as an implementation detail)
+#### Memory saving
 
 If you have a large structure, you can simply change part in place, avoiding
 copying the entire thing. This is nice - but it could be seen as an
 implementation detail if you never were to touch the original structure again.
 If the language was smart enough to detect this, it could do the mutation for
 you even when you asked for a new copy. That is, the difference the examples
-above is really an implementation detail if "immutable_1" is never used again. A
+above is really an implementation detail if `immutable_1` is never used again. A
 smart compiler (not Python, which doesn't have a compiler) could learn to
-rewrite the second example into the first behind the scenes.
+rewrite the immutable example into the first behind the scenes.
 
 We'll get into why we think the immutable versions may be better in some cases
 soon!
@@ -150,7 +150,7 @@ are headed).
 
 As you might already know, everything in Python is copied by reference. If you
 have a mutable object, you have to make a copy (or a deepcopy) to ensure that
-it's contents (or contents of it's contents) are not changed. For example, this
+its contents (or contents of its contents) are not changed. For example, this
 function is evil:
 
 ```{code-cell} python3
@@ -187,7 +187,7 @@ than if we do mutate it.
 
 Let's define a **pure function**. This is a function that:
 
-- Does not mutate it's arguments
+- Does not mutate its arguments
 - Does not contain internal state (doesn't mutate itself or a global, basically)
 - Has no side effects (like printing to the screen)
 
@@ -196,6 +196,9 @@ function (it mutates the screen). And many of the methods on lists and dicts are
 not pure functions (they mutate the first argument, self). But there are lots of
 pure functions, like most built-ins and most non-method functions, and methods
 of tuples and such.
+
+Put simply, a pure function produces the same output whenever given the same
+inputs. Its behavior is determined solely by the inputs.
 
 ### Map, filter, reduce
 
@@ -332,11 +335,12 @@ fn main() {
 ````
 `````
 
-Notice how many of them use similar terms & try to read well when chained. Map
-(or transform for C++, odd one out here) applies a function to an iterator and
-returns an iterator of the returned values. Filter removes iterations based on
-the truthiness of the return value. And reduce (or fold) does a binary reduction
-(most languages also have sum for this common reduction).
+Notice how many of the languages use similar terms and try to read well when
+chained. Map (or transform for C++, odd one out here) applies a function to an
+iterator and returns an iterator of the returned values. Filter removes
+iterations based on the truthiness of the return value. And reduce (or fold)
+does a binary reduction (most languages also have sum for this common
+reduction).
 
 Most templating languages like Liquid and Jinja have "filters", which are
 applied left to right in a similar style. Hugo's templating system is
@@ -376,13 +380,13 @@ print(f"{pow3(10) = }")
 
 Note that this is a (better) way to do a subset of Functors (from the previous
 chapter on OOP). If you are using a Functor to capture state, then you can use
-currying with `partial` to be much more explicit as to your intent _and_ this
-method will capture the current value, not a reference that could change later.
+currying with `partial` to be much more explicit as to your intent _and_ curried
+methods will capture the current value, not a reference that could change later.
 
 ### So what do you get?
 
 Why worry about pure functions? It turns out, they have a lot of properties
-related to optimization. Some libraries take use of these properties to do some
+related to optimization. Some libraries make use of these properties to do some
 very impressive things.
 
 #### Lazy

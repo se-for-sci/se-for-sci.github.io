@@ -67,8 +67,8 @@ Quality Assurance (QA) is also important.
 Tests actually _save_ time --- You are probably already writing tests when you
 write your code, you are just likely deleting them. If you record them instead,
 they will continue to be useful, and will cut hours of debugging and problem
-solving.  If you are manually running a few known inputs, recording those in
-a framework that runs automatically can be a huge time saver.
+solving. If you are manually running a few known inputs, recording those in a
+framework that runs automatically can be a huge time saver.
 
 ## Types of tests
 
