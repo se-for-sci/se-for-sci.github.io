@@ -266,8 +266,8 @@ def test_some_function_linux(monkeypatch):
     # after the test, the monkeypatching is removed!
 ```
 
-Fixtures are great for keeping your tests DRY.  If you notice you setup the
-same object for multiple tests, extract it to a fixture.  Combined with
+Fixtures are great for keeping your tests DRY. If you notice you setup the same
+object for multiple tests, extract it to a fixture. Combined with
 parameterizing, you can generate tests suites from collections of fixtures
 easily.
 

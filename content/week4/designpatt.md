@@ -33,8 +33,8 @@ In its own section, see following page.
 
 Type dispatch can be seen as an alternative to OOP, though it's often used in
 conjunction with it (unless you are in Julia). Type dispatch is a bit
-"non-Pythonic" in that it's a bit problematic with duck typing, but you can use
-it.
+"non-Pythonic" in that it's slightly problematic with duck typing, but you can
+use it.
 
 First we start with the "general" implementation; this will get called if none
 of the types match:
@@ -67,7 +67,7 @@ different versions depending on the types it sees.
 * You can use type annotations instead (Python 3.7+)
 * You can stack multiple registers
     * Or use Unions (Python 3.11+)
-* Duck typing supported through Protocols (Python 3.8+ or `typing_extensions` backport)
+* Duck typing is supported through Protocols (Python 3.8+ or `typing_extensions` backport)
 * Methods start with `self` - so there's a `singledispatchmethod` too (Python 3.8+)
 ```
 
@@ -89,9 +89,10 @@ def my_range(n):
         yield i
 ```
 
-The presence of a `yield` causes this to become a generator. The return value of
-this function is not an int, it's an iterable object. So expressions like
-`for i in my_range(3)` or `list(my_range(3))` are valid ways to use this.
+The presence of a `yield` causes the function to become a generator. The return
+value of this function is not an int, it's an iterable object. Expressions like
+`for i in my_range(3)` or `list(my_range(3))` are valid uses of the return
+value.
 
 ````{admonition} Empty generator
 The presence of a `yield` anywhere in a function causes a function to be a generator. So
@@ -216,13 +217,13 @@ competitive. One terrible use case for this style is array programming, due to
 the extreme overhead of an interpreted language. An alternative is array based
 programming, which is up next.
 
-Other languages have this concept (and it's not that hard to write it yourself
-with objects, it's just better to have a standard). C++ traditionally prefers
-"start/end iterators" which are objects that can be +1'd and eventually compare
-equal, but modern C++ has coroutines (C++20) and a helper to make iterators
-(`std::generator`, C++23) - it looks about like you'd expect, with `co_yield`
-instead of `yield`. The C++ version was designed to be general enough to back
-async support, too, in a single concept.
+Other languages have the concept of iterators (and it's not that hard to write
+it yourself with objects, it's just better to have a standard). C++
+traditionally prefers "start/end iterators" which are objects that can be +1'd
+and eventually compare equal, but modern C++ has coroutines (C++20) and a helper
+to make iterators (`std::generator`, C++23) - it looks about like you'd expect,
+with `co_yield` instead of `yield`. The C++ version was designed to be general
+enough to back async support, too, in a single concept.
 
 ## Array programming
 
@@ -251,7 +252,7 @@ output_data = np.fromiter(map(lambda x: x**2, input_data), int)
 This still describes what happens on each element in Python. Python has to loop
 over the array, doing a lot of work like checking the types, looking up methods,
 creating and destroying Python objects, when really this could be done much more
-efficiently if you just had a pre-compiled function to do this.
+efficiently if you just had a pre-compiled function.
 
 Interpreted languages (like Matlab) as well as a library for Python (NumPy) came
 upon a solution to this problem, from the original APL: array-at-a-time
@@ -263,10 +264,10 @@ output_data = input_data**2
 
 NumPy has overloaded most of the special methods for arrays so that actions on
 an array run a pre-compiled routine that does not have to do all the checks
-Python does to be general and dynamic. This means you get full compiled like
-performance for simple operations. It's also a different paradigm when working
-with arrays; it's short and concise, and can read very well (though sometimes
-it's a bit harder to write).
+Python does to be general and dynamic. You get full compiled-like performance
+for simple operations. It's also a different paradigm when working with arrays;
+it's short and concise, and can read very well (though sometimes it's a bit
+harder to write).
 
 Here's a quick example:
 
@@ -306,14 +307,13 @@ that hits zero, the garbage collector is allowed to remove the object to free
 memory.
 
 This means we almost don't have to think about memory management. But it also
-means we can't think about memory management very much. We don't have much
-control over "when" the garbage collector runs (at least as a library
-developer).
+means we can't control memory management either. We don't control "when" the
+garbage collector runs (at least as a library developer).
 
 The problems with garbage collection:
 
-- Performance unpredictable: you might have a garbage collector running in the
-  middle of what you are doing.
+- Performance is unpredictable: you might have a garbage collector running in
+  the middle of what you are doing.
 - Reference cycles can take time to detect.
 - Objects may never be deleted: implementation defined.
 
@@ -354,15 +354,15 @@ There are multiple ways you can avoid the word "Bye" showing up. If this gets
 referenced in IPython's history, it is really hard to get the refcount down to
 zero. If you turn down the frequency of the garbage collector, it will happen
 later (defaults to once per line). If you use PyPy instead of CPython, the
-garbage collector runs less.
+garbage collector runs less frequently.
 
-A second problem occurs if this is in globals, and gets cleaned up during
+A second problem occurs if an object is in globals, and gets cleaned up during
 interpreter shutdown. At that point, the interpreter may have started deleting
 `sys.modules`, so using something that was imported from elsewhere can be
 problematic. In general, very few classes have `__del__` in Python, and they are
 very defensively programmed when they do, and only used for emergency cleanup.
-For required cleanup, context managers (`with` blocks) are used instead. Python
-3.4 also significantly improved finalization, making `__del__` less dangerous.
+For required cleanup, context managers (`with` blocks) are preferred. Python 3.4
+also significantly improved finalization, making `__del__` less dangerous.
 
 Reference cycles are the main reason for the garbage collector running. Let's
 say you have two of these objects and they reference each other:
@@ -453,7 +453,7 @@ because it's preparing the stack for the current function. In modern C and C++,
 you can define variables anywhere, and the compiler will prepare the appropriate
 stack for you. It's still placed at the top, because the stack is contagious.
 
-The biggest problem with the stack is it's not dynamic. You can request a
+The biggest problem with the stack is it's not dynamic; you can't request a
 runtime dependent amount of it. It's also limited (you can adjust the limit in
 the linker); each program gets a free continuous block of memory equal to the
 maximum stack size, 1MB by default on most systems. It's (mostly) hard to run
@@ -547,28 +547,28 @@ int main() {
 ```
 
 Here, we create a class that manages allocating and freeing memory in it's
-constructor/destructor. Now, to use it, we just create an instance of `HeapInt`
-
-- the act of doing this creates the heap value. When our class goes out of
-  scope, it takes the heap out too. We are using the stack to manage the heap!
+constructor/destructor. Now, to use it, we just create an instance of
+`HeapInt` - the act of doing this allocates the value on the heap. When our
+class goes out of scope, it takes the heap out too. We are using the stack to
+manage the heap!
 
 This doesn't solve all our problems (specifically, we still can't create this
 inside one function and then "move" it to another function with a different
 stack), but we'll get there. In fact, we completely ignored copying as well.
 
-A _lot_ of the standard library (and C++ classes in general) do this. For
-example, `std::string` can hold arbitrary sized strings - it does this by using
-the heap (well, mostly - it has a small stack allocation and it will put very
-small strings in there if they fit). Copying a `std::string` makes a copy of the
-heap allocation. Other common heap structures include most of the containers
-like `std::vector`, all the sets and maps. `std::array` is an exception; since
-the size is part of the template, it is allocated on the stack. That's why it
-requires the size ahead of time and can't be resized.
+A _lot_ of the standard library (and C++ classes in general) does this. For
+example, `std::string` can hold arbitrary sized strings by using the heap (well,
+mostly - it has a small stack allocation and it will put very small strings in
+there if they fit). Copying a `std::string` makes a copy of the heap allocation.
+Other common heap structures include most of the containers like `std::vector`,
+all the sets and maps. `std::array` is an exception; since the size is part of
+the template, it is allocated on the stack. That's why it requires the size
+ahead of time and can't be resized.
 
 ##### Pattern 1: Smart pointers
 
 The above pattern is useful. So useful, in fact, wouldn't it be nice if there
-was nice, templated way to do this for an arbitrary type you want to "hold"? In
+was a templated way to do this for an arbitrary type you want to "hold"? In
 order to do that, we have to solve the copy problem we ignored above. What
 happens when you copy this "smart pointer" as we'll call it? We have two
 choices: We can do the best computer science thing when faced with a hard
@@ -596,12 +596,12 @@ The other way is we can keep a reference count (this is sounding like Python!).
 This reference count is a bit expensive because it is thread-safe (which just
 means you can copy `std::shared_ptr`'s in multiple threads without worry about
 corrupting memory), but it basically gives you a Python-like experience where
-you can use it without thinking and it gets cleanup up when the last copy goes
+you can use it without thinking and it gets cleaned up when the last copy goes
 out of scope.
 
-You use it in exactly the same way as `std::unique_ptr` above, with the only
-difference being `std::make_shared` was available in C++11, it took three more
-years to add `std::make_unique` for some reason.
+You use `std::shared_ptr` in exactly the same way as `std::unique_ptr` above,
+with the only difference being `std::make_shared` was available in C++11, it
+took three more years to add `std::make_unique` for some reason.
 
 And there's no garbage collector, so you are responsible for avoiding reference
 cycles. You can use `std::weak_ptr` or you can access the raw pointers with
@@ -736,7 +736,7 @@ memory at risk of being deleted out from under us or leaking. But the language
 allows unsafe access too. What if you built a language that _didn't_ allow
 unsafe access at all? Someone did; it's called Rust.
 
-Let's look at a very simple invalid Rust program:
+Let's look at a very simple, invalid Rust program:
 
 `````{tab-set}
 ````{tab-item} Broken
@@ -791,7 +791,7 @@ A few quick notes on the syntax:
 - `println!` is a syntactic macro - ignore that, it's basically just a function.
   It has a format syntax like Python's.
 
-Okay, so why is this function fail to compile? `let s2 = s1` _moves_ `s1` to
+Okay, so why does this function fail to compile? `let s2 = s1` _moves_ `s1` to
 `s2`! Since ownership of this heap object is now in `s2`, we can't access `s1`
 anymore! You can fix it by using a reference, which means `s2` does not own the
 data, ownership stays with `s1`. Or you can use `.clone()` to clone the string
@@ -809,15 +809,15 @@ A great read on
 
 One growing trend in modern programming design is the idea that you can specify
 a set of requirements to use a class in a stand-alone form, not just through
-inherence. In Java this was called Interfaces, C++ this is called Concepts, in
+inheritance. In Java this was called Interfaces, C++ this is called Concepts, in
 Rust this is called Traits, and we'll see this in Python as Protocols. Since
 we'll be go into it in detail next week, we won't cover it here.
 
-Rust's implementation of this is _partial parametric polymorphism_, which is the
-other unique thing about Rust (besides the memory model). This allows you to
-extend an existing type to support an Trait (including built-in types!), and it
-gives a little more control over what types have what Traits than other
-languages that just use name matching. Method lookup uses Traits.
+Rust's implementation is _partial parametric polymorphism_, which is the other
+unique thing about Rust (besides the memory model). This allows you to extend an
+existing type to support a Trait (including built-in types!), and it gives a
+little more control over what types have what Traits than other languages that
+just use name matching. Method lookup uses Traits.
 
 A great read on Traits (after you've mastered the basics of interfaces next
 week) is

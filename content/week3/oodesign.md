@@ -94,8 +94,8 @@ so they can be instantiated.
 When you require a `Shape` object, you can accept any concrete subclass of
 `Shape` (no abstract methods left). Again, when we get to static typing, we'll
 learn how to formalize this requirement, for now, we have to trust duck typing
-and willpower to avoid using anything that's not in `Shape` when we accept it
-as an argument.
+and willpower to avoid using anything that's not in `Shape` when we accept it as
+an argument.
 
 ### Why Composition/Aggregation?
 
@@ -390,7 +390,7 @@ plt.show()
 ### Functors
 
 Functors are things that you can call, but hold some state as well. A classic
-functor would be a counter.  You can use classes to create Functors.  Without
+functor would be a counter. You can use classes to create Functors. Without
 classes, you'd have to write something horrifying like this:
 
 ```{code-cell} python3
@@ -477,10 +477,10 @@ Classes allow you to organize code so that each each class addresses a specific
 concern.
 
 Some languages (Ruby) support partial classes, which can load portions based on
-what you are interested in doing, but Python and C++ do not. Type dispatch
-(C++, Julia) can be used as an alternative. Python has mixins, covered below,
-which are not quite the same as partial classes, but prvode similar benefits
-Ruby has both partial classes and mixins but not multiple inheritance.
+what you are interested in doing, but Python and C++ do not. Type dispatch (C++,
+Julia) can be used as an alternative. Python has mixins, covered below, which
+are not quite the same as partial classes, but prvode similar benefits Ruby has
+both partial classes and mixins but not multiple inheritance.
 
 ### eDSLs
 
@@ -505,9 +505,9 @@ Just in case you want to make a `Path` class like the one above - don’t, use
 ### Mixins
 
 Multiple inheritance can be tricky to use, but a common, useful pattern is a
-limited form of multiple inhertitance called mixins. With mixins, you provide
-a few reusable features, and then compose the classes from one or more mixins,
-with an optional superclass.  Let's rewrite the Path example using mixins:
+limited form of multiple inhertitance called mixins. With mixins, you provide a
+few reusable features, and then compose the classes from one or more mixins,
+with an optional superclass. Let's rewrite the Path example using mixins:
 
 ```
 class PathMixin:

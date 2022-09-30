@@ -62,10 +62,10 @@ _so_ different. The key feature is is we are "templating" new object creation to
 ensure they all have the attributes we require. As you'll see, languages
 formalize this in something called "constructors".
 
-There's one other issue above. We make a brand new function `exists` every single
-object we create. If `exists` simply had access to the object it was being
-called from, you could make it completely generic and just share it between all
-objects that are "similar". But first, let's formalize "similar"!
+There's one other issue above. We make a brand new function `exists` every
+single object we create. If `exists` simply had access to the object it was
+being called from, you could make it completely generic and just share it
+between all objects that are "similar". But first, let's formalize "similar"!
 
 ## Classes
 
@@ -239,9 +239,9 @@ graph TD
     A[Path] --> B(home_directory)
 ```
 
-First, is it in contained in `home_directory`? No, then is it contained in `Path`?
-The final look up is in `object`, which is the implicit parent at the top of all
-MRO's.
+First, is it in contained in `home_directory`? No, then is it contained in
+`Path`? The final look up is in `object`, which is the implicit parent at the
+top of all MRO's.
 
 ```{code-cell} python3
 class Animal:
@@ -303,12 +303,12 @@ This means you'll catch a `KeyError` if you ask for a `KeyError`, `LookupError`,
 or an `Exception`! (Or a `BaseException`, but don't ask for that, too general,
 catches things like `MemoryError` too!)
 
-Many novice object oriented programmers are tempted to use subclassing for
-every object relationship.  Often, it is more appropriate (and easier to read
-and write) if objects are composed with one another, instead of inherit from
-one another. Remember, inheritance indicates an "is a" relationship.
-Subclasses can specialize, but if you are overriding every method of a
-superclass with distinct implementations you aren't really inheriting anything.
+Many novice object oriented programmers are tempted to use subclassing for every
+object relationship. Often, it is more appropriate (and easier to read and
+write) if objects are composed with one another, instead of inherit from one
+another. Remember, inheritance indicates an "is a" relationship. Subclasses can
+specialize, but if you are overriding every method of a superclass with distinct
+implementations you aren't really inheriting anything.
 
 ### Multiple Inheritance
 
