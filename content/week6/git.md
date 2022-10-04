@@ -22,6 +22,38 @@ Old school techniques are usually bad.
 
 ![title](phd101212s.png)
 
+Modern version control techniques are usually great.
+
+Modern tools for collective intelligence.
+
+- Automated history of everything 
+       - not just files, but whole projects with folders and subfolders 
+       - who, what, when, and (most important) why
+
+- Automated sharing of everyone's latest edits
+        - no more emailing files around
+
+- Easier disaster recovery with distributed VCSes like Git or Mercurial (see later)
+
+- Support for automated testing (we'll cover this in future lectures)
+
+- Infinite sandboxes for clutter-free, fear-free experimentation
+        - this is where Git especially shines -- main topic today
+
+- CAVEAT 1: All of this works best with plain text files
+
+- CAVEAT 2: All of this works best with a highly modular file structure
+
+- The git feedback effect: 
+        - Using git encourages positive changes to your workflow. 
+        - And making your workflow more git-friendly will make your work better overall.
+
+
+A bit of history.
+
+### Centralized Version Control
+
+
 ## Investigating history
 
 ## Tagging and branching
