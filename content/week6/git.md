@@ -49,10 +49,13 @@ Modern tools for collective intelligence.
         - And making your workflow more git-friendly will make your work better overall.
 
 
-A bit of history.
+Brief history of version control.
 
-### Centralized Version Control
+- Local Version Control
 
+- Centralized Version Control
+
+- Distributed Version Control
 
 ## Investigating history
 
