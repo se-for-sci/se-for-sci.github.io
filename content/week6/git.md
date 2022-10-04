@@ -51,6 +51,8 @@ Modern tools to promote collective intelligence.
 
 Brief history of version control.
 
+![title](CVCS-vs-DVCS.png)
+
 - Local Version Control
     - Mainly just reduced clutter and automated tracking of chronology...
 
