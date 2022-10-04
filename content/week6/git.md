@@ -52,10 +52,23 @@ Modern tools to promote collective intelligence.
 Brief history of version control.
 
 - Local Version Control
+    - Mainly just reduced clutter and automated tracking of chronology...
 
 - Centralized Version Control
+    - Allows group work on the same files...
+    - Single point of failure --- there is only a single "real" repository
+    - Backing up is a separate process
+    - File locks --- create "race conditions" for commiting changes to that "real" repository
+    - What if you lose internet?
+    - Branching is cumbersome, so people don't do it (and have trouble reconciling disparate histories when they do)
 
 - Distributed Version Control
+    - Resolve most of the above issues...
+    - Many separate and independent repos; all are "first-class" citizens
+    - Can make commits locally even without internet...
+    - ...but can transfer history and information between repositories
+    - Branching is lightweight and easy (mainly in Git)
+
 
 ## Investigating history
 
