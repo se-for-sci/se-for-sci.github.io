@@ -402,6 +402,100 @@ x: int | None = None
 This can then be set to an `int` later. This is very common for optional
 arguments.
 
+## Other types
+
+### Final
+
+You can add special features to Python typing that are normally only found in
+compiled languages. One example of this is `Final`:
+
+```python
+x: Final = 3
+```
+
+You are now not allowed to reassign this:
+
+```python
+# Type checker will error here
+x = 4
+```
+
+This is very useful for global constants - they should not be modified, now you
+can ensure that via the type checker. Note that this is not a "true" `const`
+variable; you can still mutate the variable if it's mutable. At least the Python
+authors were better at naming this - C++ `const` pointers and variables have the
+same problem if they hold a reference/pointer that is mutable.
+
+`Final` is a shorthand for `Final[Literal[3]]` in this case. You can explicitly
+include the type if you want (and this is not considered an unspecified generic
+when you turn on the matching flag in MyPy, since it's not assuming `Any` for
+the parameter). Some type checkers (PyLance) treat this a little differently
+when unspecified, so specifying the type when you have a container is mildly
+recommended.
+
+Another example is `@typing.final`, which is a decorator that marks a method as
+un-overridable.
+
+### Enums, TypedDict, and NamedTuple
+
+Python's enums are handled by type checkers as well; they act like literals and
+unions.
+
+```python
+from enum import Enum
+
+
+class Direction(Enum):
+    up = "up"
+    down = "down"
+
+
+reveal_type(Direction.up)  # Revealed type is "Literal[Direction.up]?"
+reveal_type(Direction.down)  # Revealed type is "Literal[Direction.down]?"
+```
+
+Note that the `?` from `reveal_type` tells you that a type was inferred. The
+type checker is allowed to treat `Literal[Direction.up]?` as `Direction` later
+since it was inferred.
+
+Python provides `TypedDict`, which allows you to customize the types of values
+based on string keys.
+
+```python
+class VersionDict(typing.TypedDict):
+    major: int
+    minor: int
+    patch: int
+
+
+d: VersionDict = {"major": 1, "minor": 2, "patch": 3}
+```
+
+If you want these keys to be optional, you can add `total=False` to the _class
+definition_ (since version 3, Python has supported keyword arguments here too).
+Since Python 3.11 (or using `typing_extensions`) you can mark fields as required
+or potentially missing as well. (before this, you had to do this by making two
+classes with different `total=` settings and using inheritance, but it was
+cumbersome).
+
+And Python didn't handle `collections.namedtuple` very well when it came to
+adding types, so `typing.NamedTuple` provides a new, simpler syntax that also
+allows you to specify the types:
+
+```python
+# Classic
+Version = collections.namedtuple("Version", "major", "minor", "patch")
+
+# New
+class Version(typing.NamedTuple):
+    major: int
+    minor: int
+    patch: int
+```
+
+This syntax is often nicer for runtime as well, and supports default values a
+bit more naturally.
+
 ## Type narrowing
 
 One of the most important features to running a type checker is type narrowing.
@@ -543,96 +637,6 @@ Note the `...` above are the actual syntax - these are used in typing to
 indicate the body is somewhere else. (Unlike `pass`, which indicates there is no
 body or it's not implemented yet.) These overloads are type overloads only -
 they can't contain a body, they do nothing at runtime.
-
-### Final
-
-You can add special features to Python typing that are normally only found in
-compiled languages. One example of this is `Final`:
-
-```python
-x: Final = 3
-```
-
-You are now not allowed to reassign this:
-
-```python
-# Type checker will error here
-x = 4
-```
-
-This is very useful for global constants - they should not be modified, now you
-can ensure that via the type checker. Note that this is not a "true" `const`
-variable; you can still mutate the variable if it's mutable. At least the Python
-authors were better at naming this - C++ `const` pointers and variables have the
-same problem if they hold a reference/pointer that is mutable.
-
-`Final` is a shorthand for `Final[Literal[3]]` in this case. You can explicitly
-include the type if you want (and this is not considered an unspecified generic
-when you turn on the matching flag in MyPy, since it's not assuming `Any` for
-the parameter). Some type checkers (PyLance) treat this a little differently
-when unspecified, so specifying the type when you have a container is mildly
-recommended.
-
-Another example is `@typing.final`, which is a decorator that marks a method as
-un-overridable.
-
-### Enums, TypedDict, and NamedTuple
-
-Python's enums are handled by type checkers as well; they act like literals and
-unions.
-
-```Pyhton
-from enum import Enum
-
-class Direction(Enum):
-    up = 'up'
-    down = 'down'
-
-reveal_type(Direction.up)  # Revealed type is "Literal[Direction.up]?"
-reveal_type(Direction.down)  # Revealed type is "Literal[Direction.down]?"
-```
-
-Note that the `?` from `reveal_type` tells you that a type was inferred. The
-type checker is allowed to treat `Literal[Direction.up]?` as `Direction` later
-since it was inferred.
-
-Python provides `TypedDict`, which allows you to customize the types of values
-based on string keys.
-
-```python
-class VersionDict(typing.TypedDict):
-    major: int
-    minor: int
-    patch: int
-
-
-d: VersionDict = {"major": 1, "minor": 2, "patch": 3}
-```
-
-If you want these keys to be optional, you can add `total=False` to the _class
-definition_ (since version 3, Python has supported keyword arguments here too).
-Since Python 3.11 (or using `typing_extensions`) you can mark fields as required
-or potentially missing as well. (before this, you had to do this by making two
-classes with different `total=` settings and using inheritance, but it was
-cumbersome).
-
-And Python didn't handle `collections.namedtuple` very well when it came to
-adding types, so `typing.NamedTuple` provides a new, simpler syntax that also
-allows you to specify the types:
-
-```python
-# Classic
-Version = collections.namedtuple("Version", "major", "minor", "patch")
-
-# New
-class Version(typing.NamedTuple):
-    major: int
-    minor: int
-    patch: int
-```
-
-This syntax is often nicer for runtime as well, and supports default values a
-bit more naturally.
 
 ### Exhaustiveness checking
 
