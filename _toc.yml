@@ -41,6 +41,10 @@ parts:
   - caption: "Week 7: Packaging and Quality Control"
     chapters:
       - file: content/week7/packaging.md
+      - file: content/week7/using_packages.md
+      - file: content/week7/making_a_package.md
+      - file: content/week7/precommit.md
+      - file: content/week7/task_runners.md
 
   - caption: "Week 8: Continuous Integration"
     chapters:
