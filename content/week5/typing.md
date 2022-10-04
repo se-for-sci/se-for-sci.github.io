@@ -436,7 +436,7 @@ recommended.
 Another example is `@typing.final`, which is a decorator that marks a method as
 un-overridable.
 
-### Enums, TypedDict, and NamedTuple
+### Enums
 
 Python's enums are handled by type checkers as well; they act like literals and
 unions.
@@ -458,6 +458,8 @@ Note that the `?` from `reveal_type` tells you that a type was inferred. The
 type checker is allowed to treat `Literal[Direction.up]?` as `Direction` later
 since it was inferred.
 
+### TypedDict
+
 Python provides `TypedDict`, which allows you to customize the types of values
 based on string keys.
 
@@ -478,9 +480,16 @@ or potentially missing as well. (before this, you had to do this by making two
 classes with different `total=` settings and using inheritance, but it was
 cumbersome).
 
-And Python didn't handle `collections.namedtuple` very well when it came to
-adding types, so `typing.NamedTuple` provides a new, simpler syntax that also
-allows you to specify the types:
+```python
+class VersionDictExtra(VersionDict, total=False):
+    build: int
+```
+
+### NamedTuple
+
+Python didn't handle `collections.namedtuple` very well when it came to adding
+types, so `typing.NamedTuple` provides a new, simpler syntax that also allows
+you to specify the types:
 
 ```python
 # Classic
