@@ -127,9 +127,21 @@ more strict & clear in your types than you are at runtime. It's _probably_ just
 a coincidence this happens to work on lists; you probably never considered this
 when you wrote the function.
 
-By default, mypy supports "gradual typing"; that is, it tries to do things that
+```{admonition} Where do types go?
+There are three possible locations to place types in Python:
+* Inline annotations, like we are doing - recommended.
+* Type comments - mostly there as a holdover from Python 2.
+* Stub files (`.pyi`) - used if you can't add to the source.
+
+Packages of stub files are available for popular untyped libraries using
+`<name>-stubs` names on PyPI. You can also add local stubs for a library that's
+missing stub files, or add stubs for compiled / generated files in your own
+code.
+```
+
+By default, MyPy supports "gradual typing"; that is, it tries to do things that
 it can, but it doesn't complain when types are missing or for using untyped
-code. You can turn on flags one by one to make mypy stricter, or you can do it
+code. You can turn on flags one by one to make MyPy stricter, or you can do it
 all in one flag `--strict`:
 
 ```bash
@@ -217,6 +229,16 @@ x.nonexistent()  # type: ignore[attr-defined]
 Only use this as a last resort, but here are places where you need to use this,
 especially if your code is not fully typed yet. The reason is optional, but
 recommended.
+
+```{admonition} Lying about types
+In a compiled language, you have to make the types work. But since they are
+optional in Python and only checked by an optional step, you can simply disable
+them on a line or a file if you need to. In fact, you can even lie about types.
+You can claim something only takes fewer types than it really could take, you
+can not include something that only exists for backward compatibility or is
+deprecated, etc - all things you could not do in a compiled language. In
+general, you should be more strict with typing that with runtime.
+```
 
 ## Typing basics
 
@@ -411,7 +433,7 @@ def f(x: str | None) -> None:
 The first `reveal_type` will print `str`, since `None` can not be in this
 branch; it can't be truthy. The second `reveal_type` will print `str | None`,
 since `None` must be falsey, and `str` might be if it's the empty string.
-Technically, since mypy shows the old syntax, this is exactly what it prints:
+Technically, since MyPy shows the old syntax, this is exactly what it prints:
 
 ```output
 tmp.py:3: note: Revealed type is "builtins.str"
@@ -546,7 +568,7 @@ same problem if they hold a reference/pointer that is mutable.
 
 `Final` is a shorthand for `Final[Literal[3]]` in this case. You can explicitly
 include the type if you want (and this is not considered an unspecified generic
-when you turn on the matching flag in mypy, since it's not assuming `Any` for
+when you turn on the matching flag in MyPy, since it's not assuming `Any` for
 the parameter). Some type checkers (PyLance) treat this a little differently
 when unspecified, so specifying the type when you have a container is mildly
 recommended.
@@ -964,7 +986,7 @@ invalid to append either `A` or `C` to it.
 
 A special, very common need is to return a type that is related to `self`.
 There's a very easy way to do it in `typing_extensions` (and typing in Python
-3.11), but it's not yet supported by MyPy (as of 0.981) although all the other
+3.11), but it's not yet supported by MyPy (as of 0.982) although all the other
 major type checkers have added support.
 
 The "chaining" pattern is a common use case, as are factory methods
@@ -1026,7 +1048,7 @@ Note: don't just return `"Vector"`. That will be incorrect if someone subclasses
 
 If you fully statically type your codebase, then you can try `mypyc`. This
 compiles your Python into a compiled language and can give you a speed boost,
-ranging from 2-5x. This is used on mypy itself, and on the black code formatter.
+ranging from 2-5x. This is used on MyPy itself, and on the black code formatter.
 Results may vary, and it's not as fast as normal compiled code, but it could be
 very useful and basically free once you are statically typed.
 
