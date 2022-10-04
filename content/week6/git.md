@@ -20,6 +20,7 @@ Old school techniques are usually bad.
 - Disaster recover is a disaster. 
     - Oh F#@K! Did I just overwrite all my work from last night??!!!?
 
+![title](phd101212s.png)
 
 ## Investigating history
 
