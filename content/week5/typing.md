@@ -964,7 +964,7 @@ invalid to append either `A` or `C` to it.
 
 A special, very common need is to return a type that is related to `self`.
 There's a very easy way to do it in `typing_extensions` (and typing in Python
-3.11), but it's not yet supported by MyPy (as of 0.921) although all the other
+3.11), but it's not yet supported by MyPy (as of 0.981) although all the other
 major type checkers have added support.
 
 The "chaining" pattern is a common use case, as are factory methods
@@ -1021,6 +1021,14 @@ so it's not reusable (new TypeVar for each class), and we have to annotate
 
 Note: don't just return `"Vector"`. That will be incorrect if someone subclasses
 `Vector`.
+
+## Going further
+
+If you fully statically type your codebase, then you can try `mypyc`. This
+compiles your Python into a compiled language and can give you a speed boost,
+ranging from 2-5x. This is used on mypy itself, and on the black code formatter.
+Results may vary, and it's not as fast as normal compiled code, but it could be
+very useful and basically free once you are statically typed.
 
 ```{admonition} Useful links
 * [Awesome Python Typing](https://github.com/typeddjango/awesome-python-typing): A curated list of links to Python typing related things
