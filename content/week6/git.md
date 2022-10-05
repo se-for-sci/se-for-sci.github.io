@@ -49,7 +49,9 @@ Modern tools to promote collective intelligence.
     - And making your workflow more git-friendly will make your work better overall.
 
 
-Brief history of version control.
+## Brief history of version control.
+
+![title](CVCS-vs-DVCS.png)
 
 - Local Version Control
     - Mainly just reduced clutter and automated tracking of chronology...
@@ -69,6 +71,15 @@ Brief history of version control.
     - ...but can transfer history and information between repositories
     - Branching is lightweight and easy (mainly in Git)
 
+## Core concepts in git
+
+Branches and DAGs
+
+A DAG is a directed acyclic graph linking together a sequence of tasks.
+
+Let's calibrate people's intuitions about git terminology: how many branches are in this DAG?
+
+![title](DAG_example.png)
 
 ## Investigating history
 
