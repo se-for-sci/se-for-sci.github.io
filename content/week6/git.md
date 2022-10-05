@@ -81,6 +81,25 @@ Let's calibrate people's intuitions about git terminology: how many branches are
 
 ![title](DAG_example.png)
 
+Best way to get comfortable conceptually with git branching is to see it in action. 
+
+So let's do an exercise...
+
+Things to keep in mind during our exercise
+
+- Just a quick tour
+
+- There is a 2-part PICSciE workshop on Git on Oct 05 and 07. Do it!
+
+- Some git operations are of a "send it out" variety, while others are of a "bring it in" variety
+    - important to keep straight which are of which flavor
+
+- Some git operations are repo-wise, while others are branch-wise
+
+Your git branching sandbox
+
+Open a browser to this URL: https://learngitbranching.js.org/?NODEMO
+
 ## Investigating history
 
 ## Tagging and branching
