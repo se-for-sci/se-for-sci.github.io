@@ -100,6 +100,14 @@ Your git branching sandbox
 
 Open a browser to this URL: https://learngitbranching.js.org/?NODEMO
 
+Other resources for git:
+- https://gitimmersion.com/
+- http://think-like-a-git.net/
+- http://ndpsoftware.com/git-cheatsheet.html
+- https://ohshitgit.com/
+- http://gitready.com/
+- https://explainshell.com/
+
 ## Investigating history
 
 ## Tagging and branching
