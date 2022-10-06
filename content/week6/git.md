@@ -338,6 +338,13 @@ Switched to branch 'master'
 > ls
 file1.txt file2.txt file3.txt
 ```
-## Collaborative development
 
-## Hooks and configuration
+## Creating tags and branches
+
+## Cloning a repository
+
+## Using GitHub for the origin repository
+
+## Example of git repository 
+
+
