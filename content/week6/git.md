@@ -330,6 +330,14 @@ If we check our past history, we only see the old version of it.
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
 
+We can go back to the last version using
+```bash
+> git checkout master
+Previous HEAD position was 476b980 Commit changes
+Switched to branch 'master'
+> ls
+file1.txt file2.txt file3.txt
+```
 ## Collaborative development
 
 ## Hooks and configuration
