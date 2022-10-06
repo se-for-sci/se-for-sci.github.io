@@ -8,7 +8,7 @@ Old school techniques are usually bad.
 
 - Version filenames is a disaster. 
 
-```python
+```linux
 def times_three(x: float) -> float:
     return x * 3
 ```
