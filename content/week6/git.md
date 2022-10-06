@@ -114,22 +114,22 @@ Setting up your git environment.
 On your Terminal window, type the following commands.
 
 ```ruby
-> git config --global user.name "Romain Teyssier"
-> git config --global user.email "teyssier@princeton.edu"
+> git config --global user.name 'Romain Teyssier'
+> git config --global user.email 'teyssier@princeton.edu'
 ```
 Create a new directory.
 
-```linux
+```ruby
 > mkdir mywork
 > cd mywork
 ```
 Create a new git project.
-```linux
+```ruby
 > git init
 Initialized empty Git repository in /Users/rt3504/mywork/.git/
 ```
 Now edit your first file.
-```linux
+```ruby
 > emacs -nw file1.txt
 > cat file1.txt
 This is my first file.
