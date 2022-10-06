@@ -196,7 +196,83 @@ Without the ```-m``` options, git will launch an editor (default is usually ```v
 Try and see what happens if you commit another change without the ```-m``` option.
 Just follow the instruction, add your message in your favorite text editor and save the file.
 
-## Tagging and branching
+## View the history of your project
+
+To see the past history of your project, type:
+```linux
+> git log
+commit 476b9801a6fb1efefdcd6c4d1bc82bff43686f9e (HEAD -> master)
+Author: Romain Teyssier <romain.teyssier@gmail.com>
+Date:   Thu Oct 6 09:48:30 2022 -0400
+
+    Commit changes
+
+commit c073d19d60ca399ab70e9a9b720cefeaa36c84a6
+Author: Romain Teyssier <romain.teyssier@gmail.com>
+Date:   Thu Oct 6 09:37:43 2022 -0400
+
+    First commit
+```
+
+A nicer way of looking at the history of your repository:
+```linux
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* 476b980 2022-10-06 | Commit changes (HEAD -> master) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+
+Another more complex example with the RAMSES code
+```linux
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* c6935e35 2022-10-06 | Remove link to obsolete web site. (HEAD -> master, origin/master, origin/HEAD) [Romain Teyssier]
+* 7ff87436 2022-10-05 | Fix an issue with geticmask [Romain Teyssier]
+* 25683b3e 2022-10-05 | Fix some remaining issues with get_music_refmask.f90 [Romain Teyssier]
+*   f18b114f 2022-10-05 | Merge branch 'master' of https://bitbucket.org/rteyssie/ramses [Romain Teyssier]
+|\
+| * e1a84c3d 2022-10-05 | Fix reading in get_music_refmask for zoom IC generation [Romain Teyssier]
+| * 693af13e 2022-10-05 | Fix reading in get_music_refmask for zoom IC generation [Romain Teyssier]
+| *   050cb1f0 2022-06-28 | Merged in master (pull request #498) [Benoit Commercon]
+| |\
+| | * 01939fbc 2022-06-28 | Update patch/mhd/coeur to work with the latest version [Benoit Commercon]
+| |/
+| *   168872a9 2022-06-21 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [rteyssier]
+| |\
+| | *   dc87ff86 2022-06-17 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\
+| | * \   1fb6d9aa 2022-06-09 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \
+| | * \ \   ecfbf508 2022-06-09 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \ \
+| | * \ \ \   52f82b4c 2022-05-13 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \ \ \
+| | * \ \ \ \   79c3a2ff 2022-05-12 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \ \ \ \
+| | * \ \ \ \ \   9cb29fad 2022-05-10 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \ \ \ \ \
+| | * \ \ \ \ \ \   0afc647d 2022-03-12 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \ \ \ \ \ \
+| | * \ \ \ \ \ \ \   0c064bc7 2022-03-11 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \ \ \ \ \ \ \
+| | * \ \ \ \ \ \ \ \   28a59d77 2022-01-24 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \ \ \ \ \ \ \ \
+| | * \ \ \ \ \ \ \ \ \   378c2575 2022-01-07 | Merge branch 'master' of bitbucket.org:rteyssie/ramses [Romain Teyssier]
+| | |\ \ \ \ \ \ \ \ \ \
+| | * | | | | | | | | | | c305dc3e 2022-01-07 | add single test execution script [Romain Teyssier]
+| * | | | | | | | | | | | 40da76fa 2022-06-21 | Fix a big in map2img.py [rteyssier]
+| | |_|_|_|_|_|_|_|_|_|/
+| |/| | | | | | | | | |
+| * | | | | | | | | | | 454bc45b 2022-06-17 | Add OUTPUT_PARTICLE_DENSITY pre-compiler directive for output_poisson in grav files [rteyssier]
+* | | | | | | | | | | | aa383b47 2022-06-17 | Merge branch 'master' of https://bitbucket.org/rteyssie/ramses [Romain Teyssier]
+|\| | | | | | | | | | |
+| * | | | | | | | | | | ef88770b 2022-06-17 | Modify amr2map to read grav file instead of hydro file [rteyssier]
+| | |_|_|_|_|_|_|_|_|/
+| |/| | | | | | | | |
+* / | | | | | | | | | 54052ade 2022-06-17 | Modify amr2map to read grav file instead of hydro file [Romain Teyssier]
+|/ / / / / / / / / /
+* | | | | | | | | / 9c3316ae 2022-06-09 | Correct a nasty bug in case of MC tracers. part2map.f90 edited online with Bitbucket [Romain Teyssier]
+| |_|_|_|_|_|_|_|/
+|/| | | | | | | |
+```
 
 ## Manipulating history
 
