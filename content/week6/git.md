@@ -276,6 +276,17 @@ Another more complex example with the RAMSES code
 
 ## Manipulating history
 
+Now, we will create two new files ```file2.txt``` and ```file3.txt```, each time staging and commiting the new file.
+Your history must now look like this:
+```bash
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* 41f8d80 2022-10-06 | Commiting file3 (HEAD -> master) [Romain Teyssier]
+* c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* 476b980 2022-10-06 | Commit changes [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+
+
 ## Collaborative development
 
 ## Hooks and configuration
