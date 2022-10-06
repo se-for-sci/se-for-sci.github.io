@@ -7,6 +7,13 @@ Good practice in programming project management requires a version control syste
 Old school techniques are usually bad.
 
 - Version filenames is a disaster. 
+
+```python
+def times_three(x: float) -> float:
+    return x * 3
+```
+
+
     - mythesis_v1.tex, mythesis_v2.tex, mythesis_last_v3.tex
     - create clutter
     - Filenames rarely contain information other than chronology
