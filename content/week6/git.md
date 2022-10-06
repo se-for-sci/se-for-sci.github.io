@@ -323,6 +323,12 @@ Inside our repository, we are back to the previous state with only one file:
 > ls
 file1.txt
 ```
+If we check our past history, we only see the old version of it.
+```bash
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* 476b980 2022-10-06 | Commit changes (HEAD) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
 
 ## Collaborative development
 
