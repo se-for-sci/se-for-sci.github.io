@@ -449,8 +449,9 @@ class A:
     def no_overload_me(self) -> None:
         pass
 
+
 class B(A):
-    pass # Uncommenting the lines below is a type error, can't override a final method!
+    pass  # Uncommenting the lines below is a type error, can't override a final method!
     # def no_overload_me(self) -> None:
     #     pass
 ```
@@ -512,7 +513,7 @@ you to specify the types:
 
 ```python
 # Classic
-Version = collections.namedtuple("Version", "major", "minor", "patch")
+Version = collections.namedtuple("Version", ("major", "minor", "patch"))
 
 # New
 class Version(typing.NamedTuple):
