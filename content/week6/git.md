@@ -343,7 +343,7 @@ file1.txt file2.txt file3.txt
 
 ## Cloning a repository
 
-## Using GitHub for the origin repository
+## Using GitHub as origin repository
 
 ## Example of git repository 
 
