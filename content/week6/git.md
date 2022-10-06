@@ -135,7 +135,7 @@ Now edit your first file.
 This is my first file.
 ```
 Add this file to the staging area and commit your first change.
-```linux
+```bash
 > git add file1.txt
 > git commit -m "First commit"
 [master (root-commit) c073d19] First commit
@@ -148,19 +148,19 @@ git tracks only differences between successive versions. You can then commit the
 ## Checking the status of your repository
 
 We can now check the status of our repository using the command
-```linux
+```bash
 > git status
 On branch master
 nothing to commit, working tree clean
 ```
 Let's now make our first change.
-```linux
+```bash
 > emacs -nw file1.txt
 > cat file1.txt
 This is my first file but I modifed it.
 ```
 Let see now the status of our repository.
-```linux
+```bash
 > git status
 On branch master
 Changes not staged for commit:
@@ -171,7 +171,7 @@ Changes not staged for commit:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 Let's add these changes to the staging area.
-```linux
+```bash
 > git add file1.txt
 > git status
 On branch master
@@ -180,7 +180,7 @@ Changes to be committed:
 	modified:   file1.txt
 ```
 Let's commit those changes.
-```linux
+```bash
 > git commit -m "Commit changes"
 [master 476b980] Commit changes
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -190,7 +190,7 @@ nothing to commit, working tree clean
 ```
 When you commit changes, using ```git commit -m``` allows you to give a commit message on the command line.
 Without the ```-m``` options, git will launch an editor (default is usually ```vim```). To set your own editor, use:
-```linux
+```bash
 > export GIT_EDITOR='emacs -nw'
 ```
 Try and see what happens if you commit another change without the ```-m``` option.
@@ -199,7 +199,7 @@ Just follow the instruction, add your message in your favorite text editor and s
 ## View the history of your project
 
 To see the past history of your project, type:
-```linux
+```bash
 > git log
 commit 476b9801a6fb1efefdcd6c4d1bc82bff43686f9e (HEAD -> master)
 Author: Romain Teyssier <romain.teyssier@gmail.com>
@@ -215,14 +215,14 @@ Date:   Thu Oct 6 09:37:43 2022 -0400
 ```
 
 A nicer way of looking at the history of your repository:
-```linux
+```bash
 > git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * 476b980 2022-10-06 | Commit changes (HEAD -> master) [Romain Teyssier]
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
 
 Another more complex example with the RAMSES code
-```linux
+```bash
 > git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * c6935e35 2022-10-06 | Remove link to obsolete web site. (HEAD -> master, origin/master, origin/HEAD) [Romain Teyssier]
 * 7ff87436 2022-10-05 | Fix an issue with geticmask [Romain Teyssier]
