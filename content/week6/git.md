@@ -113,7 +113,7 @@ Other resources for git:
 Setting up your git environment.
 On your Terminal window, type the following commands.
 
-```linux
+```ruby
 > git config --global user.name "Romain Teyssier"
 > git config --global user.email "teyssier@princeton.edu"
 ```
