@@ -286,6 +286,43 @@ Your history must now look like this:
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
 
+Inside our repository, we have the following files:
+```bash
+> ls
+file1.txt file2.txt file3.txt
+```
+
+Let's now move back in time and put the pointer of our time coordinate back to when we only had ```file1.txt```.
+
+For this, we use the command ```git checkout HASH``` where ```HASH``` is the hash key (7 digits) corresponding to the previous commit are targeting. 
+In our example, we will type
+```bash
+> git checkout 476b980
+Note: switching to '476b980'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 476b980 Commit changes
+```
+
+Inside our repository, we are back to the previous state with only one file:
+```bash
+> ls
+file1.txt
+```
 
 ## Collaborative development
 
