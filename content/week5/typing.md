@@ -426,6 +426,13 @@ variable; you can still mutate the variable if it's mutable. At least the Python
 authors were better at naming this - C++ `const` pointers and variables have the
 same problem if they hold a reference/pointer that is mutable.
 
+```python
+x: Final[list[int]] = []
+
+x.append(1)  # Valid!
+# This wouldn't be a problem with a non-mutable type
+```
+
 `Final` is a shorthand for `Final[Literal[3]]` in this case. You can explicitly
 include the type if you want (and this is not considered an unspecified generic
 when you turn on the matching flag in MyPy, since it's not assuming `Any` for
@@ -435,6 +442,18 @@ recommended.
 
 Another example is `@typing.final`, which is a decorator that marks a method as
 un-overridable.
+
+```python
+class A:
+    @typing.final
+    def no_overload_me(self) -> None:
+        pass
+
+class B(A):
+    pass # Uncommenting the lines below is a type error, can't override a final method!
+    # def no_overload_me(self) -> None:
+    #     pass
+```
 
 ### Enums
 
