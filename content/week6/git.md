@@ -113,23 +113,23 @@ Other resources for git:
 Setting up your git environment.
 On your Terminal window, type the following commands.
 
-```unix
+```bash
 > git config --global user.name 'Romain Teyssier'
 > git config --global user.email 'teyssier@princeton.edu'
 ```
 Create a new directory.
 
-```unix
+```bash
 > mkdir mywork
 > cd mywork
 ```
 Create a new git project.
-```unix
+```bash
 > git init
 Initialized empty Git repository in /Users/rt3504/mywork/.git/
 ```
 Now edit your first file.
-```unix
+```bash
 > emacs -nw file1.txt
 > cat file1.txt
 This is my first file.
