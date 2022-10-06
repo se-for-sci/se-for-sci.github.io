@@ -7,13 +7,6 @@ Good practice in programming project management requires a version control syste
 Old school techniques are usually bad.
 
 - Version filenames is a disaster. 
-
-```linux
-def times_three(x: float) -> float:
-    return x * 3
-```
-
-
     - mythesis_v1.tex, mythesis_v2.tex, mythesis_last_v3.tex
     - create clutter
     - Filenames rarely contain information other than chronology
@@ -115,7 +108,20 @@ Other resources for git:
 - http://gitready.com/
 - https://explainshell.com/
 
-## Investigating history
+## Getting started with git
+
+Setting up your git environment.
+On your Terminal window, type the following commands.
+
+```linux
+> git config --global user.name "Romain Teyssier"
+> git config --global user.email "teyssier@princeton.edu"
+```
+Create a new directory.
+
+```linux
+> mkdir mywork
+```
 
 ## Tagging and branching
 
