@@ -143,9 +143,58 @@ Add this file to the staging area and commit your first change.
  create mode 100644 file1.txt
 ```
 What is the staging area? This is where you put your modifications in the queue, one after the otherm, using the ```git add``` command.
-git tracks only differences between version. You can then commit these changes to the repository with the ```git commit``` command.
+git tracks only differences between successive versions. You can then commit these changes to the repository with the ```git commit``` command.
 
+## Checking the status of your repository
 
+We can now check the status of our repository using the command
+```linux
+> git status
+On branch master
+nothing to commit, working tree clean
+```
+Let's now make our first change.
+```linux
+> emacs -nw file1.txt
+> cat file1.txt
+This is my first file but I modifed it.
+```
+Let see now the status of our repository.
+```linux
+> git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   file1.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+Let's add these changes to the staging area.
+```linux
+> git add file1.txt
+> git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   file1.txt
+```
+Let's commit those changes.
+```linux
+> git commit -m "Commit changes"
+[master 476b980] Commit changes
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+> git status
+On branch master
+nothing to commit, working tree clean
+```
+When you commit changes, using ```git commit -m``` allows you to give a commit message on the command line.
+Without the ```-m``` options, git will launch an editor (default is usually ```vim```). To set your own editor, use:
+```linux
+> export GIT_EDITOR='emacs -nw'
+```
+Try and see what happens if you commit another change without the ```-m``` option.
+Just follow the instruction, add your message in your favorite text editor and save the file.
 
 ## Tagging and branching
 
