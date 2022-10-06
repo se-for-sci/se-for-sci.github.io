@@ -121,7 +121,31 @@ Create a new directory.
 
 ```linux
 > mkdir mywork
+> cd mywork
 ```
+Create a new git project.
+```linux
+> git init
+Initialized empty Git repository in /Users/rt3504/mywork/.git/
+```
+Now edit your first file.
+```linux
+> emacs -nw file1.txt
+> cat file1.txt
+This is my first file.
+```
+Add this file to the staging area and commit your first change.
+```linux
+> git add file1.txt
+> git commit -m "First commit"
+[master (root-commit) c073d19] First commit
+ 1 file changed, 1 insertion(+)
+ create mode 100644 file1.txt
+```
+What is the staging area? This is where you put your modifications in the queue, one after the otherm, using the ```git add``` command.
+git tracks only differences between version. You can then commit these changes to the repository with the ```git commit``` command.
+
+
 
 ## Tagging and branching
 
