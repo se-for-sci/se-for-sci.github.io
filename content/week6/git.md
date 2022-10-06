@@ -222,7 +222,7 @@ A nicer way of looking at the history of your repository:
 ```
 
 Another more complex example with the RAMSES code
-```bash
+```zsh
 > git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * c6935e35 2022-10-06 | Remove link to obsolete web site. (HEAD -> master, origin/master, origin/HEAD) [Romain Teyssier]
 * 7ff87436 2022-10-05 | Fix an issue with geticmask [Romain Teyssier]
