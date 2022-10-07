@@ -11,6 +11,6 @@ div.highlight-console span.go {
   transition: opacity 0.3s ease-in-out;
 }
 
-div.highlight-console:hover span.gp {
+div.highlight-console:hover span.go {
   opacity: 0.7;
 }
