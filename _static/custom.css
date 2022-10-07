@@ -4,7 +4,7 @@ div.highlight-console span.gp {
 }
 
 div.highlight-console:hover span.gp {
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 div.highlight-console span.go {
@@ -12,5 +12,5 @@ div.highlight-console span.go {
 }
 
 div.highlight-console:hover span.go {
-  opacity: 0.7;
+  opacity: 0.5;
 }
