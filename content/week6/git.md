@@ -130,9 +130,7 @@ Initialized empty Git repository in /Users/rt3504/mywork/.git/
 ```
 Now edit your first file.
 ```console
-$ emacs -nw file1.txt
-$ cat file1.txt
-This is my first file.
+$ echo "This is my first file" > file1.txt
 ```
 Add this file to the staging area and commit your first change.
 ```console
@@ -155,9 +153,7 @@ nothing to commit, working tree clean
 ```
 Let's now make our first change.
 ```console
-$ emacs -nw file1.txt
-$ cat file1.txt
-This is my first file but I modifed it.
+$ echo "This is my first file but I modifed it." > file1.txt
 ```
 Let see now the status of our repository.
 ```console
@@ -222,7 +218,7 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 ```
 
 Another more complex example with the RAMSES code
-```zsh
+```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * c6935e35 2022-10-06 | Remove link to obsolete web site. (HEAD -> master, origin/master, origin/HEAD) [Romain Teyssier]
 * 7ff87436 2022-10-05 | Fix an issue with geticmask [Romain Teyssier]
@@ -342,7 +338,6 @@ file1.txt file2.txt file3.txt
 ## Creating tags
 
 Switching between commits can be made easier using the ```git tag``` command.
-
 Let's tag the current state (the last version of our repository) using 
 
 ```console
@@ -395,7 +390,7 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 $ ls
 file1.txt
 ```
-Now let's create a new file with a new file name
+Now let's create a new empty file with a new file name
 ```console
 $ touch file4.txt
 $ git add file4.txt
@@ -651,7 +646,141 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 
 ## Cloning a repository
 
+When working in a large team of developers, it might be useful to duplicate the entire reposirory across different machines. 
+git is ideally suited for this kind of collaborative development. 
+For simplicity, we will duplicate the current repository on your own laptop, but pretend this is in fact a different developer writing code on a different computer. 
+
+First go up one level in your file system to see your directory ```mywork```.
+```console
+$ cd ..
+$ ls
+mywork
+```
+Now we will clone the repository using the ```git clone``` command.
+```console
+$ git clone mywork cloned_work
+Cloning into 'cloned_work'...
+done.
+$ cd cloned_work
+$ ls
+file1.txt file2.txt file3.txt file4.txt file5.txt
+```
+You can see that all the files of the original repository are here.
+Looking at the history of the cloned repository, now we get
+```console
+git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+*   1243e96 2022-10-07 | Fixed conflict (HEAD -> master, origin/master, origin/better_code, origin/HEAD) [Romain Teyssier]
+|\
+| * abc9ee2 2022-10-07 | One more modif to file1 [Romain Teyssier]
+* | 1cba3e4 2022-10-07 | I went crazy [Romain Teyssier]
+* | ce60f0f 2022-10-07 | Trying to merge again [Romain Teyssier]
+|\|
+| * 07557d4 2022-10-07 | Modify file1.txt [Romain Teyssier]
+* | 8b3b89f 2022-10-07 | Merge branch 'master' into better_code This is necessary. [Romain Teyssier]
+|\|
+| * 41f8d80 2022-10-06 | Commiting file3 (tag: v2) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* | 6ed6b75 2022-10-07 | Yes it is a better code [Romain Teyssier]
+* | 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
+|/
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+The first line is markedly different than the history of the original repository, with now 3 new branches
+```origin/master```, ```origin/better_code``` and ```origin/HEAD```. 
+These new branches are associated to the remote repository from which the local one has been cloned. 
+We can get the information regarding the remote original respository using the ```git remote``` command.
+```console
+$ git remote
+origin
+```
+We can learn more about this remote repository named ```origin``` using
+```console
+$ git remote show origin
+* remote origin
+  Fetch URL: /Users/rt3504/mywork
+  Push  URL: /Users/rt3504/mywork
+  HEAD branch: master
+  Remote branches:
+    better_code tracked
+    master      tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+```
+Let's now make a change in the original repository.
+```console
+$ cd ../mywork
+$ echo "I have changed file5.txt" > file5.txt
+$ git add file5.txt
+$ git commit -m "Modify file5.txt in origin repository"
+```
+Let's go back to the cloned repository. ```file5.txt``` is still empty.
+```console
+$ cd ../cloned_work
+$ cat file5.txt
+```
+Now let's pull the changes in the remote repository into our cloned one.
+```console
+$ git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 287 bytes | 287.00 KiB/s, done.
+From /Users/rt3504/mywork
+   1243e96..1cf5640  master     -> origin/master
+Updating 1243e96..1cf5640
+Fast-forward
+ file5.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ ```
+ We can check now that ```file5.txt``` is now modified as in the original repository.
+ ```console
+ $ cat file5.txt
+ I  have changed file5.txt
+ ```
+ 
 ## Using GitHub as origin repository
+
+Note that repository ```mywork``` does not have any ```origin``` repository. Usually, true origin repository are located on a remote server, most of the time publicly available pages like GitHub or BitBucket. 
+Let's first create a new project. Go to the web page ```https://github.com``` and make sure you are properly logged in.
+The press the button with a ```+``` sign. 
+Choose ```New repository```.
+Only specify the name. I suggest you use ```se_git```. Leave all other fields empty.
+Now go to the repository ```mywork``` on your laptop and use the command
+```console
+$ git remote add origin git@github.com:your_login/se_git.git
+```
+You can now push to the remote GitHub repository all your ongoing work using
+```console
+$ git push --set-upstream origin master
+```
+If you now look at the GitHub website, you can see all your hard work listed there, including all the past history.
+
+Let's now learn how to change a file in your local repository and push it to the remote repository.
+```console
+$ echo "I have changed file4.txt" > file4.txt
+$ git add file4.txt
+$ git commit -m "Modify file4 on my laptop"
+[master ecac23d] Modify file4 on my laptop
+ 1 file changed, 1 insertion(+)
+$ git push
+X11 forwarding request failed on channel 0
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 297 bytes | 297.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:rteyssier/se_git.git
+   1cf5640..ecac23d  master -> master
+```
+Check now the GitHub webpage. You will see your modifications there.
+Other collaborators can now directly clone your GitHub repository and contribute to your code.
+You are in business!
 
 ## Example of git repository 
 

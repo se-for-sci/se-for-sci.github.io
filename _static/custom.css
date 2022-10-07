@@ -1,0 +1,16 @@
+div.highlight-console span.gp {
+  cursor: default;
+  transition: opacity 0.3s ease-in-out;
+}
+
+div.highlight-console:hover span.gp {
+  opacity: 0.25;
+}
+
+div.highlight-console span.go {
+  transition: opacity 0.3s ease-in-out;
+}
+
+div.highlight-console:hover span.go {
+  opacity: 0.5;
+}
