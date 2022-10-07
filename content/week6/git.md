@@ -130,7 +130,7 @@ Initialized empty Git repository in /Users/rt3504/mywork/.git/
 ```
 Now edit your first file.
 ```console
-$ cat "This is my first file" > file1.txt
+$ echo "This is my first file" > file1.txt
 ```
 Add this file to the staging area and commit your first change.
 ```console
@@ -153,7 +153,7 @@ nothing to commit, working tree clean
 ```
 Let's now make our first change.
 ```console
-$ cat "This is my first file but I modifed it." > file1.txt
+$ echo "This is my first file but I modifed it." > file1.txt
 ```
 Let see now the status of our repository.
 ```console
@@ -645,6 +645,104 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 ```
 
 ## Cloning a repository
+
+When working in a large team of developers, it might be useful to duplicate the entire reposirory across different machines. 
+git is ideally suited for this kind of collaborative development. 
+For simplicity, we will duplicate the current repository on your own laptop, but pretend this is in fact a different developer writing code on a different computer. 
+
+First go up one level in your file system to see your directory ```mywork```.
+```console
+$ cd ..
+$ ls
+mywork
+```
+Now we will clone the repository using the ```git clone``` command.
+```console
+$ git clone mywork cloned_work
+Cloning into 'cloned_work'...
+done.
+$ cd cloned_work
+$ ls
+file1.txt file2.txt file3.txt file4.txt file5.txt
+```
+You can see that all the files of the original repository are here.
+Looking at the history of the cloned repository, now we get
+```console
+git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+*   1243e96 2022-10-07 | Fixed conflict (HEAD -> master, origin/master, origin/better_code, origin/HEAD) [Romain Teyssier]
+|\
+| * abc9ee2 2022-10-07 | One more modif to file1 [Romain Teyssier]
+* | 1cba3e4 2022-10-07 | I went crazy [Romain Teyssier]
+* | ce60f0f 2022-10-07 | Trying to merge again [Romain Teyssier]
+|\|
+| * 07557d4 2022-10-07 | Modify file1.txt [Romain Teyssier]
+* | 8b3b89f 2022-10-07 | Merge branch 'master' into better_code This is necessary. [Romain Teyssier]
+|\|
+| * 41f8d80 2022-10-06 | Commiting file3 (tag: v2) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* | 6ed6b75 2022-10-07 | Yes it is a better code [Romain Teyssier]
+* | 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
+|/
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+The first line is markedly different than the history of the original repository, with now 3 new branches
+```origin/master```, ```origin/better_code``` and ```origin/HEAD```. 
+These new branches are associated to the remote repository from which the local one has been cloned. 
+We can get the information regarding the remote original respository using the ```git remote``` command.
+```console
+$ git remote
+origin
+```
+We can learn more about this remote repository named ```origin``` using
+```console
+$ git remote show origin
+* remote origin
+  Fetch URL: /Users/rt3504/mywork
+  Push  URL: /Users/rt3504/mywork
+  HEAD branch: master
+  Remote branches:
+    better_code tracked
+    master      tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+```
+Let's now make a change in the original repository.
+```console
+$ cd ../mywork
+$ echo "I have changed file5.txt" > file5.txt
+$ git add file5.txt
+$ git commit -m "Modify file5.txt in origin repository"
+```
+Let's go back to the cloned repository. ```file5.txt``` is still empty.
+```console
+$ cd ../cloned_work
+$ cat file5.txt
+```
+Now let's pull the changes in the remote repository into our cloned one.
+```console
+$ git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 287 bytes | 287.00 KiB/s, done.
+From /Users/rt3504/mywork
+   1243e96..1cf5640  master     -> origin/master
+Updating 1243e96..1cf5640
+Fast-forward
+ file5.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ ```
+ We can check now that ```file5.txt``` is now modified as in the original repository.
+ ```console
+ $ cat file5.txt
+ I  have changed file5.txt
+ ```
+ 
+ 
 
 ## Using GitHub as origin repository
 
