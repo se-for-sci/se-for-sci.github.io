@@ -130,9 +130,7 @@ Initialized empty Git repository in /Users/rt3504/mywork/.git/
 ```
 Now edit your first file.
 ```console
-$ emacs -nw file1.txt
-$ cat file1.txt
-This is my first file.
+$ cat "This is my first file" > file1.txt
 ```
 Add this file to the staging area and commit your first change.
 ```console
@@ -155,9 +153,7 @@ nothing to commit, working tree clean
 ```
 Let's now make our first change.
 ```console
-$ emacs -nw file1.txt
-$ cat file1.txt
-This is my first file but I modifed it.
+$ cat "This is my first file but I modifed it." > file1.txt
 ```
 Let see now the status of our repository.
 ```console
@@ -222,7 +218,7 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 ```
 
 Another more complex example with the RAMSES code
-```zsh
+```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * c6935e35 2022-10-06 | Remove link to obsolete web site. (HEAD -> master, origin/master, origin/HEAD) [Romain Teyssier]
 * 7ff87436 2022-10-05 | Fix an issue with geticmask [Romain Teyssier]
@@ -342,7 +338,6 @@ file1.txt file2.txt file3.txt
 ## Creating tags
 
 Switching between commits can be made easier using the ```git tag``` command.
-
 Let's tag the current state (the last version of our repository) using 
 
 ```console
