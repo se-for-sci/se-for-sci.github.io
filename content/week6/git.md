@@ -390,7 +390,7 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 $ ls
 file1.txt
 ```
-Now let's create a new file with a new file name
+Now let's create a new empty file with a new file name
 ```console
 $ touch file4.txt
 $ git add file4.txt
