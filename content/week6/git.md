@@ -1,5 +1,10 @@
 # Version Control
 
+/* prompt */
+code.language-console::before {
+  content: "$ ";
+}
+
 ## Intro to git
 
 Good practice in programming project management requires a version control system. 
