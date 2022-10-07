@@ -341,6 +341,43 @@ file1.txt file2.txt file3.txt
 
 ## Creating tags and branches
 
+Switching between commits can be made easier using the ```git tag``` command.
+
+Let's tag the current state (the last version of our repository) using 
+
+```
+> git tag v2
+```
+
+Now let's go back to the first version of our repository using 
+
+```
+> git checkout 476b980
+```
+
+We now tag this first version using 
+```
+> git tag v1
+```
+
+It is now really easy to go back to the second version using
+
+```
+> git checkout v2
+```
+without using the weird hash key.
+
+We can look at the history of our repository and see:
+```
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* 41f8d80 2022-10-06 | Commiting file3 (HEAD -> master, tag: v2) [Romain Teyssier]
+* c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+You see now the tags ```v1``` and ```v2``` in the list of commits.
+
+
 ## Cloning a repository
 
 ## Using GitHub as origin repository
