@@ -575,7 +575,7 @@ I went crazy!
 Obviously you decided to make drastic changes here.
 Commit these changes to the repository (using ```git add``` and ```git commit``` in sequence).
 Now go back to the ```master``` branch.
-Edit file1.txt to make more gentle changes.
+Edit ```file1.txt``` to make more sensible changes.
 ```bash
 > cat file1.txt
 This is my first file but I modified it one more time to match the better code version.
