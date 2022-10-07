@@ -784,4 +784,5 @@ You are in business!
 
 ## Example of git repository 
 
+Let's now naviguate to the BitBucket page of a large collaborative project I have contributed to, namely the [RAMSES code](https://bitbucket.org/rteyssie/ramses). You can explore the different rubrics there, including an automatic test page (more later on this topic in the course) and a wiki with all the documentation. You can clone the corresponding repository on your laptop and have fun running hydrodynamics simulations. 
 
