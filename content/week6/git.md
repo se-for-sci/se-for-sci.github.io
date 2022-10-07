@@ -628,6 +628,26 @@ Fast-forward (no commit created; -m option ignored)
 file1.txt file2.txt file3.txt file4.txt file5.txt
 ```
 Now the ```master``` and the ```better_code``` branches are identical.
+You can check the history of the ```master``` branch.
+```bash
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+*   1243e96 2022-10-07 | Fixed conflict (HEAD -> master, better_code) [Romain Teyssier]
+|\
+| * abc9ee2 2022-10-07 | One more modif to file1 [Romain Teyssier]
+* | 1cba3e4 2022-10-07 | I went crazy [Romain Teyssier]
+* | ce60f0f 2022-10-07 | Trying to merge again [Romain Teyssier]
+|\|
+| * 07557d4 2022-10-07 | Modify file1.txt [Romain Teyssier]
+* | 8b3b89f 2022-10-07 | Merge branch 'master' into better_code This is necessary. [Romain Teyssier]
+|\|
+| * 41f8d80 2022-10-06 | Commiting file3 (tag: v2) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* | 6ed6b75 2022-10-07 | Yes it is a better code [Romain Teyssier]
+* | 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
+|/
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
 
 ## Cloning a repository
 
