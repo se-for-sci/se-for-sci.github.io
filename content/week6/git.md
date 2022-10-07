@@ -742,9 +742,45 @@ Fast-forward
  I  have changed file5.txt
  ```
  
- 
-
 ## Using GitHub as origin repository
+
+Note that repository ```mywork``` does not have any ```origin``` repository. Usually, true origin repository are located on a remote server, most of the time publicly available pages like GitHub or BitBucket. 
+Let's first create a new project. Go to the web page ```https://github.com``` and make sure you are properly logged in.
+The press the button with a ```+``` sign. 
+Choose ```New repository```.
+Only specify the name. I suggest you use ```se_git```. Leave all other fields empty.
+Now go to the repository ```mywork``` on your laptop and use the command
+```console
+$ git remote add origin git@github.com:your_login/se_git.git
+```
+You can now push to the remote GitHub repository all your ongoing work using
+```console
+$ git push --set-upstream origin master
+```
+If you now look at the GitHub website, you can see all your hard work listed there, including all the past history.
+
+Let's now learn how to change a file in your local repository and push it to the remote repository.
+```console
+$ echo "I have changed file4.txt" > file4.txt
+$ git add file4.txt
+$ git commit -m "Modify file4 on my laptop"
+[master ecac23d] Modify file4 on my laptop
+ 1 file changed, 1 insertion(+)
+$ git push
+X11 forwarding request failed on channel 0
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 10 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 297 bytes | 297.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:rteyssier/se_git.git
+   1cf5640..ecac23d  master -> master
+```
+Check now the GitHub webpage. You will see your modifications there.
+Other collaborators can now directly clone your GitHub repository and contribute to your code.
+You are in business!
 
 ## Example of git repository 
 
