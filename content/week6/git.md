@@ -646,7 +646,7 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 
 ## Cloning a repository
 
-When working in a large team of developers, it might be useful to duplicate the entire reposirory across different machines. 
+When working in a large team of developers, it might be useful to duplicate the entire repository across different machines. 
 git is ideally suited for this kind of collaborative development. 
 For simplicity, we will duplicate the current repository on your own laptop, but pretend this is in fact a different developer writing code on a different computer. 
 
@@ -745,7 +745,7 @@ Fast-forward
 ## Using GitHub as origin repository
 
 Note that repository ```mywork``` does not have any ```origin``` repository. Usually, true origin repository are located on a remote server, most of the time publicly available pages like GitHub or BitBucket. 
-Let's first create a new project. Go to the web page ```https://github.com``` and make sure you are properly logged in.
+Let's first create a new project. Go to the [GitHub web page](https://github.com) and make sure you are properly logged in.
 The press the button with a ```+``` sign. 
 Choose ```New repository```.
 Only specify the name. I suggest you use ```se_git```. Leave all other fields empty.
