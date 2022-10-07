@@ -384,7 +384,7 @@ v2
 ```
 ## Creating branches
 
-Let us say we are not happy with our current version of the code. We would like to go back to ```v1''' and start fresh.
+Let us say we are not happy with our current version of the code. We would like to go back to ```v1``` and start fresh.
 
 We use
 ```bash
