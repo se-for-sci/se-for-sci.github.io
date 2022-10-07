@@ -478,6 +478,12 @@ Let's go back to the other branch
 Previous HEAD position was 41f8d80 Commiting file3
 Switched to branch 'better_code'
 ```
+We can check we are on the right branch using
+```bash
+> git branch
+* better_code
+  master
+```
 We only see the files of the second branch (our better version of the code).
 ```bash
 > ls
