@@ -612,7 +612,7 @@ Now that the file has been properly edited, you can commit the fixed changes usi
 ```
 Pfew! That was stressful but it all went back to normal.
 
-Now that you happy woth your better version of the code, you can merge back everything to the master branch.
+Now that you happy with your better version of the code, you can merge back everything to the ```master``` branch.
 ```bash
 > git checkout master
 Switched to branch 'master'
