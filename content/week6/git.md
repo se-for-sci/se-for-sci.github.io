@@ -555,7 +555,7 @@ Let's commit these changes as usual.
 $ git add file1.txt
 $ git commit -m "Modify file1.txt"
 ```
-Let's go back to the ```better_code``` branch again and nerge these changes from the ```master``` branch.
+Let's go back to the ```better_code``` branch again and merge these changes from the ```master``` branch.
 ```console
 $ git merge master -m "Trying to merge again"
 Merge made by the 'recursive' strategy.
