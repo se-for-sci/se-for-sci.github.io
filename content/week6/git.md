@@ -497,6 +497,121 @@ Without the ```--all``` option, we also only see the history of this branch.
 * 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
+## Merging branches
+
+Now that we have a better code, we want to import in this better branch what was done in the ```master``` branch.
+In other words, we want to merge to work done in these 2 diverging versions of the code.
+We can do this using the ```git merge``` command.
+
+First, let's check we are in the correct branch using
+```bash
+> git branch
+* better_code
+  master
+```
+Second, let's merge the ```master``` branch into the ```better_code``` branch.
+```bash
+> git merge master -m "Merging previous work in better version of the code"
+Merge made by the 'recursive' strategy.
+ file2.txt | 0
+ file3.txt | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 file2.txt
+ create mode 100644 file3.txt
+```
+We can now have a look at the history using the ```--all``` option.
+```bash
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short --all
+*   8b3b89f 2022-10-07 | Merge branch 'master' into better_code Merging previous work in better version of the code (HEAD -> better_code) [Romain Teyssier]
+|\
+| * 41f8d80 2022-10-06 | Commiting file3 (tag: v2, master) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* | 6ed6b75 2022-10-07 | Yes it is a better code [Romain Teyssier]
+* | 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
+|/
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+You can see how the branches are now converging back together.
+Let's see what we have in our repository now.
+```bash
+> ls
+file1.txt file2.txt file3.txt file4.txt file5.txt
+```
+Wow! We have everything now.
+
+Let's now try something more difficult. 
+We go back to the master branch and modify directly the text inside ```file1.txt```.
+```bash
+> git branch master
+```
+Edit file1.txt in order to obtain
+```bash
+> cat file1.txt
+This is my first file but I modified it again to match the better code version.
+```
+Let's commit these changes as usual.
+```bash
+> git add file1.txt
+> git commit -m "Modify file1.txt"
+```
+Let's go back to the ```better_code``` branch again and nerge these changes from the ```master``` branch.
+```bash
+> git merge master -m "Trying to merge again"
+Merge made by the 'recursive' strategy.
+ file1.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+Wow! It worked flawlessly.
+
+## Resolving conflicts
+
+Let's try something more complex.
+Go in the ```better_code``` branch and edit file1.txt so that it looks like
+```bash
+> cat file1.txt
+I went crazy!
+```
+Obviously you decided to make drastic changes here.
+Commit these changes to the repository (using ```git add``` and ```git commit``` in sequence).
+Now go back to the ```master``` branch.
+Edit file1.txt to make more gentle changes.
+```bash
+> cat file1.txt
+This is my first file but I modified it one more time to match the better code version.
+```
+Now go back again to the ```better_code``` branch and try and merge the ```master``` branch.
+```bash
+> git merge master
+Auto-merging file1.txt
+CONFLICT (content): Merge conflict in file1.txt
+Automatic merge failed; fix conflicts and then commit the result.
+```
+Crap! We have a conflict between the two different commits.
+```file1.txt``` now looks like this:
+```bash
+> cat file1.txt
+<<<<<<< HEAD
+I went crazy!
+
+=======
+This is my first file but I modified it one more time to match the better code version.
+>>>>>>> master
+```
+You must now edit yourself this file and decide which version to use. 
+Obviously, you want to use the correct version that looks like
+```bash
+> cat file1.txt
+This is my first file but I modified it one more time to match the better code version.
+```
+Now that the file has been properly edited, you can commit the fixed changes using as usual
+```bash
+> git add file1.txt
+> git commit -m "Fixed conflict"
+[better_code 1243e96] Fixed conflict
+```
+Pfew! That was stressful but it all went back to normal.
+
 ## Cloning a repository
 
 ## Using GitHub as origin repository
