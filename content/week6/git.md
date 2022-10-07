@@ -612,6 +612,23 @@ Now that the file has been properly edited, you can commit the fixed changes usi
 ```
 Pfew! That was stressful but it all went back to normal.
 
+Now that you happy woth your better version of the code, you can merge back everything to the master branch.
+```bash
+> git checkout master
+Switched to branch 'master'
+> git merge better_code -m "Final merge back to master"
+Updating abc9ee2..1243e96
+Fast-forward (no commit created; -m option ignored)
+ file4.txt | 0
+ file5.txt | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 file4.txt
+ create mode 100644 file5.txt
+> ls
+file1.txt file2.txt file3.txt file4.txt file5.txt
+```
+Now the ```master``` and the ```better_code``` branches are identical.
+
 ## Cloning a repository
 
 ## Using GitHub as origin repository
