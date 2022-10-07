@@ -339,36 +339,36 @@ Switched to branch 'master'
 file1.txt file2.txt file3.txt
 ```
 
-## Creating tags and branches
+## Creating tags
 
 Switching between commits can be made easier using the ```git tag``` command.
 
 Let's tag the current state (the last version of our repository) using 
 
-```
+```bash
 > git tag v2
 ```
 
 Now let's go back to the first version of our repository using 
 
-```
+```bash
 > git checkout 476b980
 ```
 
 We now tag this first version using 
-```
+```bash
 > git tag v1
 ```
 
 It is now really easy to go back to the second version using
 
-```
+```bash
 > git checkout v2
 ```
 without using the weird hash key.
 
 We can look at the history of our repository and see:
-```
+```bash
 > git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * 41f8d80 2022-10-06 | Commiting file3 (HEAD -> master, tag: v2) [Romain Teyssier]
 * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
@@ -376,8 +376,77 @@ We can look at the history of our repository and see:
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
 You see now the tags ```v1``` and ```v2``` in the list of commits.
+You can also see the list of all the tags in your repository using the ```git tag``` command as
+```bash
+> git tag
+v1
+v2
+```
+## Creating branches
 
+Let us say we are not happy with our current version of the code. We would like to go back to ```v1''' and start fresh.
 
+We use
+```bash
+> git checkout v1
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* 476b980 2022-10-06 | Commit changes (HEAD, tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+> ls
+file1.txt
+```
+Now let's create a new file with a new file name
+```bash
+> touch file4.txt
+> git add file4.txt
+> git commit -m "A better code now?"
+> ls
+file1.txt file4.txt
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* 1e19277 2022-10-07 | A better code now? (HEAD) [Romain Teyssier]
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+And another one
+```bash
+> touch file5.txt
+> git add file5.txt
+> git commit -m "Yes it is a better code"
+> ls
+file1.txt file4.txt file5.txt
+```
+Let's go back again to our second version ```v2```
+```bash
+> git checkout v2
+Warning: you are leaving 2 commits behind, not connected to
+any of your branches:
+
+  6ed6b75 Yes it is a better code
+  1e19277 A better code now?
+
+If you want to keep them by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> 6ed6b75
+
+HEAD is now at 41f8d80 Commiting file3
+```
+You see that git is not happy because you didn't create a branch for all these new commits.
+Indeed, you have created a new thread of commits that are in competition with what you did before.
+You have now a diverging code version.
+Let's follow git advice and create a new branch for these 2 new commits
+
+```bash
+> git branch better_code 6ed6b75
+```
+
+We can see how many branches we have using the ```git branch``` command
+```bash
+> git branch
+* (HEAD detached at v2)
+  better_code
+  master
+```
 ## Cloning a repository
 
 ## Using GitHub as origin repository
