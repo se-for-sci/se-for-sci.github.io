@@ -433,8 +433,8 @@ HEAD is now at 41f8d80 Commiting file3
 ```
 You see that git is not happy because you didn't create a branch for all these new commits.
 Indeed, you have created a new thread of commits that are in competition with what you did before.
-You have now a diverging code version.
-Let's follow git advice and create a new branch for these 2 new commits
+You have now 2 diverging code versions.
+Let's follow git's advice and create a new branch for these 2 new commits
 
 ```bash
 > git branch better_code 6ed6b75
@@ -446,6 +446,50 @@ We can see how many branches we have using the ```git branch``` command
 * (HEAD detached at v2)
   better_code
   master
+```
+We can now see in the history of our repository all the branches using the ```--all``` option as
+```bash
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short --all
+* 6ed6b75 2022-10-07 | Yes it is a better code (better_code) [Romain Teyssier]
+* 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
+| * 41f8d80 2022-10-06 | Commiting file3 (HEAD, tag: v2, master) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+|/
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+
+If you don't use ```--all``` you only see the history of the branch you sit on, namely here the master branch
+```bash
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* 41f8d80 2022-10-06 | Commiting file3 (HEAD, tag: v2, master) [Romain Teyssier]
+* c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
+```
+If you examine the content of your repository, you see only the files in the ```master``` branch.
+```bash
+> ls
+file1.txt file2.txt file3.txt
+```
+Let's go back to the other branch
+```bash
+> git checkout better_code
+Previous HEAD position was 41f8d80 Commiting file3
+Switched to branch 'better_code'
+```
+We only see the files of the second branch (our better version of the code).
+```bash
+> ls
+file1.txt file4.txt file5.txt
+```
+Without the ```--all``` option, we also only see the history of this branch.
+```bash
+> git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+* 6ed6b75 2022-10-07 | Yes it is a better code (HEAD -> better_code) [Romain Teyssier]
+* 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
+* 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
+* c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
 ## Cloning a repository
 
