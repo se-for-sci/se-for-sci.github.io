@@ -71,8 +71,8 @@ Modern tools to promote collective intelligence.
   - Allows group work on the same files...
   - Single point of failure --- there is only a single "real" repository
   - Backing up is a separate process
-  - File locks --- create "race conditions" for commiting changes to that "real"
-    repository
+  - File locks --- create "race conditions" for committing changes to that
+    "real" repository
   - What if you lose internet?
   - Branching is cumbersome, so people don't do it (and have trouble reconciling
     disparate histories when they do)
@@ -184,7 +184,7 @@ nothing to commit, working tree clean
 Let's now make our first change.
 
 ```console
-$ echo "This is my first file but I modifed it." > file1.txt
+$ echo "This is my first file but I modified it." > file1.txt
 ```
 
 Let see now the status of our repository.
@@ -318,12 +318,12 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 ## Manipulating history
 
 Now, we will create two new files `file2.txt` and `file3.txt`, each time staging
-and commiting the new file. Your history must now look like this:
+and committing the new file. Your history must now look like this:
 
 ```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-* 41f8d80 2022-10-06 | Commiting file3 (HEAD -> master) [Romain Teyssier]
-* c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* 41f8d80 2022-10-06 | Committing file3 (HEAD -> master) [Romain Teyssier]
+* c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
 * 476b980 2022-10-06 | Commit changes [Romain Teyssier]
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
@@ -422,8 +422,8 @@ We can look at the history of our repository and see:
 
 ```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-* 41f8d80 2022-10-06 | Commiting file3 (HEAD -> master, tag: v2) [Romain Teyssier]
-* c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* 41f8d80 2022-10-06 | Committing file3 (HEAD -> master, tag: v2) [Romain Teyssier]
+* c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
 * 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
@@ -492,7 +492,7 @@ to do so with:
 
  git branch <new-branch-name> 6ed6b75
 
-HEAD is now at 41f8d80 Commiting file3
+HEAD is now at 41f8d80 Committing file3
 ```
 
 You see that git is not happy because you didn't create a branch for all these
@@ -520,8 +520,8 @@ We can now see in the history of our repository all the branches using the
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short --all
 * 6ed6b75 2022-10-07 | Yes it is a better code (better_code) [Romain Teyssier]
 * 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
-| * 41f8d80 2022-10-06 | Commiting file3 (HEAD, tag: v2, master) [Romain Teyssier]
-| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+| * 41f8d80 2022-10-06 | Committing file3 (HEAD, tag: v2, master) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
 |/
 * 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
@@ -532,8 +532,8 @@ namely here the master branch
 
 ```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-* 41f8d80 2022-10-06 | Commiting file3 (HEAD, tag: v2, master) [Romain Teyssier]
-* c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+* 41f8d80 2022-10-06 | Committing file3 (HEAD, tag: v2, master) [Romain Teyssier]
+* c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
 * 476b980 2022-10-06 | Commit changes (tag: v1) [Romain Teyssier]
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
@@ -550,7 +550,7 @@ Let's go back to the other branch
 
 ```console
 $ git checkout better_code
-Previous HEAD position was 41f8d80 Commiting file3
+Previous HEAD position was 41f8d80 Committing file3
 Switched to branch 'better_code'
 ```
 
@@ -612,8 +612,8 @@ We can now have a look at the history using the `--all` option.
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short --all
 *   8b3b89f 2022-10-07 | Merge branch 'master' into better_code Merging previous work in better version of the code (HEAD -> better_code) [Romain Teyssier]
 |\
-| * 41f8d80 2022-10-06 | Commiting file3 (tag: v2, master) [Romain Teyssier]
-| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+| * 41f8d80 2022-10-06 | Committing file3 (tag: v2, master) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
 * | 6ed6b75 2022-10-07 | Yes it is a better code [Romain Teyssier]
 * | 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
 |/
@@ -757,8 +757,8 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 | * 07557d4 2022-10-07 | Modify file1.txt [Romain Teyssier]
 * | 8b3b89f 2022-10-07 | Merge branch 'master' into better_code This is necessary. [Romain Teyssier]
 |\|
-| * 41f8d80 2022-10-06 | Commiting file3 (tag: v2) [Romain Teyssier]
-| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+| * 41f8d80 2022-10-06 | Committing file3 (tag: v2) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
 * | 6ed6b75 2022-10-07 | Yes it is a better code [Romain Teyssier]
 * | 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
 |/
@@ -807,8 +807,8 @@ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 | * 07557d4 2022-10-07 | Modify file1.txt [Romain Teyssier]
 * | 8b3b89f 2022-10-07 | Merge branch 'master' into better_code This is necessary. [Romain Teyssier]
 |\|
-| * 41f8d80 2022-10-06 | Commiting file3 (tag: v2) [Romain Teyssier]
-| * c6e6535 2022-10-06 | Commiting file2 [Romain Teyssier]
+| * 41f8d80 2022-10-06 | Committing file3 (tag: v2) [Romain Teyssier]
+| * c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
 * | 6ed6b75 2022-10-07 | Yes it is a better code [Romain Teyssier]
 * | 1e19277 2022-10-07 | A better code now? [Romain Teyssier]
 |/
@@ -820,7 +820,7 @@ The first line is markedly different than the history of the original
 repository, with now 3 new branches `origin/master`, `origin/better_code` and
 `origin/HEAD`. These new branches are associated to the remote repository from
 which the local one has been cloned. We can get the information regarding the
-remote original respository using the `git remote` command.
+remote original repository using the `git remote` command.
 
 ```console
 $ git remote
