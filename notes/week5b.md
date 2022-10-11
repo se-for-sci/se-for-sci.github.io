@@ -28,7 +28,7 @@ Typing
   - One of the few places you get to see class keyword arguments used, so I
     guess that's something.
   - Finally getting "better" in 3.11 and typing_extensions (but then no need for
-    class keyword `total=False` argument :( )
+    class keyword `total=False` argument 😡 )
 - NamedTuple (typed replacement for `collections.namedtuple`)
 
 Structural Subtyping
