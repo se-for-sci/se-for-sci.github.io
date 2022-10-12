@@ -511,10 +511,12 @@ all sorts of weird behavior. Even better, you can then also check to see if it's
 Simplest convention, though: never call `new` / `delete` manually. There are
 better patterns.
 
-##### Pattern 0: Classes
+##### Using Classes to implement RAII
 
 One way to manage heap safely is to tie it to classes. C++ has constructors and
-destructors, so why not use them for new / delete?
+destructors, so why not use them for new / delete? This is called Resource
+Allocation Is Initialization - you are tying the resource allocation to class
+initialization (and destruction, obviously).
 
 ```cpp
 #include <iostream>
@@ -554,7 +556,8 @@ manage the heap!
 
 This doesn't solve all our problems (specifically, we still can't create this
 inside one function and then "move" it to another function with a different
-stack), but we'll get there. In fact, we completely ignored copying as well.
+stack), but we'll get there. In fact, we completely ignored copying as well for
+simplicity - we'll talk about copying when we get to smart pointers.
 
 A _lot_ of the standard library (and C++ classes in general) does this. For
 example, `std::string` can hold arbitrary sized strings by using the heap (well,
@@ -565,49 +568,7 @@ all the sets and maps. `std::array` is an exception; since the size is part of
 the template, it is allocated on the stack. That's why it requires the size
 ahead of time and can't be resized.
 
-##### Pattern 1: Smart pointers
-
-The above pattern is useful. So useful, in fact, wouldn't it be nice if there
-was a templated way to do this for an arbitrary type you want to "hold"? In
-order to do that, we have to solve the copy problem we ignored above. What
-happens when you copy this "smart pointer" as we'll call it? We have two
-choices: We can do the best computer science thing when faced with a hard
-problem: just don't allow it!
-
-This is called a unique pointer, `std::unique_ptr` in C++. Here's the above
-example:
-
-```cpp
-#include <memory>
-#include <iostream>
-
-int main() {
-    std::unique_ptr<int> heap_int_a{new int(3)};  // Original C++11
-    auto heap_int_b = std::make_unique<int>(3);  // C++14 required
-
-    std::cout << *heap_int_a << " " << *heap_int_b << std::endl;
-    return 0;
-}
-```
-
-We'll look at moves later; after we cover that, note that this is movable too.
-
-The other way is we can keep a reference count (this is sounding like Python!).
-This reference count is a bit expensive because it is thread-safe (which just
-means you can copy `std::shared_ptr`'s in multiple threads without worry about
-corrupting memory), but it basically gives you a Python-like experience where
-you can use it without thinking and it gets cleaned up when the last copy goes
-out of scope.
-
-You use `std::shared_ptr` in exactly the same way as `std::unique_ptr` above,
-with the only difference being `std::make_shared` was available in C++11, it
-took three more years to add `std::make_unique` for some reason.
-
-And there's no garbage collector, so you are responsible for avoiding reference
-cycles. You can use `std::weak_ptr` or you can access the raw pointers with
-`.get()` (just don't `delete` them!).
-
-##### Pattern 2: Moves
+##### Adding Moves
 
 C++11 added a powerful new concept to C++: moves. The idea is this: you can tell
 C++ that a variable can no longer be accessed after a usage. Then a special
@@ -667,9 +628,54 @@ We play with both the move constructor (`a`) and the move assignment (`b`), and
 then print out the result.
 
 If you actually implement classes like the ones above, you should probably hold
-`std::unique_ptr`(s) and still avoid writing your own new / delete, even in a
-class. Also, it's a bit more common to swap pointers in move constructors than
-make the class handle `nullptr`'s, but I thought the above looked simpler.
+`std::unique_ptr`(s) (see below) and still avoid writing your own new / delete,
+even in a class. Also, it's a bit more common to swap pointers in move
+constructors than make the class handle `nullptr`'s, but I thought the above
+looked simpler.
+
+##### Smart pointers
+
+The above pattern is useful. So useful, in fact, wouldn't it be nice if there
+was a templated way to do this for an arbitrary type you want to "hold"? In
+order to do that, we have to solve the copy problem we ignored above. What
+happens when you copy this "smart pointer" as we'll call it? We have two
+choices: We can do the best computer science thing when faced with a hard
+problem: just don't allow it!
+
+This is called a unique pointer, `std::unique_ptr` in C++. Here's the above
+example:
+
+```cpp
+#include <memory>
+#include <iostream>
+
+int main() {
+    std::unique_ptr<int> heap_int_a{new int(3)};  // Original C++11
+    auto heap_int_b = std::make_unique<int>(3);  // C++14 required
+
+    std::cout << *heap_int_a << " " << *heap_int_b << std::endl;
+    return 0;
+}
+```
+
+This is movable too.
+
+The other way is we can keep a reference count (this is sounding like Python!).
+This reference count is a bit expensive because it is thread-safe (which just
+means you can copy `std::shared_ptr`'s in multiple threads without worry about
+corrupting memory), but it basically gives you a Python-like experience where
+you can use it without thinking and it gets cleaned up when the last copy goes
+out of scope.
+
+You use `std::shared_ptr` in exactly the same way as `std::unique_ptr` above,
+with the only difference being `std::make_shared` was available in C++11, it
+took three more years to add `std::make_unique` for some reason. Unique pointers
+disallow copies (like our example), while shared pointers keep a refcount and
+work a lot like the Python objects we are used to. There's no garbage collector,
+so you are responsible for avoiding reference cycles. You can use
+`std::weak_ptr` or you can access the raw pointers with `.get()` (just don't
+`delete` them!). Shared pointers are a bit more expensive to access, since they
+also do a lock to ensure they are thread safe.
 
 #### Common needs
 

@@ -10,6 +10,7 @@ dependencies:
   - jupyter-book
   - jupyterlab >=3
   - matplotlib >=3.5
+  - mypy >=0.981
   - nb_conda_kernels
   - numpy >=1.20
   - pandas >=1.3

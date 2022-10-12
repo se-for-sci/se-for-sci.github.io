@@ -42,3 +42,6 @@ sphinx:
     - sphinxcontrib.mermaid
   config:
     execution_show_tb: True
+    copybutton_prompt_text: '\$ '
+    copybutton_prompt_is_regexp: true
+    copybutton_only_copy_prompt_lines: true
