@@ -15,7 +15,7 @@ That will check everything. You don't need to know anything about how to run the
 checkers or linters, it's a single standard interface for all projects. Each
 hook gets a unique, cached environment, so the next time you run it, it's
 lightning fast. If you leave off the `-a`, it _only checks the changed files in
-your staging area, even partially staged ones!_.
+your staging area, even partially staged ones!_
 
 If you want to update to the latest versions of all your hooks, run:
 
