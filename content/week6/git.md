@@ -9,7 +9,7 @@ Old school techniques are usually bad.
 
 - Version filenames is a disaster.
 
-  - mythesis\_v1.tex, mythesis\_v2.tex, mythesis\_last\_v3.tex
+  - mythesis_v1.tex, mythesis_v2.tex, mythesis_last_v3.tex
   - creates clutter
   - Filenames rarely contain information other than chronology
   - Parallel independent changes super hard to keep track of

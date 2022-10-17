@@ -14,7 +14,8 @@ pip install .
 ```
 
 This will _copy_ the files into site-packages. If you want to actively develop a
-module, include the `-e` option instead (setuptools only, command varies on other tools):
+module, include the `-e` option instead (setuptools only, command varies on
+other tools):
 
 ```bash
 pip install -e .
