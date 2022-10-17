@@ -2,7 +2,7 @@
 
 A task runner, like [make][] (fully general), [rake][] (Ruby general),
 [invoke][] (Python general), [tox][] (Python packages), or [nox][] (Python
-simi-general), is a tool that lets you specify a set of tasks via a common
+semi-general), is a tool that lets you specify a set of tasks via a common
 interface. These have been discouraged in Scikit-HEP in the past, since they can
 be a crutch, allowing poor packaging practices to be employed behind a custom
 script, and they can hide what is actually happening.
@@ -117,7 +117,7 @@ This will keep you from running extra things like `docs` by default.
 
 ### Parametrizing
 
-You can parametrize sessions. either on Python or on any other item.
+You can parametrize sessions by any item, for example Python version.
 
 ```python
 # Shortcut to parametrize Python

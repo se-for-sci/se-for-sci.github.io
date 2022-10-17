@@ -10,7 +10,7 @@ Old school techniques are usually bad.
 - Version filenames is a disaster.
 
   - mythesis_v1.tex, mythesis_v2.tex, mythesis_last_v3.tex
-  - create clutter
+  - creates clutter
   - Filenames rarely contain information other than chronology
   - Parallel independent changes super hard to keep track of
   - Did you finally notice a problem in v119 that has been around for a while,
@@ -167,7 +167,7 @@ $ git commit -m "First commit"
 ```
 
 What is the staging area? This is where you put your modifications in the queue,
-one after the otherm, using the `git add` command. git tracks only differences
+one after the other, using the `git add` command. git tracks only differences
 between successive versions. You can then commit these changes to the repository
 with the `git commit` command.
 
@@ -890,7 +890,7 @@ Note that repository `mywork` does not have any `origin` repository. Usually,
 true origin repository are located on a remote server, most of the time publicly
 available pages like GitHub or BitBucket. Let's first create a new project. Go
 to the [GitHub web page](https://github.com) and make sure you are properly
-logged in. The press the button with a `+` sign. Choose `New repository`. Only
+logged in. Then press the button with a `+` sign. Choose `New repository`. Only
 specify the name. I suggest you use `se_git`. Leave all other fields empty. Now
 go to the repository `mywork` on your laptop and use the command
 

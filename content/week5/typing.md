@@ -8,11 +8,11 @@ occasional whitespace-hater might disagree): no explicit typing.
 
 It's great to be able to pick up Python and not have to worry about types. You
 don't have to learn how to write types, you might even find it easier to focus
-on what matters without all the extra characters that adding types would bring.
-But as your program size grows, you'll quickly find it is much _harder_ to read
-code without types, and you'll start wishing a compiler would give you errors
-immediately instead of having your code crash half an hour into a job because
-you forgot to handle a variable being None.
+on writing new code without all the extra characters needed to add types. But as
+your program grows, you'll quickly find it is much _harder_ to read code without
+types, and you'll start wishing a compiler would give you errors immediately
+instead of having your code crash half an hour into a job because you forgot to
+handle a variable being None.
 
 Over the last few years, Python has been gaining an _optional_ type system. It
 looks like this:
@@ -37,32 +37,31 @@ This is good, as checking this could be very expensive (imagine a huge list that
 supposed to be filled with ints - Python would have to loop over the entire
 list! How about a generator that can only be iterated over once? Etc.)
 
-But how do we verify our types look correct? The key to this is to look at a
-compiled language. Runtime is not when a compiled language verifies its types -
-it does it when you _compile_ - a "pre-running" step. A required pre-running
-step, but still, that's what it is. If we want to add this to Python, we need an
-_optional_ pre-running step that checks types - it serves the same purpose that
-compiling the compiled language does, minus compiling and making machine code,
-of course.
+But how do we verify calls to `times_three` use the correct types? Consider a
+compiled language. Similar to python, a compiled language doesn't verify types
+during runtime - it does it when you _compile_ - a required "pre-running" step.
+If we want this type checking in Python, we need an _optional_ pre-running step
+that checks types - it serves the same purpose as compiling in compiled
+languages, minus compiling and making machine code, of course.
 
-With Python, this equates to running a type checker. This is a static check you
-run over your code, very similar to testing. It checks the validity of your
-types (which can catch many common and uncommon errors) over your entire code
-base without needing to write a single test. It's usually very fast, as well.
-The downside is that it's not as powerful as testing, so ideally you have both
-good tests and static types.
+With Python, this equates to running a type checker; a static check you run over
+your code, very similar to testing. It checks the validity of your types (which
+can catch many common and uncommon errors) over your entire code base without
+needing to write a single test. It's usually very fast, as well. Type checking
+doesn't verify results are correct, just the types you expect. Ideally you have
+both good tests and static types.
 
 ```{admonition} Why learn Python types?
 This is not a course about Python. So why learn Python types? Almost everything
 you do with Python types applies to compiled code too - it's just required,
 rather than optional. Hopefully by learning it now you'll be able to focus on
-compiling and adapting to the other parts of the compiled lanague - and you'l
-have a new valuable Python skill too!
+adapting to other differences with compiled languages - and you'l have a new
+valuable Python skill too!
 ```
 
-While the language defines types and the Python developers provide types for the
-standard library and some major third party dependencies, there are multiple
-type checkers to pick from.
+While the language defines type syntax and the Python developers provide types
+for the standard library and some major third party dependencies, there are
+multiple type checkers to pick from.
 
 - MyPy: The original type checker, from the CPython authors. Written in Python.
   Often trails the other type checkers in adding new typing feature support,
@@ -77,9 +76,9 @@ type checkers to pick from.
   Differs in that it does inference on untyped functions, and tries not to be
   more strict than runtime.
 
-Together, these form the "big four" type checkers, and representatives from all
-four projects are part of the typing mailing lists for Python, and have say on
-all new features related to typing.
+Together, these form the "big four" type checkers. Representatives from all four
+projects are part of the typing mailing lists for Python and have say on new
+features related to typing.
 
 If you don't know which to pick, use mypy. It's the easiest to run, often the
 "lowest common denominator" for features, and it's what your dependencies are
@@ -94,8 +93,8 @@ types and act on them if you want, so libraries like `beartype`, `typeguaurd`,
 and `strongtyping` will give you something (usually a decorator) that adds
 runtime validation based on your type annotations.
 
-Python just by default doesn't do anything with the annotations, and that's for
-the best.
+By default, Python ignores type annotations at runtime, and that's for the
+best.
 ```
 
 ## Running a type checker
@@ -119,13 +118,13 @@ simple.py:8: error: Argument 1 to "simple_typed_function" has incompatible type 
 Found 1 error in 1 file (checked 1 source file)
 ```
 
-This shows typing problem: we claimed that `simple_typed_function` took only
+This shows a typing error: we claimed that `simple_typed_function` took only
 floats, but we then tried to use it with a list of strings. Either we should
 expand our types to include lists of strings, or we should not call the function
 with lists of strings! It happens that this one works at runtime - you can be
-more strict & clear in your types than you are at runtime. It's _probably_ just
-a coincidence this happens to work on lists; you probably never considered this
-when you wrote the function.
+more strict and clear in your types than you are at runtime. It's _probably_
+just a coincidence this happens to work on lists; you probably never considered
+this when you wrote the function.
 
 ```{admonition} Where do types go?
 There are three possible locations to place types in Python:
@@ -157,15 +156,15 @@ simple.py:9: error: Call to untyped function "simple_untyped_function" in typed 
 Now MyPy tells us exactly what we need to do to fully type this code and give us
 the best results: we need to add types to our untyped function. Notice we do
 _not_ need to add types to `input_value`; your type checker will infer most
-variables for you. It's only interfaces (function parameters and return values)
-that need typing usually.
+variables for you. It's usually only interfaces (function parameters and return
+values) that need to be typed.
 
 ```{admonition} Inspecting Python types
 MyPy gives you a `reveal_type(x)` function that will cause MyPy to print
 the type of `x`. Think of it like a `print` statement, but for MyPy! You
 can also use `reveal_types()` to show the types for all locals at once. These
-functions are very useful for inspecting the types and learning how it works.
-And occasionally figuring out the type of something you aren't sure of.
+functions are very useful for inspecting the types and learning how checking
+works. And occasionally figuring out the type of something you aren't sure of.
 ```
 
 ````{admonition} Using modern typing annotations even in older languages
@@ -175,14 +174,14 @@ from __future__ import annotations
 ```
 Then all type annotations in the file will be unevaluated strings. This means
 you can use Python 3.11 syntax in them, and even Python 3.7 will happily work!
-This is great, as every version up to 3.10 has had some large improvements for
-typing.  We will be using this new syntax exclusively; use the above import to
-follow along on older Python versions.
+This is great, as every version up to 3.10 has had large improvements for
+typing.  We will use the new syntax exclusively; add the above import to follow
+along on older Python versions.
 
-Also, features added to `typing` (stdlib) are also added to `typing_extensions`,
-which you can pip install / add to your requirements. So it's very common to
-conditionally pull things from `typing` or `typing_extensions` - we will be
-doing that in this material.
+Features added to `typing` (stdlib) are also added to `typing_extensions`,
+which you can pip install / add to your requirements. It's very common to
+conditionally pull things from `typing` or `typing_extensions` as we will do
+in this material.
 ````
 
 One case MyPy is very good at is validating "optional" values (things that can
@@ -205,16 +204,16 @@ Found 1 error in 1 file (checked 1 source file)
 
 Ignoring the old style syntax (it should say
 `Item "None" of "list[str] | None"`), it did find the problem. If someone does
-not pass `prefix=`, our function will not work - it will try to iterate over
-None, which throws an error! We might have forgotten to add a test case for
-this, but MyPy can detect it.
+not pass `prefix=`, our function will try to iterate over None, which throw a
+runtime error! Even without a test case for using the default argument, MyPy can
+detect it as problematic.
 
 The fix is simple - just use `for prefix in prefixes or []:`. Once we learn
 about Protocols, another fix would be to replace the `list[str]` with something
 that allows tuples too, then `()` could be a default argument instead of
-allowing `None`. Note: never make a _list_ a default argument - the list is
-bound when the function is created, so any mutation on it will mutate the
-default argument itself!
+allowing `None`. Note: never make a _list or dictionary_ (`[]` or `{}`) a
+default argument - the object is bound when the function is created, so any
+mutation on the default argument will mutate the default argument itself!
 
 ### Escape hatch
 
@@ -226,25 +225,25 @@ x: str = f()
 x.nonexistent()  # type: ignore[attr-defined]
 ```
 
-Only use this as a last resort, but here are places where you need to use this,
-especially if your code is not fully typed yet. The reason is optional, but
-recommended.
+Typically, only use this as a last resort. There are places where you need to
+bypass checking, especially if your code is not fully typed yet. The reason
+(e.g. `[attr-defined]` is optional, but recommended.
 
 ```{admonition} Lying about types
 In a compiled language, you have to make the types work. But since they are
 optional in Python and only checked by an optional step, you can simply disable
 them on a line or a file if you need to. In fact, you can even lie about types.
-You can claim something only takes fewer types than it really could take, you
-can not include something that only exists for backward compatibility or is
+You can claim something only takes a subset of the types it really could support, you
+can exclude an object type that only exists for backward compatibility or is
 deprecated, etc - all things you could not do in a compiled language. In
-general, you should be more strict with typing that with runtime.
+general, you should be more strict with typing than with runtime.
 ```
 
 ## Typing basics
 
 ### Typing syntax
 
-The following places are places you can add type annotations:
+Type annotations can appear in any of the following locations:
 
 ```python
 # Variable annotation (3.6+)
@@ -274,7 +273,7 @@ You do not need to add a type to the `self` or `cls` parameter of a method.
 
 ### Simple types
 
-The type of a variable is generally it's class. So these are all types:
+The type of a variable is generally its class. So these are all types:
 
 ```python
 a: int = 1
@@ -286,8 +285,8 @@ f: bool = True
 g: None = None
 ```
 
-Notice that `None` is it's own type. If you have a custom or standard library
-class, that is also it's type.
+Notice that `None` is its own type. If you have a custom or standard library
+class, the class is its type.
 
 The relationship between `int`, `float`, and `complex` is special; `float` can
 also be `int`, for example. This keeps the types from being annoying about
@@ -310,7 +309,7 @@ x: Any = could_return_anything()
 
 This is basically untyped - the type checker will not catch anything with `Any`.
 Everything is allowed. There are places you have to (at least temporarily) use
-it, like when reading an data structure from a file. You should generally try to
+it, like when reading a data structure from a file. You should generally try to
 assign a type as soon as you know one.
 
 The other is `object`. This is also valid on every type, since every type in
@@ -332,16 +331,17 @@ Obviously, if you know the fixed type of these, it's better to use that.
 ### Generics
 
 Python also as the idea of generic classes (template classes in C++, the reason
-C++'s standard library is called the "stl", standard template library). This is
-a class that is parametrized on a "contained" type. Let's look at one:
+C++'s standard library is called the "stl", standard template library). Generics
+or templates are a class that are parametrized on a "contained" type. Let's look
+at one:
 
 ```python
 a: list[int] = [1, 2, 3]
 ```
 
-The parameters of the type are provided using `[]` syntax (`<>` in C++). List's
-have a parameter that takes the contents of the list. You can have 0 or more of
-those items. (Note: list is generic starting in Python 3.9, so either use future
+The type parameter is provided using `[]` syntax (`<>` in C++). List's have a
+parameter that takes the contents of the list. You can have 0 or more of those
+items. (Note: list is generic starting in Python 3.9, so either use future
 annotations or Python 3.9 for the above syntax; before that you had to use
 `from typing import List` and `List[int]`). The `set` collection works the same
 way.
@@ -357,7 +357,7 @@ c: tuple[int, ...] = (1, 2, 3)
 You'll see `tuple`'s design is customized based on the fact tuple is more often
 a heterogeneous container. You can chose to type it by each item, or you can use
 `...` to indicate there are 0 or more of the last item. If your type checker
-infers the type of tuple, it will select the "one each" method.
+infers the type of tuple, it will select the "one each" method (`b` above).
 
 Now let's look at `dict`:
 
@@ -365,12 +365,12 @@ Now let's look at `dict`:
 d: dict[str, int] = {"one": 1, "two": 2}
 ```
 
-Dictionaries take two arguments, the key and the value. Dictionaries are such an
-important structure that there's a second way to add types to them, `TypedDict`,
-that allows you to assign specific types to specific keys. We won't cover that
-here, but it is available if you need it. If you do have different types for
-different entries, you often should be using a (data)class instead of a
-dictionary - dicts are best homogeneous.
+Dictionary types take two arguments, the key and the value. Dictionaries are
+such an important structure that there's a second way to add types to them,
+`TypedDict`, that allows you to assign specific types to specific keys. We will
+cover them below. If you do have different types for different entries, you
+often should be using a (data)class instead of a dictionary - dicts are best
+homogeneous.
 
 That's the built-in collections. We'll see a better way to type _input_
 collections in a later section.
@@ -413,18 +413,19 @@ compiled languages. One example of this is `Final`:
 x: Final = 3
 ```
 
-You are now not allowed to reassign this:
+You are now not allowed to reassign `x`:
 
 ```python
 # Type checker will error here
 x = 4
 ```
 
-This is very useful for global constants - they should not be modified, now you
-can ensure that via the type checker. Note that this is not a "true" `const`
-variable; you can still mutate the variable if it's mutable. At least the Python
-authors were better at naming this - C++ `const` pointers and variables have the
-same problem if they hold a reference/pointer that is mutable.
+Final variables are especially useful for global constants - they should not be
+modified by convention, but now you can ensure they aren't overwritten via the
+type checker. Note that this is not a "true" `const` variable; you can still
+mutate the variable if it's mutable. At least the Python authors were better at
+naming this - C++ `const` pointers and variables have the same problem if they
+hold a reference/pointer that is mutable.
 
 ```python
 x: Final[list[int]] = []
@@ -433,12 +434,12 @@ x.append(1)  # Valid!
 # This wouldn't be a problem with a non-mutable type
 ```
 
-`Final` is a shorthand for `Final[Literal[3]]` in this case. You can explicitly
-include the type if you want (and this is not considered an unspecified generic
-when you turn on the matching flag in MyPy, since it's not assuming `Any` for
-the parameter). Some type checkers (PyLance) treat this a little differently
-when unspecified, so specifying the type when you have a container is mildly
-recommended.
+`Final` in the first example is a shorthand for `Final[Literal[3]]` in this
+case. You can explicitly include the type if you want (and this is not
+considered an unspecified generic when you turn on the matching flag in MyPy,
+since it's not assuming `Any` for the parameter). Some type checkers (PyLance)
+treat this a little differently when unspecified, so specifying the type when
+you have a container is mildly recommended.
 
 Another example is `@typing.final`, which is a decorator that marks a method as
 un-overridable.
@@ -496,9 +497,8 @@ d: VersionDict = {"major": 1, "minor": 2, "patch": 3}
 If you want these keys to be optional, you can add `total=False` to the _class
 definition_ (since version 3, Python has supported keyword arguments here too).
 Since Python 3.11 (or using `typing_extensions`) you can mark fields as required
-or potentially missing as well. (before this, you had to do this by making two
-classes with different `total=` settings and using inheritance, but it was
-cumbersome).
+or potentially missing as well. (before this, you had to make two classes with
+different `total=` settings and using inheritance, but it was cumbersome).
 
 ```python
 class VersionDictExtra(VersionDict, total=False):
@@ -522,8 +522,8 @@ class Version(typing.NamedTuple):
     patch: int
 ```
 
-This syntax is often nicer for runtime as well, and supports default values a
-bit more naturally.
+This syntax is often nicer for runtime as well, and supports default values more
+naturally.
 
 ## Type narrowing
 
@@ -616,11 +616,11 @@ This will require `"start"` or `"stop"` to be used; `run("begin")` will fail a
 type check. Note that `Literal["a", "b"]` is a shorthand for
 `Literal["a"] | Literal["b"]`.
 
-Note for backwards compatibility (and probably generally less surprising), the
-inferred type of `x = True` is `bool`, not `Literal[True]`. If type checkers did
-this, then `x = False` could not be set later, that would change the type (at
-least as some strictness level, variables should not be reassigned with a
-different type, just like a compiled language).
+Note for backwards compatibility (and probably because it is less surprising),
+the inferred type of `x = True` is `bool`, not `Literal[True]`. If type checkers
+used the more restrictive type, then `x = False` would change the type (at least
+as some strictness level, variables should not be reassigned with a different
+type, just like a compiled language).
 
 ### Overloads
 
@@ -665,7 +665,7 @@ c: int | None = could_be_none(x)
 Note the `...` above are the actual syntax - these are used in typing to
 indicate the body is somewhere else. (Unlike `pass`, which indicates there is no
 body or it's not implemented yet.) These overloads are type overloads only -
-they can't contain a body, they do nothing at runtime.
+they can't contain a body and they do nothing at runtime.
 
 ### Exhaustiveness checking
 
@@ -709,8 +709,8 @@ def handle_direction(direction: Direction) -> str:
 
 If you add a new direction, you will not be notified about `handle_direction`
 not handling the new direction until you hit it at runtime (hopefully by adding
-a test, not by your code breaking in the wild!). This can be handled by the type
-checker; it's called exhaustiveness checking:
+a test, not by your code breaking in the wild!). Alternatively, the check can be
+handled by the type checker; it's called exhaustiveness checking:
 
 `````{tab-set}
 ````{tab-item} Classic if statements
@@ -771,7 +771,7 @@ that it's directly available now.
 ## Structural subtyping
 
 We've already covered inheritance and ABCs. Now let's cover a different form,
-called structural subtyping, that fixes several shortcomings of that method.
+called structural subtyping, that fixes several shortcomings of inheritance.
 Namely, we lost modularity when we stared forcing inheritance structures.
 Structural subtyping trades code reuse for modularity. In Python, it's called a
 Protocol. C++ calls it Concepts. Java called it Interfaces. In essence, it's
@@ -810,14 +810,14 @@ def f(x: DoesSomething) -> None:
     x.do_something()
 ```
 
-Like before, the `...` is part of the syntax; Protocols have no bodies. Any
-class that has a `.do_something()` method that matches this signature can be
-passed to this function! We now have duck typing that MyPy can report on.
+Like before, the `...` is the actual syntax; Protocols have no bodies. Any class
+that has a `.do_something()` method that matches this signature can be passed to
+this function! We now have duck typing that MyPy can utilize.
 
-In C++20, doing this is a huge win for compiler error messages on templated
-code. This allows the compiler to instantly quit and tell the user exactly what
-is required, rather than producing a massive bunch of unreadable error messages
-at the first place an error is encountered inside the function (and this can be
+In C++20, adding concepts a huge win for compiler error messages on templated
+code. It allows the compiler to instantly quit and tell the user exactly what is
+required, rather than producing a massive bunch of unreadable error messages at
+the first place an error is encountered inside the function (and this can be
 nested, making it really hard to see where you broke an unspecified assumption).
 It's also a much easier and more readable way of doing overloads on templated
 arguments in C++20.
@@ -854,11 +854,11 @@ little slower that then `hasattr` and a `type: ignore` comment, sadly.
 ### Verifying a Protocol
 
 Notice the main difference between a Protocol and an ABC is that you are
-required to inherit from the ABC (subtyping), which the Protocol simply requires
+required to inherit from the ABC (subtyping), while the Protocol simply requires
 the structure of the class to look like a subtype of the Protocol. You _can_
-explicitly inherit from the Protocol if you want to, but there's much much
-reason to - a better trick that doesn't require the Protocol to be present at
-runtime is this:
+explicitly inherit from the Protocol if you want to, but there's not much reason
+to - a better method that doesn't require the Protocol to be present at runtime
+is:
 
 ```python
 class MyDoesSomething:
@@ -870,16 +870,18 @@ if typing.TYPE_CHECKING:
     _: DoesSomething = typing.cast(MyDoesSomething, None)
 ```
 
-There's a bit to unpack here, so let's go over it left to right. We are putting
-this inside a block only the type checker will analyze; it is skipped at
-runtime. We are making a variable, but we don't care about it, so we name it
-`_`. Then we tell the type checker this is going to be the desired Protocol. We
-then assign and instance of our class to this variable that is typed as the
-Protocol; if the type checker can't do this, we didn't successfully implement
-the Protocol. The `typing.cast` takes a value (just None in this case) and tells
-the type checker to treat it like `MyDoesSomething`. This is to avoid
-constructing the class - there's no constructor involved here. In this example,
-we could have just used `MyDoesSomething()` instead.
+There's a bit to unpack in the last line, so let's go over it left to right. We
+are putting the cast inside a guard block that only the type checker will
+analyze; it is skipped at runtime. We are making a variable, but we don't care
+about it, so we name it `_`, a convention for return values you don't need
+later. Then we tell the type checker this is going to be the desired Protocol.
+We then assign an instance of our class to this variable that is typed as the
+Protocol; if the type checker can't perform the cast, we didn't successfully
+implement the Protocol with `MyDoesSomething`. The `typing.cast` takes a value
+(just None in this case) and tells the type checker to treat it like
+`MyDoesSomething`. `None` is used to avoid constructing the class - there's no
+constructor involved here. In this example, we could have just used
+`MyDoesSomething()` instead.
 
 Note that we couldn't use `assert isinstance`, which would require
 `@runtime_checkable` (even in a `TYPE_CHECKING` block) or `typing.assert_type`,
@@ -915,8 +917,8 @@ is in the [Python docs](https://docs.python.org/3/library/collections.abc.html):
   function.
 - `Set[T]` A `set` or `frozenset`, or similar.
 
-As a general rule: _take the most general from possible_, and _return the
-specific form_. For example:
+As a general rule: _accept the most generic type possible_, and \_return the
+most specific type. For example:
 
 ```python
 from collections.abc import Sequence, Sized
@@ -926,10 +928,10 @@ def match_ints(a: Sequence[int], b: Sized) -> list[int]:
     return list(a[: len(b)])
 ```
 
-This takes two lists and returns the first list sliced to match the second list.
-By using generics, we can also swap these lists out for anything else that would
-work, like tuples or user defined classes with the right special methods. We
-always return a `list`, so we stay as specific as possible in the return.
+This function takes two lists and returns the first list sliced to match the
+second list. By using generics, we can also swap these lists out for things like
+tuples or user defined classes with the right special methods. We always return
+a `list`, so we stay as specific as possible in the return.
 
 ## More about generics
 
@@ -959,10 +961,10 @@ def f(x: T) -> T:
 
 TypeVar's do not hold a type by themselves. They always occur at least once in
 the _input_ of a of function. They may occur multiple times, or in the output,
-but they must occur in the input, since that's how they pick up a type. They can
-only be used in a function where they are in the input types. Above, when you
-call `f`, then `T` will be the type you call `f` with. So the above will pass
-through any types. You can use this inside other types, as well:
+but they must occur in the input, since that's how they are bound to a type.
+Above, when you call `f`, `T` will have the type you of the variable you called
+`f` with. So the above will pass through any types. You can use this as an
+argument to generics, as well:
 
 ```python
 def make_a_list(*args: T) -> list[T]:
@@ -974,7 +976,7 @@ def default_construct(cls: type[T]) -> T:
 ```
 
 `TypeVar`'s have a few other options. You can use `bound=` to force them to only
-bind to a type or it's subclasses (it picks the most specific possible) - unions
+bind to a type or its subclasses (it picks the most specific possible) - unions
 are also supported. You can constrain to a preset collection of types, and it
 will only match those types exactly.
 
