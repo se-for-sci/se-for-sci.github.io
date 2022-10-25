@@ -3,16 +3,15 @@
 A task runner, like [make][] (fully general), [rake][] (Ruby general),
 [invoke][] (Python general), [tox][] (Python packages), or [nox][] (Python
 semi-general), is a tool that lets you specify a set of tasks via a common
-interface. These have been discouraged in Scikit-HEP in the past, since they can
-be a crutch, allowing poor packaging practices to be employed behind a custom
-script, and they can hide what is actually happening.
+interface. These can be a crutch, allowing poor packaging practices to be
+employed behind a custom script, and they can hide what is actually happening.
 
-We are carefully allowing an exception: [nox][]. Nox has two strong points that
-help with the above concerns. First, it is very explicit, and even prints what
-it is doing as it operates. Unlike the older tox, it does not have any implicit
-assumptions built-in. Second, it has very elegant built-in support for both
-virtual and Conda environments. This can greatly reduce new contributor friction
-with your codebase.
+However, there is a tool that is really useful: [nox][]. Nox has two strong
+points that help with the above concerns. First, it is very explicit, and even
+prints what it is doing as it operates. Unlike the older tox, it does not have
+any implicit assumptions built-in. Second, it has very elegant built-in support
+for both virtual and Conda environments. This can greatly reduce new contributor
+friction with your codebase.
 
 A daily developer is _not_ expected to use nox for simple tasks, like running
 tests or linting. You should _not_ rely on nox to make a task that should be
@@ -156,8 +155,7 @@ will likely look similar across different projects:
 
 #### Lint
 
-All Scikit-HEP developers should be using pre-commit directly, but this helps
-new users.
+Developers should be using pre-commit directly, but this helps new users.
 
 ```python
 @nox.session
