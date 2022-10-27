@@ -1,21 +1,18 @@
 #!/usr/bin/env python
 
 from textual.app import App, ComposeResult
-from textual.widgets import Static, Header, Footer
+from textual.widgets import Static, Header, Footer, Input
 
 
 class PrincetonApp(App):
     """Displays the Princeton colors."""
 
-    BINDINGS = [
-        ("q", "quit", "Quit"),
-    ]
-
-    COLORS = ["black", "orange"]
+    BINDINGS = [("q", "quit", "Quit")]
 
     def compose(self) -> ComposeResult:
         yield Header(show_clock=True)
-        for color in self.COLORS:
+        yield Input(placeholder="Name")
+        for color in ["black", "orange"] * 2:
             stripe = Static()
             stripe.styles.height = "1fr"
             stripe.styles.background = color
