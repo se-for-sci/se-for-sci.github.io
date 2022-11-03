@@ -489,4 +489,4 @@ pushes but will build each commit on `main`.
 
 ## Setting up other systems (like pre-commit.ci)
 
-TODO.
+To set up pre-commit.ci,

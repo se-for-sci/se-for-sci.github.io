@@ -37,5 +37,18 @@ jobs:
 
       - uses: pypa/gh-action-pypi-publish@v1.5.1
         with:
+          repository_url: https://test.pypi.org/legacy/
           password: ${{ secrets.pypi_password }}
 ```
+
+This workflow is triggerable manually (by clicking in the web interface), as
+well as on any "GitHub Release" (which uses or creates a Git tag, too).
+
+This workflow has two jobs. One builds the artifacts (an SDist and a wheel), and
+the other takes those artifacts and pushes them to PyPI (test PyPI in this case,
+just in case!) The second job only runs if the first succeeds. It also only runs
+if this is a release; otherwise, if you triggered it manually, you can manually
+download the files from the first job.
+
+This does not have to be in two jobs, but this does scale a bit better if you
+need to do something more complex, like build binaries.
