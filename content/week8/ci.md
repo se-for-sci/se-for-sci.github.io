@@ -1,4 +1,4 @@
-# Continuous integration
+# Continuous Integration
 
 There are a lot of services that can run code for you and integrate with git.
 These CI services may be hosted for you, or sometimes you can host them
@@ -487,6 +487,9 @@ the "from" name for the PR. If you want, you can replace `github.ref` with
 `github.event.pull_request.number || github.sha`; this will still cancel on PR
 pushes but will build each commit on `main`.
 
-## Setting up other systems (like pre-commit.ci)
+## Setting up pre-commit.ci
 
-To set up pre-commit.ci,
+To set up pre-commit.ci, visit <https://pre-commit.ci>.
+
+This has two benefits: it can update your hooks weekly/monthly/quarterly, and it
+can automatically push fixes to pull requests.
