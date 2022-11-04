@@ -49,6 +49,8 @@ parts:
   - caption: "Week 8: Continuous Integration"
     chapters:
       - file: content/week8/ci.md
+      - file: content/week8/cd.md
+      - file: content/week8/docs.md
 
   - caption: "Week 9: Intro to Compilation"
     chapters:
