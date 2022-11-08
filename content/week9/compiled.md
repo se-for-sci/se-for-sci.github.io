@@ -1,13 +1,18 @@
 # Intro to compiled languages
 
-## Intro to C++/Fortran
+Please use the jupiter notebook in this directory to follow the lecture notes.
+Here is a brief outline of what we will discuss in the jupyter notebook.
 
-## Intro to compilers and linkers
+## Using numba in python
 
-## Intro to C++ build systems (like CMake)
+## Using the C, C++ and Fortran compilers
 
-## Intro to C++ tooling
+## Using the PATH, LIBRARY_PATH and LD_LIBRARY_PATH environment variables
 
-## Setting up a compiled project
+## Using the module command 
 
-## Templates and compile time programming
+## Using pre-processor directives
+
+## Using make
+
+## Using cmake
