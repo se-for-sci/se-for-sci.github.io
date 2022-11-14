@@ -48,9 +48,10 @@ Example:
 double x[100];
 x[345] = 0 ! SIGSEGV
 ```
-- Make sure your shell “stack size limit” is set to “unlimited”
-  - BASH: ``ulimit -s unlimited`` (put in .bashrc)
-  - CSH: ``limit stacksize unlimited`` (put in .cshrc)
+- Make sure your shell “stack size limit” and "core size limit" are both set to “unlimited”
+  - ``ulimit -c unlimited`` set stack memory to unlimited
+  - ``ulimit -s unlimited`` set core file size to unlimited
+  - ``ulimit -a`` show all limits
 
 - I/O errors
   - File already exists
@@ -519,7 +520,7 @@ to run ``until`` (gdb) the variable changes to a given value
 
 ### Python debugger
 
-- The “pdb” debugger is part of Python
+- The ``pdb`` debugger is part of Python
 
 - Just insert the following at any point in your Python code:
 ```python
