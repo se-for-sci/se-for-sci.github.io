@@ -18,7 +18,7 @@ In this lecture, we will:
 
 ### Debugging is not easy
 
-When a code crashes it usually writes out a crypJc error message
+When a code crashes it usually writes out a cryptic error message
 
 - The cpu processes machine instructions, not the C or Fortran source code that you wrote...
 
@@ -173,7 +173,7 @@ All compilers accept the ``-g`` option.
 - It can point to a memory issue, such as a pointer accessing a bad memory address when the optimized code is executed
 
 - Look at your compiler’s documentation for how you can use the ``-g`` option while keeping most of the optimizations intact, such as ``-gopt`` for the PGI compiler (Portland Group), or simply ``-g –O2`` for Intel
-  - caveat: these solutions can sometimes point you to the wrong locaJon in the source code
+  - caveat: these solutions can sometimes point you to the wrong location in the source code
 
 ### Examples of useful compiler options
 
@@ -528,7 +528,7 @@ import pdb
 pdb.set_trace()
 ```
 
-- The executoon will stop after these lines and will put you under ``pdb`` (you will have the (Pdb) prompt)
+- The execution will stop after these lines and will put you under ``pdb`` (you will have the (Pdb) prompt)
 
 - Use ``help`` to see the commands
 ```
