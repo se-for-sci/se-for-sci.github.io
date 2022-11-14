@@ -287,7 +287,7 @@ FcPatternPrint (3)   - Print a pattern for debugging
 gdb (1)              - The GNU Debugger
 ```
 
-- Use the ```apropos debug`` command on your UNIX-based plavorm to find out which debugger is available
+- Use the ``apropos debug`` command on your UNIX-based plavorm to find out which debugger is available
 
 - If working on Linux (most cases), ``gdb`` should be available
 
