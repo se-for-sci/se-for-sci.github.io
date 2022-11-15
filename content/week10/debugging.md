@@ -760,3 +760,14 @@ subroutine compute_nothing
 end subroutine compute_nothing
 ```
 
+### Using Graphical Debuggers
+
+Nowadays many solutions are available for code developments, editing and debugging. These are called Integrated Development Environments (IDE). Famous examples are:
+
+- In python, you have PyCharm developed by Jetbrains available at [this web page](https://www.jetbrains.com/pycharm/).
+
+- For Python, but also C, C++ anf Fortran you have the brand new Visual Studio 2022 from Microsoft available [here](https://visualstudio.microsoft.com/vs/).
+
+![Here is a screenshot of the PyCharm IDE](complexLook.jpg)
+
+In these IDE, ``git`` version control, debugging, compiling and editing are all integrated together with a powerful user interface. Once you try it, you adopt it. The downside is that it is tricky to work on code on remote computers. You need to be familiar with ``ssh`` tunneling which can be tricky and unstable.
