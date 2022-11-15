@@ -647,7 +647,6 @@ subroutine compute_nothing
   integer,dimension(:),pointer::p
   integer::i
   integer::n=100000000
-  real::outmem
 
   allocate(array(n))
   allocate(p(n))
@@ -749,7 +748,6 @@ subroutine compute_nothing
   integer,dimension(:),pointer::p
   integer::i
   integer::n=100000000
-  real::outmem
 
   allocate(array(n))
   do i=1,n
