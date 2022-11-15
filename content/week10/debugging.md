@@ -576,7 +576,7 @@ p expression
   - Avoid losing hours of precious computer time
   - Especially important for parallel codes
 
-- Extremely important when you need to debug a code that crashes a\er a few hours!!
+- Extremely important when you need to debug a code that crashes after a few hours!!
   - You can recompile the code with ``–g`` and start from the last checkpoint
   - Remember... ``-g`` slows down the code dramatically so you want to be as close to the crash as possible
 
@@ -621,8 +621,102 @@ p expression
 
 - Explicit flushing of I/O buffers with ``fflush()`` (C) or ``call flush(unit)`` (Fortran)
 
+### Debugging memory leaks
 
+```c
+program memleak
 
+  integer::i
+
+  do i=1,20
+     if(mod(i,10)==0)write(*,*)i
+     call compute_nothing
+  end do
+
+end program memleak
+
+subroutine compute_nothing
+
+  integer,dimension(:),allocatable,target::array
+  integer,dimension(:),pointer::p
+  integer::i
+  integer::n=100000000
+  real::outmem
+
+  allocate(array(n))
+  allocate(p(n))
+  do i=1,n
+     array(i)=i*2
+  end do
+  p=>array
+  deallocate(array)
+
+end subroutine compute_nothing
+```
+
+```
+$ gfortran -g memleak.f90 -o ml
+$ ./ml
+```
+```
+[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+3092916 rt3504    20   0 4316088  81436   2232 R  94.4   0.0   0:02.29 ml
+[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+3092916 rt3504    20   0 6269228 314928   2232 R 100.0   0.1   0:03.69 ml
+[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+3092916 rt3504    20   0 9937.0m  87640   2232 R 100.0   0.0   0:06.04 ml
+[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+3092916 rt3504    20   0   11.9g 343664   2232 R 100.0   0.1   0:07.70 ml
+[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+3092916 rt3504    20   0   14.5g 298636   2232 R  94.4   0.1   0:09.42 ml
+```
+```
+[rt3504@stellar-intel ~]$ valgrind --leak-check=full ./ml
+==3093274== Memcheck, a memory error detector
+==3093274== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==3093274== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==3093274== Command: ./ml
+==3093274==
+==3093274== Warning: set address range perms: large range [0x35f70028, 0x4dce8458) (noaccess)
+          10
+==3093274== Warning: set address range perms: large range [0x100cf0040, 0x118a68440) (undefined)
+	  20
+==3093274== Warning: set address range perms: large range [0x1ef3aa040, 0x207122440) (undefined)
+==3093274== Warning: set address range perms: large range [0x1d7631040, 0x1ef3a9440) (undefined)
+==3093274== Warning: set address range perms: large range [0x1ef3aa028, 0x207122458) (noaccess)
+==3093274==
+==3093274== HEAP SUMMARY:
+==3093274==     in use at exit: 8,000,000,000 bytes in 20 blocks
+==3093274==   total heap usage: 61 allocs, 41 frees, 16,000,013,520 bytes allocated
+==3093274==
+==3093274== 2,000,000,000 bytes in 5 blocks are possibly lost in loss record 1 of 2
+==3093274==    at 0x4C37135: malloc (vg_replace_malloc.c:381)
+==3093274==    by 0x400B19: compute_nothing_ (memleak.f90:21)
+==3093274==    by 0x400CF6: MAIN__ (memleak.f90:7)
+==3093274==    by 0x400D3C: main (memleak.f90:10)
+==3093274==
+==3093274== 6,000,000,000 bytes in 15 blocks are definitely lost in loss record 2 of 2
+==3093274==    at 0x4C37135: malloc (vg_replace_malloc.c:381)
+==3093274==    by 0x400B19: compute_nothing_ (memleak.f90:21)
+==3093274==    by 0x400CF6: MAIN__ (memleak.f90:7)
+==3093274==    by 0x400D3C: main (memleak.f90:10)
+==3093274==
+==3093274== LEAK SUMMARY:
+==3093274==    definitely lost: 6,000,000,000 bytes in 15 blocks
+==3093274==    indirectly lost: 0 bytes in 0 blocks
+==3093274==      possibly lost: 2,000,000,000 bytes in 5 blocks
+==3093274==    still reachable: 0 bytes in 0 blocks
+==3093274==         suppressed: 0 bytes in 0 blocks
+==3093274==
+==3093274== For lists of detected and suppressed errors, rerun with: -s
+==3093274== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)~
+
+```
 
 
 
