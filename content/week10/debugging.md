@@ -773,5 +773,5 @@ Here is a screenshot of the PyCharm IDE:
 
 In these IDE, ``git`` version control, debugging, compiling and editing are all integrated together with a powerful user interface. Once you try it, you adopt it. The downside is that it is tricky to work on code on remote computers. You need to be familiar with ``ssh`` tunneling which can be tricky and unstable.
 
-On adroit and stellar, you will find the ``ddt`` debugger quite handy. See web pag [here](https://www.arm.com/products/development-tools/server-and-hpc/forge/ddt).
+On adroit and stellar, you will find the ``ddt`` debugger quite handy. See web page [here](https://www.arm.com/products/development-tools/server-and-hpc/forge/ddt).
 ![](ddt_example.png)
