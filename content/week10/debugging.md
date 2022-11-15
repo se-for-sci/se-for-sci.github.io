@@ -628,7 +628,7 @@ program memleak
 
   integer::i
 
-  do i=1,20
+  do i=1,200
      if(mod(i,10)==0)write(*,*)i
      call compute_nothing
   end do
@@ -687,8 +687,6 @@ $ ./ml
 ==3093274== Warning: set address range perms: large range [0x100cf0040, 0x118a68440) (undefined)
 	  20
 ==3093274== Warning: set address range perms: large range [0x1ef3aa040, 0x207122440) (undefined)
-==3093274== Warning: set address range perms: large range [0x1d7631040, 0x1ef3a9440) (undefined)
-==3093274== Warning: set address range perms: large range [0x1ef3aa028, 0x207122458) (noaccess)
 ==3093274==
 ==3093274== HEAP SUMMARY:
 ==3093274==     in use at exit: 8,000,000,000 bytes in 20 blocks
