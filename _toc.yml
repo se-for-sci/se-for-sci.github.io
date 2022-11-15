@@ -58,6 +58,7 @@ parts:
 
   - caption: "Week 10: Profiling"
     chapters:
+      - file: content/week10/debugging.md
       - file: content/week10/profiling.md
 
   - caption: "Week 11: Parallel Computing"
