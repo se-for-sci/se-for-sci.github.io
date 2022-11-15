@@ -762,7 +762,3 @@ subroutine compute_nothing
 end subroutine compute_nothing
 ```
 
-### Advanced graphical debuggers
-
-- for python, **jupyter notebook** or **
-
