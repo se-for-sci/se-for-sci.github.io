@@ -8,7 +8,7 @@ In this lecture, we will:
 
 - learn tips and tricks from a lifelong experience in debugging
 
-- gain pratical knowledge in
+- gain practical knowledge in
 
   - simple debugging techniques using compilers
   - simple debuggers for C/ C++ and Fortran
@@ -528,7 +528,7 @@ import pdb
 pdb.set_trace()
 ```
 
-- You can also use in your jupyter notebooks tha magic commands ``%pdb`` or ``%debug`` directly in the cells.
+- You can also use in your jupyter notebooks the magic commands ``%pdb`` or ``%debug`` directly in the cells.
 
 - The execution will stop after these lines and will put you under ``pdb`` (you will have the (Pdb) prompt)
 
