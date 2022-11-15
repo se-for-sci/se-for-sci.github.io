@@ -57,7 +57,7 @@ x[345] = 0 ! SIGSEGV
   - File already exists
   - File doesn't exist
   - No space left on disk
-    - ``checkquota`` will check for memory and inodea overflow
+    - ``checkquota`` will check for memory and inodes overflow
 
 ```
 [rt3504@stellar-intel ~]$ checkquota
