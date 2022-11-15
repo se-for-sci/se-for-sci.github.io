@@ -528,6 +528,8 @@ import pdb
 pdb.set_trace()
 ```
 
+- You can also use in your jupyter notebooks tha magic commands ``%pdb`` or ``%debug`` directly in the cells.
+
 - The execution will stop after these lines and will put you under ``pdb`` (you will have the (Pdb) prompt)
 
 - Use ``help`` to see the commands
@@ -623,6 +625,10 @@ p expression
 
 ### Debugging memory leaks
 
+A particularly difficult type of bugs is those related to memory management, in particular what is called **memory leaks**. Usually, any good compiler will make sure that the temporary memory for arrays in subroutines and functions are properly deallocated when leaving the subroutine or the function. Sometimes, it is impossible and mistakes are made that slowly and systematicaly drain all the available memory. Ultimately, the code will crash because it runs out of memory.
+
+The program below is an example of such a memory leak. In the subroutine, a temporary array is allocated and deallocated on exit, but a pointer pointing to this array is not. This will lead to a memory leak.
+
 ```c
 program memleak
 
@@ -654,10 +660,15 @@ subroutine compute_nothing
 end subroutine compute_nothing
 ```
 
+We can compile this code using the ``-g`` option but nothing will be detected both at compilation time and at run time.
+
 ```
 $ gfortran -g memleak.f90 -o ml
 $ ./ml
 ```
+
+Using the ``top`` command at several times, one can see the virtual memory (``VIRT`` below) slowly increasing from slightly less than 0.,5GB to more than 14GB and counting. With more than 200 loops, the code would have crashed.
+
 ```
 [rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
@@ -675,6 +686,9 @@ $ ./ml
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
 3092916 rt3504    20   0   14.5g 298636   2232 R  94.4   0.1   0:09.42 ml
 ```
+
+We now use the ``valgrind`` utility to debug specifically memory leaks. The code is executed and ``valgrind`` targets allocations and deallocations, and quickly identifies that there is a problem.
+
 ```
 [rt3504@stellar-intel ~]$ valgrind --leak-check=full ./ml
 ==3093274== Memcheck, a memory error detector
@@ -716,5 +730,39 @@ $ ./ml
 
 ```
 
+the correct code would be in this case:
+```c
+program memleak
 
+  integer::i
+
+  do i=1,200
+     if(mod(i,10)==0)write(*,*)i
+     call compute_nothing
+  end do
+
+end program memleak
+
+subroutine compute_nothing
+
+  integer,dimension(:),allocatable,target::array
+  integer,dimension(:),pointer::p
+  integer::i
+  integer::n=100000000
+  real::outmem
+
+  allocate(array(n))
+  do i=1,n
+     array(i)=i*2
+  end do
+  p=>array
+  nullify(p)
+  deallocate(array)
+
+end subroutine compute_nothing
+```
+
+### Advanced graphical debuggers
+
+- for python, **jupyter notebook** or **
 
