@@ -1,7 +1,3 @@
 # Profiling
 
-## Using a Python profilers
-
-## Using a profiler with a compiled language
-
-## Memory optimization
+Please access the PDF of the slides [here](./profiling_stone_teyssier_slides.pdf).
