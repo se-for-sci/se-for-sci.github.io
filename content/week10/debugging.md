@@ -1,6 +1,9 @@
 # Debugging
 
-Debugging is one of the most painful and addictive activity in software engineering. One could compare it to running or sudoku. You suffer for hours trying to understand why your code is crashing, and when you find the bug, the prize is a dopamine rush and a working code.
+Debugging is one of the most painful and addictive activity in software
+engineering. One could compare it to running or sudoku. You suffer for hours
+trying to understand why your code is crashing, and when you find the bug, the
+prize is a dopamine rush and a working code.
 
 In this lecture, we will:
 
@@ -20,44 +23,53 @@ In this lecture, we will:
 
 When a code crashes it usually writes out a cryptic error message
 
-- The cpu processes machine instructions, not the C or Fortran source code that you wrote...
+- The cpu processes machine instructions, not the C or Fortran source code that
+  you wrote...
 
-- Instructions in the final executable program have probably been rearranged for optimization purposes
+- Instructions in the final executable program have probably been rearranged for
+  optimization purposes
 
-- You are in luck if the error happens at the beginning of the execution... usually it does not!
+- You are in luck if the error happens at the beginning of the execution...
+  usually it does not!
 
-- In a large parallel code, how many processes triggered the problem? 1, 2, all of them? Was it related to inter-process communication?
+- In a large parallel code, how many processes triggered the problem? 1, 2, all
+  of them? Was it related to inter-process communication?
 
 ### Typical error messages
 
--  ``SIGFPE``: floating point exception
-   -  Often controlled by compiler options
-   -  division by zero
-   -  square root of a negative number
-   -  log of a number less or equal to zero
+- `SIGFPE`: floating point exception
+
+  - Often controlled by compiler options
+  - division by zero
+  - square root of a negative number
+  - log of a number less or equal to zero
 
 - Does not always crash your code! (unless compiled to do so...)
-- The code can keep going for a long time with ``NaN`` values
+- The code can keep going for a long time with `NaN` values
 
--  ``SIGSEGV``: segmentation violation (see “man 7 signal”)
-   - invalid memory reference!e.g. trying to access an array element
-outside the dimensions of an array
+- `SIGSEGV`: segmentation violation (see “man 7 signal”)
+  - invalid memory reference!e.g. trying to access an array element outside the
+    dimensions of an array
 
 Example:
+
 ```c
 double x[100];
 x[345] = 0 ! SIGSEGV
 ```
-- Make sure your shell “stack size limit” and "core size limit" are both set to “unlimited”
-  - ``ulimit -c unlimited`` set stack memory to unlimited
-  - ``ulimit -s unlimited`` set core file size to unlimited
-  - ``ulimit -a`` show all limits
+
+- Make sure your shell “stack size limit” and "core size limit" are both set to
+  “unlimited”
+
+  - `ulimit -c unlimited` set stack memory to unlimited
+  - `ulimit -s unlimited` set core file size to unlimited
+  - `ulimit -a` show all limits
 
 - I/O errors
   - File already exists
   - File doesn't exist
   - No space left on disk
-    - ``checkquota`` will check for memory and inodes overflow
+    - `checkquota` will check for memory and inodes overflow
 
 ```
 [rt3504@stellar-intel ~]$ checkquota
@@ -95,9 +107,13 @@ For quota increase requests please use this website:
 
 - Take the time to go through all the options of the compiler that you use
 
-- Pay particular attention to the diagnostics options under sections with names such as “debugging”, “optimization”, “target-specific”, “warnings”
+- Pay particular attention to the diagnostics options under sections with names
+  such as “debugging”, “optimization”, “target-specific”, “warnings”
 
-- Using ``man gcc`` or ``man gfortran`` is a good start although most compilers now have detailed online documentation! Just check the company’s web site under “support” or “documentation”. For example, the documentation for ``gcc`` (GNU Compiler Collection) can be found [here](https://gcc.gnu.org).
+- Using `man gcc` or `man gfortran` is a good start although most compilers now
+  have detailed online documentation! Just check the company’s web site under
+  “support” or “documentation”. For example, the documentation for `gcc` (GNU
+  Compiler Collection) can be found [here](https://gcc.gnu.org).
 
 ```
 [rt3504@stellar-intel ~]$ man gfortran
@@ -132,7 +148,7 @@ DESCRIPTION
 OPTIONS
        Here is a summary of all the options specific to GNU Fortran, grouped by type.  Explanations are in the following
        sections.
-       
+
        Error and Warning Options
            -Waliasing -Wall -Wampersand -Wargument-mismatch -Warray-bounds -Wc-binding-type -Wcharacter-truncation -Wconversion
            -Wdo-subscript -Wfunction-elimination -Wimplicit-interface -Wimplicit-procedure -Wintrinsic-shadow
@@ -146,94 +162,120 @@ OPTIONS
 
 - [see Intel C, C++ and Fortran compiler debugging and optimization pages here](https://www.intel.com/content/www/us/en/develop/documentation/fortran-compiler-oneapi-dev-guide-and-reference/top/compilation/debugging/debugging-and-optimizations.html)
 
-### The ``-g`` compiler option
+### The `-g` compiler option
 
-All compilers accept the ``-g`` option.
+All compilers accept the `-g` option.
 
 - It links the source code to the executed machine language code.
 
-- The ``-g`` option is necessary when using a debugger unless you are REALLY good at deciphering machine language.
+- The `-g` option is necessary when using a debugger unless you are REALLY good
+  at deciphering machine language.
 
-- However, using ``-g`` slows down the code significantly
+- However, using `-g` slows down the code significantly
 
-- Removes optimizations (unless one uses ``–gopt`` or ``–g –O3``)
+- Removes optimizations (unless one uses `–gopt` or `–g –O3`)
 
-- Start with ``-g –O0`` (no optimization) for most accurate correspondence between executable instructions and source code line
+- Start with `-g –O0` (no optimization) for most accurate correspondence between
+  executable instructions and source code line
 
-- Inserts a lot of extra information in the executable to help the debugging process
+- Inserts a lot of extra information in the executable to help the debugging
+  process
 
-- Running with ``-g`` is sometimes sufficient to find a bug. The code crashes and indicates where the error occurred
+- Running with `-g` is sometimes sufficient to find a bug. The code crashes and
+  indicates where the error occurred
 
-### The ``-g`` option makes the bug go away!
+### The `-g` option makes the bug go away!
 
-- Sometimes, the fact of using the ``-g`` option makes the bug go away
+- Sometimes, the fact of using the `-g` option makes the bug go away
 
-- This does not necessarily mean that the optimized code generated by the compiler is wrong, although it could be...
+- This does not necessarily mean that the optimized code generated by the
+  compiler is wrong, although it could be...
 
-- It can point to a memory issue, such as a pointer accessing a bad memory address when the optimized code is executed
+- It can point to a memory issue, such as a pointer accessing a bad memory
+  address when the optimized code is executed
 
-- Look at your compiler’s documentation for how you can use the ``-g`` option while keeping most of the optimizations intact, such as ``-gopt`` for the PGI compiler (Portland Group), or simply ``-g –O2`` for Intel
-  - caveat: these solutions can sometimes point you to the wrong location in the source code
+- Look at your compiler’s documentation for how you can use the `-g` option
+  while keeping most of the optimizations intact, such as `-gopt` for the PGI
+  compiler (Portland Group), or simply `-g –O2` for Intel
+  - caveat: these solutions can sometimes point you to the wrong location in the
+    source code
 
 ### Examples of useful compiler options
 
 - All compilers have options that try to detect potential bugs in the code
+
   - Array bounds check (Fortran: –C, -Mbounds, -check bounds)
     - Check for array subscripts and substrings out of bounds
     - Should be done on unoptimized code (-O0)
   - Easier for Fortran than C/C++ due to the way pointers are treated
-    - In C, it is the responsibility of the programmer to make sure that a pointer always points to a valid address and number
+    - In C, it is the responsibility of the programmer to make sure that a
+      pointer always points to a valid address and number
 
 - Enable runtime error traceback capability
+
   - --trace, -trace, -traceback
 
 - Make sure that Floating Point Exceptions (FPE) are turned on
   - e.g. -fpe0 for Intel and -Ktrap=fp for PGI compiler
 
-### Warning options in ``gcc`` and ``gfortran``
+### Warning options in `gcc` and `gfortran`
 
-- The gcc compiler has a large number of options that will produce a warning at compile time
-  - They all start with ``-W...``
-  - Example: ``-Wuninitialized`` warns if an automatic variable is used before being initialized
-  - ``-Wall`` turns on most of the gcc warning options
-  - ``-Werror`` makes all warnings into errors
-  - Different levels of debugging information with ``–g1``, ``–g2``, and ``–g3``
-  - See ``man gcc``
+- The gcc compiler has a large number of options that will produce a warning at
+  compile time
+  - They all start with `-W...`
+  - Example: `-Wuninitialized` warns if an automatic variable is used before
+    being initialized
+  - `-Wall` turns on most of the gcc warning options
+  - `-Werror` makes all warnings into errors
+  - Different levels of debugging information with `–g1`, `–g2`, and `–g3`
+  - See `man gcc`
 
 ### Try different compilers if you can
 
-- Whenever you can, it is always a good idea to try different compilers if you have access to different plavorms or different compilers on the same plavorm
+- Whenever you can, it is always a good idea to try different compilers if you
+  have access to different plavorms or different compilers on the same plavorm
 
-- Some compilers are a lot stricter than others and can catch potential problems at compile time
+- Some compilers are a lot stricter than others and can catch potential problems
+  at compile time
 
-- See [this page](https://www.fortran.uk/fortran-compiler-comparisons/intellinux-fortran-compiler-diagnostic-capabilities/) for comparison between Fortran compilers in terms of available diagnostics
+- See
+  [this page](https://www.fortran.uk/fortran-compiler-comparisons/intellinux-fortran-compiler-diagnostic-capabilities/)
+  for comparison between Fortran compilers in terms of available diagnostics
 
-- See [this page](https://gcc.gnu.org/wiki/ClangDiagnosticsComparison) for comparison between GCC and Clang compilers in term of available diagnostics
-
+- See [this page](https://gcc.gnu.org/wiki/ClangDiagnosticsComparison) for
+  comparison between GCC and Clang compilers in term of available diagnostics
 
 ### The code crashes... now what?!
 
-- The first thing that you need to know is **where** the code stopped and **how** it got there
+- The first thing that you need to know is **where** the code stopped and
+  **how** it got there
 
-- Each time a program performs a function call, information about the call is generated. That information includes the location of the call in the program, the arguments of the call, and the local variables of the function being called
+- Each time a program performs a function call, information about the call is
+  generated. That information includes the location of the call in the program,
+  the arguments of the call, and the local variables of the function being
+  called
 
-- This information is saved in a block of data called *stack frame*
+- This information is saved in a block of data called _stack frame_
 
 - The stack frames are stored in a region of memory called the **call stack**
 
-### Saving the stack in ``core`` files
+### Saving the stack in `core` files
 
 - How can one view the stack if the code crashed?
 
-- When a code crashes, the system (normally) saves the last call stack of the code in files named ``core`` (or ``core.#``, where ``#`` is the rank number of an MPI task in a parallel code)
+- When a code crashes, the system (normally) saves the last call stack of the
+  code in files named `core` (or `core.#`, where `#` is the rank number of an
+  MPI task in a parallel code)
 
-- No ``core`` file?
-  - Check your shell limits: ``ulimit –a`` (bash) or ``limit`` (csh)
-  - Look for ``core file size`` (bash) or ``coredumpsize`` (csh) > 0
+- No `core` file?
+
+  - Check your shell limits: `ulimit –a` (bash) or `limit` (csh)
+  - Look for `core file size` (bash) or `coredumpsize` (csh) > 0
 
 - These files are binary files meant to be read by debuggers
 
-- Of limited use if the code was not compiled with –g option that links machine language code to high-level source code
+- Of limited use if the code was not compiled with –g option that links machine
+  language code to high-level source code
 
 ### Examining the call stack
 
@@ -288,11 +330,12 @@ FcPatternPrint (3)   - Print a pattern for debugging
 gdb (1)              - The GNU Debugger
 ```
 
-- Use the ``apropos debug`` command on your UNIX-based plavorm to find out which debugger is available
+- Use the `apropos debug` command on your UNIX-based plavorm to find out which
+  debugger is available
 
-- If working on Linux (most cases), ``gdb`` should be available
+- If working on Linux (most cases), `gdb` should be available
 
-### The ``gdb`` debugger
+### The `gdb` debugger
 
 - Official GNU debugger available under Linux
 
@@ -300,48 +343,53 @@ gdb (1)              - The GNU Debugger
 
 - Can also be used with Fortran codes
 
-- Online manual for gdb at ``info gdb``
+- Online manual for gdb at `info gdb`
 
-- Can be used within the ``emacs`` editor
-  - Can run gdb commands within the emacs source code window (e.g. C-x SPC to set a breakpoint)
+- Can be used within the `emacs` editor
+
+  - Can run gdb commands within the emacs source code window (e.g. C-x SPC to
+    set a breakpoint)
 
 - See also Visual Studio
 
 - Online manual can be found [here](https://www.sourceware.org/gdb/current/).
 
-- If code was compiled with –g and *dumped core files* when it crashed, the first thing to try is the following:
+- If code was compiled with –g and _dumped core files_ when it crashed, the
+  first thing to try is the following:
 
 ```sh
 $ gdb executable core.#
 (gdb) where (or backtrace, or bt)
 ```
 
-- The ``where`` command prints out the call stack
+- The `where` command prints out the call stack
 
-- You can also use the DDT advanced debugger to open the core file and view the call stack...
+- You can also use the DDT advanced debugger to open the core file and view the
+  call stack...
 
-### Using ``gdb``
+### Using `gdb`
 
-- Compile with ``-g -O0`` to get accurate binary-to-source correspondence
+- Compile with `-g -O0` to get accurate binary-to-source correspondence
 
-- Start gdb: ``gdb a.out``
+- Start gdb: `gdb a.out`
 
 - You get the (gdb) prompt, where you can type the commands:
 
-| Command | Abbrev. | Description |
-| :----------- | :----------- | :----------- |
-| ``help`` |   | List gdb command topics|
-| ``run`` |  ``r``  | Start program execution |
-| ``break`` |   | Suspend execution at specific location (line number, function, instruction address, etc.)
-| ``step`` | ``s``  | Step to next line of code. Will step into a function if necessary|
-| ``next`` |  ``n`` | Execute next line of code. Will NOT enter functions|
-| ``until`` |   | Continue processing until it reaches a specified line|
-| ``list`` |  ``l`` | List source code with current position of execution|
-| ``print`` | ``p``  | Print value stored in a variable|
+| Command | Abbrev. | Description                                                                               |
+| :------ | :------ | :---------------------------------------------------------------------------------------- |
+| `help`  |         | List gdb command topics                                                                   |
+| `run`   | `r`     | Start program execution                                                                   |
+| `break` |         | Suspend execution at specific location (line number, function, instruction address, etc.) |
+| `step`  | `s`     | Step to next line of code. Will step into a function if necessary                         |
+| `next`  | `n`     | Execute next line of code. Will NOT enter functions                                       |
+| `until` |         | Continue processing until it reaches a specified line                                     |
+| `list`  | `l`     | List source code with current position of execution                                       |
+| `print` | `p`     | Print value stored in a variable                                                          |
 
-### The ``gdb`` debugger: a demo
+### The `gdb` debugger: a demo
 
 Here is a simple example program in Fortran:
+
 - homework: do the samne in C and C++
 
 ```c
@@ -366,10 +414,12 @@ $ gfortran bug.f90 -o bug
 $ ./bug
                   Infinity
 ```
-OK, the compiler managed to deal quite elegantly with the divide by zero.
-It didn't care about the array index overflow.
+
+OK, the compiler managed to deal quite elegantly with the divide by zero. It
+didn't care about the array index overflow.
 
 Let's now compile with some more debugging options:
+
 ```sh
 $ gfortran -g -fbounds-check -ffpe-trap=zero bug.f90 -o bug
 $ ./bug
@@ -386,7 +436,9 @@ Error termination. Backtrace:
 #4  0x400986 in main
 	at /home/rt3504/bug.f90:12
 ```
+
 Let's correct the bug by modifying the program as follows:
+
 ```c
 program bug
 
@@ -401,7 +453,9 @@ program bug
 
 end program bug
 ```
+
 and compile it again:
+
 ```sh
 $ gfortran -g -fbounds-check -ffpe-trap=zero bug.f90 -o bug
 $ ./bug
@@ -418,7 +472,9 @@ Backtrace for this error:
 	at /home/rt3504/bug.f90:12
 Floating point exception (core dumped)
 ```
+
 Now we can fix the last bug:
+
 ```c
 program bug
 
@@ -433,13 +489,18 @@ program bug
 
 end program bug
 ```
+
 and try again:
+
 ```sh
 $ gfortran -g -fbounds-check -ffpe-trap=zero bug.f90 -o bug
 $ ./bug
    19.999999701976780
 ```
-That's much better. We still need to fix the precision of the division by changing:
+
+That's much better. We still need to fix the precision of the division by
+changing:
+
 ```c
 program bug
 
@@ -454,15 +515,19 @@ program bug
 
 end program bug
 ```
+
 and try one last time:
+
 ```sh
 $ gfortran -g -fbounds-check -ffpe-trap=zero bug.f90 -o bug
 $ ./bug
    20.000000000000000
 ```
+
 Ah now it is good!
 
-Let's now use ``gdb``:
+Let's now use `gdb`:
+
 ```sh
 $ gfortran -g -fbounds-check -ffpe-trap=zero -fbacktrace bug.f90 -o bug
 $ gdb ./bug
@@ -500,39 +565,46 @@ $5 = (8.4038908174475465e-315, 6.9533558073037849e-310, 1.158892633800178e-310, 
 - Detective work starts
 
 - Try reducing the problem size and see if the error is still there
+
   - The smaller the better
   - Running with only 2 processes is ideal if your code is parallel
 
-- Start your code in a debugger (gdb or other) and set a breakpoint on a line executed before the crash
+- Start your code in a debugger (gdb or other) and set a breakpoint on a line
+  executed before the crash
 
-- Examine the values of variables and arrays by printing them out or visualizing them (advanced debuggers)
+- Examine the values of variables and arrays by printing them out or visualizing
+  them (advanced debuggers)
 
 - Step through your code line by line until you find the problem
 
-- Set other breakpoints to jump over long sections of code, such as
-loops
+- Set other breakpoints to jump over long sections of code, such as loops
 
-- If you know which variable goes bad, use a conditional breakpoint
-to run ``until`` (gdb) the variable changes to a given value
+- If you know which variable goes bad, use a conditional breakpoint to run
+  `until` (gdb) the variable changes to a given value
 
 - Visualizing the results coming out of the code may help detect problems
   - Grid problems are often detected by visual inspection of images and movies
 
 ### Python debugger
 
-- The ``pdb`` debugger is part of Python
+- The `pdb` debugger is part of Python
 
 - Just insert the following at any point in your Python code:
+
 ```python
 import pdb
+
 pdb.set_trace()
 ```
 
-- You can also use in your jupyter notebooks the magic commands ``%pdb`` or ``%debug`` directly in the cells.
+- You can also use in your jupyter notebooks the magic commands `%pdb` or
+  `%debug` directly in the cells.
 
-- The execution will stop after these lines and will put you under ``pdb`` (you will have the (Pdb) prompt)
+- The execution will stop after these lines and will put you under `pdb` (you
+  will have the (Pdb) prompt)
 
-- Use ``help`` to see the commands
+- Use `help` to see the commands
+
 ```
 (base) ➜  ~ ./map2deb.py Work/tom/velx_00001.map
 Reading Work/tom/velx_00001.map
@@ -556,6 +628,7 @@ exec  pdb
 ```
 
 Let's see another example
+
 ```
 (base) ➜  ~ ./map2deb.py Work/tom/velx_00001.map
 Reading Work/tom/velx_00001.map
@@ -571,34 +644,50 @@ p expression
 
 ### Please use checkpoint-restart!
 
-- Checkpoint = write out to files **all the information** that you need to restart a simulation from that point
+- Checkpoint = write out to files **all the information** that you need to
+  restart a simulation from that point
 
 - Extremely important for codes that have long runtimes (> 1 hour)
+
   - Allows you to restart your simulation at the point of the latest checkpoint
   - Avoid losing hours of precious computer time
   - Especially important for parallel codes
 
-- Extremely important when you need to debug a code that crashes after a few hours!!
-  - You can recompile the code with ``–g`` and start from the last checkpoint
-  - Remember... ``-g`` slows down the code dramatically so you want to be as close to the crash as possible
+- Extremely important when you need to debug a code that crashes after a few
+  hours!!
 
-- When restarting a simulation from a checkpointed state, reproducibility is very important
-  - Test by running the code to a certain point and saving its state at that point
-  - Rerun the same case but split in 2 steps where the 2nd step uses restart files generated by the first step
-  - Compare the end results of the 2 simulations: they should be **bitwise** identical
+  - You can recompile the code with `–g` and start from the last checkpoint
+  - Remember... `-g` slows down the code dramatically so you want to be as close
+    to the crash as possible
+
+- When restarting a simulation from a checkpointed state, reproducibility is
+  very important
+
+  - Test by running the code to a certain point and saving its state at that
+    point
+  - Rerun the same case but split in 2 steps where the 2nd step uses restart
+    files generated by the first step
+  - Compare the end results of the 2 simulations: they should be **bitwise**
+    identical
 
 - The restart files need to be BINARY files
 
-- When dealing with random numbers, use a reproducible random number generator for which you can save the state for restart purposes like [SPRNG](http://www.cs.fsu.edu/~mascagni/SPRNG_KAUST.pdf).
+- When dealing with random numbers, use a reproducible random number generator
+  for which you can save the state for restart purposes like
+  [SPRNG](http://www.cs.fsu.edu/~mascagni/SPRNG_KAUST.pdf).
 
-### Using ``printf`` for monitoring and debugging
+### Using `printf` for monitoring and debugging
 
-- Many serious developers still use old school ``printf`` or ``write`` statements to monitor and debug their codes
+- Many serious developers still use old school `printf` or `write` statements to
+  monitor and debug their codes
 
-- May be the only recourse when running a code at very large concurrencies (100,000+ processors)
+- May be the only recourse when running a code at very large concurrencies
+  (100,000+ processors)
 
 - The idea is simple:
-  - Insert ``printf`` or ``write`` statements at strategic locations in the code to gather information and try to pinpoint the faulty code line
+
+  - Insert `printf` or `write` statements at strategic locations in the code to
+    gather information and try to pinpoint the faulty code line
   - Advantages over other forms of debugging:
     - Easy to use and always works
     - Low overhead
@@ -607,27 +696,39 @@ p expression
     - may change or prevent optimization of a section of the code.
     - don't put inside loops!
 
-- For optimization purposes, all code output is buffered before being written to disk unless directed otherwise
+- For optimization purposes, all code output is buffered before being written to
+  disk unless directed otherwise
 
-- If the code crashes before the memory buffers get written to disk, the information is lost
+- If the code crashes before the memory buffers get written to disk, the
+  information is lost
 
 - It makes it difficult to pinpoint the exact location of the failing statement
 
-- This is the case when using “printf” or “write(6,*)” which redirects to the **standard output**
+- This is the case when using “printf” or “write(6,\*)” which redirects to the
+  **standard output**
 
 - Write to **standard error** as much as possible since it is not buffered
-  - ``printf(stderr,...)`` in C/C++
-  - ``cerr <<`` in C++
-  - ``write(0,*)`` in Fortran
-  - redirect output: ``mpirun –np 1024 ./a.out 1> output.out 2> output.err``
 
-- Explicit flushing of I/O buffers with ``fflush()`` (C) or ``call flush(unit)`` (Fortran)
+  - `printf(stderr,...)` in C/C++
+  - `cerr <<` in C++
+  - `write(0,*)` in Fortran
+  - redirect output: `mpirun –np 1024 ./a.out 1> output.out 2> output.err`
+
+- Explicit flushing of I/O buffers with `fflush()` (C) or `call flush(unit)`
+  (Fortran)
 
 ### Debugging memory leaks
 
-A particularly difficult type of bugs is those related to memory management, in particular what is called **memory leaks**. Usually, any good compiler will make sure that the temporary memory for arrays in subroutines and functions are properly deallocated when leaving the subroutine or the function. Sometimes, it is impossible and mistakes are made that slowly and systematicaly drain all the available memory. Ultimately, the code will crash because it runs out of memory.
+A particularly difficult type of bugs is those related to memory management, in
+particular what is called **memory leaks**. Usually, any good compiler will make
+sure that the temporary memory for arrays in subroutines and functions are
+properly deallocated when leaving the subroutine or the function. Sometimes, it
+is impossible and mistakes are made that slowly and systematicaly drain all the
+available memory. Ultimately, the code will crash because it runs out of memory.
 
-The program below is an example of such a memory leak. In the subroutine, a temporary array is allocated and deallocated on exit, but a pointer pointing to this array is not. This will lead to a memory leak.
+The program below is an example of such a memory leak. In the subroutine, a
+temporary array is allocated and deallocated on exit, but a pointer pointing to
+this array is not. This will lead to a memory leak.
 
 ```c
 program memleak
@@ -659,14 +760,17 @@ subroutine compute_nothing
 end subroutine compute_nothing
 ```
 
-We can compile this code using the ``-g`` option but nothing will be detected both at compilation time and at run time.
+We can compile this code using the `-g` option but nothing will be detected both
+at compilation time and at run time.
 
 ```
 $ gfortran -g memleak.f90 -o ml
 $ ./ml
 ```
 
-Using the ``top`` command at several times, one can see the virtual memory (``VIRT`` below) slowly increasing from slightly less than 0.,5GB to more than 14GB and counting. With more than 200 loops, the code would have crashed.
+Using the `top` command at several times, one can see the virtual memory (`VIRT`
+below) slowly increasing from slightly less than 0.,5GB to more than 14GB and
+counting. With more than 200 loops, the code would have crashed.
 
 ```
 [rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
@@ -686,7 +790,9 @@ Using the ``top`` command at several times, one can see the virtual memory (``VI
 3092916 rt3504    20   0   14.5g 298636   2232 R  94.4   0.1   0:09.42 ml
 ```
 
-We now use the ``valgrind`` utility to debug specifically memory leaks. The code is executed and ``valgrind`` targets allocations and deallocations, and quickly identifies that there is a problem.
+We now use the `valgrind` utility to debug specifically memory leaks. The code
+is executed and `valgrind` targets allocations and deallocations, and quickly
+identifies that there is a problem.
 
 ```
 [rt3504@stellar-intel ~]$ valgrind --leak-check=full ./ml
@@ -730,6 +836,7 @@ We now use the ``valgrind`` utility to debug specifically memory leaks. The code
 ```
 
 the correct code would be in this case:
+
 ```c
 program memleak
 
@@ -762,25 +869,34 @@ end subroutine compute_nothing
 
 ### Using Graphical Debuggers
 
-Nowadays many solutions are available for code developments, editing and debugging. These are called Integrated Development Environments (IDE). Famous examples are:
+Nowadays many solutions are available for code developments, editing and
+debugging. These are called Integrated Development Environments (IDE). Famous
+examples are:
 
-- In python, you have PyCharm developed by Jetbrains available at [this web page](https://www.jetbrains.com/pycharm/).
+- In python, you have PyCharm developed by Jetbrains available at
+  [this web page](https://www.jetbrains.com/pycharm/).
 
-- For Python, but also C, C++ anf Fortran you have the brand new Visual Studio 2022 from Microsoft available [here](https://visualstudio.microsoft.com/vs/).
+- For Python, but also C, C++ anf Fortran you have the brand new Visual Studio
+  2022 from Microsoft available [here](https://visualstudio.microsoft.com/vs/).
 
-Here is a screenshot of the PyCharm IDE:
-![](complexLook.jpg)
+Here is a screenshot of the PyCharm IDE: ![](complexLook.jpg)
 
-In these IDE, ``git`` version control, debugging, compiling and editing are all integrated together with a powerful user interface. Once you try it, you adopt it. The downside is that it is tricky to work on code on remote computers. You need to be familiar with ``ssh`` tunneling which can be tricky and unstable.
+In these IDE, `git` version control, debugging, compiling and editing are all
+integrated together with a powerful user interface. Once you try it, you adopt
+it. The downside is that it is tricky to work on code on remote computers. You
+need to be familiar with `ssh` tunneling which can be tricky and unstable.
 
-On adroit and stellar, you will find the ``ddt`` debugger quite handy. See web page [here](https://www.arm.com/products/development-tools/server-and-hpc/forge/ddt).
+On adroit and stellar, you will find the `ddt` debugger quite handy. See web
+page
+[here](https://www.arm.com/products/development-tools/server-and-hpc/forge/ddt).
 
 Just type:
+
 ```
 $ module load ddt/22.0
 $ ddt a.out
 ```
-with the executable ``a.out`` better being compiled with the ``-g`` option.
+
+with the executable `a.out` better being compiled with the `-g` option.
 
 ![](ddt_example.png)
-
