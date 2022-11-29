@@ -71,7 +71,8 @@ parts:
     chapters:
       - file: content/week12/01-shared-objects/01-shared-objects.ipynb
       - file: content/week12/02-cpython/02-cpython.ipynb
-      - file: content/week12/pybind11.md
+      - file: content/week12/03-pybind/03a-pybind.ipynb
+      - file: content/week12/03-pybind/03b-pybind.ipynb
 
   - caption: "Bonus: Exotic topics"
     chapters:
