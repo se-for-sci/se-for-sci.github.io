@@ -160,14 +160,14 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-/content/week12/**/CMakeLists.txt
-/content/week12/**/setup.py
-/content/week12/*/*.c
-/content/week12/*/*.cpp
-/content/week12/*/*.h
-/content/week12/*/*.hpp
+/content/week12/0[123]*/CMakeLists.txt
+/content/week12/*/setup.py
+/content/week12/0[123]*/*.c
+/content/week12/0[123]*/*.cpp
+/content/week12/0[123]*/*.h
+/content/week12/0[123]*/*.hpp
 /content/week12/*/*.whl
-/content/week12/*/pyproject.toml
+/content/week12/0[123]*/pyproject.toml
 /content/week12/03-pybind/src
 /content/week7/se-for-sci-example/
 /content/week7/textual_example/requirements.in
