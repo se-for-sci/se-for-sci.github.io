@@ -16,6 +16,7 @@ FetchContent_MakeAvailable(minuit2)
 
 if(NOT DEFINED SKBUILD)
   add_executable(simpleminuit app/simpleminuit.cpp app/SimpleFCN.h)
+  target_include_directories(simpleminuit PRIVATE ${minuit2_SOURCE_DIR})
   target_link_libraries(simpleminuit PRIVATE Minuit2::Minuit2)
 else()
   find_package(pybind11)

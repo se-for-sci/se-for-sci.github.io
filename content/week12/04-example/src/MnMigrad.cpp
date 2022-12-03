@@ -5,7 +5,7 @@ void init_MnMigrad(py::module &m) {
         .def("__call__",
              &MnApplication::operator(),
              "Minimize the function, returns a function minimum",
-             py::arg("maxfcn")    = 0,
+             "maxfcn"_a    = 0,
              "tolerance"_a = 0.1);
 
     py::class_<MnMigrad, MnApplication>(m, "MnMigrad")
