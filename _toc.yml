@@ -63,7 +63,7 @@ parts:
 
   - caption: "Week 11: Parallel Computing"
     chapters:
-      - file: content/week11/threading.md
+      - file: content/week11/intro.md
       - file: content/week11/openmp.md
       - file: content/week11/mpi.md
 
