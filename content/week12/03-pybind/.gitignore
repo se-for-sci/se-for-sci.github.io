@@ -70,7 +70,6 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-_build/
 
 # PyBuilder
 .pybuilder/
@@ -160,18 +159,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-/content/week12/0[123]*/CMakeLists.txt
-/content/week12/*/setup.py
-/content/week12/0[123]*/*.c
-/content/week12/0[123]*/*.cpp
-/content/week12/0[123]*/*.h
-/content/week12/0[123]*/*.hpp
-/content/week12/*/*.whl
-/content/week12/0[123]*/pyproject.toml
-/content/week12/03-pybind/src
-/content/week7/se-for-sci-example/
-/content/week7/textual_example/requirements.in
-/content/week9/cmake_example/**/*.cmake
-/content/week9/cmake_example/.ninja_log
-/content/week9/cmake_example/docs/Doxyfile.docs
-/content/week9/fortran_example
+/pybuild/
