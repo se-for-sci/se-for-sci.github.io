@@ -28,13 +28,13 @@ program compute_pi
      endif
      call exit(1)
   end if
-  
+
   h = 1d0/dble(n)
-  
+
   if(myid==1)then
      write(*,*)'Starting with ',ncpu,' tasks'
   end if
-  
+
   call cpu_time(strt)
 
   imin = int(myid*dble(n)/dble(ncpu),kind=8)+1
@@ -47,7 +47,7 @@ program compute_pi
   end do
 
   call MPI_ALLREDUCE(integ,integ_tot,1,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,info)
-  
+
   call cpu_time(stop)
 
   ! Print result and timing
@@ -57,5 +57,5 @@ program compute_pi
   endif
 
   call MPI_FINALIZE(info)
-  
+
 end program compute_pi
