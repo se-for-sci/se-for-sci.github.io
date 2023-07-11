@@ -262,33 +262,33 @@ method on `Animal`. That's because `self` was `bluey`, which is an instance of
 We can override a method if we want:
 
 ```{code-cell} python3
-class Racoon(Animal):
+class Raccoon(Animal):
     def eat(self, food):
         print("Washing first")
         super().eat(food)
 
-rascal = Racoon()
+rascal = Raccoon()
 rascal.eat("berries")
 ```
 
 In this case, all `Animal`s can eat - if you know you take an `Animal`, you know
-it can eat. However, `Racoon` has have a custom eat function. It has the same
+it can eat. However, `Raccoon` has have a custom eat function. It has the same
 signature (important!), but it does a bit more. This is also how Python calls a
 method from the "class above", by using `super()`. You could have also said
 `Animal.eat(self, food)` here, but `super()` is better.
 
 An important feature of subclassing is instance checks. `rascal`, above, is both
-an instance of Racoon and of Animal.
+an instance of Raccoon and of Animal.
 
 ```{code-cell} python3
-print(f"{isinstance(rascal, Racoon)}")
+print(f"{isinstance(rascal, Raccoon)}")
 print(f"{isinstance(rascal, Animal)}")
 ```
 
 You can look up the exact method resolution order by looking at `__mro__`:
 
 ```{code-cell} python3
-print(f"{Racoon.__mro__ = }")
+print(f"{Raccoon.__mro__ = }")
 ```
 
 This is how error catching works in Python. If you see custom errors, they often
