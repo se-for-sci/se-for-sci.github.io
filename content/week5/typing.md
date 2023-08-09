@@ -252,6 +252,7 @@ x: int = 2
 # No assignment is allowed ("declaration")
 y: int
 
+
 # Function annotation
 def f(x: int) -> int:
     return x
@@ -514,6 +515,7 @@ you to specify the types:
 ```python
 # Classic
 Version = collections.namedtuple("Version", ("major", "minor", "patch"))
+
 
 # New
 class Version(typing.NamedTuple):
