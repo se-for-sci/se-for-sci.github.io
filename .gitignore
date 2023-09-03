@@ -160,8 +160,8 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-/content/week07/se-for-sci-example/
-/content/week07/textual_example/requirements.in
+/content/week05/se-for-sci-example/
+/content/week05/textual_example/requirements.in
 /content/week09/cmake_example/**/*.cmake
 /content/week09/cmake_example/.ninja_log
 /content/week09/cmake_example/docs/Doxyfile.docs
