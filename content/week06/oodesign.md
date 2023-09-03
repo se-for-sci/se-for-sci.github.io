@@ -84,7 +84,7 @@ is the child class or subclass of A.
 - Provides a way to "Realize" or "Implement" a specified interface (ABC or
   Protocol).
 
-For example, in `content/week03/geom_example/geometry/classic.py`, `Shape` is a
+For example, in `content/week06/geom_example/geometry/classic.py`, `Shape` is a
 base class with `area()` and `parameter()` methods. It doesn't know how to
 compute those - they are abstract. This means you can't instantiate `Shape()`,
 doing so would give you an error (from the `abc` module). However, the
