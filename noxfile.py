@@ -13,3 +13,35 @@ def pyodide(session: nox.Session) -> None:
 
     if "--serve" in session.posargs:
         session.run("jupyter", "lite", "serve")
+
+
+@nox.session(reuse_venv=True)
+def book(session: nox.Session) -> None:
+    session.install(
+        "black",
+        "cattrs",
+        "cffi",
+        "ipykernel",
+        "ipython",
+        "ipywidgets",
+        "jupyter-book",
+        "matplotlib",
+        "numba",
+        "numpy",
+        "pandas",
+        "pybind11",
+        "pytest",
+        "rich",
+        "scikit-build-core",
+        "sphinxcontrib-mermaid",
+    )
+    session.run(
+        "python",
+        "-m",
+        "ipykernel",
+        "install",
+        "--user",
+        "--name",
+        "conda-env-se-for-sci-py",
+    )
+    session.run("jupyter-book", "build", ".")

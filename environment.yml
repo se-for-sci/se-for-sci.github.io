@@ -11,7 +11,7 @@ dependencies:
   - jupyter-book
   - jupyterlab >=3
   - matplotlib >=3.5
-  - mypy >=0.981
+  - mypy >=1
   - nb_conda_kernels
   - numba
   - numpy >=1.20
@@ -19,7 +19,7 @@ dependencies:
   - pip
   - pybind11 >=2.10
   - pytest >7
-  - python ==3.10.*
+  - python ==3.11.*
   - rich >=11
   - scikit-build-core
   - sphinxcontrib-mermaid
