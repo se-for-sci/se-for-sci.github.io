@@ -38,9 +38,9 @@ Design patterns in OOP
 
   - You can require an implementation to implement certain methods - called
     "abstract" (italics on a UML diagram)
-  - Example: `content/week3/geom_example`
+  - Example: `content/week03/geom_example`
   - We did the dataclasses version in class (voted)
-  - Example: `content/week3/integrator_example` (also in rendered notes)
+  - Example: `content/week03/integrator_example` (also in rendered notes)
 
 - SOLID:
 

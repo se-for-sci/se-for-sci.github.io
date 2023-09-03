@@ -17,7 +17,7 @@ repos:
     rev: 23.7.0
     hooks:
       - id: black-jupyter
-        exclude: ^content/week1/cleanup_bessel\.ipynb$
+        exclude: ^content/week01/cleanup_bessel\.ipynb$
 
   - repo: https://github.com/asottile/blacken-docs
     rev: 1.16.0
@@ -47,7 +47,7 @@ repos:
         name: Disallow improper capitalization
         language: pygrep
         entry: PyBind|Numpy|Cmake|CCache|Github|PyTest
-        exclude: ^(.pre-commit-config.yaml|content/week7/precommit.md)$
+        exclude: ^(.pre-commit-config.yaml|content/week07/precommit.md)$
 
   - repo: https://github.com/PrincetonUniversity/blocklint
     rev: v0.2.4

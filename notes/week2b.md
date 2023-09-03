@@ -21,7 +21,7 @@ universities through a special program are connecting via Zoom, as well.
 - Static "checks" vs. Dynamic testing
 - Black (hidden) box vs. white (visible) box testing
 - Waterfall vs. AGILE - two common methodologies
-- Test Driven Development, Example 1 vector_example (code in content/week2
+- Test Driven Development, Example 1 vector_example (code in content/week02
   folder)
   - `tests/test\_simple.py`: add test
   - `vector/__init__.py`: add file, add class, add constructor, fix constructor,
@@ -48,7 +48,7 @@ universities through a special program are connecting via Zoom, as well.
   - Change code or tests, but be very careful when changing both!
     - Unless you are intentionally breaking users
 
-pytest example w/fixtures: content/week2/vector_example
+pytest example w/fixtures: content/week02/vector_example
 
 - Copied in code to run, and json file for testing
 - We used vscode for this example, with GitHub CoPilot providing AI assisted
