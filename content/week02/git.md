@@ -261,7 +261,7 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
 
-Another more complex example with the RAMSES code
+Another more complex example with the RAMSES code (see all the way down this page how to get it):
 
 ```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
@@ -933,7 +933,7 @@ Check now the GitHub webpage. You will see your modifications there. Other
 collaborators can now directly clone your GitHub repository and contribute to
 your code. You are in business!
 
-## Example of git repository
+## Example of a complex git repository
 
 Let's now naviguate to the BitBucket page of a large collaborative project I
 have contributed to, namely the
