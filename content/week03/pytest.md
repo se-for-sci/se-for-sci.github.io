@@ -492,7 +492,7 @@ with `--trace --lf`.
 tips.
 
 ```{admonition} Further reading and useful links
-* [Scikit-HEP Develoepr Pages](https://scikit-hep.org/developer/pytest)
+* [Scikit-HEP Developer Pages](https://scikit-hep.org/developer/pytest)
 * [Test and Code](https://testandcode.com): a podcast on testing and related topics
 * [The Good Research Code Handbook](https://goodresearch.dev): General resource with a strong focus on testing
 * [Research Software Engineering with Python](https://merely-useful.tech/py-rse/): Also has a testing section.

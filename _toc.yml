@@ -6,55 +6,55 @@ root: content/intro
 parts:
   - caption: "Week 1: Intro"
     chapters:
-      - file: content/week1/intro.md
-      - file: content/week1/setup.md
-      - file: content/week1/vcs.md
-      - file: content/week1/programming_basics.ipynb
-      - file: content/week1/practices.md
-      - file: content/week1/cleanup_bessel.ipynb
+      - file: content/week01/intro.md
+      - file: content/week01/setup.md
+      - file: content/week01/vcs.md
+      - file: content/week01/programming_basics.ipynb
+      - file: content/week01/practices.md
+      - file: content/week01/cleanup_bessel.ipynb
 
-  - caption: "Week 2: Testing"
+  - caption: "Week 2: Version Control"
     chapters:
-      - file: content/week2/testing.md
-      - file: content/week2/pytest.md
-      - file: content/week2/tdd.md
-      - file: content/week2/debugging.md
+      - file: content/week02/git.md
 
-  - caption: "Week 3: Object Oriented design"
+  - caption: "Week 3: Testing"
     chapters:
-      - file: content/week3/introoo.md
-      - file: content/week3/oodesign.md
+      - file: content/week03/testing.md
+      - file: content/week03/pytest.md
+      - file: content/week03/tdd.md
+      - file: content/week03/debugging.md
 
-  - caption: "Week 4: Design Patterns"
+  - caption: "Week 4: Continuous Integration"
     chapters:
-      - file: content/week4/designpatt.md
-      - file: content/week4/functional.md
+      - file: content/week04/ci.md
+      - file: content/week04/cd.md
+      - file: content/week04/docs.md
 
-  - caption: "Week 5: Static Typing"
+  - caption: "Week 5: Packaging and Quality Control"
     chapters:
-      - file: content/week5/typing.md
+      - file: content/week05/packaging.md
+      - file: content/week05/using_packages.md
+      - file: content/week05/making_a_package.md
+      - file: content/week05/precommit.md
+      - file: content/week05/task_runners.md
 
-  - caption: "Week 6: Version Control"
+  - caption: "Week 6: Object Oriented design"
     chapters:
-      - file: content/week6/git.md
+      - file: content/week06/introoo.md
+      - file: content/week06/oodesign.md
 
-  - caption: "Week 7: Packaging and Quality Control"
+  - caption: "Week 7: Design Patterns"
     chapters:
-      - file: content/week7/packaging.md
-      - file: content/week7/using_packages.md
-      - file: content/week7/making_a_package.md
-      - file: content/week7/precommit.md
-      - file: content/week7/task_runners.md
+      - file: content/week07/designpatt.md
+      - file: content/week07/functional.md
 
-  - caption: "Week 8: Continuous Integration"
+  - caption: "Week 8: Static Typing"
     chapters:
-      - file: content/week8/ci.md
-      - file: content/week8/cd.md
-      - file: content/week8/docs.md
+      - file: content/week08/typing.md
 
   - caption: "Week 9: Intro to Compilation"
     chapters:
-      - file: content/week9/Compiled_Languages.ipynb
+      - file: content/week09/Compiled_Languages.ipynb
 
   - caption: "Week 10: Profiling"
     chapters:
