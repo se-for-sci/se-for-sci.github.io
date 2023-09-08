@@ -1,0 +1,7 @@
+{
+  "name": "se-for-sci",
+  "build": {
+    "context": "..",
+    "dockerfile": "Dockerfile"
+  }
+}

@@ -261,7 +261,8 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
 
-Another more complex example with the RAMSES code (see all the way down this page how to get it):
+Another more complex example with the RAMSES code (see all the way down this
+page how to get it):
 
 ```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short

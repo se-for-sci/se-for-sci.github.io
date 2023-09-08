@@ -71,6 +71,11 @@ follow them whenever possible. For example, naming in Python & C++:
 - Global constant: `ALL_CAPS`
 - Function: `snake_case`
 - Class: `CamelCase`
+- Hidden / Not Public: `_underscore`
+- Built-in (Python only): `__dunder__`
+
+If you are in a language that uses a different convention (lowerCamelCase, also
+known as dromedaryCase, for example), follow what is used in that language.
 
 For C and C++, you should loop from 0 to 1-len:
 
@@ -324,6 +329,35 @@ x = 3
 Remember, the signature of a function is not just for Python, it's telling the
 reader what the function expects and what it returns. Capture causes the
 function to lie to the reader.
+
+### Guard pattern
+
+There's a rule in some style checkers that states the following:
+
+After a control flow statement (`return`, `break`, `continue`, or `raise`),
+`else` or `elif` is not allowed.
+
+Since code execution ends after a control flow statement, it doesn't make sense
+to have an else or elif statement; you can't continue past this to the lower
+blocks anyway. While there can be some debate about this if universally forced,
+it's important to keep in mind, and strongly favors a specific pattern, called
+the guard pattern. It looks like this:
+
+```python
+def square_function(x):
+    if x is None:
+        return None
+
+    return x**2
+```
+
+The "guard" is the code on top. You can have multiple guards. In general, the
+"happy path" of execution, the one where the guards don't trigger, is last, and
+all the "checks" to see if the code can progress on the happy path are first.
+
+By using this, you can reduce nesting and dangling else's (an else that occurs
+far away from the above if). Nested code is harder to read, since you have to
+mentally keep track of where you are in the nesting.
 
 <!-- prettier-ignore-start -->
 [^1]: Actually does a lookup when calling, which can be surprising; not true
