@@ -40,7 +40,7 @@ Here is a minimal `.pre-commit-config.yaml` file with some handy options:
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "v4.3.0"
+    rev: "v4.4.0"
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -77,7 +77,7 @@ lists, matching brackets, etc. There also is a faction of developers that
 dislikes all auto-formatting tools, but inside a system like pre-commit,
 auto-formatters are ideal. They also speed up the writing of code because you
 can ignore formatting your code when you write it. By imposing a standard, all
-Scikit-HEP developers can quickly read any package's code.
+developers can quickly read any package's code.
 
 Also, properly formatted code has other benefits, such as if two developers make
 the same change, they get the same formatting, and merge requests are easier.
@@ -90,8 +90,8 @@ normalization, and to change the line length, and those go in your
 Here is the snippet to add Black to your `.pre-commit-config.yml`:
 
 ```yaml
-- repo: https://github.com/psf/black
-  rev: "22.10.0"
+- repo: https://github.com/psf/black-pre-commit-mirror
+  rev: "23.9.1"
   hooks:
     - id: black
 ```
@@ -126,7 +126,7 @@ The MyPy addition for pre-commit:
 
 ```yaml
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: "v0.982"
+  rev: "v1.5.1"
   hooks:
     - id: mypy
       files: src
@@ -146,7 +146,7 @@ MyPy has a config section in `pyproject.toml` that looks like this:
 ```ini
 [tool.mypy]
 files = "src"
-python_version = "3.7"
+python_version = "3.9"
 strict = true
 show_error_codes = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
@@ -174,118 +174,128 @@ The extra strict options shown above (`warn_unreachable`, `redundant-expr`, and
 be ignored occasionally, but can find some signifiant logic errors in your
 typing.
 
-### Flake8
+### Ruff
 
-[Flake8][] can check a collection of good practices for you, ranging from simple
-style to things that might confuse or detract users, such as unused imports,
-named values that are never used, mutable default arguments, and more. Unlike
-black and some other tools, flake8 does not correct problems, it just reports
-them. Some of the checks could have had automated fixes, sadly (which is why
-Black is nice). Here is a suggested `.flake8` or `setup.cfg` to enable
-compatibility with Black (flake8 does not support pyproject.toml configuration,
-sadly):
+[Ruff][] [(docs)][ruff docs] is a Python code linter and autofixer that replaces
+many other tools in the ecosystem with a ultra-fast (written in Rust), single
+zero-dependency package. All plugins are compiled in, so you can't get new
+failures from plugins updating without updating your pre-commit hook.
 
-```ini
-[flake8]
-extend-ignore = E203, E501
-```
-
-One recommended plugin for flake8 is `flake8-bugbear`, which catches many common
-bugs. It is highly opinionated and can be made more so with the `B9` setting.
-You can also set a max complexity, which bugs you when you have complex
-functions that should be broken up. Here is an opinionated config:
-
-```ini
-[flake8]
-max-complexity = 12
-extend-select = B9
-extend-ignore = E203, E501, E722, B950
-```
-
-(Error E722 is important, but it is identical to the activated B001.) Here is
-the flake8 addition for pre-commit, with the `bugbear` plugin:
+[ruff docs]: https://beta.ruff.rs
+[ruff]: https://github.com/astral-sh/ruff
 
 ```yaml
-- repo: https://github.com/pycqa/flake8
-  rev: "5.0.4"
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: "v0.0.292"
   hooks:
-    - id: flake8
-      additional_dependencies: [flake8-bugbear]
+    - id: ruff
+      args: ["--fix", "--show-fixes"]
 ```
 
-This _will_ be too much at first, so you can disable or enable any test by it's
-label. You can also disable a check or a list of checks inline with
-`# noqa: X###` (where you list the check label(s)). Over time, you can fix and
-enable more checks. A few interesting plugins:
+The `--fix` argument is optional, but recommended, since you can inspect and
+undo changes in git.
 
-- [`flake8-bugbear`](https://pypi.org/project/flake8-bugbear/): Fantastic
-  checker that catches common situations that tend to create bugs. Codes: `B`,
-  `B9`
-- [`flake8-docstrings`](https://pypi.org/project/flake8-docstrings/): Docstring
-  checker. `--docstring-convention=pep257` is default, `numpy` and `google` also
-  allowed.
-- [`flake8-spellcheck`](https://pypi.org/project/flake8-spellcheck/): Spelling
-  checker. Code: `SC`
-- [`flake8-import-order`](https://pypi.org/project/flake8-import-order/):
-  Enforces PEP8 grouped imports (you may prefer isort). Code: `I`
-- [`pep8-naming`](https://pypi.org/project/pep8-naming/): Enforces PEP8 naming
-  rules. Code: `N`
-- [`flake8-print`](https://pypi.org/project/pep8-naming/): Makes sure you don't
-  have print statements that sneak in. Code: `T`
+Ruff is configured in your `pyproject.toml`. Here's an example:
 
-### isort
+```toml
+[tool.ruff]
+select = [
+  "E", "F", "W", # flake8
+  "B",           # flake8-bugbear
+  "I",           # isort
+  "ARG",         # flake8-unused-arguments
+  "C4",          # flake8-comprehensions
+  "EM",          # flake8-errmsg
+  "ICN",         # flake8-import-conventions
+  "ISC",         # flake8-implicit-str-concat
+  "G",           # flake8-logging-format
+  "PGH",         # pygrep-hooks
+  "PIE",         # flake8-pie
+  "PL",          # pylint
+  "PT",          # flake8-pytest-style
+  "PTH",         # flake8-use-pathlib
+  "RET",         # flake8-return
+  "RUF",         # Ruff-specific
+  "SIM",         # flake8-simplify
+  "T20",         # flake8-print
+  "UP",          # pyupgrade
+  "YTT",         # flake8-2020
+  "EXE",         # flake8-executable
+  "NPY",         # NumPy specific rules
+  "PD",          # pandas-vet
+]
+extend-ignore = [
+  "PLR",    # Design related pylint codes
+  "E501",   # Line too long
+  "PT004",  # Use underscore for non-returning fixture (use usefixture instead)
+]
+typing-modules = ["mypackage._compat.typing"]
+src = ["src"]
+unfixable = [
+  "T20",  # Removes print statements
+  "F841", # Removes unused variables
+]
+exclude = []
+flake8-unused-arguments.ignore-variadic-names = true
+isort.required-imports = ["from __future__ import annotations"]
 
-You can have your imports sorted automatically by [isort][]. This will sort your
-imports, and is black compatible. One reason to have sorted imports is to reduce
-merge conflicts. Another is to clarify where imports come from - standard
-library imports are in a group above third party imports, which are above local
-imports. All this is configurable, as well. To use isort, the following
-pre-commit config will work:
-
-```yaml
-- repo: https://github.com/PyCQA/isort
-  rev: "5.10.1"
-  hooks:
-    - id: isort
+[tool.ruff.per-file-ignores]
+"tests/**" = ["T20"]
 ```
 
-In order to use it, you need to add some configuration. You can add it to
-`pyproject.toml` or classic config files:
+Ruff [provides dozens of rule sets](https://beta.ruff.rs/docs/rules/); you can
+select what you want from these. Like Flake8, plugins match by whole letter
+sequences (with the special exception of pylint's "PL" shortcut), then you can
+also include leading or whole error codes. Codes starting with 9 must be
+selected explicitly, with at least the letters followed by a 9. You can also
+ignore certain error codes via `extend-ignore`. You can also set codes per paths
+to ignore in `per-file-ignores`. If you don't like certain auto-fixes, you can
+disable auto-fixing for specific error codes via `unfixable`.
 
-```ini
-[tool.isort]
-profile = "black"
-```
+There are other configuration options, such as the `src` list which tells it
+where to look for top level packages (mostly for "I" codes, which also have a
+lot of custom configuration options) {% rr RF003 %}, `typing-modules`, which
+helps apply typing-specific rules to a re-exported typing module (a common
+practice for unifying typing and `typing_extensions` based on Python version).
+There's also a file `exclude` set, which you can override if you are running
+this entirely from pre-commit (default excludes include "build", so if you have
+a `build` module or file named `build.py`, it would get skipped by default
+without this).
 
-### PyUpgrade
+Here are some good error codes to enable on most (but not all!) projects:
 
-Another useful tool is [PyUpgrade][], which monitors your codebase for "old"
-style syntax. Most useful to keep Python 2 outdated constructs out, it can even
-do some code updates for different versions of Python 3, like adding f-strings
-when clearly better (please always use them, they are faster) if you set
-`--py36-plus` (for example). This is a recommended addition for any project.
+- `E`, `F`, `W`: These are the standard flake8 checks, classic checks that have
+  stood the test of time.
+- `B`: This finds patterns that are very bug-prone.
+- `I`: This sorts your includes. There are multiple benefits, such as smaller
+  diffs, fewer conflicts, a way to auto-inject `__future__` imports, and easier
+  for readers to tell what's built-in, third-party, and local. It has a lot of
+  configuration options, but defaults to a Black-compatible style.
+- `ARG`: This looks for unused arguments. You might need to `# noqa: ARG001`
+  occasionally, but it's overall pretty useful.
+- `C4`: This looks for places that could use comprehensions, and can autofix
+  them.
+- `EM`: Very opinionated trick for error messages: it stops you from putting the
+  error string directly in the exception you are throwing, producing a cleaner
+  traceback without duplicating the error string.
+- `ISC`: Checks for implicit string concatenation, which can help catch mistakes
+  with missing commas.
+- `PGH`: Checks for patterns, such as type ignores or noqa's without a specific
+  error code.
+- `PL`: A set of four code groups that cover some (200 or so out of 600 rules)
+  of PyLint.
+- `PT`: Helps tests follow best pytest practices. A few codes are not ideal, but
+  many are helpful.
+- `PTH`: Want to move to using modern pathlib? This will help. There are some
+  cases where performance matters, but otherwise, pathlib is easier to read and
+  use.
+- `RUF`: Codes specific to Ruff, including removing noqa's that aren't used.
+- `T20`: Disallow `print` in your code (built on the assumption that it's a
+  common debugging tool).
+- `UP`: Upgrade old Python syntax to your `target-version`.
 
-```yaml
-- repo: https://github.com/asottile/pyupgrade
-  rev: "v3.1.0"
-  hooks:
-    - id: pyupgrade
-      args: ["--py37-plus"]
-```
-
-[pyupgrade]: https://github.com/asottile/pyupgrade:
-
-> #### Note:
->
-> If you set this to `--py37-plus`, you can add the annotations import by adding
-> the following line to your isort pre-commit hook configuration:
->
-> ```yaml
-> args: ["-a", "from __future__ import annotations"]
-> ```
->
-> Also make sure isort comes before pyupgrade. Now when you run pre-commit, it
-> will clean up your annotations to 3.7+ style, too!
+A few others small ones are included above, and there are even more available in
+Ruff.
 
 ### Spelling
 
@@ -296,7 +306,7 @@ spell checkers, this has a list of mistakes it looks for, rather than a list of
 
 ```yaml
 - repo: https://github.com/codespell-project/codespell
-  rev: "v2.2.2"
+  rev: "v2.2.5"
   hooks:
     - id: codespell
       args: ["-L", "sur,nd"]
