@@ -175,3 +175,7 @@ cython_debug/
 /content/week12/0[123]*/*.hpp
 /content/week12/0[123]*/CMakeLists.txt
 /content/week12/0[123]*/pyproject.toml
+
+/slides/*.html
+
+.vscode

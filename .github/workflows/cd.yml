@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -58,12 +58,25 @@ jobs:
           name: jupyterlite
           path: _output/*
 
+  build-slides:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Make slides
+        run: npx @marp-team/marp-cli@latest --input-dir slides --output _output
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: slides
+          path: _output/*
+
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: [build-book, build-pyodide]
+    needs: [build-book, build-pyodide, build-slides]
     if: github.event_name == 'push'
     steps:
       - name: Setup Pages
@@ -78,6 +91,11 @@ jobs:
         with:
           name: jupyterlite
           path: public/live
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: slides
+          path: public/slides
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
