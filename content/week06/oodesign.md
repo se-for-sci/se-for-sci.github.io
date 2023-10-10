@@ -12,6 +12,8 @@ kernelspec:
 
 # Object Oriented Design
 
+[Slides](https://henryiii.github.io/se-for-sci/slides/week-06-2)
+
 ## Intro
 
 Why design classes? We want an interface that is _easy to use correctly_ and

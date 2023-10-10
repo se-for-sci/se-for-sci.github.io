@@ -12,6 +12,8 @@ kernelspec:
 
 # Intro to Object Oriented Programming (OOP)
 
+[Slides](https://henryiii.github.io/se-for-sci/slides/week-06-1)
+
 ## Objects as collections of data and functions
 
 An object is simply a collection of data and functions that operate on that
