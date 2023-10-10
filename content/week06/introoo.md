@@ -310,7 +310,7 @@ another. Remember, inheritance indicates an "is a" relationship. Subclasses can
 specialize, but if you are overriding every method of a superclass with distinct
 implementations you aren't really inheriting anything.
 
-### Multiple Inheritance
+### Multiple inheritance
 
 If one parent is good, why not allow more? Some languages allow you to combine
 multiple classes into one child - this is called multiple inheritance. It is
@@ -327,6 +327,87 @@ to call a parent method; don't just manually name the parent. There are special
 mechanisms in super that kick in if you have multiple parents. In short, always
 check the `__mro__`; that's always linear and super will always go up the
 `__mro__`.
+
+### Abstract base classes and interfaces
+
+When designing with inheritance in mind, you might want to require a method be
+implemented in all subclasses. For example, if you had a Vector class with
+Vector2D and Vector3D subclasses, you might want to require all subclasses
+define `mag2` (the squared magnitude). You can do this with the `abc` module:
+
+```python
+import abc
+
+
+class Vector(abc.ABC):
+    @abc.abstractmethod
+    def mag2(self):
+        pass
+
+    def mag(self):
+        return self.mag2() ** 0.5
+```
+
+The `abc.ABC`` class is a convenience class; you can also use `class
+Vector(metaclass=abc.ABCMeta)`instead to avoid inheritance on this convenience class. We won't be discussing metaclasses, so just briefly they customize _class_ creation rather than _instance_ creation (everything is an object, even classes!). ABCs inject checks to all the child classes so that when you create an instance, they see if any abstract components are missing from the class. If you never make an instance, you can have abstract methods. Above,`Vector`
+is called an abstract class, since you can't make instances of it. However, you
+can make a concrete class from it:
+
+```python
+@dataclasses.dataclass
+class Vector2D(Vector):
+    x: float
+    y: float
+
+    def mag2(self):
+        return self.x**2 + self.y**2
+```
+
+Since we have provided concrete definitions for all abstract methods in
+`Vector2D`, we can instantiated it at use it:
+
+```python
+assert Vector2D(3, 4).mag() == 5
+```
+
+Notice that we can provide concrete methods in an abstract class, and we can
+even provide helper code in the abstract methods that can be accessed via
+`super()`. The only rule is no abstract methods can be exposed directly in a
+class that gets instantiated.
+
+Notice what this means for a user. If a user knows they have a `Vector`, they
+can now use `.mag()` and `.mag2()` without worrying _which_ Vector they have. We
+call this an _Interface_. When we get to static typing, we will discuss a way to
+formalize this in Python without ABCs (hint: it will be called `Protocol`s).
+Python actually has dozens of Interfaces, many of which are in
+`collections.abc`. For example, the `Sized` Interface is basically this:
+
+```python
+class Sized(abc.ABC):
+    @abc.abstractmethod
+    def __len__(self):
+        pass
+```
+
+However, the implementation doesn't really matter for an Interface; you don't
+have to inherit from an Interface to implement it. In fact, Python will even
+report any instance of a class that defined `__len__` as
+`isinstance(..., collections.abc.Sized)`, regardless of whether it actually
+inherits from this ABC! This is called structural subtyping, and it solves one
+of the big drawbacks we've been seeing with subclassing, the loss of modularity.
+
+Users of a Interface simply use ducktyping and access the methods that they
+support. In the case of `Sized`, `len(x)` works on `Sized`, which just simply
+calls `x.__len__()`. There are
+[lots of other](https://docs.python.org/3/library/collections.abc.html), more
+complex Interfaces, such as `Iterable` (for loops and such). Most of the ones in
+Python use dunder names. This is because Python reserves all dunder names for
+it's own use, but some libraries (especially large, older libraries!) do define
+new ones, almost always for Interfaces.
+
+At this point, an ABC is well defined (we have seen how to make one in code),
+but an Interface is a concept, an agreement between implementer and caller. We
+fill formalize this later when we get to static typing with `Protocol`s.
 
 ### Special methods
 

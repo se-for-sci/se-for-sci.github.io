@@ -36,7 +36,7 @@ Let's define some terminology we've been seeing, along with a bit of new stuff:
   under one roof.
 - **Encapsulation** (meaning 2): Isolating the implementation and only providing
   access to a minimal "public" part.
-- **Object** or **instance** -- A variable holding data with a type holding
+- **Object**/**instance**: A variable holding data with a type holding
   functions.
 - **Attribute**: Something accessible on an object.
 - **Member**: A data attribute stored in each object.
@@ -62,6 +62,8 @@ Let's define some terminology we've been seeing, along with a bit of new stuff:
 - **Inheritance** and **Composition** can be used to keep code DRY.
 - Clean way to establish interfaces (via Abstract Base Classes (ABCs) or
   Protocols (see static typing))
+- Ensure required code is run (constructors, destructors, context managers, etc)
+- Associate functions to a specific type (varies by language)
 
 ```{admonition} Interfaces
 Python refers to an Interface (Java terminology, technically) as a Protocol. C++20
@@ -73,7 +75,12 @@ We also will refer to "interface" meaning the interaction with your API by
 consumers (possibly also you).
 ```
 
-### Why Inheritance?
+In languages without type based dispatch, classes are an ideal way to ensure
+functions are associated with the type they were intended to be called on. Even
+in languages with multiple dispatch, they still help with discoverability, such
+as tab completion in editors.
+
+### Why inheritance?
 
 If you want two classes both to have a set of data or methods specified by the
 same code, you can put the code in class A and have class B "inherit" that code.
@@ -81,7 +88,7 @@ We then say that A is the **parent class** or **super class** of B, and that B
 is the child class or subclass of A.
 
 - Provides the concept of "is a" (`isinstance` / `issubclass` in Python).
-- Provides a way to "Realize" or "Implement" a specified interface (ABC or
+- Provides a way to "realize" or "implement" a specified interface (ABC or
   Protocol).
 
 For example, in `content/week06/geom_example/geometry/classic.py`, `Shape` is a
@@ -97,7 +104,7 @@ learn how to formalize this requirement, for now, we have to trust duck typing
 and willpower to avoid using anything that's not in `Shape` when we accept it as
 an argument.
 
-### Why Composition/Aggregation?
+### Why composition/aggregation?
 
 - Provides the concept of "has a", or "inherent part of". `Kidney` is a part of
   `Human`, for example.
@@ -476,11 +483,11 @@ global, and you can even set the default value when you make a new instance!
 Classes allow you to organize code so that each each class addresses a specific
 concern.
 
-Some languages (Ruby) support partial classes, which can load portions based on
-what you are interested in doing, but Python and C++ do not. Type dispatch (C++,
-Julia) can be used as an alternative. Python has mixins, covered below, which
-are not quite the same as partial classes, but prvode similar benefits Ruby has
-both partial classes and mixins but not multiple inheritance.
+Some languages (Ruby, Rust) support partial classes, which can load portions
+based on what you are interested in doing, but Python and C++ do not. Type
+dispatch (C++, Julia) can be used as an alternative. Python has mixins, covered
+below, which are not quite the same as partial classes, but provide similar
+benefits. Ruby has both partial classes and mixins but not multiple inheritance.
 
 ### eDSLs
 
