@@ -21,6 +21,8 @@ print = console.print
 
 # Design patterns
 
+[Slides](https://henryiii.github.io/se-for-sci/slides/week-07-2)
+
 Let's move beyond OO and learn from other paradigms and patterns. These are not
 exclusive - you may use some or all of the ideas here to inform your class
 design. You might use OOP ideas to help your functional patterns. Etc.
@@ -64,11 +66,11 @@ different versions depending on the types it sees.
 
 ```{admonition} Python specific tips
 * Only the first argument will be used for the dispatch. Other arguments are ignored.
-* You can use type annotations instead (Python 3.7+)
+* You can use type annotations instead
 * You can stack multiple registers
     * Or use Unions (Python 3.11+)
-* Duck typing is supported through Protocols (Python 3.8+ or `typing_extensions` backport)
-* Methods start with `self` - so there's a `singledispatchmethod` too (Python 3.8+)
+* Duck typing is supported through Protocols
+* Methods start with `self` - so there's a `singledispatchmethod` too
 ```
 
 Other languages have varying levels of support for type dispatch. C++ supports

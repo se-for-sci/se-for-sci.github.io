@@ -485,11 +485,10 @@ If a test fails, you have lots of options to save time in debugging. Adding
 be added by default, see above). You can run `pytest` with `--pdb`, which will
 drop you into a debugger on each failure. Or you can use `--trace` which will
 drop you into a debugger at the start of each test selected (so probably use the
-selection methods above). `pytest` also supports `breakpoint()` in Python 3.7+.
-You can also start out in your debugger at the beginning of the last failed test
-with `--trace --lf`.
-[See the docs](https://docs.pytest.org/en/stable/usage.html) for more running
-tips.
+selection methods above). `pytest` also supports `breakpoint()`. You can also
+start out in your debugger at the beginning of the last failed test with
+`--trace --lf`. [See the docs](https://docs.pytest.org/en/stable/usage.html) for
+more running tips.
 
 ```{admonition} Further reading and useful links
 * [Scikit-HEP Developer Pages](https://scikit-hep.org/developer/pytest)
