@@ -15,7 +15,7 @@ backgroundImage: url('https://marp.app/assets/hero-background.svg')
 
 ## Prelude
 
-TO keep the slides simple, I will assume the following imports:
+To keep the slides simple, I will assume the following imports:
 
 ```python
 import dataclasses
@@ -232,8 +232,6 @@ sum_sq_odds = functools.reduce(
 ---
 
 ## Improving the syntax
-
-Python isn't a functional language. Let's try adding chaining:
 
 ```python
 class FunctionalIterable:
