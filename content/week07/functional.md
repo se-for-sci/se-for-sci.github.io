@@ -12,6 +12,8 @@ kernelspec:
 
 # Functional programming
 
+[Slides](https://henryiii.github.io/se-for-sci/slides/week-07-1)
+
 ## Mutability and state
 
 ```{code-cell} python3
@@ -506,10 +508,10 @@ DeviceArray(6., dtype=float32, weak_type=True)
 There are quite a few rules to follow when making JAX functions (control flow is
 a common issue), but you get a lot for your efforts!
 
-```{admonition} Other ways to go faster You don't have to use JAX to write code
-faster than NumPy. There are other tools that sometimes are better in some
-situations, including the excellent Numba library, which is imperative. PyTorch
-is a great ML-focused library. CuPy is a great GPU NumPy replacement. Etc. JAX
-here is just intended to be an example of what thinking in a functional mindset
-can do.
+```{admonition} Other ways to go faster
+You don't have to use JAX to write code faster than NumPy. There are other
+tools that sometimes are better in some situations, including the excellent
+Numba library, which is imperative. PyTorch is a great ML-focused library. CuPy
+is a great GPU NumPy replacement. Etc. JAX here is just intended to be an
+example of what thinking in a functional mindset can do.
 ```

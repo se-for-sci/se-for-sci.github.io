@@ -300,8 +300,114 @@ int main() {
     std::vector items {1, 2, 3, 4, 5};
     auto result = items | std::views::transform([](int i){return i*i;})
                         | std::views::filter([](int i){return i%2==1;});
-    sum_sq_odds = std::fold_Left(odd_sq), 0, [](int a, int b){return a + b;})
-    std::cout << result << std::endl;
+    sum_sq_odds = std::fold_left(odd_sq, 0, [](int a, int b){return a + b;});
+    std::println("{}", result);
     return 0;
 }
+```
+
+---
+
+## Currying
+
+```python
+def power(y, x):
+    return x**y
+
+
+pow2 = functools.partial(power, 2)
+pow3 = functools.partial(power, 3)
+
+print(f"{pow2(10) = }")
+print(f"{pow3(10) = }")
+```
+
+```output
+pow2(10) = 100
+pow3(10) = 1000
+```
+
+Subset of functors!
+
+---
+
+## So what can you get?
+
+### Lazy evaluation
+
+```python
+def not_pure(x):
+    print("computing x")
+    return x
+
+
+values = [1, 2, 3]
+results = map(not_pure, values)
+filtered_results = filter(lambda x: x % 2 == 0, results)
+print(sum(filtered_results))
+```
+
+Where does the print statement run?
+
+---
+
+## So what can you get?
+
+### Parallelization
+
+(Not Python) Can run in parallel, since when you run doesn't matter.
+
+### Easy to optimize
+
+(Not Python) Easy to reason about.
+
+Not Python only means not the _language_, libraries can implement!
+
+---
+
+## JAX
+
+A library that makes use of this is JAX. Let's look at it:
+
+```python
+import jax
+import jax.numpy as jnp
+
+arr = jnp.array([1, 2, 3])
+```
+
+Looks like NumPy right? Try to modify the array. ;)
+
+---
+
+## JAX (2)
+
+Here's how you write `arr[0] = 4`:
+
+```python
+arr = arr.at[0].set(4)
+```
+
+### What you get:
+
+- You can fuse functions together with `jax.jit` & they get compiled into machine code
+- You can target CPU, GPU, and TPU (Google’s tensor processing units)
+- You can compute gradients of functions
+
+---
+
+## JAX (3)
+
+```
+@jax.jit
+def f(x):
+    return x**3 + x**2 + x
+
+
+dfdx = jax.grad(f)
+print(f"{dfdx(1.0) = }")
+```
+
+```output
+dfdx(1.0) = DeviceArray(6., dtype=float32, weak_type=True)
 ```
