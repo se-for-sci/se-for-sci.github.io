@@ -36,8 +36,8 @@ First we need to talk about **mutability** and **state**. Functional programming
 
 ## Mutability in Python
 
-* Some built-in objects are truly immutable (like `int`). You can't mutate them.
-* Immutable objects have a hash (`__hash__` is present and not None)
+- Some built-in objects are truly immutable (like `int`). You can't mutate them.
+- Immutable objects have a hash (`__hash__` is present and not None)
 
 Immutability by convention more than language.
 
@@ -45,9 +45,9 @@ Immutability by convention more than language.
 
 ## Why do we introduce mutability?
 
-* Easy to change
-* Saves memory
-* Easy API (but maybe not a good one!)
+- Easy to change
+- Saves memory
+- Easy API (but maybe not a good one!)
 
 ---
 
@@ -58,6 +58,7 @@ Immutability by convention more than language.
 class Mutable:
     x: int
     y: int
+
 
 mutable = Mutable(1, 2)
 mutable.x = 2
@@ -78,6 +79,7 @@ class Immutable:
     x: int
     y: int
 
+
 immutable_1 = Immutable(1, 2)
 immutable_2 = Immutable(2, immutable_1.y)
 print(immutable_2)
@@ -97,6 +99,7 @@ class Immutable:
     x: int
     y: int
 
+
 immutable_1 = Immutable(1, 2)
 immutable_2 = dataclasses.replace(immutable_1, x=2)
 print(immutable_2)
@@ -110,7 +113,6 @@ Immutable(x=2, y=2)
 
 ## Easy to build API
 
-
 ```python
 data = Data()
 data.load_data()
@@ -120,7 +122,6 @@ data.plot()
 ```
 
 What happens if you forget a step?
-
 
 ---
 
@@ -136,8 +137,7 @@ computed_data = prepared_data.do_calculations()
 computed_data.plot()
 ```
 
-Now mistakes can be detected statically! Tab completion will tell you what you
-can do. Etc.
+Now mistakes can be detected statically! Tab completion will tell you what you can do. Etc.
 
 ---
 
@@ -159,6 +159,7 @@ This style is common in functional programming (which is where we are headed).
 ```python
 def evil(x):
     x.append("Muhahaha")
+
 
 mutable = []
 evil(mutable)
@@ -189,10 +190,10 @@ Though that also mutates an argument (`self`).
 
 ## What does immutability give us?
 
-* Optimization by the compiler (if you have one)
-* Chaining of methods
-* No issues with copying vs. references
-* Avoid one mutable reference breaking another
+- Optimization by the compiler (if you have one)
+- Chaining of methods
+- No issues with copying vs. references
+- Avoid one mutable reference breaking another
 
 These don't require immutability, they require _we don't mutate_.
 
@@ -200,12 +201,11 @@ These don't require immutability, they require _we don't mutate_.
 
 ## Functional programming
 
-
 Defining **pure function**:
 
-* Does not mutate arguments
-* Does not contain internal state
-* No side effects (like printing to screen!)
+- Does not mutate arguments
+- Does not contain internal state
+- No side effects (like printing to screen!)
 
 Think about some functions and see which ones are pure.
 
@@ -224,7 +224,9 @@ sum_sq_odds = sum(x**2 for x in items if x % 2 == 1)
 Written in a functional style:
 
 ```python
-sum_sq_odds = functools.reduce(lambda x, y: x + y, filter(lambda x: x % 2 == 1, map(lambda x: x**2, items)))
+sum_sq_odds = functools.reduce(
+    lambda x, y: x + y, filter(lambda x: x % 2 == 1, map(lambda x: x**2, items))
+)
 ```
 
 ---
@@ -237,12 +239,16 @@ Python isn't a functional language. Let's try adding chaining:
 class FunctionalIterable:
     def __init__(self, this, /):
         self._this = this
+
     def __repr__(self):
         return repr(self._this)
+
     def map(self, func):
         return self.__class__(map(func, self._this))
+
     def filter(self, func):
         return self.__class__(filter(func, self._this))
+
     def reduce(self, func):
         return functools.reduce(func, self._this)
 ```
@@ -253,7 +259,9 @@ class FunctionalIterable:
 
 ```python
 items = FunctionalIterable([1, 2, 3, 4, 5])
-sum_sq_odds = items.map(lambda x: x**2).filter(lambda x: x % 2).reduce(lambda x,y: x + y)
+sum_sq_odds = (
+    items.map(lambda x: x**2).filter(lambda x: x % 2).reduce(lambda x, y: x + y)
+)
 ```
 
 ---
@@ -269,7 +277,6 @@ puts items
 ---
 
 ## Other languages: Rust
-
 
 ```rust
 fn main() {
