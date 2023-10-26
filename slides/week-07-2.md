@@ -449,6 +449,8 @@ int main() {
 
 We could even overload `operator*` to make this more pointer like!
 
+We'll skip copy support for now - there is a choice involved.
+
 ---
 
 ## RAII in the standard library
@@ -510,6 +512,16 @@ int main() {
 
 ---
 
+## Copy
+
+With a copy, you have to make a decision on ownership: who owns the heap now?
+
+- `std::unique_ptr<T>`: No copy allowed
+- `std::shared_ptr<T>`: Reference counting
+- Other containers (like strings) tend to duplicate data (AKA clone).
+
+---
+
 ## Smart pointers
 
 ```cpp
@@ -518,7 +530,8 @@ int main() {
 
 int main() {
     std::unique_ptr<int> heap_int_a{new int(3)};  // Original C++11
-    auto heap_int_b = std::make_unique<int>(3);  // C++14 required
+    auto heap_int_b = std::make_unique<int>(3);   // C++14 required
+    auto heap_int_b = std::make_unique(3);        // Can infer type
 
     std::cout << *heap_int_a << " " << *heap_int_b << std::endl;
     return 0;
@@ -550,6 +563,8 @@ if(x) {
 }
 ```
 
+C++23 adds functional-style operations too!
+
 ---
 
 ## Union (Enum in Rust)
@@ -559,6 +574,8 @@ std::variant<int, float> int_or_float;
 int_or_float = 12;
 int i = std::get<int>(int_or_float);  // i is now 12
 ```
+
+An optional is just a special case of a two-item variant!
 
 ---
 
@@ -571,7 +588,22 @@ std::cout << a.type().name() << " " << std::any_cast<int>(a) << std::endl;
 
 ---
 
+## Exceptions (bonus)
+
+The others were replacements for pointers, but C++23 also has a replacement for exceptions also built on a variant: `std::expected`!
+
+- A good value if the operation succeeded
+- An error value if the operation failed.
+
+This forces a programmer to always explicitly acknowledge every error that can happen, and handle them.
+
+This is the _only_ way to handle exceptions in Rust, by the way!
+
+---
+
 ## A new approach to memory (Rust)
+
+Rust focuses on ownership, and has an explicit borrow checker. Moves by default. Const by default.
 
 ```rust
 fn main() {
@@ -620,6 +652,8 @@ fn main() {
 ```
 
 Like `std::string_view` in C++17. Already a reference, so safe to copy (string in static storage).
+
+---
 
 ## Example of a buggy C++ code
 

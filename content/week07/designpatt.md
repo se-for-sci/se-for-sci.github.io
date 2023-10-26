@@ -722,6 +722,9 @@ more to get the contained value easily.
 You can put anything inside, and you can put them inside containers like
 `std::vector`.
 
+As you might be guessing, `std::optional` is really just a special case of a two
+element `std::variant` with the `std::nullopt` as one of the possible entries.
+
 ##### Type erasure
 
 What if you don't know the type you want beforehand? You can't put that on the
@@ -735,6 +738,11 @@ std::cout << a.type().name() << " " << std::any_cast<int>(a) << std::endl;
 ```
 
 Any also can be "empty", like `std::optional`.
+
+#### Exceptions (bonus)
+
+While you don't usually use pointers for exceptions, they are a very problematic
+and have a solution also based on variants in C++23: `std::expected`.
 
 #### A new approach to memory
 
