@@ -230,13 +230,13 @@ Garbage collected languages include most interpreted languages as well as C#, D,
 
 Pros:
 
-- easy
+- Easy
 
 Cons:
 
 - Unpredictable performance
 - Counting reference cycles can take time
-- Objects may never be deleted (implementation defined).
+- Objects may never be deleted (implementation defined)
 
 ---
 
@@ -362,25 +362,25 @@ Feel free to use godbolt.org, cpp.sh, wandbox.org, or similar online C++ compila
 Stack:
 
 - Pre-allocated when you run your program
-- Fast
 - A function (frame) has a set stack usage
 
 Heap:
 
-- Can be requested during runtime
+- Requested during runtime
 - Can be any size
 - Requested in consecutive chunks
-- Can leak (forget to deallocate)
+- Can leak if you forget to deallocate
 
 ---
 
 ## Stack and frame
 
 ```cpp
-int main() {  // The variables (x) pushed onto the stack
+int main() {  // The variables (x, y) pushed onto the stack
     int x = 2;
+    int y = x * 2;
     return 0;
-} // Stack values (x) dropped here
+} // Stack values (x, y) dropped here
 ```
 
 C used to require all variable at the top of a function.
@@ -399,9 +399,9 @@ int main() {
 }
 ```
 
-Don't do this, especially in C++!
+Don't do this in C++! Better solution next.
 
-What happens if the middle line throws an error and you catch it later>
+What happens if the middle line throws an error and you catch it later?
 
 ---
 
@@ -412,8 +412,6 @@ We can use a classes and the stack to help us with the heap!
 RAII: Resource Allocation Is Initialization pattern.
 
 ---
-
-## RAII code
 
 ```cpp
 class HeapInt {
