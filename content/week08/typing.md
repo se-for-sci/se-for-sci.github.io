@@ -1,5 +1,7 @@
 # Static Typing
 
+[Slides](https://henryiii.github.io/se-for-sci/slides/week-08-1)
+
 What is the best thing about Python? One of the first things you'll hear: no
 explicit typing.
 
@@ -114,7 +116,7 @@ mypy simple.py
 ```
 
 ```output
-simple.py:8: error: Argument 1 to "simple_typed_function" has incompatible type "List[str]"; expected "float"
+simple.py:10: error: Argument 1 to "simple_typed_function" has incompatible type "list[str]"; expected "float"  [arg-type]
 Found 1 error in 1 file (checked 1 source file)
 ```
 
@@ -148,9 +150,10 @@ mypy --strict simple.py
 ```
 
 ```output
-simple.py:4: error: Function is missing a type annotation
-simple.py:8: error: Argument 1 to "simple_typed_function" has incompatible type "List[str]"; expected "float"
-simple.py:9: error: Call to untyped function "simple_untyped_function" in typed context
+simple.py:5: error: Function is missing a type annotation  [no-untyped-def]
+simple.py:10: error: Argument 1 to "simple_typed_function" has incompatible type "list[str]"; expected "float"  [arg-type]
+simple.py:11: error: Call to untyped function "simple_untyped_function" in typed context  [no-untyped-call]
+Found 3 errors in 1 file (checked 1 source file)
 ```
 
 Now MyPy tells us exactly what we need to do to fully type this code and give us
@@ -198,7 +201,7 @@ mypy optional.py
 ```
 
 ```output
-optional.py:4: error: Item "None" of "Optional[List[str]]" has no attribute "__iter__" (not iterable)
+optional.py:5: error: Item "None" of "list[str] | None" has no attribute "__iter__" (not iterable)  [union-attr]
 Found 1 error in 1 file (checked 1 source file)
 ```
 
@@ -256,6 +259,11 @@ y: int
 # Function annotation
 def f(x: int) -> int:
     return x
+
+
+# Class annotations
+class X:
+    a: int  # Declares instance variable, use typing.ClassVar otherwise
 ```
 
 Python type checkers consider a string to be identical to the type itself:
@@ -334,10 +342,11 @@ Obviously, if you know the fixed type of these, it's better to use that.
 Python also as the idea of generic classes (template classes in C++, the reason
 C++'s standard library is called the "stl", standard template library). Generics
 or templates are a class that are parametrized on a "contained" type. Let's look
-at one:
+at a couple:
 
 ```python
 a: list[int] = [1, 2, 3]
+s: set[int] = {1, 2, 3}
 ```
 
 The type parameter is provided using `[]` syntax (`<>` in C++). List's have a
@@ -345,7 +354,7 @@ parameter that takes the contents of the list. You can have 0 or more of those
 items. (Note: list is generic starting in Python 3.9, so either use future
 annotations or Python 3.9 for the above syntax; before that you had to use
 `from typing import List` and `List[int]`). The `set` collection works the same
-way.
+way as `list`.
 
 Now let's look at `tuple`; it has a design that's rather unique (most other
 containers are more like `list`):
@@ -405,10 +414,12 @@ arguments.
 
 ## Other types
 
+You can add special features to Python typing that are normally only found in
+compiled languages.
+
 ### Final
 
-You can add special features to Python typing that are normally only found in
-compiled languages. One example of this is `Final`:
+You can specify that a variable is not to be changed:
 
 ```python
 x: Final = 3
@@ -435,12 +446,13 @@ x.append(1)  # Valid!
 # This wouldn't be a problem with a non-mutable type
 ```
 
-`Final` in the first example is a shorthand for `Final[Literal[3]]` in this
-case. You can explicitly include the type if you want (and this is not
-considered an unspecified generic when you turn on the matching flag in MyPy,
-since it's not assuming `Any` for the parameter). Some type checkers (PyLance)
-treat this a little differently when unspecified, so specifying the type when
-you have a container is mildly recommended.
+`Final` in the first example is a shorthand for `Final[Literal[3]]` in this case
+(`Literal` is discussed later under _Type Narrowing_). You can explicitly
+include the type if you want (and this is not considered an unspecified generic
+when you turn on the matching flag in MyPy, since it's not assuming `Any` for
+the parameter). Some type checkers (PyLance) treat this a little differently
+when unspecified, so specifying the type when you have a container is mildly
+recommended.
 
 Another example is `@typing.final`, which is a decorator that marks a method as
 un-overridable.
@@ -787,7 +799,7 @@ similar but more explicit and controlled.
 Let's look at the following function:
 
 ```python
-def f(x):
+def f(x) -> None:
     x.do_something()
 ```
 
@@ -851,7 +863,8 @@ check the type signature (it's a runtime construct, after all).
 If you use a `hasattr(x, "do_something")` pattern, a runtime checkable Protocol
 can replace it and type checkers will correctly narrow as well. Though if it is
 a performance critical section of code, the `runtime_checkable` `Protocol` is a
-little slower that then `hasattr` and a `type: ignore` comment, sadly.
+little slower that then `hasattr` and a `type: ignore` comment until Python
+3.12.
 
 ### Verifying a Protocol
 
@@ -935,6 +948,8 @@ second list. By using generics, we can also swap these lists out for things like
 tuples or user defined classes with the right special methods. We always return
 a `list`, so we stay as specific as possible in the return.
 
+(Remember you need the future import or Python 3.9+)
+
 ## More about generics
 
 ### TypeVar
@@ -949,8 +964,13 @@ def f(x):
 ```
 
 How would you type this? You want to tell the type checker the output type is
-the same as the input type. This is done using `TypeVar`:
+the same as the input type. This is done using `TypeVar` or the built-in syntax
+in Python 3.12. Note this syntax does _not_ work on earlier versions of Python,
+even if `from __future__ import annotations` is used, since it's new syntax and
+not an annotation.
 
+`````{tab-set}
+````{tab-item} Python 3.6+
 ```python
 from typing import TypeVar
 
@@ -960,6 +980,14 @@ T = TypeVar("T")
 def f(x: T) -> T:
     return x
 ```
+````
+````{tab-item} Python 3.12+
+```python
+def f[T](x: T) -> T:
+    return x
+```
+````
+`````
 
 TypeVar's do not hold a type by themselves. They always occur at least once in
 the _input_ of a of function. They may occur multiple times, or in the output,
@@ -1019,12 +1047,15 @@ Unions are covariant. `B | None` would also accept `C`.
 Lists (generally anything mutable) are invariant. If you have a `list[B]`, it is
 invalid to append either `A` or `C` to it.
 
+The Python 3.12 syntax will use the correct settings for the situation. You
+often have to specify this yourself otherwise (the type checker will help you,
+though).
+
 ### Self
 
 A special, very common need is to return a type that is related to `self`.
-There's a very easy way to do it in `typing_extensions` (and typing in Python
-3.11), but it's not yet supported by MyPy (as of 0.982) although all the other
-major type checkers have added support.
+There's a very easy way to do it in `typing_extensions` (and `typing` in Python
+3.11).
 
 The "chaining" pattern is a common use case, as are factory methods
 (classmethods). Here's how you'd do it:

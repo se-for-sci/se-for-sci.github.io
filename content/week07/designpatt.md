@@ -593,12 +593,12 @@ class HeapHolder {
   public:
     HeapHolder(T init) : value(new T(init)) {}  // Constructor
     HeapHolder(const HeapHolder& init) = delete;  // Copy constructor
-    HeapHolder(HeapHolder&& init) noexcept : value(init.value) {   // Move constructor
+    HeapHolder(HeapHolder&& init) noexcept : value(init.value) {  // Move constructor
         init.value = nullptr;
     }
     HeapHolder& operator=(const HeapHolder& other) = delete;  // copy assignment
     HeapHolder& operator=(HeapHolder&& other) noexcept { // move assignment
-        return *this = HeapHolder(std::move(other));
+        return *this = HeapHolder(other);
     }
     ~HeapHolder() {  // Destructor
         if(value != nullptr)
@@ -760,7 +760,7 @@ Let's look at a very simple, invalid Rust program:
 fn main() {
   let s1 = "Hello world".to_string();
   let s2 = s1;
-  println!("{} {}", s, s2);
+  println!("{} {}", s1, s2);
 }
 ```
 ````
@@ -769,7 +769,7 @@ fn main() {
 fn main() {
   let s1 = "Hello world".to_string();
   let s2 = &s1;
-  println!("{} {}", s, s2);
+  println!("{} {}", s1, s2);
 }
 ```
 ````
@@ -778,7 +778,7 @@ fn main() {
 fn main() {
   let s1 = "Hello world".to_string();
   let s2 = s1.clone();
-  println!("{} {}", s, s2);
+  println!("{} {}", s1, s2);
 }
 ```
 ````
@@ -787,7 +787,7 @@ fn main() {
 fn main() {
   let s1 = "Hello world";
   let s2 = s1;
-  println!("{} {}", s, s2);
+  println!("{} {}", s1, s2);
 }
 ```
 ````

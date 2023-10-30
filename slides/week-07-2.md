@@ -476,20 +476,22 @@ C++11 added the idea of moves (and Rust moves by default). You can't "move" the 
 ---
 
 ```cpp
+#include <memory>
+
 template<typename T>
 class HeapHolder {
   private:
     T* value;
 
   public:
-    HeapHolder(T init) : value(new T(init)) {}  // Constructor
-    HeapHolder(const HeapHolder& init) = delete;  // Copy constructor
-    HeapHolder(HeapHolder&& init) noexcept : value(init.value) {   // Move constructor
+    HeapHolder(T init) : value(new T(init)) {}                    // constructor
+    HeapHolder(const HeapHolder& init) = delete;                  // copy constructor
+    HeapHolder(HeapHolder&& init) noexcept : value(init.value) {  // move constructor
         init.value = nullptr;
     }
     HeapHolder& operator=(const HeapHolder& other) = delete;  // copy assignment
-    HeapHolder& operator=(HeapHolder&& other) noexcept { // move assignment
-        return *this = HeapHolder(std::move(other));
+    HeapHolder& operator=(HeapHolder&& other) noexcept {      // move assignment
+        return *this = HeapHolder(other);
     }
     ~HeapHolder() { if(value != nullptr) delete value; }
     T& operator*() { return *value; }
@@ -501,6 +503,8 @@ class HeapHolder {
 ## Moves (2)
 
 ```cpp
+#include <iostream>
+
 int main() {
     HeapHolder<int> start{3};
     HeapHolder<int> middle{std::move(start)}; // a
@@ -538,7 +542,7 @@ int main() {
 }
 ```
 
-These also support moves.
+These also support moves but not copies.
 
 ---
 
@@ -558,9 +562,11 @@ if(x)
 
 // Good
 std::optional<int> x = optional_int_func();
-if(x) {
+if(x)
   use(*x);
-}
+
+// Also works
+use(x.value_or(0));
 ```
 
 C++23 adds functional-style operations too!
@@ -586,6 +592,8 @@ std::any a = 1;
 std::cout << a.type().name() << " " << std::any_cast<int>(a) << std::endl;
 ```
 
+Replacement for using `void *`. Casting checked at runtime.
+
 ---
 
 ## Exceptions (bonus)
@@ -609,7 +617,7 @@ Rust focuses on ownership, and has an explicit borrow checker. Moves by default.
 fn main() {
   let s1 = "Hello world".to_string();
   let s2 = s1;
-  println!("{} {}", s, s2);  // BROKEN!
+  println!("{} {}", s1, s2);  // BROKEN!
 }
 ```
 
@@ -621,7 +629,7 @@ fn main() {
 fn main() {
   let s1 = "Hello world".to_string();
   let s2 = &s1;
-  println!("{} {}", s, s2);
+  println!("{} {}", s1, s2);
 }
 ```
 
@@ -635,7 +643,7 @@ Note you are allowed as many const references as you want without `mut` referenc
 fn main() {
   let s1 = "Hello world".to_string();
   let s2 = s1.clone();
-  println!("{} {}", s, s2);
+  println!("{} {}", s1, s2);
 }
 ```
 
