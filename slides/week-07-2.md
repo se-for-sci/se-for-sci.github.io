@@ -719,3 +719,15 @@ If there's a `Foo::bar()`, call that. If not, if there's a Trait with a `.bar()`
 - **Factory pattern**: We've touched on this lightly, classes `__init__` method, for example.
 - **Ascync patterns**: Lightly touched on during generators.
 - **Event loop**: A common pattern for reacting to multiple possible inputs.
+
+---
+
+## Going further
+
+A great way to go further is to learn another language. It helps generalize concepts and expose you to new design patterns. Try to write code the way the language is intended. You should know at least one compiled and one interpreted language well!
+
+- **Python**: A great choice for interpreted language.
+- **C++**: The classic compiled language choice, modernized.
+- **Rust**: A really interesting option due to packaging, moves, & traits
+
+You should at least be familiar with whatever is common in your field.
