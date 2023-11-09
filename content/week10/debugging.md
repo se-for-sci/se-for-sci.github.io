@@ -390,7 +390,7 @@ $ gdb executable core.#
 
 Here is a simple example program in Fortran:
 
-- homework: do the samne in C and C++
+- homework: do the same in C and C++
 
 ```c
 program bug
