@@ -61,8 +61,8 @@ x[345] = 0 ! SIGSEGV
 - Make sure your shell “stack size limit” and "core size limit" are both set to
   “unlimited”
 
-  - `ulimit -c unlimited` set stack memory to unlimited
-  - `ulimit -s unlimited` set core file size to unlimited
+  - `ulimit -s unlimited` set stack memory to unlimited
+  - `ulimit -c unlimited` set core file size to unlimited
   - `ulimit -a` show all limits
 
 - I/O errors
