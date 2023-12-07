@@ -179,3 +179,5 @@ cython_debug/
 /slides/*.html
 
 .vscode
+*.dSYM
+.virtual_documents

@@ -1,6 +1,5 @@
-
 [build-system]
-requires = ["scikit-build-core>=0.1.2", "pybind11>=2.10"]
+requires = ["scikit-build-core>=0.5", "pybind11>=2.10"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -8,5 +7,4 @@ name = "minuit2"
 version = "6.26.10"
 
 [tool.scikit-build]
-experimental = true
-wheel.install-dir = "/null"
+install.components = ["python"]
