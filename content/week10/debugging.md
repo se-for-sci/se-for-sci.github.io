@@ -650,7 +650,7 @@ p expression
 - Extremely important for codes that have long runtimes (> 1 hour)
 
   - Allows you to restart your simulation at the point of the latest checkpoint
-  - Avoid loosing hours of precious computer time
+  - Avoid losing hours of precious computer time
   - Especially important for parallel codes
 
 - Extremely important when you need to debug a code that crashes after a few
