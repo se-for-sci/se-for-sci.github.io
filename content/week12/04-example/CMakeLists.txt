@@ -25,5 +25,5 @@ else()
   pybind11_add_module(minuit2 ${OUTPUT})
   target_link_libraries(minuit2 PUBLIC Minuit2::Minuit2)
 
-  install(TARGETS minuit2 DESTINATION ${SKBUILD_PLATLIB_DIR})
+  install(TARGETS minuit2 DESTINATION ${SKBUILD_PLATLIB_DIR} COMPONENT python)
 endif()

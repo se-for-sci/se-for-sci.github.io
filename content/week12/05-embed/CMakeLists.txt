@@ -1,11 +1,12 @@
-cmake_minimum_required(VERSION 3.19...3.25)
+cmake_minimum_required(VERSION 3.19...3.27)
 project(EmbeddedPython LANGUAGES CXX)
 
+set(PYBIND11_FINDPYTHON ON)
 include(FetchContent)
 FetchContent_Declare(
   pybind11
-  URL           https://github.com/pybind/pybind11/archive/refs/tags/v2.10.1.tar.gz
-  URL_HASH      SHA256=111014b516b625083bef701df7880f78c2243835abdb263065b6b59b960b6bad
+  URL           https://github.com/pybind/pybind11/archive/refs/tags/v2.11.1.tar.gz
+  URL_HASH      SHA256=d475978da0cdc2d43b73f30910786759d593a9d8ee05b1b6846d1eb16c6d2e0c
   DOWNLOAD_NO_PROGRESS
 )
 FetchContent_MakeAvailable(pybind11)
