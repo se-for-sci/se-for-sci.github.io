@@ -103,7 +103,7 @@ will know what your special constructs are.
 
 ## Course structure
 
-The challenges of APC 524:
+The challenges of this course:
 
 - Often introducing solutions before problems
 - Large variance in the audience in terms of skill and background

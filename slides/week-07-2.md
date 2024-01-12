@@ -7,7 +7,7 @@ backgroundColor: #fff
 backgroundImage: url('https://marp.app/assets/hero-background.svg')
 ---
 
-# APC 524
+# SE4Sci
 
 ## Design patterns
 
