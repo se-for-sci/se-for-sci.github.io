@@ -1,5 +1,7 @@
 # Introductions and motivation
 
+[Slides](https://henryiii.github.io/se-for-sci/slides/week-01-1)
+
 ## The importance of software engineering in scientific computing
 
 It's really easy to learn to code. In fact, it's easier to _write_ code than
@@ -35,7 +37,28 @@ useful tools and practices.
 
 - Version control
 - Testing and debugging
+- Continuous integration
+- Packaging and distribution
 - Design principles
+- Compiled code
+- Performance
+
+Over the course, we will go over these concepts. Missing from the above list:
+how to code (you should already know the basics, like loops, functions, and
+such, in at least one language). Also, we won't cover specific algorithms, which
+is enough for its own course.
+
+Also, we will be using Python for the first 2/3 of the course, followed by a
+compiled language. The specific language doesn't matter that much, but you have
+to pick one, and Python is an excellent choice. It's one of the most widely used
+languages, the one you are statistically the most likely to already be familiar
+with, and one of the best "teaching" languages (as it was actually developed
+based on a language specifically designed for teaching, the "ABC" language).
+
+We will be working with a lot of specific tooling, but the concepts are general;
+if you are working in a different language, just find the matching tooling for
+that language. Again, we have to pick something, but once you know the concepts,
+you can find similar tools in almost any language.
 
 ## Problem-solution ordering
 
