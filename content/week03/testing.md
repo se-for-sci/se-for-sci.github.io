@@ -1,5 +1,7 @@
 # Intro to testing
 
+[Slides](https://henryiii.github.io/se-for-sci/slides/week-03-1)
+
 ## Why Test?
 
 Tests are crucial to writing reliable software. A good test suite allows you to:

@@ -25,16 +25,14 @@ Also:
 - Requirements and expectations _explicit_
 - Confidence in code
 
-**Tests serve as  documentation about your expectations**.
+**Tests serve as documentation about your expectations**.
 
 ---
 
 ## Verification vs. validation
 
-
-* **Verification** The code is meeting the requirements you set (is this code correct?)
-* **Validation** The requirements you set made sense in the first place (is this the correct code?)
-
+- **Verification** The code is meeting the requirements you set (is this code correct?)
+- **Validation** The requirements you set made sense in the first place (is this the correct code?)
 
 We will focus on verification, but both are important.
 
@@ -50,7 +48,6 @@ We will focus on verification, but both are important.
 - Tests can outnumber code (SQLite: 608x)
 - Tools help, still can be a skill/art
 
-
 ---
 
 ## Doesn't it take time?
@@ -58,7 +55,6 @@ We will focus on verification, but both are important.
 - You are already writing tests when developing (usually)
 - Debugging broken code is slow
 - Bugs in production is slow
-
 
 ---
 
@@ -94,7 +90,6 @@ Static "testing" (**static checking**) will be covered later. Dynamic testing (o
 
 ---
 
-
 ## When do you write tests?
 
 - **Waterfall**: Linear development: Requirements -> Design -> Implementation -> Verification -> Maintenance.
@@ -116,7 +111,6 @@ Write tests _before_ writing the code it tests.
 ## Other styles
 
 I'd recommend trying TDD, then deciding on a style that's right for you - it might even be problem specific (in fact, it almost surely is).
-
 
 ---
 
@@ -149,12 +143,11 @@ I'd recommend trying TDD, then deciding on a style that's right for you - it mig
 
 Many early frameworks were "x-unit" style. High boilerplate.
 
-
 ---
 
-## C++ frameworks 
+## C++ frameworks
 
-- **Catch2**: A powerful and modern C++ framework. Highly recommended.
+- **Catch2**: A powerful and modern C++ framework. Recommended.
 - **DocTest**: A rewrite of Catch2 focused on speed and simplicity.
 - **GoogleTest**: Google's. Normal drawbacks (like only 5 year compiler support).
 - **Boost.Test**: Good if you are using Boost, less beginner friendly syntax.
@@ -171,6 +164,4 @@ Note that none of these are true x-unit style, because C++ doesn't have reflecti
 - **doctest**: Also built in, but tests docstrings instead of normal tests.
 - **xdoctest**: a better version of the standard library module that might even be usable in some cases.
 - **Hypothosis**: Property based testing (is an add-on to pytest)
-- [**ward**](https://github.com/darrenburns/ward): A rather new library that
-  tries to rethink pytest to be even more modern. Interesting, at least.
-
+- [**ward**](https://github.com/darrenburns/ward): A rather new library that tries to rethink pytest to be even more modern. Interesting, at least.
