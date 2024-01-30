@@ -214,7 +214,7 @@ Let's be honest: no one likes writing tests (at least I know I don't). And the
 last thing I want to do is write a lot of boiler-plate code that makes the tests
 runnable & easy to use. Specifically, I want these features:
 
-- Easy to run all tests.
+- Easy to run all tests
 - Good readable output if tests fail
 - Some output if they pass
 - Various common needs (setup/teardown, mocking, parameterization, etc.)
