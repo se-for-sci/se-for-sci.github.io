@@ -55,6 +55,7 @@ parts:
   - caption: "Week 9: Intro to Compilation"
     chapters:
       - file: content/week09/Compiled_Languages.ipynb
+      - file: content/week09/compiled.md
 
   - caption: "Week 10: Profiling"
     chapters:
