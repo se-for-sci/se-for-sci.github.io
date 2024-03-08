@@ -34,7 +34,7 @@ Of these, the most interesting language is currently Rust - it's "systems" desig
 Just like downloading the interpreter in an interpreted language, compiled languages require you to download a compiler. Unlike interpreted languages, however, only the developer needs the download. You can probably get the Rust compilers directly; however,
 most developers prefer `rustup`, which is a tool that gets Rust compilers for you, allowing you to control the version.
 
-Brew users can `brew install rustup` and then follow the instructions to get the latest version, or just `brew install rust` and accept whatever version was given. The main tool that you get with `rust` besides the compiler (`rustc`) is `cargo`, it's package manager.
+Brew users can `brew install rustup` and then follow the instructions to get the latest version, or just `brew install rust` and accept whatever version was given. The main tool that you get with `rust` besides the compiler (`rustc`) is `cargo`, its package manager.
 
 ## Step 1.5: Try compiling a little file
 
@@ -174,7 +174,7 @@ Unless we've been sloppy, it likely won't do much, but now we know how to format
 Now let's try adding linting checks. We already get type checking whenever we compile, but let's add helpful optional checks. We can run:
 
 ```console
-$ ruff clippy --all-targets
+$ cargo clippy --all-targets
     Checking foo v0.1.0 (~/tmp/foo)
 warning: unused import: `super::*`
  --> src/main.rs:7:9
