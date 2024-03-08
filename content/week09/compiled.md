@@ -32,9 +32,11 @@ Of these, the most interesting language is currently Rust - it's "systems" desig
 ## Step 1: Getting the compiler
 
 Just like downloading the interpreter in an interpreted language, compiled languages require you to download a compiler. Unlike interpreted languages, however, only the developer needs the download. You can probably get the Rust compilers directly; however,
-most developers prefer `rustup`, which is a tool that gets Rust compilers for you, allowing you to control the version.
+most developers prefer `rustup`, which is a tool that gets Rust compilers for you, allowing you to control the version, and request the nightly features. You can go to <https://rustup.rs/> for general instructions on how to get it.
 
-Brew users can `brew install rustup` and then follow the instructions to get the latest version, or just `brew install rust` and accept whatever version was given. The main tool that you get with `rust` besides the compiler (`rustc`) is `cargo`, its package manager.
+Brew users can `brew install rustup` and then follow the instructions to get the latest version, or just `brew install rust` and accept whatever version was given (usually the latest version). The main tool that you get with `rust` besides the compiler (`rustc`) is `cargo`, its package manager.
+
+It is also possible to get rust via Conda from the conda-forge channel. This will come with `rustc` and `cargo` as well, and is usually the latest version. If you use one of the conda family (conda, mamba, micromamba, pixi, etc), then feel free to try this method. Rustup is not available via conda.
 
 ## Step 1.5: Try compiling a little file
 
