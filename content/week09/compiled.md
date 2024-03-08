@@ -256,7 +256,7 @@ mod tests {
 
     #[test]
     fn test_world() {
-        let world: Card = "world".try_into().unwrap();
+        let world: Card = "World".try_into().unwrap();
         assert_eq!(Card::World, world);
     }
 }
