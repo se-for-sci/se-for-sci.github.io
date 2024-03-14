@@ -190,7 +190,7 @@ All compilers accept the `-g` option.
 ### Try different compilers if you can
 
 - Whenever you can, it is always a good idea to try different compilers if you
-  have access to different plavorms or different compilers on the same plaform
+  have access to different plavorms or different compilers on the same platform
 
 - Some compilers are a lot stricter than others and can catch potential problems
   at compile time
@@ -756,28 +756,28 @@ $ valgrind --leak-check=full ./ml
   ==29462== Warning: set address range perms: large range [0x1ef18f040, 0x206f07440) (undefined)
   ==29462== Warning: set address range perms: large range [0x1d7416040, 0x1ef18e440) (undefined)
   ==29462== Warning: set address range perms: large range [0x1ef18f028, 0x206f07458) (noaccess)
-  ==29462== 
+  ==29462==
   ==29462== HEAP SUMMARY:
   ==29462==     in use at exit: 8,000,000,000 bytes in 20 blocks
   ==29462==   total heap usage: 42 allocs, 22 frees, 16,000,073,728 bytes allocated
-  ==29462== 
+  ==29462==
   ==29462== 4,000,000,000 bytes in 10 blocks are possibly lost in loss record 1 of 2
   ==29462==    at 0x403C0F3: operator new[](unsigned long) (in /cvmfs/cms.cern.ch/el8_amd64_gcc11/external/valgrind/3.17.0-7bfcd2b5e4f162fb4b127c18285f46f6/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
   ==29462==    by 0x4011B5: computeNothing() (ml.cpp:6)
   ==29462==    by 0x40126B: main (ml.cpp:18)
-  ==29462== 
+  ==29462==
   ==29462== 4,000,000,000 bytes in 10 blocks are definitely lost in loss record 2 of 2
   ==29462==    at 0x403C0F3: operator new[](unsigned long) (in /cvmfs/cms.cern.ch/el8_amd64_gcc11/external/valgrind/3.17.0-7bfcd2b5e4f162fb4b127c18285f46f6/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
   ==29462==    by 0x4011B5: computeNothing() (ml.cpp:6)
   ==29462==    by 0x40126B: main (ml.cpp:18)
-  ==29462== 
+  ==29462==
   ==29462== LEAK SUMMARY:
   ==29462==    definitely lost: 4,000,000,000 bytes in 10 blocks
   ==29462==    indirectly lost: 0 bytes in 0 blocks
   ==29462==      possibly lost: 4,000,000,000 bytes in 10 blocks
   ==29462==    still reachable: 0 bytes in 0 blocks
   ==29462==         suppressed: 0 bytes in 0 blocks
-  ==29462== 
+  ==29462==
   ==29462== For lists of detected and suppressed errors, rerun with: -s
   ==29462== ERROR SUMMARY: 22 errors from 3 contexts (suppressed: 0 from 0)
 ```
