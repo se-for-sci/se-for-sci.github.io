@@ -48,7 +48,7 @@ When a code crashes it usually writes out a cryptic error message
 - The code can keep going for a long time with `NaN` or `inf` values
 
 - `SIGSEGV`: segmentation violation (see “man 7 signal”)
-  - invalid memory reference!e.g. trying to access an array element outside the
+  - invalid memory reference! e.g. trying to access an array element outside the
     dimensions of an array
 
 Example:
@@ -808,6 +808,8 @@ int main() {
     return 0;
 }
 ```
+
+Again, the story in Rust is very different. The Rust compiler guarantees that it will deallocate any memory at the point where it is no longer accessible. It does so by strictly following the Resource Acquisition Is Initialization (RAII) technique. Most of these memory issues can also be prevented by following modern C++ standards, but in older languages like C or Fortran it is a lot easier to introduce memory bugs.
 
 ### Using Graphical Debuggers
 
