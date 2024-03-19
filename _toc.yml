@@ -56,6 +56,7 @@ parts:
     chapters:
       - file: content/week09/Compiled_Languages.ipynb
       - file: content/week09/compiled.md
+      - file: content/week09/rust.md
 
   - caption: "Week 10: Profiling"
     chapters:
