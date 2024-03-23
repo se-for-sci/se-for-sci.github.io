@@ -1,0 +1,30 @@
+[project]
+name = "se-for-sci"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "osx-64"]
+
+[dependencies]
+black = "*"
+cattrs = "*"
+cffi = "*"
+ipykernel = ">=6.0"
+ipython = ">=8.0"
+ipywidgets = "*"
+jupyter-book = "*"
+jupyterlab = ">=3"
+matplotlib = ">=3.5"
+mypy = ">=1"
+nb_conda_kernels = "*"
+numba = "*"
+numpy = ">=1.20"
+pandas = ">=1.3"
+pip = "*"
+pybind11 = ">=2.10"
+pytest = ">7"
+rich = ">=11"
+scikit-build-core = "*"
+sphinxcontrib-mermaid = "*"
+
+[tasks]
+lab = "jupyter lab"
+book = "export PYDEVD_DISABLE_FILE_VALIDATION=1 && python -m ipykernel install --user --name conda-env-se-for-sci-py && jupyter-book build ."
