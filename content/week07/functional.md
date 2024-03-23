@@ -421,9 +421,9 @@ print(sum(filtered_results))
 
 Now you see the side effects; this is when it ran.
 
-:::{admonition}
+:::{admonition} Python & lazy iterators
 
-Python & lazy iterators You can do this without the functional spellings above -
+You can do this without the functional spellings above -
 generator comprehensions (the ones with `()` instead of `[]`) are also lazy, as
 is `range` and quite a few other methods in Python 3. There also is good support
 for coroutines via generator functions. You can use those to write things that

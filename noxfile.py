@@ -35,6 +35,7 @@ def book(session: nox.Session) -> None:
         "scikit-build-core",
         "sphinxcontrib-mermaid",
     )
+    env = {"PYDEVD_DISABLE_FILE_VALIDATION": "1"}
     session.run(
         "python",
         "-m",
@@ -43,5 +44,6 @@ def book(session: nox.Session) -> None:
         "--user",
         "--name",
         "conda-env-se-for-sci-py",
+        env=env,
     )
-    session.run("jupyter-book", "build", ".")
+    session.run("jupyter-book", "build", ".", env=env)

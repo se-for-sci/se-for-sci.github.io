@@ -28,20 +28,24 @@ html:
 
 only_build_toc_files: true
 exclude_patterns:
-  [
-    _build,
-    Thumbs.db,
-    .DS_Store,
-    "**.ipynb_checkpoints",
-    "**.pytest_cache",
-    "notes",
-  ]
+  - "**.*cache"
+  - "**.ipynb_checkpoints"
+  - "**.nox"
+  - "**.pixi"
+  - "**.virtual_documents"
+  - .DS_Store
+  - Thumbs.db
+  - "**/_build"
+  - "**/build"
+  - notes
 
 sphinx:
   extra_extensions:
     - sphinxcontrib.mermaid
   config:
-    execution_show_tb: True
+    nb_execution_show_tb: True
     copybutton_prompt_text: '\$ '
     copybutton_prompt_is_regexp: true
     copybutton_only_copy_prompt_lines: true
+    html_theme_options:
+      navigation_with_keys: false

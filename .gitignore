@@ -181,3 +181,5 @@ cython_debug/
 .vscode
 *.dSYM
 .virtual_documents
+*.pixi
+*.a
