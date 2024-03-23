@@ -14,7 +14,7 @@ In this lecture, we will:
 - gain practical knowledge in
 
   - simple debugging techniques using compilers
-  - simple debuggers for C/ C++ and Fortran
+  - simple debuggers for C/C++, Rust, and Python
   - more advanced graphical debuggers
 
 ## Overview of the debugging process
@@ -23,7 +23,7 @@ In this lecture, we will:
 
 When a code crashes it usually writes out a cryptic error message
 
-- The cpu processes machine instructions, not the C or Fortran source code that
+- The cpu processes machine instructions, not the C or Rust source code that
   you wrote...
 
 - Instructions in the final executable program have probably been rearranged for
@@ -44,18 +44,28 @@ When a code crashes it usually writes out a cryptic error message
   - square root of a negative number
   - log of a number less or equal to zero
 
-- Does not always crash your code! (unless compiled to do so...)
-- The code can keep going for a long time with `NaN` values
+- Does not always crash your code! (depends on compilation and system settings)
+- The code can keep going for a long time with `NaN` or `inf` values
 
 - `SIGSEGV`: segmentation violation (see “man 7 signal”)
-  - invalid memory reference!e.g. trying to access an array element outside the
+  - invalid memory reference! e.g. trying to access an array element outside the
     dimensions of an array
 
 Example:
 
 ```c
 double x[100];
-x[345] = 0 ! SIGSEGV
+x[345] = 0; // SIGSEGV
+```
+
+This and other kinds of memory issues are entirely avoided in Rust due to the thorough checks that are done at compile time (and run time).
+
+```rust
+let mut x = [0f64; 100];
+x[345] = 0.0; // fails to compile
+
+let mut x = vec![0f64; 100];
+x[345] = 0.0; // panics at run-time
 ```
 
 - Make sure your shell “stack size limit” and "core size limit" are both set to
@@ -72,7 +82,7 @@ x[345] = 0 ! SIGSEGV
     - `checkquota` will check for memory and inodes overflow
 
 ```
-[rt3504@stellar-intel ~]$ checkquota
+$ checkquota
           Storage/size quota filesystem report for user: rt3504
 Filesystem             Mount              Used   Limit  MaxLim Comment
 Stellar home           /home             4.8GB    93GB   100GB
@@ -110,57 +120,10 @@ For quota increase requests please use this website:
 - Pay particular attention to the diagnostics options under sections with names
   such as “debugging”, “optimization”, “target-specific”, “warnings”
 
-- Using `man gcc` or `man gfortran` is a good start although most compilers now
+- Using `man gcc` is a good start although most compilers now
   have detailed online documentation! Just check the company’s web site under
   “support” or “documentation”. For example, the documentation for `gcc` (GNU
   Compiler Collection) can be found [here](https://gcc.gnu.org).
-
-```
-[rt3504@stellar-intel ~]$ man gfortran
-GFORTRAN(1)                                                   GNU                                                   GFORTRAN(1)
-
-NAME
-       gfortran - GNU Fortran compiler
-
-SYNOPSIS
-       gfortran [-c|-S|-E]
-                [-g] [-pg] [-Olevel]
-                [-Wwarn...] [-pedantic]
-                [-Idir...] [-Ldir...]
-                [-Dmacro[=defn]...] [-Umacro]
-                [-foption...]
-                [-mmachine-option...]
-                [-o outfile] infile...
-
-       Only the most useful options are listed here; see below for the remainder.
-
-DESCRIPTION
-       The gfortran command supports all the options supported by the gcc command.  Only options specific to GNU Fortran are
-       documented here.
-
-       All GCC and GNU Fortran options are accepted both by gfortran and by gcc (as well as any other drivers built at the same
-       time, such as g++), since adding GNU Fortran to the GCC distribution enables acceptance of GNU Fortran options by all of
-       the relevant drivers.
-
-       In some cases, options have positive and negative forms; the negative form of -ffoo would be -fno-foo.  This manual
-       documents only one of these two forms, whichever one is not the default.
-
-OPTIONS
-       Here is a summary of all the options specific to GNU Fortran, grouped by type.  Explanations are in the following
-       sections.
-
-       Error and Warning Options
-           -Waliasing -Wall -Wampersand -Wargument-mismatch -Warray-bounds -Wc-binding-type -Wcharacter-truncation -Wconversion
-           -Wdo-subscript -Wfunction-elimination -Wimplicit-interface -Wimplicit-procedure -Wintrinsic-shadow
-           -Wuse-without-only -Wintrinsics-std -Wline-truncation -Wno-align-commons -Wno-tabs -Wreal-q-constant -Wsurprising
-           -Wunderflow -Wunused-parameter -Wrealloc-lhs -Wrealloc-lhs-all -Wfrontend-loop-interchange -Wtarget-lifetime
-           -fmax-errors=n -fsyntax-only -pedantic -pedantic-errors
-
-       Debugging Options
-           -fbacktrace -fdump-fortran-optimized -fdump-fortran-original -fdump-parse-tree -ffpe-trap=list -ffpe-summary=list
-```
-
-- [see Intel C, C++ and Fortran compiler debugging and optimization pages here](https://www.intel.com/content/www/us/en/develop/documentation/fortran-compiler-oneapi-dev-guide-and-reference/top/compilation/debugging/debugging-and-optimizations.html)
 
 ### The `-g` compiler option
 
@@ -184,6 +147,8 @@ All compilers accept the `-g` option.
 - Running with `-g` is sometimes sufficient to find a bug. The code crashes and
   indicates where the error occurred
 
+- `cargo` defaults to compiling with the equivalent of `-g -O0`.
+
 ### The `-g` option makes the bug go away!
 
 - Sometimes, the fact of using the `-g` option makes the bug go away
@@ -204,21 +169,13 @@ All compilers accept the `-g` option.
 
 - All compilers have options that try to detect potential bugs in the code
 
-  - Array bounds check (Fortran: –C, -Mbounds, -check bounds)
+  - Array bounds check (gcc: -Warray-bounds)
     - Check for array subscripts and substrings out of bounds
     - Should be done on unoptimized code (-O0)
-  - Easier for Fortran than C/C++ due to the way pointers are treated
-    - In C, it is the responsibility of the programmer to make sure that a
-      pointer always points to a valid address and number
 
-- Enable runtime error traceback capability
+- `rustc` is special since all warnings and checks are enabled by default.
 
-  - --trace, -trace, -traceback
-
-- Make sure that Floating Point Exceptions (FPE) are turned on
-  - e.g. -fpe0 for Intel and -Ktrap=fp for PGI compiler
-
-### Warning options in `gcc` and `gfortran`
+### Warning options in `gcc`
 
 - The gcc compiler has a large number of options that will produce a warning at
   compile time
@@ -233,14 +190,10 @@ All compilers accept the `-g` option.
 ### Try different compilers if you can
 
 - Whenever you can, it is always a good idea to try different compilers if you
-  have access to different plavorms or different compilers on the same plavorm
+  have access to different plavorms or different compilers on the same platform
 
 - Some compilers are a lot stricter than others and can catch potential problems
   at compile time
-
-- See
-  [this page](https://www.fortran.uk/fortran-compiler-comparisons/intellinux-fortran-compiler-diagnostic-capabilities/)
-  for comparison between Fortran compilers in terms of available diagnostics
 
 - See [this page](https://gcc.gnu.org/wiki/ClangDiagnosticsComparison) for
   comparison between GCC and Clang compilers in term of available diagnostics
@@ -274,7 +227,7 @@ All compilers accept the `-g` option.
 
 - These files are binary files meant to be read by debuggers
 
-- Of limited use if the code was not compiled with –g option that links machine
+- Of limited use if the code was not compiled with `–g` option that links machine
   language code to high-level source code
 
 ### Examining the call stack
@@ -287,7 +240,7 @@ All compilers accept the `-g` option.
   - info stack
 
 ```
-[rt3504@stellar-intel ~]$ apropos debug
+$ apropos debug
 __after_morecore_hook (3) - malloc debugging variables
 __free_hook (3)      - malloc debugging variables
 __malloc_hook (3)    - malloc debugging variables
@@ -341,20 +294,20 @@ gdb (1)              - The GNU Debugger
 
 - Widely used for C and C++ code debugging
 
-- Can also be used with Fortran codes
+- Can also be used with Rust out of the box, but `cargo` comes preinstalled with a `rust-gdb` wrapper that makes printouts look nicer.
 
 - Online manual for gdb at `info gdb`
 
 - Can be used within the `emacs` editor
 
-  - Can run gdb commands within the emacs source code window (e.g. C-x SPC to
+  - Can run gdb commands within the emacs source code window (e.g. `C-x SPC` to
     set a breakpoint)
 
 - See also Visual Studio
 
 - Online manual can be found [here](https://www.sourceware.org/gdb/current/).
 
-- If code was compiled with –g and _dumped core files_ when it crashed, the
+- If code was compiled with `–g` and _dumped core files_ when it crashed, the
   first thing to try is the following:
 
 ```sh
@@ -388,176 +341,188 @@ $ gdb executable core.#
 
 ### The `gdb` debugger: a demo
 
-Here is a simple example program in Fortran:
+Here is a simple example program in C++:
 
-- homework: do the same in C and C++
+```cpp
+// example.cpp
+#include <iostream>
 
-```c
-program bug
+int main() {
 
-  real(kind=8),dimension(10)::table
-  integer::i
-  real(kind=8)::x
+  int arr[10];
+  int i = 40;
+  int x = 0;
 
-  i=40
-  x=0
-  table(i)=2/x
-  write(*,*)table(i)
+  arr[i] = 2/x;
+  std::cout << arr[i] << std::endl;
 
-end program bug
+  return 0;
+}
 ```
 
-Now let's compile it and run it on stellar:
-
-```
-$ gfortran bug.f90 -o bug
-$ ./bug
-                  Infinity
-```
-
-OK, the compiler managed to deal quite elegantly with the divide by zero. It
-didn't care about the array index overflow.
-
-Let's now compile with some more debugging options:
+Now let's compile it with `g++` and run it:
 
 ```sh
-$ gfortran -g -fbounds-check -ffpe-trap=zero bug.f90 -o bug
-$ ./bug
-
-At line 9 of file bug.f90
-Fortran runtime error: Index '40' of dimension 1 of array 'table' above upper bound of 10
-
-Error termination. Backtrace:
-#0  0x152331025171 in ???
-#1  0x152331025d19 in ???
-#2  0x1523310260fb in ???
-#3  0x400878 in bug
-	at /home/rt3504/bug.f90:9
-#4  0x400986 in main
-	at /home/rt3504/bug.f90:12
+$ g++ example.cpp -o example
+$ ./example
+  Program terminated with signal: SIGFPE
 ```
 
-Let's correct the bug by modifying the program as follows:
+The compiler didn't catch the division by zero or the array index overflow. We can help the compiler a bit by pointing out that `i` and `x` are not going to change value during execution.
 
-```c
-program bug
+```cpp
+// example.cpp
+#include <iostream>
 
-  real(kind=8),dimension(10)::table
-  integer::i
-  real(kind=8)::x
+int main() {
 
-  i=4
-  x=0
-  table(i)=2/x
-  write(*,*)table(i)
+  int arr[10];
+  const int i = 40;
+  const int x = 0;
 
-end program bug
+  arr[i] = 2/x;
+  std::cout << arr[i] << std::endl;
+
+  return 0;
+}
 ```
 
-and compile it again:
+Let's try to compile it with `g++` again.
 
 ```sh
-$ gfortran -g -fbounds-check -ffpe-trap=zero bug.f90 -o bug
-$ ./bug
-
-Program received signal SIGFPE: Floating-point exception - erroneous arithmetic operation.
-
-Backtrace for this error:
-#0  0x154be604c171 in ???
-#1  0x154be604b313 in ???
-#2  0x154be54dbb1f in ???
-#3  0x400885 in bug
-	at /home/rt3504/bug.f90:9
-#4  0x400986 in main
-	at /home/rt3504/bug.f90:12
-Floating point exception (core dumped)
+$ g++ example.cpp -o example
+  example.cpp: In function 'int main()':
+  example.cpp:10:13: warning: division by zero [-Wdiv-by-zero]
+     10 |   arr[i] = 2/x;
+        |            ~^~
 ```
 
-Now we can fix the last bug:
-
-```c
-program bug
-
-  real(kind=8),dimension(10)::table
-  integer::i
-  real(kind=8)::x
-
-  i=4
-  x=0.1
-  table(i)=2/x
-  write(*,*)table(i)
-
-end program bug
-```
-
-and try again:
+Now we get a warning saying that there was a division by zero. Note that this corresponds to the `-Wdiv-by-zero` flag, which is enabled by default. However, it still compiled even though it detected an issue. Let's fix the issue by changing the line to `const int x = 1;`.
 
 ```sh
-$ gfortran -g -fbounds-check -ffpe-trap=zero bug.f90 -o bug
-$ ./bug
-   19.999999701976780
+$ g++ example.cpp -o example
+$ ./example
+  2
 ```
 
-That's much better. We still need to fix the precision of the division by
-changing:
-
-```c
-program bug
-
-  real(kind=8),dimension(10)::table
-  integer::i
-  real(kind=8)::x
-
-  i=4
-  x=0.1d0
-  table(i)=2/x
-  write(*,*)table(i)
-
-end program bug
-```
-
-and try one last time:
+Everything seems like it's working correctly. However, let's now try compiling it with `clang++`.
 
 ```sh
-$ gfortran -g -fbounds-check -ffpe-trap=zero bug.f90 -o bug
-$ ./bug
-   20.000000000000000
+$ clang++ example.cpp -o example
+  example.cpp:10:3: warning: array index 40 is past the end of the array (which contains 10 elements) [-Warray-bounds]
+    arr[i] = 2/x;
+    ^   ~
+  example.cpp:6:3: note: array 'arr' declared here
+    int arr[10];
+    ^
+  example.cpp:11:16: warning: array index 40 is past the end of the array (which contains 10 elements) [-Warray-bounds]
+    std::cout << arr[i] << std::endl;
+                 ^   ~
+  example.cpp:6:3: note: array 'arr' declared here
+    int arr[10];
+    ^
+  2 warnings generated.
 ```
 
-Ah now it is good!
+This compiler was able to tell that we were accessing data past the end of the array. In this particular case the data we were accessing was still within the region of memory assigned to the program. Although the program didn't crash, we were corrupting memory which opens the door to numerous issues and vulnerabilities. Try using something like `const int i = 4000;` to see that it causes a segmentation violation. Let's fix this bug by changing the line to `const int i = 4;`.
 
-Let's now use `gdb`:
+The story in Rust is quite different. Let's use the same starting point.
+
+```rust
+// example.rs
+fn main() {
+
+  let mut arr = [0; 10];
+  let i = 40;
+  let x = 0;
+
+  arr[i] = 2/x;
+  println!("{}", arr[i]);
+}
+```
+
+Let's try to compile it.
 
 ```sh
-$ gfortran -g -fbounds-check -ffpe-trap=zero -fbacktrace bug.f90 -o bug
-$ gdb ./bug
-Reading symbols from ./bug...done.
+$ rustc example.rs
+  error: this operation will panic at runtime
+  --> example.rs:8:12
+    |
+  8 |   arr[i] = 2/x;
+    |            ^^^ attempt to divide `2_i32` by zero
+    |
+    = note: `#[deny(unconditional_panic)]` on by default
+
+  error: this operation will panic at runtime
+  --> example.rs:8:3
+    |
+  8 |   arr[i] = 2/x;
+    |   ^^^^^^ index out of bounds: the length is 10 but the index is 40
+
+  error: this operation will panic at runtime
+  --> example.rs:9:18
+    |
+  9 |   println!("{}", arr[i]);
+    |                  ^^^^^^ index out of bounds: the length is 10 but the index is 40
+
+  error: aborting due to 3 previous errors
+```
+
+In this case not only did it detect the issues, but it even refused to compile it.
+
+Let's now use `gdb` with our fixed C++ code to look at what's happens step by step:
+
+```sh
+$ g++ -g example.cpp -o example
+$ gdb ./example
+  Reading symbols from ./example...done.
 (gdb) b 6
-Breakpoint 1 at 0x400821: file bug.f90, line 7.
+  Breakpoint 1 at 0x40117e: file example.cpp, line 7.
 (gdb) r
-Starting program: /home/rt3504/bug
+  Starting program: ./example...
 
-Breakpoint 1, bug () at bug.f90:7
-7	  i=4
+  Breakpoint 1, main () at example.cpp:7
+  7	  const int i = 4;
 (gdb) p i
-$1 = -2030981413
+  $1 = 0
 (gdb) s
-8	  x=0.1d0
+  8	  const int x = 1;
 (gdb) p i
-$2 = 4
+  $2 = 4
 (gdb) p x
-$3 = 1.602534106313551e-310
+  $3 = 0
 (gdb) s
-9	  table(i)=2/x
+  10	  arr[i] = 2/x;
 (gdb) p x
-$4 = 0.10000000000000001
+  $4 = 1
 (gdb) s
-10	  write(*,*)table(i)
-(gdb) p table
-$5 = (8.4038908174475465e-315, 6.9533558073037849e-310, 1.158892633800178e-310, 20, 6.9533558072958799e-310, 6.9533558072950894e-310, 0, -3.1921319842597682e-275, 3.1124515152680173e-317, -3.192130481461112e-275)
+  11	  std::cout << arr[i] << std::endl;
+(gdb) p arr
+  $5 = {-138376496, 32767, 0, 0, 2, 0, 4198544, 0, -44160, 32767}
 (gdb) s
-   20.000000000000000
-12	end program bug
+  2
+  13	  return 0;
+```
+
+Using `gdb` with rust is very similar:
+
+```sh
+$ rustc -g example.rs
+$ rust-gdb ./example
+  Reading symbols from ./example...
+(gdb) b 7
+  Breakpoint 1 at 0xc072: file example.rs, line 8.
+(gdb) r
+  Starting program: ./example
+
+  Breakpoint 1, example::main () at example.rs:8
+  8	  arr[i] = 2/x;
+(gdb) p i
+  $1 = 4
+(gdb) s
+  9	  println!("{}", arr[i]);
+(gdb) p arr
+  $2 = [0, 0, 0, 0, 2, 0, 0, 0, 0, 0]
 ```
 
 ### I know where the code crashed... what's next?
@@ -676,9 +641,9 @@ p expression
   for which you can save the state for restart purposes like
   [SPRNG](http://www.cs.fsu.edu/~mascagni/SPRNG_KAUST.pdf).
 
-### Using `printf` for monitoring and debugging
+### Using `print` for monitoring and debugging
 
-- Many serious developers still use old school `printf` or `write` statements to
+- Many serious developers still use old school `print` statements to
   monitor and debug their codes
 
 - May be the only recourse when running a code at very large concurrencies
@@ -686,7 +651,7 @@ p expression
 
 - The idea is simple:
 
-  - Insert `printf` or `write` statements at strategic locations in the code to
+  - Insert `print` statements at strategic locations in the code to
     gather information and try to pinpoint the faulty code line
   - Advantages over other forms of debugging:
     - Easy to use and always works
@@ -704,18 +669,16 @@ p expression
 
 - It makes it difficult to pinpoint the exact location of the failing statement
 
-- This is the case when using “printf” or “write(6,\*)” which redirects to the
+- This is the case when using `print` or `cout` which redirects to the
   **standard output**
 
 - Write to **standard error** as much as possible since it is not buffered
 
-  - `printf(stderr,...)` in C/C++
   - `cerr <<` in C++
-  - `write(0,*)` in Fortran
+  - `eprint` in Rust
   - redirect output: `mpirun –np 1024 ./a.out 1> output.out 2> output.err`
 
-- Explicit flushing of I/O buffers with `fflush()` (C) or `call flush(unit)`
-  (Fortran)
+- Explicit flushing of I/O buffers with `std::endl` or `std::flush` in C++, `std::io::stdout().flush()` in Rust
 
 ### Debugging memory leaks
 
@@ -730,41 +693,35 @@ The program below is an example of such a memory leak. In the subroutine, a
 temporary array is allocated and deallocated on exit, but a pointer pointing to
 this array is not. This will lead to a memory leak.
 
-```c
-program memleak
+```cpp
+// ml.cpp
+#include <iostream>
 
-  integer::i
+void computeNothing() {
+    int *array = new int[100000000];
+    int *p = new int[100000000];
+    for (int i = 0; i < 100000000; ++i) {
+        array[i] = i * 2;
+    }
+    p = array;
+    delete p;
+}
 
-  do i=1,200
-     if(mod(i,10)==0)write(*,*)i
-     call compute_nothing
-  end do
-
-end program memleak
-
-subroutine compute_nothing
-
-  integer,dimension(:),allocatable,target::array
-  integer,dimension(:),pointer::p
-  integer::i
-  integer::n=100000000
-
-  allocate(array(n))
-  allocate(p(n))
-  do i=1,n
-     array(i)=i*2
-  end do
-  p=>array
-  deallocate(array)
-
-end subroutine compute_nothing
+int main() {
+    for (int i = 1; i <= 200; ++i) {
+        if (i % 10 == 0)
+            std::cout << i << std::endl;
+        computeNothing();
+    }
+    return 0;
+}
 ```
 
 We can compile this code using the `-g` option but nothing will be detected both
 at compilation time and at run time.
 
 ```
-$ gfortran -g memleak.f90 -o ml
+$ g++ -g ml.cpp -o ml
 $ ./ml
 ```
 
@@ -773,19 +730,19 @@ below) slowly increasing from slightly less than 0.,5GB to more than 14GB and
 counting. With more than 200 loops, the code would have crashed.
 
 ```
-[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+$ top -n 1 | grep -B1 ml
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
 3092916 rt3504    20   0 4316088  81436   2232 R  94.4   0.0   0:02.29 ml
-[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+$ top -n 1 | grep -B1 ml
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
 3092916 rt3504    20   0 6269228 314928   2232 R 100.0   0.1   0:03.69 ml
-[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+$ top -n 1 | grep -B1 ml
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
 3092916 rt3504    20   0 9937.0m  87640   2232 R 100.0   0.0   0:06.04 ml
-[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+$ top -n 1 | grep -B1 ml
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
 3092916 rt3504    20   0   11.9g 343664   2232 R 100.0   0.1   0:07.70 ml
-[rt3504@stellar-intel ~]$ top -n 1 | grep -B1 ml
+$ top -n 1 | grep -B1 ml
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
 3092916 rt3504    20   0   14.5g 298636   2232 R  94.4   0.1   0:09.42 ml
 ```
@@ -794,78 +751,65 @@ We now use the `valgrind` utility to debug specifically memory leaks. The code
 is executed and `valgrind` targets allocations and deallocations, and quickly
 identifies that there is a problem.
 
-```
-[rt3504@stellar-intel ~]$ valgrind --leak-check=full ./ml
-==3093274== Memcheck, a memory error detector
-==3093274== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==3093274== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==3093274== Command: ./ml
-==3093274==
-==3093274== Warning: set address range perms: large range [0x35f70028, 0x4dce8458) (noaccess)
-          10
-==3093274== Warning: set address range perms: large range [0x100cf0040, 0x118a68440) (undefined)
-	  20
-==3093274== Warning: set address range perms: large range [0x1ef3aa040, 0x207122440) (undefined)
-==3093274==
-==3093274== HEAP SUMMARY:
-==3093274==     in use at exit: 8,000,000,000 bytes in 20 blocks
-==3093274==   total heap usage: 61 allocs, 41 frees, 16,000,013,520 bytes allocated
-==3093274==
-==3093274== 2,000,000,000 bytes in 5 blocks are possibly lost in loss record 1 of 2
-==3093274==    at 0x4C37135: malloc (vg_replace_malloc.c:381)
-==3093274==    by 0x400B19: compute_nothing_ (memleak.f90:21)
-==3093274==    by 0x400CF6: MAIN__ (memleak.f90:7)
-==3093274==    by 0x400D3C: main (memleak.f90:10)
-==3093274==
-==3093274== 6,000,000,000 bytes in 15 blocks are definitely lost in loss record 2 of 2
-==3093274==    at 0x4C37135: malloc (vg_replace_malloc.c:381)
-==3093274==    by 0x400B19: compute_nothing_ (memleak.f90:21)
-==3093274==    by 0x400CF6: MAIN__ (memleak.f90:7)
-==3093274==    by 0x400D3C: main (memleak.f90:10)
-==3093274==
-==3093274== LEAK SUMMARY:
-==3093274==    definitely lost: 6,000,000,000 bytes in 15 blocks
-==3093274==    indirectly lost: 0 bytes in 0 blocks
-==3093274==      possibly lost: 2,000,000,000 bytes in 5 blocks
-==3093274==    still reachable: 0 bytes in 0 blocks
-==3093274==         suppressed: 0 bytes in 0 blocks
-==3093274==
-==3093274== For lists of detected and suppressed errors, rerun with: -s
-==3093274== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)~
-
+```sh
+$ valgrind --leak-check=full ./ml
+  ==29462== Warning: set address range perms: large range [0x1ef18f040, 0x206f07440) (undefined)
+  ==29462== Warning: set address range perms: large range [0x1d7416040, 0x1ef18e440) (undefined)
+  ==29462== Warning: set address range perms: large range [0x1ef18f028, 0x206f07458) (noaccess)
+  ==29462==
+  ==29462== HEAP SUMMARY:
+  ==29462==     in use at exit: 8,000,000,000 bytes in 20 blocks
+  ==29462==   total heap usage: 42 allocs, 22 frees, 16,000,073,728 bytes allocated
+  ==29462==
+  ==29462== 4,000,000,000 bytes in 10 blocks are possibly lost in loss record 1 of 2
+  ==29462==    at 0x403C0F3: operator new[](unsigned long) (in /cvmfs/cms.cern.ch/el8_amd64_gcc11/external/valgrind/3.17.0-7bfcd2b5e4f162fb4b127c18285f46f6/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+  ==29462==    by 0x4011B5: computeNothing() (ml.cpp:6)
+  ==29462==    by 0x40126B: main (ml.cpp:18)
+  ==29462==
+  ==29462== 4,000,000,000 bytes in 10 blocks are definitely lost in loss record 2 of 2
+  ==29462==    at 0x403C0F3: operator new[](unsigned long) (in /cvmfs/cms.cern.ch/el8_amd64_gcc11/external/valgrind/3.17.0-7bfcd2b5e4f162fb4b127c18285f46f6/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+  ==29462==    by 0x4011B5: computeNothing() (ml.cpp:6)
+  ==29462==    by 0x40126B: main (ml.cpp:18)
+  ==29462==
+  ==29462== LEAK SUMMARY:
+  ==29462==    definitely lost: 4,000,000,000 bytes in 10 blocks
+  ==29462==    indirectly lost: 0 bytes in 0 blocks
+  ==29462==      possibly lost: 4,000,000,000 bytes in 10 blocks
+  ==29462==    still reachable: 0 bytes in 0 blocks
+  ==29462==         suppressed: 0 bytes in 0 blocks
+  ==29462==
+  ==29462== For lists of detected and suppressed errors, rerun with: -s
+  ==29462== ERROR SUMMARY: 22 errors from 3 contexts (suppressed: 0 from 0)
 ```
 
 the correct code would be in this case:
 
-```c
-program memleak
+```cpp
+// ml.cpp
+#include <iostream>
 
-  integer::i
+void computeNothing() {
+    int *array = new int[100000000];
+    int *p = new int[100000000];
+    for (int i = 0; i < 100000000; ++i) {
+        array[i] = i * 2;
+    }
+    delete p;
+    p = array;
+    delete p;
+}
 
-  do i=1,200
-     if(mod(i,10)==0)write(*,*)i
-     call compute_nothing
-  end do
-
-end program memleak
-
-subroutine compute_nothing
-
-  integer,dimension(:),allocatable,target::array
-  integer,dimension(:),pointer::p
-  integer::i
-  integer::n=100000000
-
-  allocate(array(n))
-  do i=1,n
-     array(i)=i*2
-  end do
-  p=>array
-  nullify(p)
-  deallocate(array)
-
-end subroutine compute_nothing
+int main() {
+    for (int i = 1; i <= 200; ++i) {
+        if (i % 10 == 0)
+            std::cout << i << std::endl;
+        computeNothing();
+    }
+    return 0;
+}
 ```
+
+Again, the story in Rust is very different. The Rust compiler guarantees that it will deallocate any memory at the point where it is no longer accessible. It does so by strictly following the Resource Acquisition Is Initialization (RAII) technique. Most of these memory issues can also be prevented by following modern C++ standards, but in older languages like C or Fortran it is a lot easier to introduce memory bugs.
 
 ### Using Graphical Debuggers
 
@@ -886,14 +830,13 @@ integrated together with a powerful user interface. Once you try it, you adopt
 it. The downside is that it is tricky to work on code on remote computers. You
 need to be familiar with `ssh` tunneling which can be tricky and unstable.
 
-On adroit and stellar, you will find the `ddt` debugger quite handy. See web
+The `ddt` debugger is a good option for C/C++. See web
 page
 [here](https://www.arm.com/products/development-tools/server-and-hpc/forge/ddt).
 
 Just type:
 
 ```
-$ module load ddt/22.0
 $ ddt a.out
 ```
 
