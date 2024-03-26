@@ -11,7 +11,7 @@ This is an introduction to some of the unique design of Rust. This is not compre
 | Integers                    | `x: int = 2`                | `x: i32 = 2;` (`u32` for unsigned) |
 | Else if                     | `elif`                      | `else if`                          |
 | Range loop                  | `for i in range(4): pass`   | `for i in (0..4) {}`               |
-| Function definition         | `def f(): pass`             | `fn f(): {}`                       |
+| Function definition         | `def f(): pass`             | `fn f() {}`                        |
 | Return value                | `return x`                  | Final statement                    |
 | Return type                 | `def f() -> int: return 42` | `fn f() -> i32 {42}`               |
 | Ternary                     | `x if b else y`             | `if b {x} else {y}`                |
@@ -19,6 +19,9 @@ This is an introduction to some of the unique design of Rust. This is not compre
 | Tuple (heterogeneous)       | `(x, y)`                    | `(x, y)`                           |
 | List (homogeneous)          | `[x, y]`                    | `[x, y]`                           |
 | Vector (homogeneous)        | `[x, y]`                    | `vec![x, y]` (stdlib)              |
+| Interpolated print          | `print(f"Hi {var})`         | `println!("Hi {var}");`            |
+| Repr (debug) print          | `print(f"Hi {var!r})`       | `println!("Hi {var:?}");`          |
+| Interpolated string         | `f"Hi {var}`                | `format!("Hi {var}");`             |
 
 Lambda functions can be multiple lines in Rust. All blocks in Rust return the last statement's return value (including functions, but also things like `if` statements), and you can assign it.
 
@@ -82,7 +85,7 @@ if let [x, y] = variable {
 };
 ```
 
-This will only define `x, y` and run the block if variable is a two-item array. This is very common with the Option enum:
+This will only define `x, y` and run the block if the pattern matches - that is, if the variable is a two-item array. This is very common with the `Option` enum:
 
 ```rust
 if let Some(val) = opt_val {
@@ -170,7 +173,7 @@ for c in chars {
 }
 ```
 
-This will convert the unicode string into a chars iterator, the apply the lambda function to each char. The `.to_digit` call will return `None` if it's not a valid digit, which gets filtered out, so only `3` and `8` remain. Here, `chars` is a lazy iterator; it hasn't computed anything yet. It only gets processed when you iterator over it.
+This will convert the unicode string into a chars iterator, the apply the lambda function to each char. The `.to_digit` call returns `Option`, which is `None` if it's not a valid digit, which gets filtered out, so only `3` and `8` remain. Here, `chars` is a lazy iterator; it hasn't computed anything yet. It only gets processed when you iterator over it.
 
 ### Traits
 
