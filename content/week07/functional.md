@@ -449,6 +449,7 @@ library that takes advantage of these things.
 ### Example: JAX
 
 ```{admonition} No JAX in our environment
+
 We will not be including or running JAX since it is quite large and would slow down setting up an environment. All
 examples will be pre-computed, and we'll not be using it in homework.
 ```
