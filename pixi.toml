@@ -28,3 +28,4 @@ sphinxcontrib-mermaid = "*"
 [tasks]
 lab = "jupyter lab"
 book = "export PYDEVD_DISABLE_FILE_VALIDATION=1 && python -m ipykernel install --user --name conda-env-se-for-sci-py && jupyter-book build ."
+pdf = "export PYDEVD_DISABLE_FILE_VALIDATION=1 && python -m ipykernel install --user --name conda-env-se-for-sci-py && jupyter-book build --builder pdflatex ."

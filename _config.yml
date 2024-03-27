@@ -13,7 +13,7 @@ execute:
 # Define the name of the latex output file for PDF builds
 latex:
   latex_documents:
-    targetname: book.tex
+    targetname: se-for-sci.tex
 
 # Information about where the book exists on the web
 repository:
