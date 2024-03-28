@@ -160,6 +160,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libxkbcommon-1.7.0-h662e7e4_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libxml2-2.12.6-h232c23b_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libzlib-1.2.13-hd590300_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/line_profiler-4.1.1-py311h9547e67_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/linkify-it-py-2.0.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/llvmlite-0.42.0-py311ha6695c7_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/lz4-c-1.9.4-hcb278e6_0.conda
@@ -246,6 +247,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/rich-13.7.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/rpds-py-0.18.0-py311h46250e7_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/scikit-build-core-0.8.2-pyh4af843d_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/scipy-1.12.0-py311h64a7726_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/send2trash-1.8.2-pyh41d4057_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.2.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/sip-6.7.12-py311hb755f60_0.conda
@@ -424,6 +426,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libwebp-base-1.3.2-h0dc2134_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libxcb-1.15-hb7f2c08_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/libzlib-1.2.13-h8a1eda9_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/line_profiler-4.1.1-py311hd63382e_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/linkify-it-py-2.0.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/llvm-openmp-18.1.2-hb6ac08f_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/llvmlite-0.42.0-py311hb5c2e0a_1.conda
@@ -500,6 +503,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/rich-13.7.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/rpds-py-0.18.0-py311hd64b9fd_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/scikit-build-core-0.8.2-pyh4af843d_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-64/scipy-1.12.0-py311h86d0cd9_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/send2trash-1.8.2-pyhd1c38e8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.2.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/six-1.16.0-pyh6c4a22f_0.tar.bz2
@@ -659,6 +663,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libwebp-base-1.3.2-hb547adb_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libxcb-1.15-hf346824_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/libzlib-1.2.13-h53f4e23_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/line_profiler-4.1.1-py311he4fd1f5_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/linkify-it-py-2.0.3-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/llvm-openmp-18.1.2-hcd81f8e_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/llvmlite-0.42.0-py311hf5d242d_1.conda
@@ -735,6 +740,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/rich-13.7.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/rpds-py-0.18.0-py311ha958965_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/scikit-build-core-0.8.2-pyh4af843d_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/scipy-1.12.0-py311h4f9446f_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/send2trash-1.8.2-pyhd1c38e8_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-69.2.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/six-1.16.0-pyh6c4a22f_0.tar.bz2
@@ -4805,6 +4811,63 @@ packages:
   size: 61588
   timestamp: 1686575217516
 - kind: conda
+  name: line_profiler
+  version: 4.1.1
+  build: py311h9547e67_1
+  build_number: 1
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/line_profiler-4.1.1-py311h9547e67_1.conda
+  sha256: f1845d02de28311bc4d9da118b0fe1c6e009b13d02575884b65e340576be0a99
+  md5: 8b02edd94f3126276b9939300e3ca2a7
+  depends:
+  - ipython >=0.13
+  - libgcc-ng >=12
+  - libstdcxx-ng >=12
+  - python >=3.11,<3.12.0a0
+  - python_abi 3.11.* *_cp311
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 153521
+  timestamp: 1695847488387
+- kind: conda
+  name: line_profiler
+  version: 4.1.1
+  build: py311hd63382e_1
+  build_number: 1
+  subdir: osx-64
+  url: https://conda.anaconda.org/conda-forge/osx-64/line_profiler-4.1.1-py311hd63382e_1.conda
+  sha256: 61516b2cdfc8965a1dade56e4a249184fa9d20c22abecdb85d779eff8a8ef2f6
+  md5: b6bbe1c5e196526b118428428ef00f2e
+  depends:
+  - __osx >=10.12
+  - ipython >=0.13
+  - libcxx >=15.0.7
+  - python >=3.11,<3.12.0a0
+  - python_abi 3.11.* *_cp311
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 140305
+  timestamp: 1695847708891
+- kind: conda
+  name: line_profiler
+  version: 4.1.1
+  build: py311he4fd1f5_1
+  build_number: 1
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/line_profiler-4.1.1-py311he4fd1f5_1.conda
+  sha256: a593074615059ddef0edf5211fd10785f376a535a49213fa7ca21332d7e9bbc6
+  md5: 1c9639c8fd4426c2f2f2f111826cc6c2
+  depends:
+  - ipython >=0.13
+  - libcxx >=15.0.7
+  - python >=3.11,<3.12.0a0
+  - python >=3.11,<3.12.0a0 *_cpython
+  - python_abi 3.11.* *_cp311
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 141003
+  timestamp: 1695847823475
+- kind: conda
   name: linkify-it-py
   version: 2.0.3
   build: pyhd8ed1ab_0
@@ -7351,6 +7414,82 @@ packages:
   license_family: APACHE
   size: 223506
   timestamp: 1709308042188
+- kind: conda
+  name: scipy
+  version: 1.12.0
+  build: py311h4f9446f_2
+  build_number: 2
+  subdir: osx-arm64
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/scipy-1.12.0-py311h4f9446f_2.conda
+  sha256: 860fb4a7ad739f7f8bf79d67cd86ae207dfb3ad89b7c2e4c873753e426bfdc69
+  md5: a125c9d1b3972291b6c27b22e40d2027
+  depends:
+  - libblas >=3.9.0,<4.0a0
+  - libcblas >=3.9.0,<4.0a0
+  - libcxx >=15
+  - libgfortran 5.*
+  - libgfortran5 >=12.3.0
+  - libgfortran5 >=13.2.0
+  - liblapack >=3.9.0,<4.0a0
+  - numpy >=1.23.5,<1.28
+  - numpy >=1.23.5,<2.0a0
+  - python >=3.11,<3.12.0a0
+  - python >=3.11,<3.12.0a0 *_cpython
+  - python_abi 3.11.* *_cp311
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 15535360
+  timestamp: 1706043503868
+- kind: conda
+  name: scipy
+  version: 1.12.0
+  build: py311h64a7726_2
+  build_number: 2
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/scipy-1.12.0-py311h64a7726_2.conda
+  sha256: e5aca4c5e63314848600d6da7360e0701c512f70d1783610eed5c1f7ecf58a57
+  md5: 24ca5107ab75c5521067b8ba505dfae5
+  depends:
+  - libblas >=3.9.0,<4.0a0
+  - libcblas >=3.9.0,<4.0a0
+  - libgcc-ng >=12
+  - libgfortran-ng
+  - libgfortran5 >=12.3.0
+  - liblapack >=3.9.0,<4.0a0
+  - libstdcxx-ng >=12
+  - numpy >=1.23.5,<1.28
+  - numpy >=1.23.5,<2.0a0
+  - python >=3.11,<3.12.0a0
+  - python_abi 3.11.* *_cp311
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 17270207
+  timestamp: 1706042776987
+- kind: conda
+  name: scipy
+  version: 1.12.0
+  build: py311h86d0cd9_2
+  build_number: 2
+  subdir: osx-64
+  url: https://conda.anaconda.org/conda-forge/osx-64/scipy-1.12.0-py311h86d0cd9_2.conda
+  sha256: 01035edbfed56239bff4b3845c0cef9b5e6a44c397c9ba131387df24ad7d36b8
+  md5: 9a70728fa81071937bbd1ebc3b986f44
+  depends:
+  - libblas >=3.9.0,<4.0a0
+  - libcblas >=3.9.0,<4.0a0
+  - libcxx >=15
+  - libgfortran 5.*
+  - libgfortran5 >=12.3.0
+  - libgfortran5 >=13.2.0
+  - liblapack >=3.9.0,<4.0a0
+  - numpy >=1.23.5,<1.28
+  - numpy >=1.23.5,<2.0a0
+  - python >=3.11,<3.12.0a0
+  - python_abi 3.11.* *_cp311
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 16759101
+  timestamp: 1706043392398
 - kind: conda
   name: send2trash
   version: 1.8.2
