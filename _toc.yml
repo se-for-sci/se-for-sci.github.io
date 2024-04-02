@@ -68,6 +68,7 @@ parts:
       - file: content/week11/intro.md
       - file: content/week11/openmp.md
       - file: content/week11/mpi.md
+      - file: content/week11/threading.md
 
   - caption: "Week 12: Mixing Languages"
     chapters:
