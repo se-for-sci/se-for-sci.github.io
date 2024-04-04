@@ -183,3 +183,4 @@ cython_debug/
 .virtual_documents
 *.pixi
 *.a
+a.out
