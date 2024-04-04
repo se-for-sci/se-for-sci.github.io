@@ -184,3 +184,5 @@ cython_debug/
 *.pixi
 *.a
 a.out
+compile_flags.txt
+Untitled*
