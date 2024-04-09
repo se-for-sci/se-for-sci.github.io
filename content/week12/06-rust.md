@@ -7,7 +7,6 @@ creating extensions (very much like pybind11 for C++), and Maturin, a very
 simple modern build system tied to Cargo (much like Scikit-build-core and CMake
 for C/C++/Fortran languages).
 
-
 ## Getting started
 
 Creating a new project is easy. Install maturin (`cargo install maturin`, `brew
@@ -116,13 +115,13 @@ supports it natively.
 
 The function is annotated with `#[pyfunction]`, which will make it a function
 you can add to Python. You return a `PyResult<...>` if a function could "throw"
-an error in Python.  Functions that don't ever throw errors can just return
+an error in Python. Functions that don't ever throw errors can just return
 normal Rust values that have known conversions. Otherwise, it's pretty normal.
 (Actually, we don't ever return a non-OK value in this example, so feel free to
 simplify this to just return `String`).
 
 Now, we have a module. This is a function that sets up a module by taking a Bound
-PyModule and running `.add_*` functions on it to add  (much like pybind11). Functions
+PyModule and running `.add_*` functions on it to add (much like pybind11). Functions
 need to be given in the `wrap_pyfunction!` macro.
 
 This is the classic interface; there's a new interface based
@@ -159,3 +158,11 @@ mod rust_example {
   }
 }
 ```
+
+## Building and running
+
+You can use all the usual Python tools (like pip, build, etc), but you can also
+build directly with maturin. In many cases, this will skip many of the Python
+calls altogether. The `maturin build` command will build a wheel. The `maturin
+develop` command will do an editable install (requires `pip` in the venv you
+are building in).

@@ -4,7 +4,7 @@
 fn main() {
     let num_steps = 100000000;
     let start = std::time::Instant::now();
-    
+
     let step = 1.0/f64::try_from(num_steps).unwrap();
 
     let sum: f64 = (0..num_steps).map(|i| {

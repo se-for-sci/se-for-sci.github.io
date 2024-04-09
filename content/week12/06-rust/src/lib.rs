@@ -9,4 +9,3 @@ mod rust_example {
       a + b
   }
 }
-
