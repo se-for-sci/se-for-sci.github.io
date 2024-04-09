@@ -186,3 +186,4 @@ cython_debug/
 a.out
 compile_flags.txt
 Untitled*
+content/week12/06-rust/Cargo.lock

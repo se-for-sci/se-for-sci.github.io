@@ -76,6 +76,7 @@ parts:
       - file: content/week12/02-cpython/02-cpython.ipynb
       - file: content/week12/03-pybind/03a-pybind.ipynb
       - file: content/week12/03-pybind/03b-pybind.ipynb
+      - file: content/week12/06-rust.md
 
   - caption: "Bonus: Exotic topics"
     chapters:
