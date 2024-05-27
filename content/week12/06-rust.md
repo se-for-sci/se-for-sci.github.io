@@ -54,7 +54,7 @@ name (this must match the module name), and the crate-type, which must include
 can add to this list.
 
 The line that might look a little different vs. the template is the
-`dependenices`; we've ensured that we have a version of pyo3 new enough to use
+`dependencies`; we've ensured that we have a version of pyo3 new enough to use
 the new `Bound`, and we are compiling for the Limited ABI - which will make our
 compiles without needing Python (at least on Unix) and allow us to support all
 versions of Python newer than some minimum with a single binary. The cost is a

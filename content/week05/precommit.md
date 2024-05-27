@@ -171,7 +171,7 @@ command line. `strict = true` is now allowed in config files, too.
 
 The extra strict options shown above (`warn_unreachable`, `redundant-expr`, and
 `truthy-bool`) can trigger too often (like on `sys.platform` checks) and have to
-be ignored occasionally, but can find some signifiant logic errors in your
+be ignored occasionally, but can find some significant logic errors in your
 typing.
 
 ### Ruff
