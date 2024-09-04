@@ -15,7 +15,9 @@ parts:
 
   - caption: "Week 2: Version Control"
     chapters:
-      - file: content/week02/git.md
+      - file: content/week02/intro.md
+      - file: content/week02/first_steps.md
+      - file: content/week02/advanced_steps.md
 
   - caption: "Week 3: Testing"
     chapters:
