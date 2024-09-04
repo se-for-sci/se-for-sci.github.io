@@ -1,3 +1,5 @@
+# Introduction and Motivation
+
 ## Intro to git
 
 Good practice in programming project management requires a version control
