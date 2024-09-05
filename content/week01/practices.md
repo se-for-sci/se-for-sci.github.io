@@ -116,8 +116,8 @@ For Python, style is described in PEP 8, and the most popular autoformatter is
 Black (or Ruff, which has a similar style but is faster, as it's written in
 Rust). I'd highly recommend sticking to that style if you don't have strong
 preferences otherwise. For C++, there are more to choose from - pick one and be
-consistent. LLVM's styling is good. Again, styling can be enforced by tools
-like clang-format. We'll cover those sorts of things later.
+consistent. LLVM's styling is good. Again, styling can be enforced by tools like
+clang-format. We'll cover those sorts of things later.
 
 ```python
 def f(x, y):
@@ -139,12 +139,13 @@ A function's signature should be a contract between the function implementer
 output1, output2, ... = function(input1, input2, ...)
 ```
 
-This is not always possible though, depending on the language and situation. The things to avoid, and some reasons you can't in some situations:
+This is not always possible though, depending on the language and situation. The
+things to avoid, and some reasons you can't in some situations:
 
 #### Argument mutation
 
-You generally should not mutate an argument. This can even sneak in when you
-are writing Python where you don't expect it. Take the following function:
+You generally should not mutate an argument. This can even sneak in when you are
+writing Python where you don't expect it. Take the following function:
 
 ```python
 def add_end_to_list(x=[]):
@@ -159,8 +160,8 @@ my_list = ["start"]
 print(add_to_list(my_list))
 ```
 
-But check the contents of `my_list` afterwards. Even better, try running it
-with the default argument (`add_to_list()`) and see what it returns.
+But check the contents of `my_list` afterwards. Even better, try running it with
+the default argument (`add_to_list()`) and see what it returns.
 
 Due to the above, it's a convention in Python to never use a mutable structure
 (we'll discuss mutation in detail in a few weeks) like a list or a dict for an
@@ -172,9 +173,9 @@ def add_end_to_list(x=()):
     return [*x, "end"]
 ```
 
-If you do need to mutate arguments, it should be well documented and clear
-as possible from the function and argument names. Usually you should not return
-the list
+If you do need to mutate arguments, it should be well documented and clear as
+possible from the function and argument names. Usually you should not return the
+list
 
 ```python
 def append_end_to_list(x=None):
@@ -247,8 +248,9 @@ function to lie to the reader about what it expects and/or what it changes.
 What do you think of this code?
 
 ```python
-def simulate_plasma(x_i, v_i, t_i, t_f, E_i, B_i, N, result_array, printflag):
-    ...  # do some stuff
+def simulate_plasma(
+    x_i, v_i, t_i, t_f, E_i, B_i, N, result_array, printflag
+): ...  # do some stuff
 ```
 
 This has a lot of parameters, making it hard to use / easy to misuse. In Python,
@@ -263,8 +265,7 @@ Some helpful hints:
 Here's an example of bundling. Let's take a simpler example:
 
 ```python
-def get_rect_area(x1, y1, x2, y2):
-    ...  # does stuff
+def get_rect_area(x1, y1, x2, y2): ...  # does stuff
 
 
 get_rect_area(x1, y1, x2, y2)
@@ -274,8 +275,7 @@ Someone calling the function could easily make a mistake:
 `get_rect_area(x1, x2, y1, y1)` for example. However, if you bundle this:
 
 ```python
-def get_rect_area(point_1, point_2):
-    ...  # does stuff
+def get_rect_area(point_1, point_2): ...  # does stuff
 
 
 get_rect_area(Point(x1, y1), Point(x2, y2))

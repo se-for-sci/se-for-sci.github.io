@@ -38,6 +38,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: astral-sh/setup-uv@v2
+
       - name: Build the Pyodide output
         run: |
           pipx run nox -s pyodide

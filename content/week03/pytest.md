@@ -328,8 +328,7 @@ def platform(request, monkeypatch):
     return request.param
 
 
-def test_some_function_linux(monkeypatch, platform):
-    ...
+def test_some_function_linux(monkeypatch, platform): ...
 ```
 
 Now we automatically get the monkeypatching each time, too!

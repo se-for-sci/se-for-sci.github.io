@@ -423,13 +423,13 @@ Now you see the side effects; this is when it ran.
 
 :::{admonition} Python & lazy iterators
 
-You can do this without the functional spellings above -
-generator comprehensions (the ones with `()` instead of `[]`) are also lazy, as
-is `range` and quite a few other methods in Python 3. There also is good support
-for coroutines via generator functions. You can use those to write things that
-look like they apply to a list and return a list but still ensure code only runs
-once though a final iteration, saving memory. However, this is not useful for
-most numeric work - see array programming.
+You can do this without the functional spellings above - generator
+comprehensions (the ones with `()` instead of `[]`) are also lazy, as is `range`
+and quite a few other methods in Python 3. There also is good support for
+coroutines via generator functions. You can use those to write things that look
+like they apply to a list and return a list but still ensure code only runs once
+though a final iteration, saving memory. However, this is not useful for most
+numeric work - see array programming.
 
 :::
 

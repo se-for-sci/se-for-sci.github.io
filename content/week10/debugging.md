@@ -23,8 +23,8 @@ In this lecture, we will:
 
 When a code crashes it usually writes out a cryptic error message
 
-- The cpu processes machine instructions, not the C or Rust source code that
-  you wrote...
+- The cpu processes machine instructions, not the C or Rust source code that you
+  wrote...
 
 - Instructions in the final executable program have probably been rearranged for
   optimization purposes
@@ -58,7 +58,8 @@ double x[100];
 x[345] = 0; // SIGSEGV
 ```
 
-This and other kinds of memory issues are entirely avoided in Rust due to the thorough checks that are done at compile time (and run time).
+This and other kinds of memory issues are entirely avoided in Rust due to the
+thorough checks that are done at compile time (and run time).
 
 ```rust
 let mut x = [0f64; 100];
@@ -120,10 +121,10 @@ For quota increase requests please use this website:
 - Pay particular attention to the diagnostics options under sections with names
   such as “debugging”, “optimization”, “target-specific”, “warnings”
 
-- Using `man gcc` is a good start although most compilers now
-  have detailed online documentation! Just check the company’s web site under
-  “support” or “documentation”. For example, the documentation for `gcc` (GNU
-  Compiler Collection) can be found [here](https://gcc.gnu.org).
+- Using `man gcc` is a good start although most compilers now have detailed
+  online documentation! Just check the company’s web site under “support” or
+  “documentation”. For example, the documentation for `gcc` (GNU Compiler
+  Collection) can be found [here](https://gcc.gnu.org).
 
 ### The `-g` compiler option
 
@@ -227,8 +228,8 @@ All compilers accept the `-g` option.
 
 - These files are binary files meant to be read by debuggers
 
-- Of limited use if the code was not compiled with `–g` option that links machine
-  language code to high-level source code
+- Of limited use if the code was not compiled with `–g` option that links
+  machine language code to high-level source code
 
 ### Examining the call stack
 
@@ -294,7 +295,8 @@ gdb (1)              - The GNU Debugger
 
 - Widely used for C and C++ code debugging
 
-- Can also be used with Rust out of the box, but `cargo` comes preinstalled with a `rust-gdb` wrapper that makes printouts look nicer.
+- Can also be used with Rust out of the box, but `cargo` comes preinstalled with
+  a `rust-gdb` wrapper that makes printouts look nicer.
 
 - Online manual for gdb at `info gdb`
 
@@ -368,7 +370,9 @@ $ ./example
   Program terminated with signal: SIGFPE
 ```
 
-The compiler didn't catch the division by zero or the array index overflow. We can help the compiler a bit by pointing out that `i` and `x` are not going to change value during execution.
+The compiler didn't catch the division by zero or the array index overflow. We
+can help the compiler a bit by pointing out that `i` and `x` are not going to
+change value during execution.
 
 ```cpp
 // example.cpp
@@ -397,7 +401,10 @@ $ g++ example.cpp -o example
         |            ~^~
 ```
 
-Now we get a warning saying that there was a division by zero. Note that this corresponds to the `-Wdiv-by-zero` flag, which is enabled by default. However, it still compiled even though it detected an issue. Let's fix the issue by changing the line to `const int x = 1;`.
+Now we get a warning saying that there was a division by zero. Note that this
+corresponds to the `-Wdiv-by-zero` flag, which is enabled by default. However,
+it still compiled even though it detected an issue. Let's fix the issue by
+changing the line to `const int x = 1;`.
 
 ```sh
 $ g++ example.cpp -o example
@@ -405,7 +412,8 @@ $ ./example
   2
 ```
 
-Everything seems like it's working correctly. However, let's now try compiling it with `clang++`.
+Everything seems like it's working correctly. However, let's now try compiling
+it with `clang++`.
 
 ```sh
 $ clang++ example.cpp -o example
@@ -424,7 +432,13 @@ $ clang++ example.cpp -o example
   2 warnings generated.
 ```
 
-This compiler was able to tell that we were accessing data past the end of the array. In this particular case the data we were accessing was still within the region of memory assigned to the program. Although the program didn't crash, we were corrupting memory which opens the door to numerous issues and vulnerabilities. Try using something like `const int i = 4000;` to see that it causes a segmentation violation. Let's fix this bug by changing the line to `const int i = 4;`.
+This compiler was able to tell that we were accessing data past the end of the
+array. In this particular case the data we were accessing was still within the
+region of memory assigned to the program. Although the program didn't crash, we
+were corrupting memory which opens the door to numerous issues and
+vulnerabilities. Try using something like `const int i = 4000;` to see that it
+causes a segmentation violation. Let's fix this bug by changing the line to
+`const int i = 4;`.
 
 The story in Rust is quite different. Let's use the same starting point.
 
@@ -468,9 +482,11 @@ $ rustc example.rs
   error: aborting due to 3 previous errors
 ```
 
-In this case not only did it detect the issues, but it even refused to compile it.
+In this case not only did it detect the issues, but it even refused to compile
+it.
 
-Let's now use `gdb` with our fixed C++ code to look at what's happens step by step:
+Let's now use `gdb` with our fixed C++ code to look at what's happens step by
+step:
 
 ```sh
 $ g++ -g example.cpp -o example
@@ -643,16 +659,16 @@ p expression
 
 ### Using `print` for monitoring and debugging
 
-- Many serious developers still use old school `print` statements to
-  monitor and debug their codes
+- Many serious developers still use old school `print` statements to monitor and
+  debug their codes
 
 - May be the only recourse when running a code at very large concurrencies
   (100,000+ processors)
 
 - The idea is simple:
 
-  - Insert `print` statements at strategic locations in the code to
-    gather information and try to pinpoint the faulty code line
+  - Insert `print` statements at strategic locations in the code to gather
+    information and try to pinpoint the faulty code line
   - Advantages over other forms of debugging:
     - Easy to use and always works
     - Low overhead
@@ -678,7 +694,8 @@ p expression
   - `eprint` in Rust
   - redirect output: `mpirun –np 1024 ./a.out 1> output.out 2> output.err`
 
-- Explicit flushing of I/O buffers with `std::endl` or `std::flush` in C++, `std::io::stdout().flush()` in Rust
+- Explicit flushing of I/O buffers with `std::endl` or `std::flush` in C++,
+  `std::io::stdout().flush()` in Rust
 
 ### Debugging memory leaks
 
@@ -809,7 +826,12 @@ int main() {
 }
 ```
 
-Again, the story in Rust is very different. The Rust compiler guarantees that it will deallocate any memory at the point where it is no longer accessible. It does so by strictly following the Resource Acquisition Is Initialization (RAII) technique. Most of these memory issues can also be prevented by following modern C++ standards, but in older languages like C or Fortran it is a lot easier to introduce memory bugs.
+Again, the story in Rust is very different. The Rust compiler guarantees that it
+will deallocate any memory at the point where it is no longer accessible. It
+does so by strictly following the Resource Acquisition Is Initialization (RAII)
+technique. Most of these memory issues can also be prevented by following modern
+C++ standards, but in older languages like C or Fortran it is a lot easier to
+introduce memory bugs.
 
 ### Using Graphical Debuggers
 
@@ -830,8 +852,7 @@ integrated together with a powerful user interface. Once you try it, you adopt
 it. The downside is that it is tricky to work on code on remote computers. You
 need to be familiar with `ssh` tunneling which can be tricky and unstable.
 
-The `ddt` debugger is a good option for C/C++. See web
-page
+The `ddt` debugger is a good option for C/C++. See web page
 [here](https://www.arm.com/products/development-tools/server-and-hpc/forge/ddt).
 
 Just type:

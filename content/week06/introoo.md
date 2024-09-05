@@ -350,7 +350,15 @@ class Vector(abc.ABC):
         return self.mag2() ** 0.5
 ```
 
-The `abc.ABC` class is a convenience class; you can also use `class Vector(metaclass=abc.ABCMeta)` instead to avoid inheritance on this convenience class. We won't be discussing metaclasses, so just briefly they customize _class_ creation rather than _instance_ creation (everything is an object, even classes!). ABCs inject checks to all the child classes so that when you create an instance, they see if any abstract components are missing from the class. If you never make an instance, you can have abstract methods. Above, `Vector` is called an abstract class, since you can't make instances of it. However, you can make a concrete class from it:
+The `abc.ABC` class is a convenience class; you can also use
+`class Vector(metaclass=abc.ABCMeta)` instead to avoid inheritance on this
+convenience class. We won't be discussing metaclasses, so just briefly they
+customize _class_ creation rather than _instance_ creation (everything is an
+object, even classes!). ABCs inject checks to all the child classes so that when
+you create an instance, they see if any abstract components are missing from the
+class. If you never make an instance, you can have abstract methods. Above,
+`Vector` is called an abstract class, since you can't make instances of it.
+However, you can make a concrete class from it:
 
 ```python
 @dataclasses.dataclass
