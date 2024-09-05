@@ -529,10 +529,10 @@ You can now push to the remote GitHub repository all your ongoing work using
 $ git push --set-upstream origin master
 ```
 
-If you now look at the GitHub  website, you can see all your hard work
-listed there, including  all the past history. Note that  what we just
-did never occurs in practice. You  will always create an empty project
-on GitHub or  BitBucket first, and then clone it  to your computer and
+If you now look at the GitHub website, you can see all your hard work
+listed there, including all the past history. Note that what we just
+did never occurs in practice. You will always create an empty project
+on GitHub or BitBucket first, and then clone it to your computer and
 start editing files there.
 
 Let's now learn how to change a file in your local repository and push it to the
@@ -563,17 +563,17 @@ your code. You are in business!
 
 ## Using git rebase instead of git merge
 
-In large projects with multiple developers, merging different branches can 
-result in very cumbersome histories with multiple diverging tracks converging 
-back to the master branch with complex patterns. 
+In large projects with multiple developers, merging different branches can
+result in very cumbersome histories with multiple diverging tracks converging
+back to the master branch with complex patterns.
 
 `git` offers the `rebase` functionality to combine two branches along the same trunk,
 one entire diverging branch after the other. Let's try an example.
-Go back to the repository `mywork`. Checkout branch `better_code` and create a new file called `file6.txt`. 
+Go back to the repository `mywork`. Checkout branch `better_code` and create a new file called `file6.txt`.
 Don't forget to `git add` and `git commit`. Then checkout branch `master` and create a new
-file called `file7.txt`. Again, `git add` and `git commit`. 
+file called `file7.txt`. Again, `git add` and `git commit`.
 
-If you `git log`, you will see now 2 diverging branches like before. 
+If you `git log`, you will see now 2 diverging branches like before.
 This time, we will combine these 2 branches using
 
 ```console
@@ -581,8 +581,8 @@ $ git rebase better_code
 Successfully rebased and updated refs/heads/master.
 ```
 
-If now you type `git log`, you see that the `master` branch has merged the `better_code` branch 
-in a single timeline. You don't see any diverging and converging path anymore. 
+If now you type `git log`, you see that the `master` branch has merged the `better_code` branch
+in a single timeline. You don't see any diverging and converging path anymore.
 Commits made in parallel in the `master` branch appear now after the `better_code` commits.
 
 ## Example of a complex git repository
