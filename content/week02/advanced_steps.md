@@ -507,6 +507,8 @@ $ cat file5.txt
 I  have changed file5.txt
 ```
 
+When using `git pull`, you are in fact merging the remote branch with your local branch, using under the hood `git merge`.
+
 ## Using GitHub as origin repository
 
 Note that repository `mywork` does not have any `origin` repository. Usually,
