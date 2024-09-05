@@ -113,10 +113,11 @@ differences as meaningful, adding cognitive load to future readers (including
 you). Avoid it!
 
 For Python, style is described in PEP 8, and the most popular autoformatter is
-Black. I'd highly recommend sticking to that style if you don't have strong
+Black (or Ruff, which has a similar style but is faster, as it's written in
+Rust). I'd highly recommend sticking to that style if you don't have strong
 preferences otherwise. For C++, there are more to choose from - pick one and be
-consistent. LLVM's styling is good. Again, styling can be enforced by tools like
-clang-format. We'll cover those sorts of things later.
+consistent. LLVM's styling is good. Again, styling can be enforced by tools
+like clang-format. We'll cover those sorts of things later.
 
 ```python
 def f(x, y):
@@ -128,6 +129,118 @@ Notice the style:
 - One space between constructs
 - Four space indent
 - Power operator `**` doesn't need spaces for simple expressions
+
+### The function signature as a contract
+
+A function's signature should be a contract between the function implementer
+(you) and the function user (might also be you). Something like this:
+
+```
+output1, output2, ... = function(input1, input2, ...)
+```
+
+This is not always possible though, depending on the language and situation. The things to avoid, and some reasons you can't in some situations:
+
+#### Argument mutation
+
+You generally should not mutate an argument. This can even sneak in when you
+are writing Python where you don't expect it. Take the following function:
+
+```python
+def add_end_to_list(x=[]):
+    x.append("end")
+    return x
+```
+
+This might do what you expect at first:
+
+```python
+my_list = ["start"]
+print(add_to_list(my_list))
+```
+
+But check the contents of `my_list` afterwards. Even better, try running it
+with the default argument (`add_to_list()`) and see what it returns.
+
+Due to the above, it's a convention in Python to never use a mutable structure
+(we'll discuss mutation in detail in a few weeks) like a list or a dict for an
+argument default. Unless you really have to, you should also avoid mutating an
+input argument. Here is a better version of the above function:
+
+```python
+def add_end_to_list(x=()):
+    return [*x, "end"]
+```
+
+If you do need to mutate arguments, it should be well documented and clear
+as possible from the function and argument names. Usually you should not return
+the list
+
+```python
+def append_end_to_list(x=None):
+    x_list = x or []
+    x_list.append("end")
+```
+
+Now, since it doesn't return anything, a user is more likely to be aware that
+it's mutating the input. They are much less likely to assume the output is an
+independent variable (since there is no usable output, it's just None).
+
+Also, by the way, the default version of this function no longer even makes
+sense, since you don't have access to it after the function runs; this further
+reduces the potential for mistakes and confusion.
+
+```python
+def append_end_to_list(x):
+    x.append("end")
+```
+
+#### Multiple outputs
+
+If your language supports it (C++11 partially, C++17, Rust, Python, etc), then
+use multiple outputs over mutating inputs. Some languages (C) do not support
+multiple outputs, so the only option for those languages is to ask a user to
+make an empty variable and then fill it via passing it as an argument.
+
+#### Outer-scope capture
+
+Python has automatic variable capture[^1] from outer scope. In C++ lambda
+functions, you have to explicitly list variables you want to capture, but Python
+hides this. This makes this a common source of errors and makes reading the code
+much harder! There are a few rare cases where you do need this, but it should be
+reserved for functions with short bodies and written in such a way to make it
+obvious you need capture. And also consider `functools.partial`, which not only
+advertises the intent to capture to the reader, but actually captures the value
+when it is created, rather than when it is called later.
+
+```python
+# Bad
+x = 2
+
+
+def f():
+    print(x)
+
+
+x = 3
+```
+
+```python
+# Better
+x = 2
+
+
+def f_needs_x(x_value):
+    print(x_value)
+
+
+f = functools.partial(f_needs_x, x)
+x = 3
+```
+
+Remember, the signature of a function is not just for Python, it's telling the
+reader what the function expects and what it returns. Capture causes the
+function to lie to the reader about what it expects and/or what it changes.
 
 ### Avoid a bajillion parameters/function arguments
 
@@ -287,48 +400,6 @@ There are some exceptions to this, but it's a decent rule of thumb.
 
 Global **constants** are generally ok. For instance, you probably want to define
 `PI` once and let all your code reference it (that's more DRY).
-
-You can take this one step further:
-
-### Minimize capture
-
-Python has automatic variable capture[^1] from outer scope. In C++ lambda
-functions, you have to explicitly list variables you want to capture, but Python
-hides this. This makes this a common source of errors and makes reading the code
-much harder! There are a few rare cases where you do need this, but it should be
-reserved for functions with short bodies and written in such a way to make it
-obvious you need capture. And also consider `functools.partial`, which not only
-advertises the intent to capture to the reader, but actually captures the value
-when it is created, rather than when it is called later.
-
-```python
-# Bad
-x = 2
-
-
-def f():
-    print(x)
-
-
-x = 3
-```
-
-```python
-# Better
-x = 2
-
-
-def f_needs_x(x_value):
-    print(x_value)
-
-
-f = functools.partial(f_needs_x, x)
-x = 3
-```
-
-Remember, the signature of a function is not just for Python, it's telling the
-reader what the function expects and what it returns. Capture causes the
-function to lie to the reader.
 
 ### Guard pattern
 
