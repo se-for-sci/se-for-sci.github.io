@@ -507,7 +507,8 @@ $ cat file5.txt
 I  have changed file5.txt
 ```
 
-When using `git pull`, you are in fact merging the remote branch with your local branch, using under the hood `git merge`.
+When using `git pull`, you are in fact merging the remote branch with your local
+branch, using under the hood `git merge`.
 
 ## Using GitHub as origin repository
 
@@ -529,11 +530,10 @@ You can now push to the remote GitHub repository all your ongoing work using
 $ git push --set-upstream origin master
 ```
 
-If you now look at the GitHub website, you can see all your hard work
-listed there, including all the past history. Note that what we just
-did never occurs in practice. You will always create an empty project
-on GitHub or BitBucket first, and then clone it to your computer and
-start editing files there.
+If you now look at the GitHub website, you can see all your hard work listed
+there, including all the past history. Note that what we just did never occurs
+in practice. You will always create an empty project on GitHub or BitBucket
+first, and then clone it to your computer and start editing files there.
 
 Let's now learn how to change a file in your local repository and push it to the
 remote repository.
@@ -567,33 +567,34 @@ In large projects with multiple developers, merging different branches can
 result in very cumbersome histories with multiple diverging tracks converging
 back to the master branch with complex patterns.
 
-`git` offers the `rebase` functionality to combine two branches along the same trunk,
-one entire diverging branch after the other. Let's try an example.
-Go back to the repository `mywork`. Checkout branch `better_code` and create a new file called `file6.txt`.
-Don't forget to `git add` and `git commit`. Then checkout branch `master` and create a new
-file called `file7.txt`. Again, `git add` and `git commit`.
+`git` offers the `rebase` functionality to combine two branches along the same
+trunk, one entire diverging branch after the other. Let's try an example. Go
+back to the repository `mywork`. Checkout branch `better_code` and create a new
+file called `file6.txt`. Don't forget to `git add` and `git commit`. Then
+checkout branch `master` and create a new file called `file7.txt`. Again,
+`git add` and `git commit`.
 
-If you `git log`, you will see now 2 diverging branches like before.
-This time, we will combine these 2 branches using
+If you `git log`, you will see now 2 diverging branches like before. This time,
+we will combine these 2 branches using
 
 ```console
 $ git rebase better_code
 Successfully rebased and updated refs/heads/master.
 ```
 
-If now you type `git log`, you see that the `master` branch has merged the `better_code` branch
-in a single timeline. You don't see any diverging and converging path anymore.
-Commits made in parallel in the `master` branch appear now after the `better_code` commits.
+If now you type `git log`, you see that the `master` branch has merged the
+`better_code` branch in a single timeline. You don't see any diverging and
+converging path anymore. Commits made in parallel in the `master` branch appear
+now after the `better_code` commits.
 
 ## Example of a complex git repository
 
-Let's now navigate to the BitBucket page of a large collaborative project I
-have contributed to, namely the
-[RAMSES code](https://bitbucket.org/rteyssie/ramses). You can explore the
-different rubrics there, including an automatic test page (more later on this
-topic in the course) and a wiki with all the documentation. You can clone the
-corresponding repository on your laptop and have fun running hydrodynamics
-simulations.
+Let's now navigate to the BitBucket page of a large collaborative project I have
+contributed to, namely the [RAMSES code](https://bitbucket.org/rteyssie/ramses).
+You can explore the different rubrics there, including an automatic test page
+(more later on this topic in the course) and a wiki with all the documentation.
+You can clone the corresponding repository on your laptop and have fun running
+hydrodynamics simulations.
 
 ## See also
 

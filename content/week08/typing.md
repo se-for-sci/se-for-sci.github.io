@@ -651,19 +651,16 @@ from typing import Literal
 
 
 @typing.overload
-def could_be_none(y: Literal[True]) -> int:
-    ...
+def could_be_none(y: Literal[True]) -> int: ...
 
 
 @typing.overload
-def could_be_none(y: Literal[False]) -> None:
-    ...
+def could_be_none(y: Literal[False]) -> None: ...
 
 
 # This is optional, but allows passing an unknown bool in too
 @typing.overload
-def could_be_none(y: bool) -> int | None:
-    ...
+def could_be_none(y: bool) -> int | None: ...
 
 
 def could_be_none(y: bool) -> int | None:
@@ -816,8 +813,7 @@ from typing import Protocol
 
 
 class DoesSomething(Protocol):
-    def do_something(self) -> None:
-        ...
+    def do_something(self) -> None: ...
 
 
 def f(x: DoesSomething) -> None:
@@ -849,8 +845,7 @@ import typing
 
 @typing.runtime_checkable
 class DoesSomething(Protocol):
-    def do_something(self) -> None:
-        ...
+    def do_something(self) -> None: ...
 
 
 assert isinstance(MyThing, DoesSomething)

@@ -335,13 +335,11 @@ We'd like to be able to a) run this on `str` too, and b) get a literal True/Fals
 
 ```python
 @typing.overload
-def run(action: Literal["start"]) -> Literal[True]:
-    ...
+def run(action: Literal["start"]) -> Literal[True]: ...
 
 
 @typing.overload
-def run(action: Literal["stop"]) -> Literal[False]:
-    ...
+def run(action: Literal["stop"]) -> Literal[False]: ...
 
 
 def run(action: str) -> bool:
@@ -404,8 +402,7 @@ Or we could formalize what we know what a Protocol!
 
 ```python
 class Duck(typing.Protocol):
-    def quack(self) -> None:
-        ...  # This is actually part of the syntax
+    def quack(self) -> None: ...  # This is actually part of the syntax
 
 
 def f(x: Duck) -> None:
@@ -423,8 +420,7 @@ Opt-in, though types are not checked.
 ```python
 @typing.runtime_checkable
 class Duck(typing.Protocol):
-    def quack(self) -> None:
-        ...
+    def quack(self) -> None: ...
 
 
 class MyDuck:
