@@ -256,6 +256,18 @@ $ cat file1.txt
 This is my first file but I modified it again to match the better code version.
 ```
 
+You can check that the file has been modified using
+
+```console
+$ git status
+```
+
+You can also see the modifications using
+
+```console
+$ git diff
+```
+
 Let's commit these changes as usual.
 
 ```console
