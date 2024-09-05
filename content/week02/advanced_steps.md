@@ -571,7 +571,7 @@ back to the master branch with complex patterns.
 one entire diverging branch after the other. Let's try an example.
 Go back to the repository `mywork`. Checkout branch `better_code` and create a new file called `file6.txt`. 
 Don't forget to `git add` and `git commit`. Then checkout branch `master` and create a new
-file called `file7.txt`. Again, `gti add` and `git commit`. 
+file called `file7.txt`. Again, `git add` and `git commit`. 
 
 If you `git log`, you will see now 2 diverging branches like before. 
 This time, we will combine these 2 branches using
