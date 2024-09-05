@@ -246,7 +246,7 @@ Let's now try something more difficult. We go back to the master branch and
 modify directly the text inside `file1.txt`.
 
 ```console
-$ git branch master
+$ git checkout master
 ```
 
 Edit file1.txt in order to obtain
@@ -354,9 +354,9 @@ everything to the `master` branch.
 ```console
 $ git checkout master
 Switched to branch 'master'
-$ git merge better_code -m "Final merge back to master"
+$ git merge better_code
 Updating abc9ee2..1243e96
-Fast-forward (no commit created; -m option ignored)
+Fast-forward
  file4.txt | 0
  file5.txt | 0
  2 files changed, 0 insertions(+), 0 deletions(-)
@@ -527,8 +527,11 @@ You can now push to the remote GitHub repository all your ongoing work using
 $ git push --set-upstream origin master
 ```
 
-If you now look at the GitHub website, you can see all your hard work listed
-there, including all the past history.
+If you now look at the GitHub  website, you can see all your hard work
+listed there, including  all the past history. Note that  what we just
+did never occurs in practice. You  will always create an empty project
+on GitHub or  BitBucket first, and then clone it  to your computer and
+start editing files there.
 
 Let's now learn how to change a file in your local repository and push it to the
 remote repository.
@@ -555,6 +558,30 @@ To github.com:rteyssier/se_git.git
 Check now the GitHub webpage. You will see your modifications there. Other
 collaborators can now directly clone your GitHub repository and contribute to
 your code. You are in business!
+
+## Using git rebase instead of git merge
+
+In large projects with multiple developers, merging different branches can 
+result in very cumbersome histories with multiple diverging tracks converging 
+back to the master branch with complex patterns. 
+
+`git` offers the `rebase` functionality to combine two branches along the same trunk,
+one entire diverging branch after the other. Let's try an example.
+Go back to the repository `mywork`. Checkout branch `better_code` and create a new file called `file6.txt`. 
+Don't forget to `git add` and `git commit`. Then checkout branch `master` and create a new
+file called `file7.txt`. Again, `gti add` and `git commit`. 
+
+If you `git log`, you will see now 2 diverging branches like before. 
+This time, we will combine these 2 branches using
+
+```console
+$ git rebase better_code
+Successfully rebased and updated refs/heads/master.
+```
+
+If now you type `git log`, you see that the `master` branch has merged the `better_code` branch 
+in a single timeline. You don't see any diverging and converging path anymore. 
+Commits made in parallel in the `master` branch appear now after the `better_code` commits.
 
 ## Example of a complex git repository
 
