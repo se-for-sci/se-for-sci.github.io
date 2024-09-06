@@ -589,15 +589,6 @@ now after the `better_code` commits.
 
 Use this online tool: https://learngitbranching.js.org/?NODEMO to build examples that highlight the difference between `merge` and `rebase`.
 
-## Example of a complex git repository
-
-Let's now navigate to the BitBucket page of a large collaborative project I have
-contributed to, namely the [RAMSES code](https://bitbucket.org/rteyssie/ramses).
-You can explore the different rubrics there, including an automatic test page
-(more later on this topic in the course) and a wiki with all the documentation.
-You can clone the corresponding repository on your laptop and have fun running
-hydrodynamics simulations.
-
 ## See also
 
 - [The curious coder’s guide to git](https://matthew-brett.github.io/curious-git/index.html)
