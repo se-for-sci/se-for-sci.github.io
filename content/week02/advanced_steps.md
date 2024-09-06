@@ -585,6 +585,8 @@ If now you type `git log`, you see that the `master` branch has merged the `bett
 in a single timeline. You don't see any diverging and converging path anymore. 
 Commits made in parallel in the `master` branch appear now after the `better_code` commits.
 
+Use this online tool: https://learngitbranching.js.org/?NODEMO to build examples that highlight the difference between `merge` and `rebase`.
+
 ## Example of a complex git repository
 
 Let's now navigate to the BitBucket page of a large collaborative project I
