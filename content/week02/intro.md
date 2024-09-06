@@ -104,7 +104,7 @@ Things to keep in mind during our exercise
 
 - Just a quick tour
 
-- There is a 2-part PICSciE workshop on Git on Oct 05 and 07. Do it!
+- There is always a PICSciE workshop on Git scheduled every year. Do it!
 
 - Some git operations are of a "send it out" variety, while others are of a
   "bring it in" variety
@@ -125,3 +125,4 @@ Other resources for git:
 - https://ohshitgit.com/
 - http://gitready.com/
 - https://explainshell.com/
+
