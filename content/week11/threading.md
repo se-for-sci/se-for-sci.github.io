@@ -2,8 +2,8 @@
 
 Multithreading in Python is split into two groups: multithreading and
 multiprocessing. Async could be seen as a third group, and extensions can be
-implemented with multithreading as well. Python 3.12 added a subinterpeters
-each with their own GIL. Python 3.13 is also adding no-gil threading.
+implemented with multithreading as well. Python 3.12 added a subinterpeters each
+with their own GIL. Python 3.13 is also adding no-gil threading.
 
 Multithreading means you have one Python process. Due to the way that Python is
 implemented with Global Interpreter Lock (GIL), you can only run one Python
@@ -18,16 +18,19 @@ processes, with their own memory space, then either transferring data (via
 Pickle) or by sharing selected portions of memory. This is much heaver-weight
 than threading, but can be used effectively.
 
-A third category is async code; this is not actually multithreaded, but
-provides very similar mechanism for control flow, and can be combined with real
+A third category is async code; this is not actually multithreaded, but provides
+very similar mechanism for control flow, and can be combined with real
 multithreading. If Python was built without threads (such as for WebAssembly),
 then this is the only option.
 
 The relevant built-in libraries supporting multithreaded code:
 
-- **Threading**: A basic interface to **thread**, still rather low-level by modern standards.
-- **Multiprocessing**: Similar to threading, but with processes. Shared memory tools added in Python 3.8.
-- **Concurrent.futures**: Higher-level interface to both threading and multiprocessing.
+- **Threading**: A basic interface to **thread**, still rather low-level by
+  modern standards.
+- **Multiprocessing**: Similar to threading, but with processes. Shared memory
+  tools added in Python 3.8.
+- **Concurrent.futures**: Higher-level interface to both threading and
+  multiprocessing.
 - **Ascynio**: Explicit control over switching points.
 
 For all of these examples, we'll use this fractal example:
@@ -69,10 +72,10 @@ fractal = run(c, fractal)
 
 ### Threading library
 
-The most general form of threading can be achieved with the `threading`
-library. You can start a thread by using `worker.thread.Thread(target=func,
-args=(...))`. Or you can use the OO interface, and subclass `Thread`,
-replacing the `run` method.
+The most general form of threading can be achieved with the `threading` library.
+You can start a thread by using `worker.thread.Thread(target=func, args=(...))`.
+Or you can use the OO interface, and subclass `Thread`, replacing the `run`
+method.
 
 Once you a ready to start, call `worker.start()`. The code in the Thread will
 now start executing; Python will switch back and forth between the main thread
@@ -132,20 +135,25 @@ for worker in workers:
 Similar interfaces exist for other languages, like `Boost::Thread` for C++ or
 `std::thread` for Rust.
 
-For these, you have to handle concurrency yourself. There's no guarantee about how things run. We won't go
-into all of them here, but the standard concepts are:
+For these, you have to handle concurrency yourself. There's no guarantee about
+how things run. We won't go into all of them here, but the standard concepts
+are:
 
-- Lock (aka mutex): A way to acquire/release something that blocks other threads while held.
-- RLock: A re-entrant lock, which only blocks between threads, it can be entered multiple times in a single thread.
+- Lock (aka mutex): A way to acquire/release something that blocks other threads
+  while held.
+- RLock: A re-entrant lock, which only blocks between threads, it can be entered
+  multiple times in a single thread.
 - Conditions/Events: Ways to signal/communicate between threads.
-- Semaphore/BoundedSemaphore: Limited counter, often used to keep connections below some value.
+- Semaphore/BoundedSemaphore: Limited counter, often used to keep connections
+  below some value.
 - Barrier: A way to wait till N threads are ready for a next step.
-- Queue (`queue.Queue`): A collection you can add work items to or read them out from in threads.
+- Queue (`queue.Queue`): A collection you can add work items to or read them out
+  from in threads.
 
 There's also a Timer, which is just a `Thread` that waits a certain amount of
-time to start. Another important concept is a "Thread Pool", which is a collection
-of threads that you feed work to. If you need a Thread Pool you usually make
-your own or you can use the `concurrent.futures` module.
+time to start. Another important concept is a "Thread Pool", which is a
+collection of threads that you feed work to. If you need a Thread Pool you
+usually make your own or you can use the `concurrent.futures` module.
 
 An important concept is the idea of "thread safe"; something that is threadsafe
 can be used in multiple threads without running into race conditions.
@@ -153,8 +161,8 @@ can be used in multiple threads without running into race conditions.
 ### Executors
 
 Python provides a higher-level abstraction that is especially useful in data
-processing: Executors (both a threading version and a multiprocessing
-version). These are build around a thread pool and context managers:
+processing: Executors (both a threading version and a multiprocessing version).
+These are build around a thread pool and context managers:
 
 ```python
 from concurrent.futures import ThreadPoolExecutor
@@ -164,11 +172,11 @@ with ThreadPoolExecutor(max_workers=8) as executor:
 ```
 
 This adds a new concept: a Future, which is a placeholder that will contain a
-result eventually. When you exit the block or call `.result()`, then Python
-will block until the result is ready.
+result eventually. When you exit the block or call `.result()`, then Python will
+block until the result is ready.
 
-A handy shortcut is provided with `.map`, as well; this will make a iterable of futures
-from an iterable of data. We can use it for our example:
+A handy shortcut is provided with `.map`, as well; this will make a iterable of
+futures from an iterable of data. We can use it for our example:
 
 ```python
 from concurrent.futures import ThreadPoolExecutor
@@ -184,7 +192,8 @@ with ThreadPoolExecutor(max_workers=8) as executor:
 ## Multiprocessing in Python
 
 Multiprocessing actually starts up a new process with a new Python. You have to
-communicate objects either by serialization or by shared memory. Shared memory looks like this:
+communicate objects either by serialization or by shared memory. Shared memory
+looks like this:
 
 ```python
 mem = multiprocessing.shared_memory.SharedMemory(
@@ -197,14 +206,14 @@ finally:
     mem.unlink()
 ```
 
-This is shared across processes and can enen outlive the owning process, so
-make sure you close (per process) and unlink (once) the memory you take! Having
-a fixed name (like above) can be safer.
+This is shared across processes and can enen outlive the owning process, so make
+sure you close (per process) and unlink (once) the memory you take! Having a
+fixed name (like above) can be safer.
 
-When using multiprocessing (including
-`concurrent.futures.ProcessPoolExecutor`), you usually need source code to be
-importable, since the new process will have to get it's instructions too. That
-can make it a bit harder to use from something like a notebook.
+When using multiprocessing (including `concurrent.futures.ProcessPoolExecutor`),
+you usually need source code to be importable, since the new process will have
+to get it's instructions too. That can make it a bit harder to use from
+something like a notebook.
 
 ## Async code in Python
 

@@ -207,3 +207,4 @@ Previous HEAD position was 476b980 Commit changes
 Switched to branch 'master'
 $ ls
 file1.txt file2.txt file3.txt
+```

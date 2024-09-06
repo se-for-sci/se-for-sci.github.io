@@ -1,26 +1,26 @@
 # Extensions with Rust
 
-Rust has enjoyed fantastic synergy with Python; it's one of the reasons Rust
-has been doing so well in the Python extension module landscape. There are two
-key projects: PyO3, which functions as a powerful pure Rust library for
-creating extensions (very much like pybind11 for C++), and Maturin, a very
-simple modern build system tied to Cargo (much like Scikit-build-core and CMake
-for C/C++/Fortran languages).
+Rust has enjoyed fantastic synergy with Python; it's one of the reasons Rust has
+been doing so well in the Python extension module landscape. There are two key
+projects: PyO3, which functions as a powerful pure Rust library for creating
+extensions (very much like pybind11 for C++), and Maturin, a very simple modern
+build system tied to Cargo (much like Scikit-build-core and CMake for
+C/C++/Fortran languages).
 
 ## Getting started
 
-Creating a new project is easy. Install maturin (`cargo install maturin`, `brew
-install maturin`, `pipx install maturin`, etc). Then you can use the maturin
-command line tool to quickly make a new project:
+Creating a new project is easy. Install maturin (`cargo install maturin`,
+`brew install maturin`, `pipx install maturin`, etc). Then you can use the
+maturin command line tool to quickly make a new project:
 
 ```console
 $ maturin new rust_example
 ```
 
 If you don't provide a binding mechanism to use, it will ask you. It will
-default to a pure-Rust project; you can add flags to get a mixed Python and
-Rust project instead (most more advanced projects will have at least some
-Python parts). Check the flags with `--help/-h`.
+default to a pure-Rust project; you can add flags to get a mixed Python and Rust
+project instead (most more advanced projects will have at least some Python
+parts). Check the flags with `--help/-h`.
 
 Now, you should have a project like this:
 
@@ -82,12 +82,13 @@ dynamic = ["version"]
 features = ["pyo3/extension-module"]
 ```
 
-The main thing of note here is the `tool.maturin.features` field, which tells
-it you have a PyO3 module. Otherwise, this is pretty similar to other build backends.
-It it able to pull the version from the `Cargo.toml` file if you include `"version"`
-in the `dynamic` list.
+The main thing of note here is the `tool.maturin.features` field, which tells it
+you have a PyO3 module. Otherwise, this is pretty similar to other build
+backends. It it able to pull the version from the `Cargo.toml` file if you
+include `"version"` in the `dynamic` list.
 
-Finally, we have the library itself. Here's the simple template example, `src/lib.rs`:
+Finally, we have the library itself. Here's the simple template example,
+`src/lib.rs`:
 
 ```rs
 use pyo3::prelude::*;
@@ -109,9 +110,9 @@ fn rust_example(m: &Bound<'_, PyModule>) -> PyResult<()> {
 It starts with a `use` statement that pulls in the basics for using PyO3.
 
 Then there's a docstring on a function (notice the triple slashes) - PyO3 will
-actually be able to capture this for the Python docstring! You can't natively
-do this in C++; you can write scripts that try to collect these, but Rust
-supports it natively.
+actually be able to capture this for the Python docstring! You can't natively do
+this in C++; you can write scripts that try to collect these, but Rust supports
+it natively.
 
 The function is annotated with `#[pyfunction]`, which will make it a function
 you can add to Python. You return a `PyResult<...>` if a function could "throw"
@@ -120,14 +121,13 @@ normal Rust values that have known conversions. Otherwise, it's pretty normal.
 (Actually, we don't ever return a non-OK value in this example, so feel free to
 simplify this to just return `String`).
 
-Now, we have a module. This is a function that sets up a module by taking a Bound
-PyModule and running `.add_*` functions on it to add (much like pybind11). Functions
-need to be given in the `wrap_pyfunction!` macro.
+Now, we have a module. This is a function that sets up a module by taking a
+Bound PyModule and running `.add_*` functions on it to add (much like pybind11).
+Functions need to be given in the `wrap_pyfunction!` macro.
 
-This is the classic interface; there's a new interface based
-on Rust inline modules that is much nicer, as well. Here's the new interface,
-currently (0.21) requires the `experimental-declarative-modules` (PyO3)
-feature:
+This is the classic interface; there's a new interface based on Rust inline
+modules that is much nicer, as well. Here's the new interface, currently (0.21)
+requires the `experimental-declarative-modules` (PyO3) feature:
 
 ```rs
 /// A Python module implemented in Rust.
@@ -163,6 +163,6 @@ mod rust_example {
 
 You can use all the usual Python tools (like pip, build, etc), but you can also
 build directly with maturin. In many cases, this will skip many of the Python
-calls altogether. The `maturin build` command will build a wheel. The `maturin
-develop` command will do an editable install (requires `pip` in the venv you
-are building in).
+calls altogether. The `maturin build` command will build a wheel. The
+`maturin develop` command will do an editable install (requires `pip` in the
+venv you are building in).
