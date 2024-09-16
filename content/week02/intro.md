@@ -125,4 +125,3 @@ Other resources for git:
 - https://ohshitgit.com/
 - http://gitready.com/
 - https://explainshell.com/
-

@@ -587,7 +587,8 @@ If now you type `git log`, you see that the `master` branch has merged the
 converging path anymore. Commits made in parallel in the `master` branch appear
 now after the `better_code` commits.
 
-Use this online tool: https://learngitbranching.js.org/?NODEMO to build examples that highlight the difference between `merge` and `rebase`.
+Use this online tool: https://learngitbranching.js.org/?NODEMO to build examples
+that highlight the difference between `merge` and `rebase`.
 
 ## See also
 
