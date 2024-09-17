@@ -2,6 +2,10 @@
 marp: true
 theme: gaia
 class: lead
+style: |
+  :root {
+    font-size: 30px;
+  }
 paginate: false
 backgroundColor: #fff
 backgroundImage: url('https://marp.app/assets/hero-background.svg')
