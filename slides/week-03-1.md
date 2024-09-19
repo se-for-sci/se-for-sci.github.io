@@ -168,4 +168,4 @@ Note that none of these are true x-unit style, because C++ doesn't have reflecti
 - **doctest**: Also built in, but tests docstrings instead of normal tests.
 - **xdoctest**: a better version of the standard library module that might even be usable in some cases.
 - **Hypothosis**: Property based testing (is an add-on to pytest)
-- [**ward**](https://github.com/darrenburns/ward): A rather new library that tries to rethink pytest to be even more modern. Interesting, at least.
+- [**ward**](https://github.com/darrenburns/ward): Abandoned but interesting ideas.
