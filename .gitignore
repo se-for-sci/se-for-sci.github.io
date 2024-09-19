@@ -183,9 +183,11 @@ cython_debug/
 .virtual_documents
 *.pixi
 *.a
+*.o
 a.out
 compile_flags.txt
 Untitled*
 content/week12/06-rust/Cargo.lock
 
-_output/
+_output/Volumes
+*.doit.db

@@ -50,7 +50,7 @@ def f(x):
     return x**2
 
 
-class TestFunction(unittest.testcase):
+class TestFunction(unittest.TestCase):
     def test_f(self):
         self.assertEqual(f(0), 0)
         self.assertEqual(f(1), 2)
@@ -146,7 +146,8 @@ something even better: **fixtures**. A fixture is:
 - **Optionally Automatic**: You can activate "autouse" on a fixture, which
   causes it to always apply to all tests where it's defined. This is great for
   fixtures that mock expensive or dangerous system calls.
-- **Easy to add Teardown**: There's a simple way to add teardown to any fixture.
+- **Easy to add Teardown**: There's a simple way to add teardown to any fixture
+  using `yield`.
 - **Easy to Parametrize**: You can parametrize tests via fixtures too.
 
 This is an example of _using_ a built-in fixture:
@@ -159,14 +160,15 @@ def test_printout(capsys):
 ```
 
 Notice the argument, `capsys` - you never "call" tests, so pytest looks up
-fixtures by the name of the argument you are requesting and passes them in.
+fixtures by the name of the argument you are requesting and passes them in. It's
+a clever use of Python's reflection and function arguments.
 
 The `capsys` fixture captures the system level text output. The `print` call is
 captured. Then we can call `.readouterr()` on the fixture and that gives us the
 stdout and stderr streams.
 
 A few good built-in fixtures
-([full list in pytest 7](https://docs.pytest.org/en/7.1.x/reference/fixtures.html)):
+([full list in pytest 8](https://docs.pytest.org/en/8.3.x/reference/fixtures.html)):
 
 - `capsys`: Capture stdout/stderr (most Python printing)
 - `capfd`: Capture using file descriptors (C extensions, etc) - use this if

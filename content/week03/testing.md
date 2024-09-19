@@ -260,8 +260,9 @@ Some Python testing frameworks:
 - **xdoctest**: a better version of the standard library module that might even
   be usable in some cases.
 - **Hypothosis**: Property based testing (is an add-on to pytest)
-- [**ward**](https://github.com/darrenburns/ward): A rather new library that
-  tries to rethink pytest to be even more modern. Interesting, at least.
+- [**ward**](https://github.com/darrenburns/ward): An abandoned library that
+  tried to rethink pytest to be even more modern. Interesting to see the ideas
+  here.
 
 In short: Use pytest, unless you are writing a Python standard library module.
 Which I assume you are not.
