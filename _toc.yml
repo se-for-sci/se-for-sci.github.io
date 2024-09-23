@@ -21,6 +21,7 @@ parts:
 
   - caption: "Week 3: Testing"
     chapters:
+      - file: content/week03/python_setup.md
       - file: content/week03/testing.md
       - file: content/week03/pytest.md
       - file: content/week03/tdd.md
