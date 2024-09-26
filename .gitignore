@@ -162,19 +162,18 @@ cython_debug/
 
 /content/week05/se-for-sci-example/
 /content/week05/textual_example/requirements.in
-/content/week09/cmake_example/**/*.cmake
-/content/week09/cmake_example/.ninja_log
-/content/week09/cmake_example/docs/Doxyfile.docs
-/content/week09/fortran_example
-/content/week12/*/*.whl
-/content/week12/*/setup.py
-/content/week12/03-pybind/src
-/content/week12/0[123]*/*.c
-/content/week12/0[123]*/*.cpp
-/content/week12/0[123]*/*.h
-/content/week12/0[123]*/*.hpp
-/content/week12/0[123]*/CMakeLists.txt
-/content/week12/0[123]*/pyproject.toml
+/content/week10/cmake_example/.ninja_log
+/content/week10/cmake_example/docs/Doxyfile.docs
+/content/week10/fortran_example
+/content/week09/*/*.whl
+/content/week09/*/setup.py
+/content/week09/03-pybind/src
+/content/week09/0[123]*/*.c
+/content/week09/0[123]*/*.cpp
+/content/week09/0[123]*/*.h
+/content/week09/0[123]*/*.hpp
+/content/week09/0[123]*/CMakeLists.txt
+/content/week09/0[123]*/pyproject.toml
 
 /slides/*.html
 
