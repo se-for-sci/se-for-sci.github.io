@@ -55,31 +55,32 @@ parts:
     chapters:
       - file: content/week08/typing.md
 
-  - caption: "Week 9: Intro to Compilation"
+  - caption: "Week 9: Mixing Languages"
     chapters:
-      - file: content/week09/Compiled_Languages.ipynb
-      - file: content/week09/compiled.md
-      - file: content/week09/rust.md
+      - file: content/week09/01-shared-objects/01-shared-objects.ipynb
+      - file: content/week09/02-cpython/02-cpython.ipynb
+      - file: content/week09/03-pybind/03a-pybind.ipynb
+      - file: content/week09/03-pybind/03b-pybind.ipynb
+      - file: content/week09/06-rust.md
 
-  - caption: "Week 10: Profiling"
+  - caption: "Week 10: Intro to Compilation"
     chapters:
-      - file: content/week10/debugging.md
-      - file: content/week10/profiling.md
+      - file: content/week10/Compiled_Languages.ipynb
+      - file: content/week10/compiled.md
+      - file: content/week10/rust.md
 
-  - caption: "Week 11: Parallel Computing"
+  - caption: "Week 11: Profiling"
     chapters:
-      - file: content/week11/intro.md
-      - file: content/week11/openmp.md
-      - file: content/week11/mpi.md
-      - file: content/week11/threading.md
+      - file: content/week11/debugging.md
+      - file: content/week11/profiling.md
 
-  - caption: "Week 12: Mixing Languages"
+  - caption: "Week 12: Parallel Computing"
     chapters:
-      - file: content/week12/01-shared-objects/01-shared-objects.ipynb
-      - file: content/week12/02-cpython/02-cpython.ipynb
-      - file: content/week12/03-pybind/03a-pybind.ipynb
-      - file: content/week12/03-pybind/03b-pybind.ipynb
-      - file: content/week12/06-rust.md
+      - file: content/week12/intro.md
+      - file: content/week12/openmp.md
+      - file: content/week12/mpi.md
+      - file: content/week12/threading.md
+
 
   - caption: "Bonus: Exotic topics"
     chapters:

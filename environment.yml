@@ -2,24 +2,26 @@ name: se-for-sci
 channels:
   - conda-forge
 dependencies:
-  - black
-  - cattrs
-  - cffi
+  - black *
+  - cattrs *
+  - cffi *
   - ipykernel >=6.0
   - ipython >=8.0
-  - ipywidgets
-  - jupyter-book
+  - ipywidgets *
+  - jupyter-book *
   - jupyterlab >=3
+  - line_profiler *
   - matplotlib >=3.5
   - mypy >=1
-  - nb_conda_kernels
-  - numba
+  - nb_conda_kernels *
+  - numba *
   - numpy >=1.20
   - pandas >=1.3
-  - pip
+  - pip >=22
   - pybind11 >=2.10
   - pytest >7
-  - python ==3.11.*
   - rich >=11
-  - scikit-build-core
-  - sphinxcontrib-mermaid
+  - scikit-build-core >=0.8
+  - scipy *
+  - sphinxcontrib-mermaid *
+  - ninja >=1.10
