@@ -81,7 +81,6 @@ parts:
       - file: content/week12/mpi.md
       - file: content/week12/threading.md
 
-
   - caption: "Bonus: Exotic topics"
     chapters:
       - file: content/week13/webassembly.md
