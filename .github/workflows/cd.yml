@@ -42,7 +42,7 @@ jobs:
 
       - name: Build the Pyodide output
         run: |
-          pipx run nox -s pyodide
+          uvx nox -s pyodide
 
       - uses: actions/upload-artifact@v4
         with:
