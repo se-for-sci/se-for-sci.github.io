@@ -15,7 +15,7 @@ jobs:
   dist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Build SDist and wheel
         run: pipx run build
@@ -35,10 +35,9 @@ jobs:
           name: artifact
           path: dist
 
-      - uses: pypa/gh-action-pypi-publish@v1.5.1
+      - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository_url: https://test.pypi.org/legacy/
-          password: ${{ secrets.pypi_password }}
 ```
 
 This workflow is triggerable manually (by clicking in the web interface), as
@@ -52,3 +51,6 @@ download the files from the first job.
 
 This does not have to be in two jobs, but this does scale a bit better if you
 need to do something more complex, like build binaries.
+
+If you aren't setting up Trusted Publishing on the PyPI/TestPyPI sites, then
+`password: ${{ secrets.pypi_password }}` can be used to pass in a token.

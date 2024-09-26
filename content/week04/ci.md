@@ -75,11 +75,11 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install package
         run: python -m pip install .[test]
@@ -245,11 +245,11 @@ lint:
   name: Lint
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
       with:
         python-version: "3.x"
-    - uses: pre-commit/action@v3.0.0
+    - uses: pre-commit/action@v3.0.1
 ```
 
 If you do use [pre-commit.ci](https://pre-commit.ci), but you need this job to
@@ -274,14 +274,14 @@ tests:
     fail-fast: false
     matrix:
       python-version:
-        - "3.7"
-        - "3.11"
+        - "3.9"
+        - "3.12"
   name: Check Python ${{ matrix.python-version }}
   steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
