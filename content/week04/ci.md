@@ -423,7 +423,7 @@ configure Pages.
 ```yaml
 - name: Setup Pages
   id: pages
-  uses: actions/configure-pages@v2
+  uses: actions/configure-pages@v5
 ```
 
 Notice this action sets an `id:`; this will allow you to use the outputs from
@@ -434,7 +434,7 @@ this action later; specifically, may want to use
 
 ```yaml
 - name: Upload artifact
-  uses: actions/upload-pages-artifact@v1
+  uses: actions/upload-pages-artifact@v3
 ```
 
 This actions defaults to uploading `_site`, but you can give any `with: path:`
@@ -454,7 +454,7 @@ deploy:
   steps:
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v4
 ```
 
 The deploy-pages job gives a `page_url`, which is the same as `base_url` on the

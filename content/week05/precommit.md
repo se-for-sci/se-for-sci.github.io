@@ -40,7 +40,7 @@ Here is a minimal `.pre-commit-config.yaml` file with some handy options:
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "v4.4.0"
+    rev: "v4.6.0"
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -65,7 +65,7 @@ branch here.
 
 ## A selection of pre-commit checks
 
-### Black
+### Black / Ruff-format
 
 [Black](https://black.readthedocs.io/en/latest/) is a popular auto-formatter
 from the Python Software Foundation. One of the main features of Black is that
@@ -91,7 +91,7 @@ Here is the snippet to add Black to your `.pre-commit-config.yml`:
 
 ```yaml
 - repo: https://github.com/psf/black-pre-commit-mirror
-  rev: "23.9.1"
+  rev: "24.8.0"
   hooks:
     - id: black
 ```
@@ -104,6 +104,9 @@ a way to make the Blacked code look better by rewriting your code; factor out
 long unreadable portions into a variable, avoid writing matrices as 1D lists,
 etc.
 
+Note that Ruff-format is 99.9% identical and 10-50x faster, so just use that
+these days.
+
 #### Jupyter notebook support
 
 If you want Black for Jupyter notebooks _too_, replace `id: black` with
@@ -112,7 +115,7 @@ Jupyter outputs:
 
 ```yaml
 - repo: https://github.com/kynan/nbstripout
-  rev: "0.6.1"
+  rev: "0.7.1"
   hooks:
     - id: nbstripout
 ```
@@ -126,7 +129,7 @@ The MyPy addition for pre-commit:
 
 ```yaml
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: "v1.5.1"
+  rev: "v1.11.2"
   hooks:
     - id: mypy
       files: src
@@ -186,21 +189,21 @@ failures from plugins updating without updating your pre-commit hook.
 
 ```yaml
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: "v0.0.292"
+  rev: "v0.6.8"
   hooks:
     - id: ruff
       args: ["--fix", "--show-fixes"]
+    - id: ruff-format
 ```
 
 The `--fix` argument is optional, but recommended, since you can inspect and
-undo changes in git.
+undo changes in git. The `ruff-format` hook will run the formatter.
 
 Ruff is configured in your `pyproject.toml`. Here's an example:
 
 ```toml
-[tool.ruff]
-select = [
-  "E", "F", "W", # flake8
+[tool.ruff.lint]
+extend-select = [
   "B",           # flake8-bugbear
   "I",           # isort
   "ARG",         # flake8-unused-arguments
@@ -224,18 +227,11 @@ select = [
   "NPY",         # NumPy specific rules
   "PD",          # pandas-vet
 ]
-extend-ignore = [
+ignore = [
   "PLR",    # Design related pylint codes
-  "E501",   # Line too long
   "PT004",  # Use underscore for non-returning fixture (use usefixture instead)
+  "ISC001", # Conflicts with formatter
 ]
-typing-modules = ["mypackage._compat.typing"]
-src = ["src"]
-unfixable = [
-  "T20",  # Removes print statements
-  "F841", # Removes unused variables
-]
-exclude = []
 flake8-unused-arguments.ignore-variadic-names = true
 isort.required-imports = ["from __future__ import annotations"]
 
@@ -265,7 +261,8 @@ without this).
 Here are some good error codes to enable on most (but not all!) projects:
 
 - `E`, `F`, `W`: These are the standard flake8 checks, classic checks that have
-  stood the test of time.
+  stood the test of time. Most of these are enabled by default, except for a few
+  that clash with formatting.
 - `B`: This finds patterns that are very bug-prone.
 - `I`: This sorts your includes. There are multiple benefits, such as smaller
   diffs, fewer conflicts, a way to auto-inject `__future__` imports, and easier
@@ -306,7 +303,7 @@ spell checkers, this has a list of mistakes it looks for, rather than a list of
 
 ```yaml
 - repo: https://github.com/codespell-project/codespell
-  rev: "v2.2.5"
+  rev: "v2.3.0"
   hooks:
     - id: codespell
       args: ["-L", "sur,nd"]

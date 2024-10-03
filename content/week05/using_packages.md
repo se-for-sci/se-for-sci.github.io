@@ -95,6 +95,33 @@ specify extras, etc:
 pipx run --spec cibuildwheel==2.9.0 cibuildwheel --platform linux
 ```
 
+#### Self-contained scripts
+
+You can now make a self-contained script; that is, one that describes it's own
+requirements. You could make a `print_blue.py` file that looks like this:
+
+```python
+# /// script
+# dependencies = ["rich"]
+# requires-python = ">=3.11"
+# ///
+
+import rich
+
+rich.print("[blue]This worked!")
+```
+
+Then run it with almost any tool that understands this:
+
+```bash
+pipx run ./print_blue.py
+uv run ./print_blue.py
+hatch run ./print_blue.py
+```
+
+These will make an environment with the specifications you give and run it for
+you.
+
 ### Environment tools
 
 There are other tools we are about to talk about, like `virtualenv`, `poetry`,
