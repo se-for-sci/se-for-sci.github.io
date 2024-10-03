@@ -61,6 +61,7 @@ def book(session: nox.Session) -> None:
     )
     session.run("jupyter-book", "build", ".", env=env)
 
+
 PC_VERS = re.compile(
     r"""\
 ^( *)- repo: (.*?)
@@ -84,7 +85,7 @@ def pc_bump(session: nox.Session) -> None:
     session.install("lastversion>=3.4")
     versions = {}
     pages = Path("content").glob("**/*.md")
-        
+
     for page in pages:
         txt = page.read_text()
         old_versions = {m[2]: (m[3].strip('"'), m[1]) for m in PC_VERS.finditer(txt)}
