@@ -65,7 +65,7 @@ branch here.
 
 ## A selection of pre-commit checks
 
-### Black
+### Black / Ruff-format
 
 [Black](https://black.readthedocs.io/en/latest/) is a popular auto-formatter
 from the Python Software Foundation. One of the main features of Black is that
@@ -103,6 +103,9 @@ consider refactoring before you try this option! Most of the time, you can find
 a way to make the Blacked code look better by rewriting your code; factor out
 long unreadable portions into a variable, avoid writing matrices as 1D lists,
 etc.
+
+Note that Ruff-format is 99.9% identical and 10-50x faster, so just use that
+these days.
 
 #### Jupyter notebook support
 
@@ -190,17 +193,17 @@ failures from plugins updating without updating your pre-commit hook.
   hooks:
     - id: ruff
       args: ["--fix", "--show-fixes"]
+    - id: ruff-format
 ```
 
 The `--fix` argument is optional, but recommended, since you can inspect and
-undo changes in git.
+undo changes in git. The `ruff-format` hook will run the formatter.
 
 Ruff is configured in your `pyproject.toml`. Here's an example:
 
 ```toml
-[tool.ruff]
-select = [
-  "E", "F", "W", # flake8
+[tool.ruff.lint]
+extend-select = [
   "B",           # flake8-bugbear
   "I",           # isort
   "ARG",         # flake8-unused-arguments
@@ -224,18 +227,11 @@ select = [
   "NPY",         # NumPy specific rules
   "PD",          # pandas-vet
 ]
-extend-ignore = [
+ignore = [
   "PLR",    # Design related pylint codes
-  "E501",   # Line too long
   "PT004",  # Use underscore for non-returning fixture (use usefixture instead)
+  "ISC001", # Conflicts with formatter
 ]
-typing-modules = ["mypackage._compat.typing"]
-src = ["src"]
-unfixable = [
-  "T20",  # Removes print statements
-  "F841", # Removes unused variables
-]
-exclude = []
 flake8-unused-arguments.ignore-variadic-names = true
 isort.required-imports = ["from __future__ import annotations"]
 
@@ -265,7 +261,8 @@ without this).
 Here are some good error codes to enable on most (but not all!) projects:
 
 - `E`, `F`, `W`: These are the standard flake8 checks, classic checks that have
-  stood the test of time.
+  stood the test of time. Most of these are enabled by default, except for a few
+  that clash with formatting.
 - `B`: This finds patterns that are very bug-prone.
 - `I`: This sorts your includes. There are multiple benefits, such as smaller
   diffs, fewer conflicts, a way to auto-inject `__future__` imports, and easier
