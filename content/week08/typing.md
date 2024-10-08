@@ -171,12 +171,12 @@ works. And occasionally figuring out the type of something you aren't sure of.
 ```
 
 ````{admonition} Using modern typing annotations even in older languages
-If a Python 3.7+ file starts with:
+If a file starts with:
 ```python
 from __future__ import annotations
 ```
 Then all type annotations in the file will be unevaluated strings. This means
-you can use Python 3.12 syntax in them, and even Python 3.7 will happily work!
+you can use Python 3.13 syntax in them, and even Python 3.7 will happily work!
 This is great, as every version up to 3.10 has had large improvements for
 typing.  We will use the new syntax exclusively; add the above import to follow
 along on older Python versions.

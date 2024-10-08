@@ -275,7 +275,7 @@ tests:
     matrix:
       python-version:
         - "3.9"
-        - "3.12"
+        - "3.13"
   name: Check Python ${{ matrix.python-version }}
   steps:
     - uses: actions/checkout@v4
