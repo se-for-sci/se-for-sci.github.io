@@ -132,6 +132,9 @@ class Vector2D:
         if not isinstance(other, Vector):
             return NotImplemented
         return self.x == other.x and self.y == other.y
+
+    def __replace__(self, **kwargs):
+        return self.__class__(**(self.__dict__ | kwargs))
 ```
 
 ---
@@ -518,3 +521,16 @@ class Configuration:
     def to_dict(self):
         return dataclasses.asdict(self)
 ```
+
+---
+
+## Tools based on these ideas
+
+- attrs: The original inspiration for dataclasses, and more powerful (includes converters).
+- cattrs: A tool to write converters for dataclasses and attrs classes.
+- pydantic: An all-in-one system for converting and describing, powered by Rust now.
+- sqlalchemy: Designed for SQL, uses either it's own classes or dataclasses.
+
+Rust has similar projects, based on syntactic macros.
+
+This is very powerful as a design pattern!

@@ -498,6 +498,9 @@ class Vector:
             return (self.x, self.y) == (other.x, other.y)
         return NotImplemented
 
+    def __replace__(self, **kwargs):
+        return self.__class__(**(self.__dict__ | kwargs))
+
     __hash__ = None
 ```
 ````
@@ -512,18 +515,22 @@ members unsettable by wrapping every member with a property (a non-trivial
 amount of code!) and will generate a `__hash__` as well. Python 3.10 added two
 more fantastic options, `slots=True` and `kw_only=True`, too. Notice the
 `__match_args__` that got added for free in Python 3.10; you get free improved
-support for Python 3.10 pattern matching just by using dataclasses!
+support for Python 3.10 pattern matching just by using dataclasses. The same
+thing happened again for 3.13 and the `copy.replace()` protocol `__replace__`.
 
 You can use [undataclasses](https://www.pythonmorsels.com/undataclass/) to see
 exactly what dataclasses is supposed to be doing for you. (It's recomputed, so
-could be _slightly_ off. `__hash__ = None` is missing at time of writing.)
+could be _slightly_ off. `__hash__ = None` is missing, along with
+`__replace__`.)
 
 The `dataclasses` module has other useful tools in it, as well. You have tools
 to control each field when you define them. You also have a way to iterate over
 all the fields. There's a tool to convert to a `dict` or a `tuple`; dicts can be
 then combined with other libraries like the `json` library. And there's a
-`replace` function that will make a new dataclass but with a subset of fields
-replaced, which can help you "modify" a frozen instance by making a new one.
+`dataclass.replace` function that will make a new dataclass but with a subset of
+fields replaced, which can help you "modify" a frozen instance by making a new
+one. (This is identical to `copy.replace` in Python 3.13+ but only works on
+dataclasses and is available and any version of Python with dataclasses.)
 
 Dataclasses are a really great way to use OOP as data + actions (which is a
 really important usage) without having to learn or write a lot of boilerplate.
