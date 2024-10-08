@@ -37,10 +37,10 @@ the course, you should set up a ssh key pair so we can push to GitHub.
 
 ## Python
 
-For Python, we'll use a recent version of Python (3.10+ highly recommended, 3.8+
+For Python, we'll use a recent version of Python (3.11+ highly recommended, 3.9+
 is _probably_ okay). One way to get Python is via Conda (like anaconda,
 miniconda, etc). Another way is to use homebrew (often on Linux). If you are
-using Ubuntu 22.04, the system Python will be fine.
+using Ubuntu 22.04 or newer, the system Python will be fine.
 
 ## Compiler
 
