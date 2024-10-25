@@ -2,6 +2,13 @@ import numpy as np
 import abc
 
 
+__all__ = ["EulerIntegrator", "RK4Integrator"]
+
+
+def __dir__():
+    return __all__
+
+
 class IntegratorBase(abc.ABC):
     @abc.abstractmethod
     def compute_step(self, f, t_n, y_n, h):

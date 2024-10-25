@@ -845,12 +845,14 @@ We didn't cover every pattern (and we can't), so here are a few more you can
 look up if you are curious:
 
 - Singleton pattern: There can only be one instance of a class. `None`, `True`,
-  and `False` are singletons in Python.
-- Registries: `logging` uses this design.
+  and `False` are singletons in Python. There are several ways to achieve these.
+- Registries: `logging` uses this design. You collect a global dict of instances
+  and can access them by name.
 - State machine: this is used heavily by Matlab, and sometimes is seen in things
-  mimicking it, like matplotlib's "easy" interface.
+  mimicking it, like matplotlib's "easy" interface. You track which item is
+  "active". Bad for multithreaded environments.
 - Factory pattern: We've touched on this lightly, classes `__init__` method, for
   example. You can have other factories with `@classmethod`'s that return new
-  instances. (or static methods in C++, etc)
+  instances. (or static methods in C++, etc).
 - Ascync patterns: Lightly touched on during generators.
 - Event loop: A common pattern for reacting to multiple possible inputs.

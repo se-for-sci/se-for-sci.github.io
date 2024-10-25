@@ -312,8 +312,8 @@ int main() {
     std::vector<int> items {1, 2, 3, 4, 5};
     auto odd_sq = items | std::views::transform([](int i){return i*i;})
                         | std::views::filter([](int i){return i%2==1;});
-    sum_sq_odds = std::accumulate(std::begin(odd_sq), std::end(odd_sq), 0, [](int a, int b){return a + b;})
-    std::cout << result << std::endl;
+    auto sum_sq_odds = std::accumulate(std::begin(odd_sq), std::end(odd_sq), 0, [](int a, int b){return a + b;})
+    std::cout << sum_sq_odds << std::endl;
     return 0;
 }
 ```
@@ -321,6 +321,23 @@ int main() {
 Not that C++ is slowly gaining support; `std::fold_left` is in C++23, but for
 C++20, we have to drop back to a classic `std::accumulate` algorithm & begin
 and end iterators.
+
+````
+````{tab-item} C++23 Ranges
+```cpp
+import std;
+
+int main() {
+    std::vector items {1, 2, 3, 4, 5};
+    auto odd_sq = items | std::views::transform([](int i){return i*i;})
+                        | std::views::filter([](int i){return i%2==1;});
+    auto sum_sq_odds = std::ranges::fold_left(odd_sq, 0, [](int a, int b){return a + b;});
+    std::println("{}", sum_sq_odds);
+    return 0;
+}
+```
+
+Not that stdlib module support is not available yet.
 
 ````
 ````{tab-item} Rust
@@ -333,6 +350,16 @@ fn main() {
                       .fold(0, |acc, x| acc + x);
     println!("{}", sum_sq_odds);
 }
+```
+````
+
+````{tab-item} Swift
+```swift
+let items = [1, 2, 3, 4, 5]
+let sum_sq_odds = items.map { $0 * $0 }
+                       .filter { $0 % 2 == 1 }
+                       .reduce(0, +)
+print(sum_sq_odds)
 ```
 ````
 `````
@@ -515,4 +542,8 @@ tools that sometimes are better in some situations, including the excellent
 Numba library, which is imperative. PyTorch is a great ML-focused library. CuPy
 is a great GPU NumPy replacement. Etc. JAX here is just intended to be an
 example of what thinking in a functional mindset can do.
+```
+
+```
+
 ```

@@ -176,7 +176,7 @@ If a file starts with:
 from __future__ import annotations
 ```
 Then all type annotations in the file will be unevaluated strings. This means
-you can use Python 3.13 syntax in them, and even Python 3.7 will happily work!
+you can use Python 3.13 syntax in them, and any Python 3.7+ will happily work!
 This is great, as every version up to 3.10 has had large improvements for
 typing.  We will use the new syntax exclusively; add the above import to follow
 along on older Python versions.
@@ -249,7 +249,7 @@ general, you should be more strict with typing than with runtime.
 Type annotations can appear in any of the following locations:
 
 ```python
-# Variable annotation (3.6+)
+# Variable annotation
 x: int = 2
 
 # No assignment is allowed ("declaration")
@@ -965,7 +965,7 @@ even if `from __future__ import annotations` is used, since it's new syntax and
 not an annotation.
 
 `````{tab-set}
-````{tab-item} Python 3.6+
+````{tab-item} Python <3.12
 ```python
 from typing import TypeVar
 
@@ -976,7 +976,7 @@ def f(x: T) -> T:
     return x
 ```
 ````
-````{tab-item} Python 3.12+
+````{tab-item} Python >=3.12
 ```python
 def f[T](x: T) -> T:
     return x

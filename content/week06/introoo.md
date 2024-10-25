@@ -198,6 +198,41 @@ impl Path {
 }
 ```
 ````
+````{tab-item} Swift
+```swift
+import Foundation
+
+class Path {
+    let stringLocation: String
+
+    init(stringLocation: String) {
+        self.stringLocation = stringLocation
+    }
+
+    func exists() -> Bool {
+        return FileManager.default.fileExists(atPath: stringLocation)
+    }
+}
+```
+````
+````{tab-item} Go
+```go
+import "os"
+
+type Path struct {
+	stringLocation string
+}
+
+func NewPath(stringLocation string) *Path {
+	return &Path{stringLocation: stringLocation}
+}
+
+func (p *Path) Exists() bool {
+	_, err := os.Stat(p.stringLocation)
+	return !os.IsNotExist(err)
+}
+```
+````
 `````
 
 This gives us several benefits: If we get a Path, we know it has

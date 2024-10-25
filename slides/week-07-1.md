@@ -289,17 +289,17 @@ fn main() {
 
 ---
 
-## Other languages: C++23 (not supported yet)
+## Other languages: C++23 (modules not supported yet)
 
 ```cpp
 import std;
 
 int main() {
     std::vector items {1, 2, 3, 4, 5};
-    auto result = items | std::views::transform([](int i){return i*i;})
+    auto odd_sq = items | std::views::transform([](int i){return i*i;})
                         | std::views::filter([](int i){return i%2==1;});
-    sum_sq_odds = std::fold_left(odd_sq, 0, [](int a, int b){return a + b;});
-    std::println("{}", result);
+    auto sum_sq_odds = std::fold_left(odd_sq, 0, [](int a, int b){return a + b;});
+    std::println("{}", sum_sq_odds);
     return 0;
 }
 ```
