@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: astral-sh/setup-uv@v3
+      - uses: astral-sh/setup-uv@v4
 
       - name: Build the Pyodide output
         run: |
