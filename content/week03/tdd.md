@@ -55,7 +55,7 @@ function should have and when to _stop_ coding.
 
 ## TDD
 
-TDD is a fundamental apsect of agile software development where no code is
+TDD is a fundamental aspect of agile software development where no code is
 written without first having a test covering the feature. Development proceeds
 through a cycle of red, green, refactor.
 

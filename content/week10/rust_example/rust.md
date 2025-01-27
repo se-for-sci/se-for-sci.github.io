@@ -1,10 +1,11 @@
 # Intro to Rust
 
 This is an introduction to some of the unique design of Rust. This is not
-comprehensive - the fantastic [Rust Book][] is much better if you want to fully learn
-Rust. Instead, we'll look at how it's different from what we've seen so far in Python,
-and discuss some of the aspects that make special, like how it is memory safe without
-resorting to a garbage collector, the trait system, and syntactic macros.
+comprehensive - the fantastic [Rust Book][] is much better if you want to fully
+learn Rust. Instead, we'll look at how it's different from what we've seen so
+far in Python, and discuss some of the aspects that make special, like how it is
+memory safe without resorting to a garbage collector, the trait system, and
+syntactic macros.
 
 ## Basic syntax
 
