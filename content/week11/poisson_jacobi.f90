@@ -55,7 +55,7 @@ program poisson
      end do
   end do
   ftot = 0. !ftot/dble(n*n)
-  
+
   ! Main loop
   ffac = h**2.
   err  = huge(err)
@@ -68,11 +68,11 @@ program poisson
 
      do j = 1,n
         do i = 1,n
-           
+
            lap = uold(i-1,j)+uold(i+1,j)+uold(i,j-1)+uold(i,j+1)-4.0*uold(i,j)
            res = lap - ffac * (f(i,j) - ftot)
            unew(i,j) = uold(i,j) + omega*0.25*res
-           
+
            err = MAX(err,abs(unew(i,j) - uold(i,j)))
         end do
      end do
@@ -84,13 +84,13 @@ program poisson
         unew(0,i) = 0. !unew(n,i)
         unew(n+1,i) = 0. !unew(1,i)
      end do
-     
+
      do j = 1,n
 	do i = 1,n
            uold(i,j) = unew(i,j)
         end do
      end do
-     
+
      iter = iter + 1
      if ((mod(iter,OUTFREQ) .eq. 0) .or. (err .lt. eps)) then
         write(*, '(A, I8, A, ES13.6)') 'Iter. ', iter, ', err = ', err
@@ -103,7 +103,7 @@ program poisson
 
   write(*,'(A, ES13.6, A)') 'Finished in ', stop-strt, ' s'
 
-  
+
   ! Final time step output
   if (FOUT) then
      open(7, file = 'final_phi.dat')
@@ -113,9 +113,9 @@ program poisson
      end do
      close(7)
   end if
-  
+
   deallocate(uold)
   deallocate(unew)
   deallocate(f)
-  
+
 end program poisson
