@@ -124,6 +124,42 @@ longer have to look at the whole program, but just smaller, digestible parts.
 Everyone learning a language will know what these common constructs are. No one
 will know what your special constructs are.
 
+
+#### Example: match
+
+Let's quickly apply this to a much newer example. Take the following code that
+provides different printouts for different structures:
+
+```python
+if isinstance(x, list):
+   print(*x)
+elif isinstance(x, dict):
+   print(*(f"{k}={v}" for k, v in x.items()))
+else:
+   print(x)
+```
+
+versus using pattern matching:
+
+```python
+match x:
+   case [*_]:
+       print(*x)
+   case {}:
+       print(*(f"{k}={v}" for k, v in x.items()))
+   case _:
+       print(x)
+```
+
+The pattern matching case is more focused, so it takes less reading. You know
+from the first line `match x` that this is based on the variable `x`; in the if
+chain, you could have switched to some other variable partway down the chain,
+so the reader has to look at each branch to verify you are just processing one
+variable. The language has built-in support for various situations, while the
+manual form would require you write everything out. There's a learning curve to
+the more specific structure, but anyone learning the language learns it once,
+rather than rereading it or rewriting it every time in every codebase.
+
 ## Course structure
 
 The challenges of this course:

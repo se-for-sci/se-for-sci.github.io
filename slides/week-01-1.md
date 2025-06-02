@@ -100,6 +100,29 @@ for i in range(10):
     compute(i)
 ```
 
+## Example: match
+
+```python
+if isinstance(x, list):
+   print(*x)
+elif isinstance(x, dict):
+   print(*(f"{k}={v}" for k, v in x.items()))
+else:
+   print(x)
+```
+
+vs.
+
+```python
+match x:
+   case [*_]:
+       print(*x)
+   case {}:
+       print(*(f"{k}={v}" for k, v in x.items()))
+   case _:
+       print(x)
+```
+
 ---
 
 ## Course structure
