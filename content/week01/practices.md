@@ -272,7 +272,7 @@ get_rect_area(x1, y1, x2, y2)
 ```
 
 Someone calling the function could easily make a mistake:
-`get_rect_area(x1, x2, y1, y1)` for example. However, if you bundle this:
+`get_rect_area(x1, x2, y1, y2)` for example. However, if you bundle this:
 
 ```python
 def get_rect_area(point_1, point_2): ...  # does stuff
