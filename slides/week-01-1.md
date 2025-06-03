@@ -100,6 +100,8 @@ for i in range(10):
     compute(i)
 ```
 
+---
+
 ## Example: match
 
 ```python
