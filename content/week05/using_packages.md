@@ -104,9 +104,9 @@ pipx run build
 > you do not need `actions/setup-python` to run it.
 
 If the command and the package have different names, then you may have to write
-this with a `--spec` (`--from` with uvx), though pipx has a way to customize this, and it will try
-to guess if there's only one command in the package. You can also pin exactly,
-specify extras, etc:
+this with a `--spec` (`--from` with uvx), though pipx has a way to customize
+this, and it will try to guess if there's only one command in the package. You
+can also pin exactly, specify extras, etc:
 
 `````{tab-set}
 ````{tab-item} uv
@@ -260,8 +260,9 @@ versions of most tools support it. It looks like this:
 dev = ["pytest"]
 ```
 
-You can install it with `--group dev`. The high-level interface to uv automatically
-installs the `dev` group, so using this makes `uv run` work out of the box.
+You can install it with `--group dev`. The high-level interface to uv
+automatically installs the `dev` group, so using this makes `uv run` work out of
+the box.
 
 ### Conda environments
 

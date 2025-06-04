@@ -66,9 +66,8 @@ dependency to Conda, while Pip can only install to an existing Python.
 
 There are several packages, so here's a quick summary:
 
-- **Conda**: The original, written in Python. The resolver is now from Mamba,
-  so it's much closer to speed in mamba that is used to be.
-  a large ecosystem.
+- **Conda**: The original, written in Python. The resolver is now from Mamba, so
+  it's much closer to speed in mamba that is used to be. a large ecosystem.
 - **Mamba**: A faster, drop-in replacement for conda that uses a different
   dependency resolver and is written in C++.
 - **MicroMamba**: Used to be different from Mamba, but now is simply a
@@ -77,7 +76,7 @@ There are several packages, so here's a quick summary:
   Unlike uv, it does not have a low-level API to match conda/mamba.
 
 It turns out, writing a tool that can get Python, in Python, has bad
-chicken-and-egg problem.  That's why it's been rewritten not once, but twice, in
+chicken-and-egg problem. That's why it's been rewritten not once, but twice, in
 compiled languages.
 
 Which do you pick? I'll focus on PyPI; it's the "official" ecosystem, and most

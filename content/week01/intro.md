@@ -124,7 +124,6 @@ longer have to look at the whole program, but just smaller, digestible parts.
 Everyone learning a language will know what these common constructs are. No one
 will know what your special constructs are.
 
-
 #### Example: match
 
 Let's quickly apply this to a much newer example. Take the following code that
@@ -153,8 +152,8 @@ match x:
 
 The pattern matching case is more focused, so it takes less reading. You know
 from the first line `match x` that this is based on the variable `x`; in the if
-chain, you could have switched to some other variable partway down the chain,
-so the reader has to look at each branch to verify you are just processing one
+chain, you could have switched to some other variable partway down the chain, so
+the reader has to look at each branch to verify you are just processing one
 variable. The language has built-in support for various situations, while the
 manual form would require you write everything out. There's a learning curve to
 the more specific structure, but anyone learning the language learns it once,

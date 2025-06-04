@@ -15,48 +15,44 @@ backgroundImage: url('https://marp.app/assets/hero-background.svg')
 
 ## Pip / uv and PyPI
 
-* PyPI hosts packages for pip / uv
-* pip: the canonical package manager for Python
-* uv: a Rust rewrite of pip, 10-100x faster
-    * 20% of PyPI downloads now come from uv!
-    * Also has a high-level API
-
+- PyPI hosts packages for pip / uv
+- pip: the canonical package manager for Python
+- uv: a Rust rewrite of pip, 10-100x faster
+  - 20% of PyPI downloads now come from uv!
+  - Also has a high-level API
 
 ---
 
 ## Conda/Mamba/MicroMamba/Pixi and conda-forge
 
-* Conda: multipurpose packager with Python focus
-    * Written _in_ Python
-    * Now contains the libmamba solver (in C++)
-* mamba: a faster conda written in C++
-* micromamba: Used to be different, now (2.0) a statically linked mamba
-* pixi: a Rust rewrite of conda, with a new high-level API
-    * No low-level API to match conda/mamba
+- Conda: multipurpose packager with Python focus
+  - Written _in_ Python
+  - Now contains the libmamba solver (in C++)
+- mamba: a faster conda written in C++
+- micromamba: Used to be different, now (2.0) a statically linked mamba
+- pixi: a Rust rewrite of conda, with a new high-level API
+  - No low-level API to match conda/mamba
 
 ---
 
 ## Which to use?
 
-* PyPI is the official ecosystem, most packages are there
-* Package owners control PyPI, while conda-forge is community driven
-* If you develop a package, PyPI is first
-* Conda tools can use PyPI packages
+- PyPI is the official ecosystem, most packages are there
+- Package owners control PyPI, while conda-forge is community driven
+- If you develop a package, PyPI is first
+- Conda tools can use PyPI packages
 
 So we'll focus on PyPI.
 
 The course website is a pixi project, by the way.
 
-
 ---
-
 
 ## Getting started with uv
 
 There are lots of ways to install uv. It's just a single Rust compiled binary.
 
 <https://docs.astral.sh/uv/getting-started/installation/>
-
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -117,7 +113,6 @@ This will create a temporary virtual environment, install the package, run it. T
 (I believe this name was inspired by `npx` from JavaScript, which does the same thing.)
 
 ---
-
 
 ## Quick scripts
 
@@ -189,8 +184,8 @@ For an existing project, you just need `uv run`!
 
 See `uv --help`
 
-* `uv python` can manage installed Pythons
-* `uv build` can build packages
-* `uv publish` can publish packages
-* `uv tree` can show the dependency tree
-* `uv self` can manage uv itself
+- `uv python` can manage installed Pythons
+- `uv build` can build packages
+- `uv publish` can publish packages
+- `uv tree` can show the dependency tree
+- `uv self` can manage uv itself
