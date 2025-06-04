@@ -132,23 +132,23 @@ provides different printouts for different structures:
 
 ```python
 if isinstance(x, list):
-   print(*x)
+    print(*x)
 elif isinstance(x, dict):
-   print(*(f"{k}={v}" for k, v in x.items()))
+    print(*(f"{k}={v}" for k, v in x.items()))
 else:
-   print(x)
+    print(x)
 ```
 
 versus using pattern matching:
 
 ```python
 match x:
-   case [*_]:
-       print(*x)
-   case {}:
-       print(*(f"{k}={v}" for k, v in x.items()))
-   case _:
-       print(x)
+    case [*_]:
+        print(*x)
+    case {}:
+        print(*(f"{k}={v}" for k, v in x.items()))
+    case _:
+        print(x)
 ```
 
 The pattern matching case is more focused, so it takes less reading. You know
