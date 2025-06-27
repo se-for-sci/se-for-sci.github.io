@@ -34,7 +34,6 @@ import typing
 ## Static typing
 
 - What is the best thing about Python? No explicit typing
-
   - Easy to read a little code
   - Easier to learn
 
