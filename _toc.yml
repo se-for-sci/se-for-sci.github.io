@@ -66,20 +66,20 @@ parts:
   - caption: "Week 10: Intro to Compilation"
     chapters:
       - file: content/week10/Compiled_Languages.ipynb
-      - file: content/week10/compiled.md
-      - file: content/week10/rust.md
+      - file: content/week10/rust_example/compiled.md
+      - file: content/week10/rust_example/rust.md
+      - file: content/week10/debugging.md
+      - file: content/week10/profiling.md
 
-  - caption: "Week 11: Profiling"
+  - caption: "Week 11: Parallel Computing"
     chapters:
-      - file: content/week11/debugging.md
-      - file: content/week11/profiling.md
+      - file: content/week11/intro.md
+      - file: content/week11/openmp.md
+      - file: content/week11/threading.md
 
-  - caption: "Week 12: Parallel Computing"
+  - caption: "Week 12: Distributed Computing"
     chapters:
-      - file: content/week12/intro.md
-      - file: content/week12/openmp.md
       - file: content/week12/mpi.md
-      - file: content/week12/threading.md
 
   - caption: "Bonus: Exotic topics"
     chapters:

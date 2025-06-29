@@ -8,7 +8,6 @@ system.
 Old school techniques are usually bad.
 
 - Version filenames is a disaster.
-
   - mythesis_v1.tex, mythesis_v2.tex, mythesis_last_v3.tex
   - creates clutter
   - Filenames rarely contain information other than chronology
@@ -17,7 +16,6 @@ Old school techniques are usually bad.
     but you have no idea where the error was introduced?
 
 - Sharing files with others is a disaster.
-
   - Emailing files sucks --- only magnifies the problems above
   - Track changes feature Google Docs or Word --- not so useful for anything
     complex
@@ -32,12 +30,10 @@ Modern version control techniques are usually great.
 Modern tools to promote collective intelligence.
 
 - Automated history of everything
-
   - not just files, but whole projects with folders and subfolders
   - who, what, when, and (most important) why
 
 - Automated sharing of everyone's latest edits
-
   - no more emailing files around
 
 - Easier disaster recovery with distributed VCSes like Git or Mercurial (see
@@ -46,7 +42,6 @@ Modern tools to promote collective intelligence.
 - Support for automated testing (we'll cover this in future lectures)
 
 - Infinite sandboxes for clutter-free, fear-free experimentation
-
   - this is where Git especially shines -- main topic today
 
 - CAVEAT 1: All of this works best with plain text files
@@ -63,11 +58,9 @@ Modern tools to promote collective intelligence.
 ![title](CVCS-vs-DVCS.png)
 
 - Local Version Control
-
   - Mainly just reduced clutter and automated tracking of chronology...
 
 - Centralized Version Control
-
   - Allows group work on the same files...
   - Single point of failure --- there is only a single "real" repository
   - Backing up is a separate process
@@ -108,7 +101,6 @@ Things to keep in mind during our exercise
 
 - Some git operations are of a "send it out" variety, while others are of a
   "bring it in" variety
-
   - important to keep straight which are of which flavor
 
 - Some git operations are repo-wise, while others are branch-wise

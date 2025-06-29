@@ -26,16 +26,13 @@ Design patterns in OOP
   - Composition - "has a" & restrict interface (you can't delete attributes with
     ) - verbose!
 - UML diagrams
-
   - Can show classes, interface, relationships
   - Several links to read more if interested
 
 - OOP Pattern 1: code injection
-
   - You can replace steps in a calculation via inheritance and overriding
 
 - OOP Pattern 2: Required interface (ABCs)
-
   - You can require an implementation to implement certain methods - called
     "abstract" (italics on a UML diagram)
   - Example: `content/week03/geom_example`
@@ -43,7 +40,6 @@ Design patterns in OOP
   - Example: `content/week03/integrator_example` (also in rendered notes)
 
 - SOLID:
-
   - S: modular
   - O: Open/closed API
   - Liskov substitution principle (like adding `power=` to `Geometry.area` but
@@ -52,17 +48,14 @@ Design patterns in OOP
   - D: Dependency inversion (low level depend on high level)
 
 - OOP Pattern 3: Functors
-
   - Not very native in Python, but common in some languages like C++
   - Can implement with function capture instead of classes
 
 - Separation of concerns
-
   - Some languages have techniques like multifile classes
   - Other ways to achieve, like mixins, dispatch (later), etc
 
 - OOP Pattern 4: eDSLs
-
   - Example with Path using division for joining
 
 - OOP Pattern 5: Mixins

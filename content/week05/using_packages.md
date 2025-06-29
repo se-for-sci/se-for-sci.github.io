@@ -50,12 +50,20 @@ you don't expect to import it, _do not use pip_; use
 environment, but hide all that for you, and then you'll just have an application
 you can use with no global/user side effects!
 
+`````{tab-set}
+````{tab-item} uv
 ```bash
-pip install pipx  # Easier to install like this
-
+uv tool install black
+black myfile.py
+```
+````
+````{tab-item} pipx
+```bash
 pipx install black
 black myfile.py
 ```
+````
+`````
 
 Now you have "black", but nothing has changed in your global site packages! You
 cannot import black or any of it's dependencies! There are no conflicting
@@ -67,17 +75,26 @@ packages that have incompatible requirements).
 Pipx also has a very powerful feature: you can install and run an application in
 a temporary environment!
 
-For example, this works just as well as the second two lines above:
+For example, this works just as well as the lines above:
 
+`````{tab-set}
+````{tab-item} uv
+```bash
+uvx black myfile.py
+```
+````
+````{tab-item} pipx
 ```bash
 pipx run black myfile.py
 ```
+````
+`````
 
 The first time you do this, pipx create a venv and puts black in it, then runs
 it. If you run it again, it will reuse the cached environment if it hasn't been
 cleaned up yet, so it's fast.
 
-Another example:
+Another example (note: for uv, use `uv build`, which is built-in):
 
 ```bash
 pipx run build
@@ -87,13 +104,22 @@ pipx run build
 > you do not need `actions/setup-python` to run it.
 
 If the command and the package have different names, then you may have to write
-this with a `--spec`, though pipx has a way to customize this, and it will try
-to guess if there's only one command in the package. You can also pin exactly,
-specify extras, etc:
+this with a `--spec` (`--from` with uvx), though pipx has a way to customize
+this, and it will try to guess if there's only one command in the package. You
+can also pin exactly, specify extras, etc:
 
+`````{tab-set}
+````{tab-item} uv
+```bash
+uvx --from cibuildwheel==2.9.0 cibuildwheel --platform linux
+```
+````
+````{tab-item} pipx
 ```bash
 pipx run --spec cibuildwheel==2.9.0 cibuildwheel --platform linux
 ```
+````
+`````
 
 #### Self-contained scripts
 
@@ -165,11 +191,22 @@ rich >=9.8
 This is technically a valid `requirements.txt` file. If you wanted to use it,
 you would do:
 
+`````{tab-set}
+````{tab-item} uv
 ```bash
-python3 -m venv venv
-. venv/bin/activate
+uv venv
+. .venv/bin/activate
+uv pip install -r requirements.txt
+```
+````
+````{tab-item} pip
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
 pip install -r requirements.txt
 ```
+````
+`````
 
 Use `deactivate` to "leave" the virtual environment.
 
@@ -211,6 +248,21 @@ also ask for "extras", though you have to know about them beforehand. For
 example, `pip install rich[jupyter]` will add some extra requirements for
 interacting with notebooks. _These add requirements only_, you can't change the
 package with an extra.
+
+### Dependency-groups
+
+You can also use dependency groups, which are a way to specify optional
+dependencies in `pyproject.toml`. This is a new feature, but most recent
+versions of most tools support it. It looks like this:
+
+```toml
+[dependency-groups]
+dev = ["pytest"]
+```
+
+You can install it with `--group dev`. The high-level interface to uv
+automatically installs the `dev` group, so using this makes `uv run` work out of
+the box.
 
 ### Conda environments
 

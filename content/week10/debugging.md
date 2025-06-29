@@ -12,7 +12,6 @@ In this lecture, we will:
 - learn tips and tricks from a lifelong experience in debugging
 
 - gain practical knowledge in
-
   - simple debugging techniques using compilers
   - simple debuggers for C/C++, Rust, and Python
   - more advanced graphical debuggers
@@ -38,7 +37,6 @@ When a code crashes it usually writes out a cryptic error message
 ### Typical error messages
 
 - `SIGFPE`: floating point exception
-
   - Often controlled by compiler options
   - division by zero
   - square root of a negative number
@@ -71,7 +69,6 @@ x[345] = 0.0; // panics at run-time
 
 - Make sure your shell “stack size limit” and "core size limit" are both set to
   “unlimited”
-
   - `ulimit -s unlimited` set stack memory to unlimited
   - `ulimit -c unlimited` set core file size to unlimited
   - `ulimit -a` show all limits
@@ -169,7 +166,6 @@ All compilers accept the `-g` option.
 ### Examples of useful compiler options
 
 - All compilers have options that try to detect potential bugs in the code
-
   - Array bounds check (gcc: -Warray-bounds)
     - Check for array subscripts and substrings out of bounds
     - Should be done on unoptimized code (-O0)
@@ -222,7 +218,6 @@ All compilers accept the `-g` option.
   MPI task in a parallel code)
 
 - No `core` file?
-
   - Check your shell limits: `ulimit –a` (bash) or `limit` (csh)
   - Look for `core file size` (bash) or `coredumpsize` (csh) > 0
 
@@ -301,7 +296,6 @@ gdb (1)              - The GNU Debugger
 - Online manual for gdb at `info gdb`
 
 - Can be used within the `emacs` editor
-
   - Can run gdb commands within the emacs source code window (e.g. `C-x SPC` to
     set a breakpoint)
 
@@ -546,7 +540,6 @@ $ rust-gdb ./example
 - Detective work starts
 
 - Try reducing the problem size and see if the error is still there
-
   - The smaller the better
   - Running with only 2 processes is ideal if your code is parallel
 
@@ -629,21 +622,18 @@ p expression
   restart a simulation from that point
 
 - Extremely important for codes that have long runtimes (> 1 hour)
-
   - Allows you to restart your simulation at the point of the latest checkpoint
   - Avoid losing hours of precious computer time
   - Especially important for parallel codes
 
 - Extremely important when you need to debug a code that crashes after a few
   hours!!
-
   - You can recompile the code with `–g` and start from the last checkpoint
   - Remember... `-g` slows down the code dramatically so you want to be as close
     to the crash as possible
 
 - When restarting a simulation from a checkpointed state, reproducibility is
   very important
-
   - Test by running the code to a certain point and saving its state at that
     point
   - Rerun the same case but split in 2 steps where the 2nd step uses restart
@@ -666,7 +656,6 @@ p expression
   (100,000+ processors)
 
 - The idea is simple:
-
   - Insert `print` statements at strategic locations in the code to gather
     information and try to pinpoint the faulty code line
   - Advantages over other forms of debugging:
@@ -689,7 +678,6 @@ p expression
   **standard output**
 
 - Write to **standard error** as much as possible since it is not buffered
-
   - `cerr <<` in C++
   - `eprint` in Rust
   - redirect output: `mpirun –np 1024 ./a.out 1> output.out 2> output.err`
