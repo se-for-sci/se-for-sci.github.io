@@ -13,22 +13,23 @@ async def timer():
     print(f"Took {time.monotonic() - start:.3}s to run")
 
 
-def pi_each(trials: int) -> None:
+async def pi_async(trials: int) -> float:
     Ncirc = 0
     rand = random.Random()
 
-    for _ in range(trials):
+    for trial in range(trials):
         x = rand.uniform(-1, 1)
         y = rand.uniform(-1, 1)
 
         if x * x + y * y <= 1:
             Ncirc += 1
 
+        # yield to event loop every 1000 iterations
+        # This allows other asyncs to do their job
+        if trial % 1000 == 0:
+            await asyncio.sleep(0)
+
     return 4.0 * (Ncirc / trials)
-
-
-async def pi_async(trials: int):
-    return await asyncio.to_thread(pi_each, trials)
 
 
 @timer()
