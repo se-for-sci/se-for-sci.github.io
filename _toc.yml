@@ -76,6 +76,7 @@ parts:
       - file: content/week11/intro.md
       - file: content/week11/openmp.md
       - file: content/week11/threading.md
+      - file: content/week11/concepts.md
 
   - caption: "Week 12: Distributed Computing"
     chapters:
