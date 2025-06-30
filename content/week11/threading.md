@@ -41,7 +41,7 @@ memory. This is much heaver weight than threading, but can be used effectively
 sometimes.
 
 Recently, there have been two major attempts to improve access to multiple cores
-in Python. Python 3.12 added a subinterpeters each with their own GIL; two pure
+in Python. Python 3.12 added subinterpeters each with their own GIL; two pure
 Python ways to access these are being added in Python 3.14 (previously there was
 only a C API and third-party wrappers). Compiled extensions have to opt-into
 supporting multiple interpreters.
@@ -442,7 +442,7 @@ something like a notebook.
 Here's our π example. Since we don't have to communicate anything other than a
 integer, it's trivial and reasonably performant, minus the start up time:
 
-```{literalinclude} piexample/threadexec.py
+```{literalinclude} piexample/procexec.py
 :linenos:
 :lineno-match: true
 :lines: 15-
@@ -469,18 +469,15 @@ also making the context manager async:
 :linenos:
 ```
 
-Since the actual multithreading above comes from moving a function into threads,
-it is identical to the threading examples when it comes to performance (same-ish
-on normal Python, faster on free-threaded). The `async` part is about the
-control flow. Outside of the `to_thread` part, we don't have to worry about
-normal thread issues, like data races, thread safety, etc, as it's just oddly
-written single threaded code. Every place you see `await`, that's where code
-pauses, gives up control and lets the event loop (which is created by
-`asyncio.run`, there are third party ones too) take control and "unpause" some
-other waiting `async` function if it's ready. It's great for things that take
-time, like IO. This is not as commonly used for threaded code like we've done,
-but more for "reactive" programs that do something based on external input
-(GUIs, networking, etc).
+Every place you see `await`, that's where code pauses, gives up control and lets
+the event loop (which is created by `asyncio.run`, there are third party ones
+too) take control and "unpause" some other waiting `async` function if it's
+ready.
+
+You will notice no performance improvement over the single-threaded version of
+the code, since the asyncio event loop runs on the main thread, and relies on
+the async function to give up control so that other async functions can proceed,
+like we've done using `asyncio.sleep()`.
 
 Notice how we didn't need a special `queue` like in some of the other examples.
 We could just create and loop over a normal list filled with tasks.
@@ -489,3 +486,22 @@ Also notice that these "async functions" are called and create the awaitable
 object, so we didn't need any odd `(f, args)` syntax when making them, just the
 normal `f(args)`. Every object you create that is awaitable should eventually be
 awaited, Python will show a warning otherwise.
+
+`async` is great for processing that takes time but shouldn't hog up all the
+CPU. It is mostly used for "reactive" programs that do something based on
+external input (GUIs, networking, etc).
+
+It is also possible to run `async` code in a thread by awaiting on
+`asyncio.to_thread(async_function, *args)`.
+
+```{literalinclude} piexample/asyncpi_thread.py
+:linenos:
+```
+
+Since the actual multithreading above comes from moving a function into threads,
+it is identical to the threading examples when it comes to performance (same-ish
+on normal Python, faster on free-threaded).
+
+Outside of the `to_thread` part, we don't have to worry about normal thread
+issues, like data races, thread safety, etc, as it's just oddly written single
+threaded code.
