@@ -148,3 +148,35 @@ Then you may need "shared" memory. This might be the default for
 threading/async, but is required for multiprocessing and subinterpreters. This
 is not an option if you are running on multiple machines; then you must transfer
 serialized objects instead. See the examples in the distributed section.
+
+## Event loop
+
+One common design for a reactive program is an event loop, where the program is
+designed around a central loop, and it reacts to input. This is common with
+async programming, but is also used by things like older GUI toolkits without
+async, as well. Let's try creating our own from scratch using generators:
+
+```{literalinclude} conceptsexample/eventloop.py
+
+```
+
+In this example, we start with tasks, and loop over them. Each task returns an
+estimate of how long it will take. If you were to use one task within another
+task, you would need `yield from` for the inner task. The loop waits for the
+shortest task to be ready, then tries again. It's basic, but the idea is there.
+
+We are using the generator system in Python (asyncio was built originally using
+it), but we could have implemented it with the async special methods instead; it
+would have been more verbose (since those weren't really designed to be hand
+implemented simply), but is quite doable.
+
+Let's try the same thing with asyncio:
+
+```{literalinclude} conceptsexample/asyncloop.py
+
+```
+
+We don't sort the output here, but otherwise, it runs about the same, and takes
+the same total amount of time. The difference here is we using a pre-existing
+awaitable (sleep), so we have to use `await`, which is really just `yield from`
+but using the async-named special methods.
