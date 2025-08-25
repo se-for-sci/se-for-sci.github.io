@@ -1,7 +1,0 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[project]
-name = "json-reader"
-version = "0.0.1"

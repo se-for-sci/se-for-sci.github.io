@@ -1,7 +1,0 @@
-{
-  "size": 100,
-  "name": "Test",
-  "simulation": true,
-  "path": "data/somewhere",
-  "duration": 10.0
-}
