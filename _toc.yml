@@ -6,83 +6,83 @@ root: content/intro
 parts:
   - caption: "Week 1: Intro"
     chapters:
-      - file: content/week01/intro.md
-      - file: content/week01/setup.md
-      - file: content/week01/vcs.md
-      - file: content/week01/programming_basics.ipynb
-      - file: content/week01/practices.md
-      - file: content/week01/cleanup_bessel.ipynb
+      - file: content/week01_intro/intro.md
+      - file: content/week01_intro/setup.md
+      - file: content/week01_intro/vcs.md
+      - file: content/week01_intro/programming_basics.ipynb
+      - file: content/week01_intro/practices.md
+      - file: content/week01_intro/cleanup_bessel.ipynb
 
   - caption: "Week 2: Version Control"
     chapters:
-      - file: content/week02/intro.md
-      - file: content/week02/first_steps.md
-      - file: content/week02/advanced_steps.md
+      - file: content/week02_git/intro.md
+      - file: content/week02_git/first_steps.md
+      - file: content/week02_git/advanced_steps.md
 
   - caption: "Week 3: Testing"
     chapters:
-      - file: content/week03/python_setup.md
-      - file: content/week03/testing.md
-      - file: content/week03/pytest.md
-      - file: content/week03/tdd.md
-      - file: content/week03/debugging.md
+      - file: content/week03_testing/python_setup.md
+      - file: content/week03_testing/testing.md
+      - file: content/week03_testing/pytest.md
+      - file: content/week03_testing/tdd.md
+      - file: content/week03_testing/debugging.md
 
   - caption: "Week 4: Continuous Integration"
     chapters:
-      - file: content/week04/ci.md
-      - file: content/week04/cd.md
-      - file: content/week04/docs.md
+      - file: content/week04_ci/ci.md
+      - file: content/week04_ci/cd.md
+      - file: content/week04_ci/docs.md
 
   - caption: "Week 5: Packaging and Quality Control"
     chapters:
-      - file: content/week05/packaging.md
-      - file: content/week05/using_packages.md
-      - file: content/week05/making_a_package.md
-      - file: content/week05/precommit.md
-      - file: content/week05/task_runners.md
+      - file: content/week05_package/packaging.md
+      - file: content/week05_package/using_packages.md
+      - file: content/week05_package/making_a_package.md
+      - file: content/week05_package/precommit.md
+      - file: content/week05_package/task_runners.md
 
   - caption: "Week 6: Object Oriented design"
     chapters:
-      - file: content/week06/introoo.md
-      - file: content/week06/oodesign.md
+      - file: content/week06_oop/introoo.md
+      - file: content/week06_oop/oodesign.md
 
   - caption: "Week 7: Design Patterns"
     chapters:
-      - file: content/week07/designpatt.md
-      - file: content/week07/functional.md
+      - file: content/week07_design/designpatt.md
+      - file: content/week07_design/functional.md
 
   - caption: "Week 8: Static Typing"
     chapters:
-      - file: content/week08/typing.md
+      - file: content/week08_static_typing/typing.md
 
   - caption: "Week 9: Mixing Languages"
     chapters:
-      - file: content/week09/01-shared-objects/01-shared-objects.ipynb
-      - file: content/week09/02-cpython/02-cpython.ipynb
-      - file: content/week09/03-pybind/03a-pybind.ipynb
-      - file: content/week09/03-pybind/03b-pybind.ipynb
-      - file: content/week09/06-rust.md
+      - file: content/week09_binding/01-shared-objects/01-shared-objects.ipynb
+      - file: content/week09_binding/02-cpython/02-cpython.ipynb
+      - file: content/week09_binding/03-pybind/03a-pybind.ipynb
+      - file: content/week09_binding/03-pybind/03b-pybind.ipynb
+      - file: content/week09_binding/06-rust.md
 
   - caption: "Week 10: Intro to Compilation"
     chapters:
-      - file: content/week10/Compiled_Languages.ipynb
-      - file: content/week10/rust_example/compiled.md
-      - file: content/week10/rust_example/rust.md
-      - file: content/week10/debugging.md
-      - file: content/week10/profiling.md
+      - file: content/week10_compiled/Compiled_Languages.ipynb
+      - file: content/week10_compiled/rust_example/compiled.md
+      - file: content/week10_compiled/rust_example/rust.md
+      - file: content/week10_compiled/debugging.md
+      - file: content/week10_compiled/profiling.md
 
   - caption: "Week 11: Parallel Computing"
     chapters:
-      - file: content/week11/intro.md
-      - file: content/week11/openmp.md
-      - file: content/week11/threading.md
-      - file: content/week11/concepts.md
+      - file: content/week11_omp/intro.md
+      - file: content/week11_omp/openmp.md
+      - file: content/week11_omp/threading.md
+      - file: content/week11_omp/concepts.md
 
   - caption: "Week 12: Distributed Computing"
     chapters:
-      - file: content/week12/mpi.md
+      - file: content/week12_mpi/mpi.md
 
   - caption: "Bonus: Exotic topics"
     chapters:
-      - file: content/week13/webassembly.md
-      - file: content/week13/shell.md
+      - file: content/week13_misc/webassembly.md
+      - file: content/week13_misc/shell.md
