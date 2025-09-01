@@ -47,7 +47,7 @@ repos:
         name: Disallow improper capitalization
         language: pygrep
         entry: PyBind|Numpy|Cmake|CCache|Github|PyTest
-        exclude: ^(.pre-commit-config.yaml|content/week05/precommit.md)$
+        exclude: ^(.pre-commit-config.yaml|content/week05_package/precommit.md)$
 
   - repo: https://github.com/PrincetonUniversity/blocklint
     rev: v0.2.5
