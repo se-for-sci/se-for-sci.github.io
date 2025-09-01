@@ -1,6 +1,6 @@
 # Packaging and quality control
 
-[Slides](https://henryiii.github.io/se-for-sci/slides/week-05-1)
+[Slides](https://se-for-sci.github.io/slides/week-05-1)
 
 Now you have your Git Repo, it's time to talk about how you structure it to make
 it distributable and usable by others. We'll focus on building a Python package,

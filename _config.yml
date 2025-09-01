@@ -17,7 +17,7 @@ latex:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/henryiii/se-for-sci
+  url: https://github.com/se-for-sci/se-for-sci.github.io
   branch: main
 
 # Add GitHub buttons to your book

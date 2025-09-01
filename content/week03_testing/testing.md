@@ -1,6 +1,6 @@
 # Intro to testing
 
-[Slides](https://henryiii.github.io/se-for-sci/slides/week-03-1)
+[Slides](https://se-for-sci.github.io/slides/week-03-1)
 
 ## Why Test?
 

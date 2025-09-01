@@ -12,7 +12,7 @@ kernelspec:
 
 # Object Oriented Design
 
-[Slides](https://henryiii.github.io/se-for-sci/slides/week-06-2)
+[Slides](https://se-for-sci.github.io/slides/week-06-2)
 
 ## Intro
 
