@@ -5,11 +5,11 @@ written by Gabriel Perez-Giz for previous iterations of this course. Thanks to
 Troy Comi for extensive review, additions, and corrections, and several
 sections.
 
-This material is rendered into a website at
-<https://henryiii.github.io/se-for-sci>. A WebAssembly version of some notebooks
-is [available](https://henryiii.github.io/se-for-sci/live) with some caveats
-(like no shell). A binder version is
-[available](https://mybinder.org/v2/gh/henryiii/se-for-sci/main?urlpath=lab),
+This material is rendered into a website at <https://se-for-sci.github.io>. A
+WebAssembly version of some notebooks is
+[available](https://se-for-sci.github.io/live) with some caveats (like no
+shell). A binder version is
+[available](https://mybinder.org/v2/gh/se-for-sci/se-for-sci.github.io/main?urlpath=lab),
 too.
 
 Summer variation (2025 dates):

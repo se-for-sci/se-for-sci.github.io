@@ -1,6 +1,6 @@
 # Static Typing
 
-[Slides](https://henryiii.github.io/se-for-sci/slides/week-08-1)
+[Slides](https://se-for-sci.github.io/slides/week-08-1)
 
 What is the best thing about Python? One of the first things you'll hear: no
 explicit typing.

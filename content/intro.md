@@ -14,9 +14,9 @@ The focus is on writing code that is easy to maintain and share with others. You
 will develop these skills through a series of programming assignments and a
 group project.
 
-[Source repository](https://github.com/henryiii/se-for-sci) •
-[WebAssembly version](https://henryiii.github.io/se-for-sci/live) •
-[Binder version](https://mybinder.org/v2/gh/henryiii/se-for-sci/main?urlpath=lab)
+[Source repository](https://github.com/se-for-sci/se-for-sci.github.io) •
+[WebAssembly version](https://se-for-sci.github.io/live) •
+[Binder version](https://mybinder.org/v2/gh/se-for-sci/se-for-sci.github.io/main?urlpath=lab)
 
 Note the WebAssembly version does not have a shell, and `time.sleep` doesn't
 work (the web is async).
