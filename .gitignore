@@ -160,20 +160,28 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-/content/week05/se-for-sci-example/
-/content/week05/textual_example/requirements.in
-/content/week10/cmake_example/.ninja_log
-/content/week10/cmake_example/docs/Doxyfile.docs
-/content/week10/fortran_example
-/content/week09/*/*.whl
-/content/week09/*/setup.py
-/content/week09/03-pybind/src
-/content/week09/0[123]*/*.c
-/content/week09/0[123]*/*.cpp
-/content/week09/0[123]*/*.h
-/content/week09/0[123]*/*.hpp
-/content/week09/0[123]*/CMakeLists.txt
-/content/week09/0[123]*/pyproject.toml
+/content/week*/se-for-sci-example/
+/content/week*/textual_example/requirements.in
+/content/week*/cmake_example/.ninja_log
+/content/week*/cmake_example/docs/Doxyfile.docs
+/content/week*/fortran_example
+/content/week*/*/*.whl
+/content/week*/*/setup.py
+/content/week*/03-pybind/src
+/content/week*/*.c
+/content/week*/*.cpp
+/content/week*/*.h
+/content/week*/*.hpp
+/content/week*/CMakeLists.txt
+/content/week*/pyproject.toml
+/content/week*/*/*.c
+/content/week*/*/*.cpp
+/content/week*/*/*.h
+/content/week*/*/*.hpp
+/content/week*/*/CMakeLists.txt
+/content/week*/*/pyproject.toml
+/content/week*/*.f90
+/content/week*/Makefile
 
 /slides/*.html
 
@@ -186,7 +194,7 @@ cython_debug/
 a.out
 compile_flags.txt
 Untitled*
-content/week12/06-rust/Cargo.lock
+content/week*/06-rust/Cargo.lock
 
 _output/Volumes
 *.doit.db
