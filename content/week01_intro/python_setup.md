@@ -4,6 +4,12 @@ The first choice you have to face setting up Python is which distribution you
 want: official packaging using PyPA tools (like pip), or the conda Python and
 packages. Both options will be outlined below.
 
+There are also modern Rust-based alternatives; uv replaces the PyPA tooling, and
+pixi replaces the conda/mamba family. Unless you have a reason not to use them,
+you should probably start with them, as they are simple, modern, and many times
+faster than the classic tools. After describing the classic tooling below,
+you'll find information on these new alternatives.
+
 ## PyPA packaging
 
 To use the standard tools, you can get Python from anywhere (except Conda, see
@@ -14,13 +20,14 @@ already using it to manage everything else on your system.
 
 On Windows, typing `python` will open the Windows store if it's not installed.
 You can also use `winget install Python`, Window's official package manager on
-recent versions, to get Python from the Windows store.
+recent versions, to get Python from the Windows store. (If you are using WSL, it
+behaves like Linux below.)
 
 For Linux, if you use your system Python, make sure it is new enough, and never
 modify the base environment except though your package manager (generally true,
 but more so here). The system Python is really intended for use in other system
 packages, and is not intended for you to modify. Modern pip and modern systems
-now work together to provide safegaurds for this.
+(like Ubuntu 24.04+) now work together to provide safegaurds for this.
 
 ### Virtual environments
 
@@ -168,37 +175,37 @@ interesting entry, so let's cover that below.
 #### uv
 
 The team at astral-sh has been developing Rust-based tooling for Python. They
-recently introduced `uv`, which started out as a drop-in replacement for venv,
-pip, and pip-tools that was 10-100x faster. They also have a more modern design
-since they don't have to worry about backwards-compatibly (so technically not
-quite drop-in), and had many long-requested features added (to be fair, uv has
-likely had more dedicated developer time than these other tools, probably
-combined). Since launching, they've also replaced pipx, build, Python
-installers, and are starting to replace poetry/pdm. By targeting the stand alone
-tools first, it's easy to just use uv for whatever you want faster without fully
-committing to it like, for example, Poetry forces you to do.
+introduced `uv`, which started out as a drop-in replacement for venv, quite
+drop-in), and had many long-requested features added (to be fair, uv has has
+more dedicated developer time than these other tools combined). Since launching,
+they've also replaced pipx, build, Python installers, and are starting to
+replace poetry/pdm. By targeting the stand alone tools first, it's easy to just
+use uv for whatever you want faster without fully committing to it like, for
+example, Poetry forces you to do. There's also a high-level interface.
+
+##### uv: low level interface
 
 If you use `uv venv`, this creates virtual environments faster than Python can
 start up. They do not, by default, contain _anything_, since uv was designed to
 be able to target a virtual environment from the outside (modern pip can too,
 but for legacy reasons, we are used to running it from inside the virtual
-environment).
+environment). It also defaults to the folder `.venv` if unspecified.
 
 If you use `uv pip install`, you will get an ultra-fast package installer. A few
-key differences: It will look for a virtual environment named `./.venv` if one
-is not active by default, it will not install to the system Python unless you
-add `--system` or pass an path to `--python`, and it will never install to the
-user location. It also has some amazing features, like limiting the date of the
-searched packages, and a minimum-versions resolver so you can make sure your
-stated minimums are valid.
+key differences: It will look for a virtual environment named `.venv` if one is
+not active by default, it will not install to the system Python unless you add
+`--system` or pass an path to `--python`, and it will never install to the user
+location. It also has some amazing features that are not present in pip, like
+limiting the date of the searched packages, and a minimum-versions resolver so
+you can make sure your stated minimums are valid.
 
 If you use `uv pip compile`, you'll get an ultra-fast lock file generator that
 can target versions of Python and platforms you don't even have.
 
-If you use `uv tool run` (or `uvx`), you'll get a tool runner that can run any
-Python tool in a temporary virtual environment. You can also use
-`uv tool install` to manage tools. And you can use `uv run` to run a script with
-dependencies.
+If you use `uv tool run` (or `uvx`, which is an equivalent shortcut), you'll get
+a tool runner that can run any Python tool in a temporary virtual environment.
+You can also use `uv tool install` to manage tools. And you can use `uv run` to
+run a script with dependencies.
 
 If you need to build packages, `uv build` is a drop-in replacement for the
 standard pypa/build.
@@ -208,17 +215,103 @@ commands will install Python on your system for you in a uv managed location.
 After installing, uv commands will prefer these managed versions. These are
 binary installs, so they are faster than most of the classic tools like pyenv.
 
+##### uv: high level interface (setup)
+
 The most recent addition is a series of poetry/pdm-like project commands, such
 as `uv init`, `uv add`, and `uv sync`. These let you set up a managed
 environment with an integrated lockfile. There is also now uv configuration in
-`pyproject.toml` or `uv.toml`.
+`pyproject.toml` or `uv.toml`. The highest level command is `uv run`.
 
-Task support and hopefully multiple environments are coming soon, which would
-basically allow uv to be a true all-in-one tool for Python development.
+To use the high level interface, you need a `pyproject.toml` that contains a few
+of the standard package configuration lines. Here's an example showing the
+various things uv finds useful. Remember, you can get started with `uv init`,
+which will write this file for you:
 
-Many of the above tools also support using uv, such as `nox`, `build`, `hatch`,
-and `pdm`, usually with flags or configuration settings. There is also a plugin
-for `tox` and a hack for `pre-commit`.
+```toml
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
+
+[project]
+name = "example"
+version = "0.0.1"
+requires-python = ">=3.11"
+dependencies = []
+```
+
+The `build-system` is highly recommended, as it will allow this file to work
+with other tools properly too, though if it's not a library and you are never
+using anything besides uv and you aren't going to make SDists/wheels, you can
+leave it off. `"hatchling"` is a great, flexible, and extendable backend, but
+there is a built in backend as well (shown above) for very simple projects. If
+you use hatchling, make sure the import name matches the project name (or look
+up it's configuration options if you have a good reason not to match the names,
+which you don't).
+
+The `[project]` table should always have `name` and `version`, as they are
+required because they will be part of the filename in several places, including
+intermediate installation files. You don't have to have `requires-python`, but
+since uv is a universal solver (meaning it solves for all Python versions
+supported, rather than just the one you are on), it will affect the solve, and
+you'll get a warning if it's missing.
+
+Then the `dependencies` list contains every library your code needs to run.
+Things like `"numpy"` will likely be here. If it's empty, you don't have to have
+it, but most projects will have at least a few dependencies.
+
+There's also a way to specify development dependencies that aren't required to
+use your package, but are required for developing your package. For example, if
+you use `pytest` for tests, you might do this:
+
+```toml
+[dependency-groups]
+dev = ["pytest"]
+```
+
+`uv` will automatically install the `dev` group with it's high level commands.
+If you'd like to break it up further, you can:
+
+```toml
+[dependency-groups]
+test = ["pytest"]
+dev = [{ include-group = "test"}]
+```
+
+Now you can have separate groups for tests, documentation, and other things, and
+combine the ones that are useful for `uv run` using `include-group` into the
+`dev` group.
+
+Task support and hopefully multiple environments are coming eventually, which
+would basically allow uv to be a true all-in-one tool for Python development.
+
+##### uv: high level interface (usage)
+
+Once you've setup a package, or if you are using someone else's package that has
+already been setup, then using it is simple; just prefix anything you want to
+run with `uv run`. For example:
+
+```bash
+uv run python
+```
+
+This will create a `.venv` if it doesn't exist, create a lockfile if it doesn't
+exist, or read an existing one if it does, do an editable install your package
+if not installed, install the `dev` group if it exists, and run whatever command
+you give it inside the environment.
+
+As another example, you can run pytest:
+
+```bash
+uv run pytest
+```
+
+The commands are fast if everything is set up from an earlier run.
+
+##### uv: other tool support
+
+Many of the standard Python tools also support using uv, such as `nox`, `build`,
+`hatch`, and `pdm`, usually with flags or configuration settings. There is also
+a plugin for `tox` and a hack for `pre-commit`.
 
 ## Conda
 
