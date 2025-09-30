@@ -40,7 +40,7 @@ Here is a minimal `.pre-commit-config.yaml` file with some handy options:
 ```yaml
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: "v4.6.0"
+    rev: "v6.0.0"
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
@@ -91,7 +91,7 @@ Here is the snippet to add Black to your `.pre-commit-config.yml`:
 
 ```yaml
 - repo: https://github.com/psf/black-pre-commit-mirror
-  rev: "24.8.0"
+  rev: "25.9.0"
   hooks:
     - id: black
 ```
@@ -115,7 +115,7 @@ Jupyter outputs:
 
 ```yaml
 - repo: https://github.com/kynan/nbstripout
-  rev: "0.7.1"
+  rev: "0.8.1"
   hooks:
     - id: nbstripout
 ```
@@ -129,7 +129,7 @@ The MyPy addition for pre-commit:
 
 ```yaml
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: "v1.11.2"
+  rev: "v1.18.2"
   hooks:
     - id: mypy
       files: src
@@ -141,7 +141,7 @@ designed to avoid configuration, but you should add configuration. You can also
 add items to the virtual environment setup for MyPy by pre-commit, for example:
 
 ```yaml
-additional_dependencies: [attrs==21.2.0]
+additional_dependencies: [attrs==25.3.0]
 ```
 
 MyPy has a config section in `pyproject.toml` that looks like this:
@@ -149,7 +149,7 @@ MyPy has a config section in `pyproject.toml` that looks like this:
 ```ini
 [tool.mypy]
 files = "src"
-python_version = "3.9"
+python_version = "3.10"
 strict = true
 show_error_codes = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
@@ -189,9 +189,9 @@ failures from plugins updating without updating your pre-commit hook.
 
 ```yaml
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: "v0.6.8"
+  rev: "v0.13.2"
   hooks:
-    - id: ruff
+    - id: ruff-check
       args: ["--fix", "--show-fixes"]
     - id: ruff-format
 ```
@@ -230,7 +230,6 @@ extend-select = [
 ignore = [
   "PLR",    # Design related pylint codes
   "PT004",  # Use underscore for non-returning fixture (use usefixture instead)
-  "ISC001", # Conflicts with formatter
 ]
 flake8-unused-arguments.ignore-variadic-names = true
 isort.required-imports = ["from __future__ import annotations"]
@@ -250,13 +249,12 @@ disable auto-fixing for specific error codes via `unfixable`.
 
 There are other configuration options, such as the `src` list which tells it
 where to look for top level packages (mostly for "I" codes, which also have a
-lot of custom configuration options) {% rr RF003 %}, `typing-modules`, which
-helps apply typing-specific rules to a re-exported typing module (a common
-practice for unifying typing and `typing_extensions` based on Python version).
-There's also a file `exclude` set, which you can override if you are running
-this entirely from pre-commit (default excludes include "build", so if you have
-a `build` module or file named `build.py`, it would get skipped by default
-without this).
+lot of custom configuration options), `typing-modules`, which helps apply
+typing-specific rules to a re-exported typing module (a common practice for
+unifying typing and `typing_extensions` based on Python version). There's also a
+file `exclude` set, which you can override if you are running this entirely from
+pre-commit (default excludes include "build", so if you have a `build` module or
+file named `build.py`, it would get skipped by default without this).
 
 Here are some good error codes to enable on most (but not all!) projects:
 
@@ -303,7 +301,7 @@ spell checkers, this has a list of mistakes it looks for, rather than a list of
 
 ```yaml
 - repo: https://github.com/codespell-project/codespell
-  rev: "v2.3.0"
+  rev: "v2.4.1"
   hooks:
     - id: codespell
       args: ["-L", "sur,nd"]

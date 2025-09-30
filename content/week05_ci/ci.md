@@ -82,7 +82,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install package
-        run: python -m pip install .[test]
+        run: python -m pip install -e.[test]
 
       - name: Test package
         run: python -m pytest
@@ -98,7 +98,7 @@ The `jobs:` dict is the other required key, and it has holds a dict with
 arbitrary keys; we used the name `tests:`, but it could have been `hefalump:`
 instead, it's the unique "id" of the job. Inside each job, you'll at least have
 a `runs-on:` setting that tells GHA which operating system image to run on (like
-`ubuntu-latests`, `ubunutu-22.04`, `macos-latest`, `windows-latest`, etc.) There
+`ubuntu-latests`, `ubunutu-24.04`, `macos-latest`, `windows-latest`, etc.) There
 is also are required `steps:`, containing a list of steps.
 
 GitHub Actions runs each step. Steps have an optional (but nice) `name:`. Then
@@ -168,14 +168,14 @@ example:
 strategy:
   matrix:
     runs-on: [ubuntu-latest, windows-latest]
-    python-version: ["3.9", "3.11"]
+    python-version: ["3.10", "3.13"]
     include:
       - runs-on: macos-latest
-        python-version: "3.10"
+        python-version: "3.11"
 ```
 
-Will generate 5 jobs - ubuntu + 3.9, ubuntu + 3.11, windows + 3.9, windows +
-3.11, and macos + 3.10.
+Will generate 5 jobs - ubuntu + 3.10, ubuntu + 3.13, windows + 3.10, windows +
+3.13, and macos + 3.11.
 
 (Advanced) You can also use this to add a new key to an existing run if all
 pre-defined keys match an existing run.
@@ -190,7 +190,7 @@ There are a lot of useful variables available to you. One to highlight is
 `runner.os`, which will tell you what OS you are on. It is usually better to
 write `if: runner.os == "Linux"` over `if: matrix.runs-on == "ubuntu-latest"`,
 since it is less fragile, especially if you use versioned image runners like
-`ubuntu-22.04`; it also doesn't depend on whatever you named `runs-on` in your
+`ubuntu-24.04`; it also doesn't depend on whatever you named `runs-on` in your
 matrix.
 
 ### Useful things to know
@@ -222,6 +222,10 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
 ```
 
 This will check to see if there are updates to the action weekly, and will make
@@ -274,22 +278,21 @@ tests:
     fail-fast: false
     matrix:
       python-version:
-        - "3.9"
+        - "3.10"
         - "3.13"
   name: Check Python ${{ matrix.python-version }}
   steps:
     - uses: actions/checkout@v4
+
+    - uses: astral-sh/setup-uv@v6
 
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install package
-      run: python -m pip install -e .[test]
-
-    - name: Test package
-      run: python -m pytest
+    - name: Install and test package (using dev group)
+      run: uv run pytest
 ```
 
 A few things to note from above:
@@ -348,6 +351,7 @@ There are a variety of useful actions. There are GitHub supplied ones:
 
 And many other useful ones:
 
+- [astral-sh/setup-uv](https://github.com/astral-sh/setup-uv): Setup uv.
 - [ilammy/msvc-dev-cmd](https://github.com/ilammy/msvc-dev-cmd): Setup MSVC
   compilers.
 - [jwlawson/actions-setup-cmake](https://github.com/jwlawson/actions-setup-cmake):
