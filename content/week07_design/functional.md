@@ -318,7 +318,7 @@ int main() {
 }
 ```
 
-Not that C++ is slowly gaining support; `std::fold_left` is in C++23, but for
+Not that C++ is slowly gaining support; `std::ranges::fold_left` is in C++23, but for
 C++20, we have to drop back to a classic `std::accumulate` algorithm & begin
 and end iterators.
 
@@ -337,7 +337,8 @@ int main() {
 }
 ```
 
-Not that stdlib module support is not available yet.
+Not that stdlib module support is not available yet unless you enable it in
+CMake experimental mode and have a very recent compiler.
 
 ````
 ````{tab-item} Rust

@@ -211,7 +211,7 @@ Think about some functions and see which ones are pure.
 
 ---
 
-## map, filter, reduce
+## lambda, map, filter, reduce
 
 Functional programming often involves passing functions to functions.
 
@@ -289,17 +289,17 @@ fn main() {
 
 ---
 
-## Other languages: C++23 (modules not supported yet)
+## Other languages: C++23 (modules very experimental)
 
 ```cpp
 import std;
 
 int main() {
     std::vector items {1, 2, 3, 4, 5};
-    auto odd_sq = items | std::views::transform([](int i){return i*i;})
+    auto oddsq = items | std::views::transform([](int i){return i*i;})
                         | std::views::filter([](int i){return i%2==1;});
-    auto sum_sq_odds = std::fold_left(odd_sq, 0, [](int a, int b){return a + b;});
-    std::println("{}", sum_sq_odds);
+    auto soddsq = std::ranges::fold_left(oddsq, 0, [](int a, int b){return a + b;});
+    std::println("{}", soddsq);
     return 0;
 }
 ```
@@ -396,7 +396,7 @@ arr = arr.at[0].set(4)
 
 ## JAX (3)
 
-```
+```python
 @jax.jit
 def f(x):
     return x**3 + x**2 + x
