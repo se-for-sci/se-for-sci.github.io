@@ -298,6 +298,141 @@ See
 [this SciPy tutorial: loopy programming](https://github.com/jpivarski-talks/2022-07-11-scipy-loopy-tutorial/blob/main/narrative.ipynb)
 for more about array based languages & NumPy.
 
+## Reactive programming (signals and slots)
+
+Another pattern, used heavily in GUI (graphical user interface) programming is
+signals and slots. (You'll also see this with JavaScript, as web interfaces are
+similar.) GUI toolkits tend to be harder to install than most libraries, so a
+good way to play around with this is via `textual`, which is a TUI (terminal
+user interface) library, which works most places except WebAssembly. However,
+there's now a library, `reaktiv`, which just implements the signal/slots
+paradigm without having a user interface; that's a great way to play with this
+for learning.
+
+The core of this pattern is a callback, which is a function that gets registered
+to be run at a later time. Here's an example of a callback in Python:
+
+`````{tab-set}
+````{tab-item} Sync
+```python
+import threading
+
+
+def delayed_callback():
+    print("Callback fired after delay!")
+
+
+timer = threading.Timer(2.0, delayed_callback)
+timer.start()
+print("Waiting...")
+```
+````
+````{tab-item} Async (notebook)
+```python
+import asyncio
+
+
+def delayed_callback():
+    print("Callback fired after delay!")
+
+
+loop = asyncio.get_running_loop()
+loop.call_later(2, delayed_callback)
+print("Waiting...")
+```
+````
+`````
+
+This will print:
+
+```output
+Waiting...
+Callback fired after delay!
+```
+
+We've registered a function to run 2 seconds later, then moved on with our
+program. If you are in an environment that doesn't support threads (like
+WebAssembly), you'll have to use an async version of the above example to avoid
+threads.
+
+Here's another example that does work in WebAssembly:
+
+```python
+import argparse
+
+
+class PrintMessage(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        print(f"Callback triggered! You passed: {values}")
+        setattr(namespace, self.dest, values)
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--say", action=PrintMessage)
+
+# Simulate command-line input, but without leaving the notebook
+args = parser.parse_args(["--say", "Hello from argparse!"])
+```
+
+Ignore the fact that argparse requires a class with a `__call__` instead of a
+normal function, and passes a lot of stuff in, and that you are supposed to
+manually handle the setting of the namespace with the value if you use it. The
+core idea is that we've defined what to do when an argument is passed in a
+function, and that function gets run (only) when the argument is passed.
+
+Now let's try setting up our own reactive code. Our goal will be to be able to
+register callbacks (slots) that we can then trigger when emitting a signal.
+
+```python
+@dataclasses.dataclass
+class Signal:
+    slots = dataclasses.field(default_factory=list)
+
+    def connect(self, slot):
+        self.slots.append(slot)
+
+    def emit(self, value):
+        for callback in self.slots:
+            callback(value)
+
+
+sig = Signal()
+sig.connect(lambda x: print(f"Got update: {x}"))
+
+sig.emit(42)
+```
+
+When we call `sig.emit`, then all the callbacks we've registered as slots will
+run.
+
+Here's an example using the `reaktiv` library, so we don't have to deal with the
+setup, and we can start seeing some of the benefits. If you are in WebAssembly,
+use `import micropip; await micropip.install("reaktiv")` to install.
+
+```python
+import reaktiv
+
+name = reaktiv.Signal("Alice")
+age = reaktiv.Signal(30)
+
+greeting = Computed(lambda: f"Hello, {name()}! You are {age()} years old.")
+greeting_effect = Effect(lambda: print(f"Updated: {greeting()}"))
+# Updated: Hello, Alice! You are 30 years old.
+
+name.set("Bob")
+# Updated: Hello, Bob! You are 30 years old.
+age.set(31)
+# Updated: Hello, Bob! You are 31 years old.
+```
+
+Here, the Effect (callback) runs any time the signals connected to greeting are
+emitted, which they do when the value stored is changed.
+
+In a GUI/TUI framework, pretty much every possible interaction with the
+interface (like clicking on a button, moving the mouse over a button, pressing a
+key, etc) emits a signal. You can connect slots in order to control what
+happens.
+
 ## Memory safety
 
 ### Garbage collected languages

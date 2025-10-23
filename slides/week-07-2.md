@@ -224,6 +224,116 @@ In the above example, we compute the radius for plotting.
 
 ---
 
+## Reactive programming (signals & slots)
+
+Common in:
+
+- GUIs (Qt)
+- TUIs (`textual`)
+- Spreadsheets
+
+Based on the idea of a callback function.
+
+---
+
+## Reactive programming: callback (sync)
+
+```python
+import threading
+
+
+def delayed_callback():
+    print("Callback fired after delay!")
+
+
+timer = threading.Timer(2.0, delayed_callback)
+timer.start()
+print("Waiting...")
+```
+
+---
+
+## Reactive programming: callback (async)
+
+```python
+import asyncio
+
+
+def delayed_callback():
+    print("Callback fired after delay!")
+
+
+loop = asyncio.get_running_loop()
+loop.call_later(2, delayed_callback)
+print("Waiting...")
+```
+
+---
+
+## Reactive programming: callback (CLI)
+
+```python
+import argparse
+
+
+class PrintMessage(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        print(f"Callback triggered! You passed: {values}")
+        setattr(namespace, self.dest, values)
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--say", action=PrintMessage)
+
+# Simulate command-line input, but without leaving the notebook
+args = parser.parse_args(["--say", "Hello from argparse!"])
+```
+
+---
+
+## Reactive programming: Signals and slots
+
+```python
+@dataclasses.dataclass
+class Signal:
+    slots = dataclasses.field(default_factory=list)
+
+    def connect(self, slot):
+        self.slots.append(slot)
+
+    def emit(self, value):
+        for callback in self.slots:
+            callback(value)
+
+
+sig = Signal()
+sig.connect(lambda x: print(f"Got update: {x}"))
+
+sig.emit(42)
+```
+
+---
+
+## Using the reaktiv library
+
+```python
+import reaktiv
+
+name = reaktiv.Signal("Alice")
+age = reaktiv.Signal(30)
+
+greeting = Computed(lambda: f"Hello, {name()}! You are {age()} years old.")
+greeting_effect = Effect(lambda: print(f"Updated: {greeting()}"))
+# Updated: Hello, Alice! You are 30 years old.
+
+name.set("Bob")
+# Updated: Hello, Bob! You are 30 years old.
+age.set(31)
+# Updated: Hello, Bob! You are 31 years old.
+```
+
+---
+
 ## Memory safety: garbage collection
 
 Garbage collected languages include most interpreted languages as well as C#, D, Java, Go.
