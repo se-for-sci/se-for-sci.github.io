@@ -63,15 +63,14 @@ times_three(["hi"])
 
 ## Optional static typing (2)
 
-Python doesn't care about type annotations! Some are accessible to libraries, but using that is not as common.
-
-How do you use the type annotations? With a type checker!
+Python doesn't care about type annotations! Some are accessible to libraries, but using that is not as common. Use via a type checker!
 
 - MyPy: The original type checker, from the CPython authors.
 - PyRight: Microsoft's type checker. Powers PyLance in VSCode.
-- PyRE: Meta's type checker, written for Instagram. In OCaml.
-- PyType: Google's type checker with inference. Python + UNIX.
+- PyRE (Pyrefly): Meta's type checker for Instagram. In OCaml (Rust).
+- PyType: Google's type checker with inference. Deprecated.
 - PyCharm also has a built-in one.
+- Ty (beta): from Astral, written in Rust. (Ruff/uv devs)
 
 ---
 
