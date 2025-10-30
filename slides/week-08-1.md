@@ -543,3 +543,143 @@ Try `mypyc`; it can compile your Python, giving a 2-5x speedup on a fully typed 
 - [Awesome Python Typing](https://github.com/typeddjango/awesome-python-typing): A curated list of links to Python typing related things
 - [Adam Johnson's Typing series](https://adamj.eu/tech/tag/mypy/)
 - [MyPy's cheat sheet](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)
+
+---
+
+## Examples
+
+Following are some examples.
+
+---
+
+## What's the best annotation for this function?
+
+```python
+def all_upper(values):
+    return [v.upper() for v in values]
+
+
+items = ["one", "two"]
+result = all_upper(items)
+```
+
+---
+
+## Attempt 1: explicit values
+
+```python
+def all_upper(values: list[str]) -> list[str]:
+    return [v.upper() for v in values]
+
+
+items = ["one", "two"]
+result = all_upper(items)
+```
+
+---
+
+## What about different container?
+
+```python
+def all_upper(values: list[str]) -> list[str]:
+    return [v.upper() for v in values]
+
+
+items = ("one", "two")
+result = all_upper(items)  # ❌
+```
+
+---
+
+## Attempt 2: Protocol
+
+```python
+def all_upper(values: Sequence[str]) -> list[str]:
+    return [v.upper() for v in values]
+
+
+items = ("one", "two")
+result = all_upper(items)
+```
+
+---
+
+## Details
+
+This is fairly common: Use a Protocol for input arguments, and be as exact as possible on output arguments!
+
+In fact, _try never to return a Protocol_. You want the type system to track _actual_ types.
+
+---
+
+## Bad use of Protocol
+
+```python
+from collections.abc import Sequence
+from typing import Any, reveal_type
+import copy
+
+
+def copy_sequence(seq: Sequence[Any]) -> Sequence[Any]:
+    return copy.copy(seq)
+
+
+a = ["1", "2"]
+b = copy_sequence(a)
+reveal_type(b)  # Sequence[Any]
+```
+
+As a reader, the type of `b` is obvious: it's a `list[str]`. But typing can't see that.
+
+---
+
+## Better
+
+```python
+from collections.abc import Sequence
+from typing import Any, reveal_type
+import copy
+
+
+def copy_sequence[T: Sequence[Any]](seq: T) -> T:
+    return copy.copy(seq)
+
+
+a = ["1", "2"]
+b = copy_sequence(a)
+reveal_type(b)  # list[str]
+```
+
+---
+
+## Smarter return types
+
+You want the return type to be as accurate as possible. Use overloads if the type depends on the arguments in a non-trivial way (not passed through).
+
+```python
+def call(*args: str, quiet: bool = False) -> str | None:
+    # Logic would go here
+    if quiet:
+        return f"result of {args}"
+    return None
+
+
+call("echo", "hi", quiet=True).strip()  # ❌ Can't call on None
+```
+
+---
+
+## Smarter return types
+
+```python
+@overload
+def call(*args: str, quiet: Literal[False] = ...) -> None: ...
+
+
+@overload
+def call(*args: str, quiet: Literal[True]) -> str: ...
+
+
+def call(*args: str, quiet: bool = False) -> str | None:
+    "See above"
+```

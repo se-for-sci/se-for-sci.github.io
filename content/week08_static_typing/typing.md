@@ -1037,6 +1037,14 @@ also allowed? If nothing is allowed except `B`, your TypeVar is **invariant**
 **covariant** and `*_co` is recommended for the name. If you allow parents, then
 it is **contravariant**, and `*_contra` is recommended for the name.
 
+Why? It turns out, if you have a read-only values, covariant variables are safe;
+when you read a variable, children act like their parents. That's why immutable
+protocols, like `Sequence` and `Mapping`, are covariant, while the mutable ones,
+like `MutableMapping`, as well as list, are not. If you have write-only values,
+then you can always write a parent, so contravariant is fine for write-only
+usage (say in a method call; write-only collections are somewhat rare!). If you
+read and write, then it is invariant.
+
 Unions are covariant. `B | None` would also accept `C`.
 
 Lists (generally anything mutable) are invariant. If you have a `list[B]`, it is
