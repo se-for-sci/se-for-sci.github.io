@@ -6,6 +6,6 @@ mod rust_example {
 
   #[pyfunction]
   fn square(a: usize, b: usize) -> usize {
-      a + b
+      a * b
   }
 }

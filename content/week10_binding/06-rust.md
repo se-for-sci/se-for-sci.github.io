@@ -38,14 +38,14 @@ Your `Cargo.toml` should look something like this:
 [package]
 name = "rust_example"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [lib]
 name = "rust_example"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = {version = "0.21.1", features = ["abi3-py38"]}
+pyo3 = {version = "0.27.1", features = ["abi3-py310"]}
 ```
 
 The standard rust package stuff is at the top. The `lib` table has the library
@@ -65,12 +65,12 @@ The `pyproject.toml` file should look pretty normal:
 
 ```toml
 [build-system]
-requires = ["maturin>=1.5,<2.0"]
+requires = ["maturin>=1.9,<2.0"]
 build-backend = "maturin"
 
 [project]
 name = "rust_example"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
@@ -154,7 +154,7 @@ mod rust_example {
 
   #[pyfunction]
   fn square(a: usize, b: usize) -> usize {
-      a + b
+      a * b
   }
 }
 ```
