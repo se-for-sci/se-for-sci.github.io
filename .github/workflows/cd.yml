@@ -21,14 +21,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: prefix-dev/setup-pixi@v0.9.1
+      - uses: prefix-dev/setup-pixi@v0.9.3
         with:
           pixi-version: v0.28.2
 
       - name: Build the book
         run: pixi run book
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: jupyterbook
           path: _build/html/*
@@ -44,7 +44,7 @@ jobs:
         run: |
           uvx nox -s pyodide
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: jupyterlite
           path: _output/*
@@ -57,7 +57,7 @@ jobs:
       - name: Make slides
         run: npx @marp-team/marp-cli@latest --input-dir slides --output _output
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: slides
           path: _output/*
@@ -73,17 +73,17 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: jupyterbook
           path: public
 
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: jupyterlite
           path: public/live
 
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: slides
           path: public/slides
