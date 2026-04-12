@@ -284,7 +284,7 @@ tests:
   steps:
     - uses: actions/checkout@v4
 
-    - uses: astral-sh/setup-uv@v6
+    - uses: astral-sh/setup-uv@v8.0.0
 
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
