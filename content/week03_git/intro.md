@@ -21,7 +21,7 @@ Old school techniques are usually bad.
     complex
 
 - Disaster recover is a disaster.
-  - Oh F#@K! Did I just overwrite all my work from last night??!!!?
+  - Oh F#\@K! Did I just overwrite all my work from last night??!!!?
 
 ![title](phd101212s.png)
 

@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: jupyterbook
+          name: myst-site
           path: _build/html/*
 
   build-pyodide:
@@ -75,7 +75,7 @@ jobs:
 
       - uses: actions/download-artifact@v8
         with:
-          name: jupyterbook
+          name: myst-site
           path: public
 
       - uses: actions/download-artifact@v8

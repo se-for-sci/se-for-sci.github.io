@@ -1,4 +1,4 @@
-[project]
+[workspace]
 name = "se-for-sci"
 channels = ["conda-forge"]
 platforms = ["linux-64", "osx-arm64", "osx-64"]
@@ -10,7 +10,7 @@ cffi = "*"
 ipykernel = ">=6.0"
 ipython = ">=8.0"
 ipywidgets = "*"
-jupyter-book = "*"
+mystmd = "*"
 jupyterlab = ">=3"
 line_profiler = "*"
 matplotlib = ">=3.5"
@@ -25,10 +25,10 @@ pytest = ">7"
 rich = ">=11"
 scikit-build-core = ">=0.8"
 scipy = "*"
-sphinxcontrib-mermaid = "*"
 ninja = ">=1.10"
 
 [tasks]
 lab = "jupyter lab"
-book = "export PYDEVD_DISABLE_FILE_VALIDATION=1 && python -m ipykernel install --user --name conda-env-se-for-sci-py && jupyter-book build ."
-pdf = "export PYDEVD_DISABLE_FILE_VALIDATION=1 && python -m ipykernel install --user --name conda-env-se-for-sci-py && jupyter-book build --builder pdflatex ."
+book = "python -m ipykernel install --user --name conda-env-se-for-sci-py && myst build --execute --html"
+serve = "python -m ipykernel install --user --name conda-env-se-for-sci-py && myst start --execute"
+pdf = "python -m ipykernel install --user --name conda-env-se-for-sci-py && myst build --execute --pdf"
