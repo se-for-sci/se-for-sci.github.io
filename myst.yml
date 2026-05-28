@@ -1,0 +1,97 @@
+version: 1
+project:
+  title: Software Engineering For Scientific Computing
+  authors:
+    - name: Henry Schreiner
+    - name: Romain Teyssier
+  copyright: "Copyright 2022"
+  exclude:
+    - notes
+    - slides
+    - "**.*cache"
+    - "**.ipynb_checkpoints"
+    - "**.nox"
+    - "**.pixi"
+    - "**.virtual_documents"
+    - .DS_Store
+    - Thumbs.db
+    - "content/week10_binding/03-pybind/build"
+  settings:
+    output_stderr: remove-warn
+    output_matplotlib_strings: remove
+  toc:
+    - file: content/intro.md
+    - title: "Week 1: Intro"
+      children:
+        - file: content/week01_intro/intro.md
+        - file: content/week01_intro/setup.md
+        - file: content/week01_intro/vcs.md
+        - file: content/week01_intro/programming_basics.ipynb
+        - file: content/week01_intro/practices.md
+        - file: content/week01_intro/cleanup_bessel.ipynb
+        - file: content/week01_intro/python_setup.md
+    - title: "Week 2: Testing"
+      children:
+        - file: content/week02_testing/testing.md
+        - file: content/week02_testing/pytest.md
+        - file: content/week02_testing/tdd.md
+        - file: content/week02_testing/debugging.md
+    - title: "Week 3: Version Control"
+      children:
+        - file: content/week03_git/intro.md
+        - file: content/week03_git/first_steps.md
+        - file: content/week03_git/advanced_steps.md
+    - title: "Week 4: Packaging and Quality Control"
+      children:
+        - file: content/week04_package/packaging.md
+        - file: content/week04_package/using_packages.md
+        - file: content/week04_package/making_a_package.md
+        - file: content/week04_package/precommit.md
+        - file: content/week04_package/task_runners.md
+    - title: "Week 5: Continuous Integration"
+      children:
+        - file: content/week05_ci/ci.md
+        - file: content/week05_ci/cd.md
+        - file: content/week05_ci/docs.md
+    - title: "Week 6: Object Oriented design"
+      children:
+        - file: content/week06_oop/introoo.md
+        - file: content/week06_oop/oodesign.md
+    - title: "Week 7: Design Patterns"
+      children:
+        - file: content/week07_design/designpatt.md
+        - file: content/week07_design/functional.md
+    - title: "Week 8: Static Typing & Profiling"
+      children:
+        - file: content/week08_static_typing/typing.md
+    - title: "Week 9: Intro to Compilation"
+      children:
+        - file: content/week09_compiled/Compiled_Languages.ipynb
+        - file: content/week09_compiled/rust_example/compiled.md
+        - file: content/week09_compiled/rust_example/rust.md
+        - file: content/week09_compiled/debugging.md
+        - file: content/week09_compiled/profiling.md
+    - title: "Week 10: Mixing Languages"
+      children:
+        - file: content/week10_binding/01-shared-objects/01-shared-objects.ipynb
+        - file: content/week10_binding/02-cpython/02-cpython.ipynb
+        - file: content/week10_binding/03-pybind/03a-pybind.ipynb
+        - file: content/week10_binding/03-pybind/03b-pybind.ipynb
+        - file: content/week10_binding/06-rust.md
+    - title: "Week 11: Parallel Computing"
+      children:
+        - file: content/week11_omp/intro.md
+        - file: content/week11_omp/openmp.md
+        - file: content/week11_omp/threading.md
+        - file: content/week11_omp/concepts.md
+    - title: "Week 12: GPUs"
+      children:
+        - file: content/week12_mpi/mpi.md
+    - title: "Bonus: Exotic topics"
+      children:
+        - file: content/week13_misc/webassembly.md
+        - file: content/week13_misc/shell.md
+site:
+  actions:
+    - title: Source Repository
+      url: https://github.com/se-for-sci/se-for-sci.github.io
