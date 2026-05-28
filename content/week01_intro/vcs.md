@@ -1,5 +1,7 @@
 # Version control overview
 
+{button}`Slides <https://se-for-sci.github.io/slides/week-01-2>`
+
 Our course material is in Git. All the open-source software we use is in Git.
 Linux is in Git. It's the basis of modern software development. We'll work on
 Git in detail later, but here are a few quick basics:

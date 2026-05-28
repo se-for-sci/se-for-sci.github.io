@@ -12,7 +12,7 @@ kernelspec:
 
 # Intro to Object Oriented Programming (OOP)
 
-[Slides](https://se-for-sci.github.io/slides/week-06-1)
+{button}`Slides <https://se-for-sci.github.io/slides/week-06-1>`
 
 ## Objects as collections of data and functions
 

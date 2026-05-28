@@ -12,7 +12,7 @@ kernelspec:
 
 # Object Oriented Design
 
-[Slides](https://se-for-sci.github.io/slides/week-06-2)
+{button}`Slides <https://se-for-sci.github.io/slides/week-06-2>`
 
 ## Intro
 
