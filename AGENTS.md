@@ -40,8 +40,7 @@ MyST MD course site for _Software Engineering for Scientific Computing_.
 
 - Always use `prek -a --quiet` instead of `pre-commit run -a`.
 - Hooks include: ruff-format, blacken-docs, nbstripout, prettier, codespell,
-  blocklint, plus a **custom `disallow-caps` hook** that rejects `PyBind`,
-  `Numpy`, `Cmake`, `CCache`, `Github`, `PyTest`.
+  blocklint, plus a **custom `disallow-caps` hook**.
 - Prettier config (`.prettierrc.toml`): prose wraps at 80 chars by default,
   **but never for `slides/*.md`**.
 

@@ -16,6 +16,7 @@ project:
     - .DS_Store
     - Thumbs.db
     - "content/week10_binding/03-pybind/build"
+  github: https://github.com/se-for-sci/se-for-sci.github.io
   settings:
     output_stderr: remove-warn
     output_matplotlib_strings: remove
@@ -92,6 +93,10 @@ project:
         - file: content/week13_misc/webassembly.md
         - file: content/week13_misc/shell.md
 site:
-  actions:
-    - title: Source Repository
+  nav:
+    - title: Source
       url: https://github.com/se-for-sci/se-for-sci.github.io
+    - title: WebAssembly
+      url: https://se-for-sci.github.io/live
+    - title: Binder
+      url: https://mybinder.org/v2/gh/se-for-sci/se-for-sci.github.io/main?urlpath=lab
