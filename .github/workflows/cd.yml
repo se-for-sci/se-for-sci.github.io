@@ -23,7 +23,7 @@ jobs:
 
       - uses: prefix-dev/setup-pixi@v0.9.6
         with:
-          pixi-version: v0.28.2
+          pixi-version: v0.69.0
 
       - name: Build the book
         run: pixi run book
