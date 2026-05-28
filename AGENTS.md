@@ -11,7 +11,8 @@ MyST MD course site for _Software Engineering for Scientific Computing_.
 | Slides                       | `npx @marp-team/marp-cli@latest --input-dir slides --output _output` |
 | Live dev server (JupyterLab) | `pixi run lab`                                                       |
 
-- `pixi run book` installs a user-wide ipykernel (`conda-env-se-for-sci-py`) and
+- `pixi run book` depends on the `install-kernel` task, which installs the
+  project's Python kernel into the pixi environment (`--sys-prefix`), then
   builds the site using `myst build --execute --html`. It sets
   `PYDEVD_DISABLE_FILE_VALIDATION=1`.
 - `mystmd` is configured to **execute all notebooks** on every build

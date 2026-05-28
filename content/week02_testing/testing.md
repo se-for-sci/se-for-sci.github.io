@@ -106,7 +106,7 @@ Here's a non-exhaustive list of some types of testing:
   this list...
 - **Property based testing** uses random inputs and verifies properties of the
   output. The Python tool for this is
-  [Hypothosis](https://hypothesis.readthedocs.io/en/latest/), which works with
+  [Hypothesis](https://hypothesis.readthedocs.io/en/latest/), which works with
   pytest. This also may be called "fuzzing".
 - **Smoke testing**: Making sure the code won't "catch fire". Checking an
   end-to-end ground truth.
@@ -259,7 +259,7 @@ Some Python testing frameworks:
   same name.
 - **xdoctest**: a better version of the standard library module that might even
   be usable in some cases.
-- **Hypothosis**: Property based testing (is an add-on to pytest)
+- **Hypothesis**: Property based testing (is an add-on to pytest)
 - [**ward**](https://github.com/darrenburns/ward): An abandoned library that
   tried to rethink pytest to be even more modern. Interesting to see the ideas
   here.
