@@ -21,7 +21,7 @@ print = console.print
 
 # Design patterns
 
-[Slides](https://se-for-sci.github.io/slides/week-07-2)
+{button}`Slides <https://se-for-sci.github.io/slides/week-07-2>`
 
 Let's move beyond OO and learn from other paradigms and patterns. These are not
 exclusive - you may use some or all of the ideas here to inform your class

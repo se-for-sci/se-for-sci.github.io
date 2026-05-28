@@ -1,6 +1,6 @@
 # Intro to testing
 
-[Slides](https://se-for-sci.github.io/slides/week-03-1)
+{button}`Slides <https://se-for-sci.github.io/slides/week-03-1>`
 
 ## Why Test?
 
