@@ -62,7 +62,7 @@ project:
       children:
         - file: content/week07_design/designpatt.md
         - file: content/week07_design/functional.md
-    - title: "Week 8: Static Typing & Profiling"
+    - title: "Week 8: Static Typing"
       children:
         - file: content/week08_static_typing/typing.md
     - title: "Week 9: Intro to Compilation"
@@ -85,7 +85,7 @@ project:
         - file: content/week11_omp/openmp.md
         - file: content/week11_omp/threading.md
         - file: content/week11_omp/concepts.md
-    - title: "Week 12: GPUs"
+    - title: "Week 12: Parallel Computing with MPI"
       children:
         - file: content/week12_mpi/mpi.md
     - title: "Bonus: Exotic topics"

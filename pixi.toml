@@ -29,6 +29,7 @@ ninja = ">=1.10"
 
 [tasks]
 lab = "jupyter lab"
-book = "python -m ipykernel install --user --name conda-env-se-for-sci-py && myst build --execute --html"
-serve = "python -m ipykernel install --user --name conda-env-se-for-sci-py && myst start --execute"
-pdf = "python -m ipykernel install --user --name conda-env-se-for-sci-py && myst build --execute --pdf"
+install-kernel = "python -m ipykernel install --sys-prefix --name conda-env-se-for-sci-py"
+book = { cmd = "myst build --execute --html", depends-on = ["install-kernel"] }
+serve = { cmd = "myst start --execute", depends-on = ["install-kernel"] }
+pdf = { cmd = "myst build --execute --pdf", depends-on = ["install-kernel"] }
