@@ -75,9 +75,9 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -249,8 +249,8 @@ lint:
   name: Lint
   runs-on: ubuntu-latest
   steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
+    - uses: actions/checkout@v6
+    - uses: actions/setup-python@v6
       with:
         python-version: "3.x"
     - uses: pre-commit/action@v3.0.1
@@ -282,12 +282,12 @@ tests:
         - "3.13"
   name: Check Python ${{ matrix.python-version }}
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
-    - uses: astral-sh/setup-uv@v8.0.0
+    - uses: astral-sh/setup-uv@v8.1.0
 
     - name: Setup Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -427,7 +427,7 @@ configure Pages.
 ```yaml
 - name: Setup Pages
   id: pages
-  uses: actions/configure-pages@v5
+  uses: actions/configure-pages@v6
 ```
 
 Notice this action sets an `id:`; this will allow you to use the outputs from
@@ -438,7 +438,7 @@ this action later; specifically, may want to use
 
 ```yaml
 - name: Upload artifact
-  uses: actions/upload-pages-artifact@v3
+  uses: actions/upload-pages-artifact@v5
 ```
 
 This actions defaults to uploading `_site`, but you can give any `with: path:`
@@ -458,7 +458,7 @@ deploy:
   steps:
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5
 ```
 
 The deploy-pages job gives a `page_url`, which is the same as `base_url` on the

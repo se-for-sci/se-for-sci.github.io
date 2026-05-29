@@ -93,6 +93,7 @@ project:
         - file: content/week13_misc/webassembly.md
         - file: content/week13_misc/shell.md
 site:
+  title: SE4Sci
   nav:
     - title: Source
       url: https://github.com/se-for-sci/se-for-sci.github.io

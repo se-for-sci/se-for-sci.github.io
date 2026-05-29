@@ -91,7 +91,7 @@ Here is the snippet to add Black to your `.pre-commit-config.yml`:
 
 ```yaml
 - repo: https://github.com/psf/black-pre-commit-mirror
-  rev: "25.9.0"
+  rev: "26.5.1"
   hooks:
     - id: black
 ```
@@ -115,7 +115,7 @@ Jupyter outputs:
 
 ```yaml
 - repo: https://github.com/kynan/nbstripout
-  rev: "0.8.1"
+  rev: "0.9.1"
   hooks:
     - id: nbstripout
 ```
@@ -129,7 +129,7 @@ The MyPy addition for pre-commit:
 
 ```yaml
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: "v1.18.2"
+  rev: "v2.1.0"
   hooks:
     - id: mypy
       files: src
@@ -189,7 +189,7 @@ failures from plugins updating without updating your pre-commit hook.
 
 ```yaml
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: "v0.13.2"
+  rev: "v0.15.15"
   hooks:
     - id: ruff-check
       args: ["--fix", "--show-fixes"]
@@ -301,7 +301,7 @@ spell checkers, this has a list of mistakes it looks for, rather than a list of
 
 ```yaml
 - repo: https://github.com/codespell-project/codespell
-  rev: "v2.4.1"
+  rev: "v2.4.2"
   hooks:
     - id: codespell
       args: ["-L", "sur,nd"]
