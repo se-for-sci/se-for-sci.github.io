@@ -202,3 +202,4 @@ content/week09_compiled/ramses/
 
 _output/Volumes
 *.doit.db
+_output/
