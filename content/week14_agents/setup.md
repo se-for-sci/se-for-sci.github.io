@@ -19,7 +19,7 @@ implications.)
 
 ## Selecting a harness
 
-The first think you'll interact with is the harness. These tend come in three
+The first thing you'll interact with is the harness. These tend to come in three
 flavors:
 
 - **TUI**, short for Terminal User Interface. These run in your terminal. Works
@@ -32,8 +32,8 @@ flavors:
 
 Most harnesses come in all three flavors, you just pick the one you like
 interacting with best. Some harnesses are more feature rich in one flavor. For
-example, Copilot usually adds features to the editor plugin first. Claude code
-and OpenCode favor the TUI. Codex favors the GUI.
+example, Copilot usually adds features to the editor plugin first. Claude Code
+and OpenCode favor the TUI.
 
 There's a second component to harnesses, and it's really important: the **system
 prompt**. The reason most model providers have a harness is to provide a system
@@ -44,9 +44,9 @@ using different harnesses.
 
 Some providers (like Anthropic) require you use their harness to use
 subscription coding, so you don't get a choice. (Providers can cache the prompt
-tokens, saving 10k-30k tokens).
+tokens, reducing the cost and latency of the 10k-30k tokens of system prompt).
 
-Harness provide **tools**, which are things the model can call to perform
+Harnesses provide **tools**, which are things the model can call to perform
 operations. Models are mostly smart enough to figure out how to use tools, and
 most harnesses provide a small set of useful tools, so this isn't usually an
 issue except maybe for small local models.
@@ -55,7 +55,7 @@ This is what makes Agentic AI special, and more useful than a simple chat; the
 model can call tools, read output, and loop, fixing mistakes, just like a human
 would. Many other things in this course - tests, formatters, linters, type
 checking, and CI all feed into the agentic loop, letting the agent correct
-mistakes and produces high quality output.
+mistakes and produce high quality output.
 
 Most harnesses have these features:
 
@@ -84,7 +84,8 @@ Here's a current breakdown of some current models:
 - Simple models: Claude Haiku, GPT 5.4 mini
 - Local models: Gemma 4, Qwen 3.6
 
-(GLM 5.1 sits right inbtween Simple and Workhorse, and is a personal favorite).
+(GLM 5.1 sits right in between Simple and Workhorse, and is a personal
+favorite).
 
 Here are some suggested task breakdowns. You can always use a stronger model,
 this is just a recommended minimum:
@@ -92,7 +93,7 @@ this is just a recommended minimum:
 - Local models
   - Asking questions about a codebase
   - Very, very simple edits
-  - Throw-aways scripts (like plotting code)
+  - Throw-away scripts (like plotting code)
   - Writing config for AI
   - Summaries
 - Simple models
@@ -105,7 +106,7 @@ this is just a recommended minimum:
   - Setting up, compiling, running code
   - Working on webpages / theming
 - Workhorse models
-  - Complex merge configts
+  - Complex merge conflicts
   - Complex tests
   - PR/diff review
   - Assistance with docs
@@ -119,6 +120,7 @@ this is just a recommended minimum:
   - Large refactors
   - Profiling and optimizations
   - Difficult bug fixes
+  - Prototyping new features
   - New features
   - Any of the smaller model items if they fail to do it first
 
@@ -127,8 +129,8 @@ this is just a recommended minimum:
 Once you've picked a harness and model provider, then you'll need to download
 and install it, and get signed in or your API key set somewhere.
 
-Your harness has a centeral location for config and a user-level
-`AGENTS.md`-equivelent file. You can add a little bit of text here that will
+Your harness has a central location for config and a user-level
+`AGENTS.md`-equivalent file. You can add a little bit of text here that will
 always be loaded right after the system prompt. Here's a template:
 
 ```md
@@ -145,12 +147,12 @@ Prefix PR descriptions and comments on PRs with the line ":robot: _AI text
 below_ :robot:" to indicate you are an agent speaking on a user's behalf.
 ```
 
-(You would insert your github username above). This does several things:
+(You would insert your GitHub username above). This does several things:
 
 - Some basic system setup, so the agents don't have to keep asking the same
   questions
 - Guide for running prek, since I use that everywhere
-- Enforce conventional comments and Linux kernel style trailer. If using claude,
+- Enforce conventional commits and Linux kernel style trailer. If using claude,
   `You don't need to add a coauthored-by claude when you have this.` can be
   added.
 - Not needed for a large model, but if using local models, add
@@ -172,10 +174,10 @@ certain tools.
 When you start up a harness, you are starting fresh, there's no knowledge about
 the high level project features or low level details, everything must be
 investigated by the agent. To speed this up, reduce token usage, and give the
-agent a better "big-pictue" view, you should create a project-level `AGENTS.md`
+agent a better "big-picture" view, you should create a project-level `AGENTS.md`
 file. You can type `/init` into your harness, and that should generate one. Some
 tools have custom file names; if yours does, move it to `AGENTS.md` after it is
-generated. The only tool that does not support the `AGENTS.md` stamdard is
+generated. The only tool that does not support the `AGENTS.md` standard is
 Claude Code; if you are using that then you'll also need to run
 `ln -s AGENTS.md CLAUDE.md` and add `CLAUDE.md` to your gitignore (also
 `.claude` while you are at it). Feel free to review and edit if it got anything
@@ -190,10 +192,10 @@ You can even instruct the AI to update `AGENTS.md` when things change in the
 
 You can do nearly anything, but some ideas to get started.
 
-Try investicating the codebase. Some example prompts:
+Try investigating the codebase. Some example prompts:
 
-- `How to I run the tests?`
-- `Write a `ARCHITECTURE.md` describing how this project works.`
+- `How do I run the tests?`
+- `Write an ARCHITECTURE.md describing how this project works.`
 - `Who wrote the majority of the CI?`
 
 Your agent can look up git history, webpages, and much more, as it needs,
@@ -201,7 +203,8 @@ without being explicitly told.
 
 Try reviewing code:
 
-- `\review` (some harnesses require a PR number or description of what to review
+- `/review` (some harnesses require a PR number or description of what to
+  review)
 - `Review this repository and look for things that can be modernized or simplified`
 
 And try this on issues or PRs if you have any:
