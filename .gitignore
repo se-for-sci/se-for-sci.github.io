@@ -203,3 +203,6 @@ content/week09_compiled/ramses/
 _output/Volumes
 *.doit.db
 _output/
+
+# Symlink to AGENTS.md
+.claude/
