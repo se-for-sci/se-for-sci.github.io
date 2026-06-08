@@ -4,22 +4,24 @@ MyST MD course site for _Software Engineering for Scientific Computing_.
 
 ## Build & run
 
-| Target                       | Command                                                              |
-| ---------------------------- | -------------------------------------------------------------------- |
-| Book (with pixi)             | `pixi run book`                                                      |
-| Pyodide / JupyterLite        | `nox -s pyodide`                                                     |
-| Slides                       | `npx @marp-team/marp-cli@latest --input-dir slides --output _output` |
-| Live dev server (JupyterLab) | `pixi run lab`                                                       |
+| Target                 | Command                                                              |
+| ---------------------- | -------------------------------------------------------------------- |
+| Book (with pixi)       | `pixi run book`                                                      |
+| Pyodide / JupyterLite  | `nox -s pyodide`                                                     |
+| Slides                 | `npx @marp-team/marp-cli@latest --input-dir slides --output _output` |
+| Live dev server (MyST) | `pixi run serve`                                                     |
+| JupyterLab             | `pixi run lab`                                                       |
 
 - `pixi run book` depends on the `install-kernel` task, which installs the
   project's Python kernel into the pixi environment (`--sys-prefix`), then
   builds the site using `myst build --execute --html`. It sets
   `PYDEVD_DISABLE_FILE_VALIDATION=1`.
 - `mystmd` is configured to **execute all notebooks** on every build
-  (`--execute` flag).
+  (`--execute` flag), so broken code in a notebook breaks CI.
 - Only files listed in the `toc` section of `myst.yml` are included in the
-  build. The `notes/` directory is explicitly excluded and contains instructor
-  notes—do not reference it as book content.
+  build. Adding a new chapter file means adding it to `myst.yml`. The `notes/`
+  directory is explicitly excluded and contains instructor notes—do not
+  reference it as book content.
 
 ## Environment
 
@@ -41,7 +43,10 @@ MyST MD course site for _Software Engineering for Scientific Computing_.
 
 - Always use `prek -a --quiet` instead of `pre-commit run -a`.
 - Hooks include: ruff-format, blacken-docs, nbstripout, prettier, codespell,
-  blocklint, plus a **custom `disallow-caps` hook**.
+  blocklint, plus a **custom `disallow-caps` hook** that rejects
+  miscapitalizations of names like pybind11, NumPy, CMake, ccache, GitHub, and
+  pytest — always use the canonical spelling (the hook also applies to this
+  file).
 - Prettier config (`.prettierrc.toml`): prose wraps at 80 chars by default,
   **but never for `slides/*.md`**.
 
