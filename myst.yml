@@ -91,7 +91,6 @@ project:
     - title: "Bonus: Exotic topics"
       children:
         - file: content/week13_misc/webassembly.md
-        - file: content/week13_misc/shell.md
     - title: "WIP: Agentic AI"
       children:
         - file: content/week14_agents/setup.md

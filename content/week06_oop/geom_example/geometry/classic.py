@@ -14,7 +14,7 @@ class Shape(abc.ABC):
 
 
 @dataclasses.dataclass
-class Triangle:
+class Triangle(Shape):
     a: float
     b: float
     c: float
@@ -28,7 +28,7 @@ class Triangle:
 
 
 @dataclasses.dataclass
-class Rectagle(Shape):
+class Rectangle(Shape):
     width: float
     height: float
 
@@ -39,7 +39,7 @@ class Rectagle(Shape):
         return 2 * (self.width + self.height)
 
 
-class Square(Rectagle):
+class Square(Rectangle):
     def __init__(self, side):
         super().__init__(side, side)
 

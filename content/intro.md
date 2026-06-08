@@ -18,8 +18,8 @@ group project.
 [WebAssembly version](https://se-for-sci.github.io/live) •
 [Binder version](https://mybinder.org/v2/gh/se-for-sci/se-for-sci.github.io/main?urlpath=lab)
 
-Note the WebAssembly version does not have a shell, and `time.sleep` doesn't
-work (the web is async).
+Note the WebAssembly version does not have a shell, and `time.sleep` returns
+instantly instead of sleeping (the web is async).
 
 ```{tableofcontents}
 

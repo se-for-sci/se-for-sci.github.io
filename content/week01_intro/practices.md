@@ -77,7 +77,7 @@ follow them whenever possible. For example, naming in Python & C++:
 If you are in a language that uses a different convention (lowerCamelCase, also
 known as dromedaryCase, for example), follow what is used in that language.
 
-For C and C++, you should loop from 0 to 1-len:
+For C and C++, you should loop from 0 to n-1 (or equivalently, while i < n):
 
 ```cpp
 // Good
@@ -157,11 +157,11 @@ This might do what you expect at first:
 
 ```python
 my_list = ["start"]
-print(add_to_list(my_list))
+print(add_end_to_list(my_list))
 ```
 
 But check the contents of `my_list` afterwards. Even better, try running it with
-the default argument (`add_to_list()`) and see what it returns.
+the default argument (`add_end_to_list()`) and see what it returns.
 
 Due to the above, it's a convention in Python to never use a mutable structure
 (we'll discuss mutation in detail in a few weeks) like a list or a dict for an
@@ -175,7 +175,7 @@ def add_end_to_list(x=()):
 
 If you do need to mutate arguments, it should be well documented and clear as
 possible from the function and argument names. Usually you should not return the
-list
+list in a mutating function:
 
 ```python
 def append_end_to_list(x=None):

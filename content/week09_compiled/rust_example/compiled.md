@@ -1,7 +1,7 @@
 # Intro to compiled languages (Rust)
 
-For the classic approach, please use the jupyter notebook in this directory to
-follow the lecture notes. This is a complete rewrite using Rust.
+For the classic approach, please use the jupyter notebook in the parent
+directory to follow the lecture notes. This is a complete rewrite using Rust.
 
 ## Intro to compiled languages
 
@@ -38,12 +38,11 @@ tricky. Modern languages take packaging seriously; a few of those are:
 - **Go**: Google tool "all the best stuff" from previous languages and made a
   solid language. Has a garbage collector.
 - **Rust**: A "memory-safe" language _without_ a garbage collector. Used in
-  Linux/Windows kernels, but as powerful as (very modern) C++ in many of it's
+  Linux/Windows kernels, but as powerful as (very modern) C++ in many of its
   concepts, without the old ways of doing things.
 
-Of these, the most interesting language is currently Rust - it's "systems"
-design means you can use it everywhere (unlike Go, which is only for
-applications).
+Of these, the most interesting language is currently Rust - its "systems" design
+means you can use it everywhere (unlike Go, which is only for applications).
 
 ## Step 1: Getting the compiler
 
@@ -89,7 +88,7 @@ $ ./example
 Hello world!
 ```
 
-We skipped one step you often see: linking. You can build library code with
+We skipped one step you often see: linking. You can build library code without
 making an executable; then you can either statically link (final binary has
 everything) or dynamically link (the library is still required at runtime) the
 code. Your build system (CMake for classic languages, Cargo for rust) will
@@ -118,7 +117,7 @@ want it to also set up git for you (due to the way cargo works, you'll have a
 
 This makes just three files: `.gitignore` with the `/target` directory ignored,
 a simple `src/main.rs` hello world application, and creates the `Cargo.toml`
-configuration file. That's the new one we want to look at; it's contents should
+configuration file. That's the new one we want to look at; its contents should
 look about like this:
 
 ```toml
@@ -285,7 +284,7 @@ something that is very challenging for older languages. Because of how easy it
 is, Rust doesn't encourage a massive standard library; things like regex are
 relegated to dependencies. Even the Rust AST parser is a dependency. Let's try
 adding a fun dependency: [`strum`](https://docs.rs/strum/latest/strum/), a
-string enum package. We want to use it's "derive" feature too, so we'll request
+string enum package. We want to use its "derive" feature too, so we'll request
 that.
 
 You can add it with a command:

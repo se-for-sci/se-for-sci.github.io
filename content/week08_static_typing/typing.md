@@ -57,7 +57,7 @@ both good tests and static types.
 This is not a course about Python. So why learn Python types? Almost everything
 you do with Python types applies to compiled code too - it's just required,
 rather than optional. Hopefully by learning it now you'll be able to focus on
-adapting to other differences with compiled languages - and you'l have a new
+adapting to other differences with compiled languages - and you'll have a new
 valuable Python skill too!
 ```
 
@@ -205,11 +205,9 @@ optional.py:5: error: Item "None" of "list[str] | None" has no attribute "__iter
 Found 1 error in 1 file (checked 1 source file)
 ```
 
-Ignoring the old style syntax (it should say
-`Item "None" of "list[str] | None"`), it did find the problem. If someone does
-not pass `prefix=`, our function will try to iterate over None, which throw a
-runtime error! Even without a test case for using the default argument, MyPy can
-detect it as problematic.
+It did find the problem. If someone does not pass `prefix=`, our function will
+try to iterate over None, which throw a runtime error! Even without a test case
+for using the default argument, MyPy can detect it as problematic.
 
 The fix is simple - just use `for prefix in prefixes or []:`. Once we learn
 about Protocols, another fix would be to replace the `list[str]` with something
@@ -667,7 +665,7 @@ def could_be_none(y: bool) -> int | None:
     return 42 if y else None
 
 
-x: bool = return_a_bool()
+x: bool = True
 a: int = could_be_none(True)
 b: None = could_be_none(False)
 c: int | None = could_be_none(x)
@@ -691,7 +689,7 @@ class Direction(Enum):
     down = "down"
 
 
-def handle_direciton(direction: Direction) -> str:
+def handle_direction(direction: Direction) -> str:
     if direction == Direction.up:
         return "up"
     if direction == Direction.down:
@@ -729,7 +727,7 @@ handled by the type checker; it's called exhaustiveness checking:
 from typing_extensions import assert_never  # typing in 3.11+
 
 
-def handle_direciton(direction: Direction) -> str:
+def handle_direction(direction: Direction) -> str:
     if direction == Direction.up:
         return "up"
     if direction == Direction.down:
@@ -773,7 +771,7 @@ Never = NoReturn
 
 
 def assert_never(val: Never) -> NoReturn:
-    assert False, f"Unhandled value: {value} ({type(value).__name__})"
+    assert False, f"Unhandled value: {val} ({type(val).__name__})"
 ```
 The actual `Never` return type gives a better type checker error, so it's nice
 that it's directly available now.
@@ -848,7 +846,11 @@ class DoesSomething(Protocol):
     def do_something(self) -> None: ...
 
 
-assert isinstance(MyThing, DoesSomething)
+class MyThing:
+    def do_something(self) -> None: ...
+
+
+assert isinstance(MyThing(), DoesSomething)
 ```
 
 This will pass if `MyThing` has a `do_something` method. Unlike the static
@@ -858,8 +860,7 @@ check the type signature (it's a runtime construct, after all).
 If you use a `hasattr(x, "do_something")` pattern, a runtime checkable Protocol
 can replace it and type checkers will correctly narrow as well. Though if it is
 a performance critical section of code, the `runtime_checkable` `Protocol` is a
-little slower that then `hasattr` and a `type: ignore` comment until Python
-3.12.
+little slower than `hasattr` and a `type: ignore` comment until Python 3.12.
 
 ### Verifying a Protocol
 
@@ -987,9 +988,9 @@ def f[T](x: T) -> T:
 TypeVar's do not hold a type by themselves. They always occur at least once in
 the _input_ of a of function. They may occur multiple times, or in the output,
 but they must occur in the input, since that's how they are bound to a type.
-Above, when you call `f`, `T` will have the type you of the variable you called
-`f` with. So the above will pass through any types. You can use this as an
-argument to generics, as well:
+Above, when you call `f`, `T` will have the type of the variable you called `f`
+with. So the above will pass through any types. You can use this as an argument
+to generics, as well:
 
 ```python
 def make_a_list(*args: T) -> list[T]:
@@ -1012,12 +1013,18 @@ wanted to make a custom container that holds arbitrary types, called MyList.
 Here's how you'd do it:
 
 ```python
+from collections.abc import Iterable
+from typing import Generic, TypeVar
+
+T = TypeVar("T")
+
+
 class MyList(Generic[T]):
     def __init__(self, items: Iterable[T]) -> None:
         self.items = list(items)
 
     def append(self, element: T) -> None:
-        self.append(element)
+        self.items.append(element)
 
     ...
 ```

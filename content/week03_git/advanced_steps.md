@@ -193,7 +193,7 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 ## Merging branches
 
 Now that we have a better code, we want to import in this better branch what was
-done in the `master` branch. In other words, we want to merge to work done in
+done in the `master` branch. In other words, we want to merge the work done in
 these 2 diverging versions of the code. We can do this using the `git merge`
 command.
 
@@ -378,7 +378,7 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 * | ce60f0f 2022-10-07 | Trying to merge again [Romain Teyssier]
 |\|
 | * 07557d4 2022-10-07 | Modify file1.txt [Romain Teyssier]
-* | 8b3b89f 2022-10-07 | Merge branch 'master' into better_code This is necessary. [Romain Teyssier]
+* | 8b3b89f 2022-10-07 | Merge branch 'master' into better_code Merging previous work in better version of the code [Romain Teyssier]
 |\|
 | * 41f8d80 2022-10-06 | Committing file3 (tag: v2) [Romain Teyssier]
 | * c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
@@ -504,7 +504,7 @@ We can check now that `file5.txt` is now modified as in the original repository.
 
 ```console
 $ cat file5.txt
-I  have changed file5.txt
+I have changed file5.txt
 ```
 
 When using `git pull`, you are in fact merging the remote branch with your local

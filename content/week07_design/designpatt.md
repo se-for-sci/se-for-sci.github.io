@@ -134,7 +134,7 @@ the function, and users should not have to look into the body! This issue in
 Python will be corrected when we cover static types.
 
 Generators can be used as a programming model. For example, you might have the
-following imperative code to counts the words in a file:
+following imperative code to count the words in a file:
 
 ```python
 with open(name, encoding="utf-8") as f:
@@ -386,7 +386,7 @@ register callbacks (slots) that we can then trigger when emitting a signal.
 ```python
 @dataclasses.dataclass
 class Signal:
-    slots = dataclasses.field(default_factory=list)
+    slots: list = dataclasses.field(default_factory=list)
 
     def connect(self, slot):
         self.slots.append(slot)
@@ -415,8 +415,8 @@ import reaktiv
 name = reaktiv.Signal("Alice")
 age = reaktiv.Signal(30)
 
-greeting = Computed(lambda: f"Hello, {name()}! You are {age()} years old.")
-greeting_effect = Effect(lambda: print(f"Updated: {greeting()}"))
+greeting = reaktiv.Computed(lambda: f"Hello, {name()}! You are {age()} years old.")
+greeting_effect = reaktiv.Effect(lambda: print(f"Updated: {greeting()}"))
 # Updated: Hello, Alice! You are 30 years old.
 
 name.set("Bob")
@@ -561,7 +561,7 @@ online compilers is <https://godbolt.org>, which supports a massive number of
 compilers and has the most advanced interface. "Godbolting" is a term you'll
 sometimes hear when it comes to testing something out quickly.
 
-You can find similar online tools for most of the other languages (all snipits
+You can find similar online tools for most of the other languages (all snippets
 in this course work on online playgrounds). For example, Rust has
 <https://play.rust-lang.org>.
 
@@ -588,7 +588,7 @@ int main() { // The "main" stack is allocated here
 In C, you used to have to declare all variables at the top of a function,
 because it's preparing the stack for the current function. In modern C and C++,
 you can define variables anywhere, and the compiler will prepare the appropriate
-stack for you. It's still placed at the top, because the stack is contagious.
+stack for you. It's still placed at the top, because the stack is contiguous.
 
 The biggest problem with the stack is it's not dynamic; you can't request a
 runtime dependent amount of it. It's also limited (you can adjust the limit in
@@ -733,7 +733,11 @@ class HeapHolder {
     }
     HeapHolder& operator=(const HeapHolder& other) = delete;  // copy assignment
     HeapHolder& operator=(HeapHolder&& other) noexcept { // move assignment
-        return *this = HeapHolder(other);
+        if(value != nullptr)
+            delete value;
+        value = other.value;
+        other.value = nullptr;
+        return *this;
     }
     ~HeapHolder() {  // Destructor
         if(value != nullptr)
@@ -989,5 +993,5 @@ look up if you are curious:
 - Factory pattern: We've touched on this lightly, classes `__init__` method, for
   example. You can have other factories with `@classmethod`'s that return new
   instances. (or static methods in C++, etc).
-- Ascync patterns: Lightly touched on during generators.
+- Async patterns: Lightly touched on during generators.
 - Event loop: A common pattern for reacting to multiple possible inputs.

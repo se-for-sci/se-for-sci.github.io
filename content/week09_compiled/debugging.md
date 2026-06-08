@@ -1,6 +1,6 @@
 # Debugging
 
-Debugging is one of the most painful and addictive activity in software
+Debugging is one of the most painful and addictive activities in software
 engineering. One could compare it to running or sudoku. You suffer for hours
 trying to understand why your code is crashing, and when you find the bug, the
 prize is a dopamine rush and a working code.
@@ -134,7 +134,7 @@ All compilers accept the `-g` option.
 
 - However, using `-g` slows down the code significantly
 
-- Removes optimizations (unless one uses `–gopt` or `–g –O3`)
+- Removes optimizations (unless one uses `-gopt` or `-g -O3`)
 
 - Start with `-g –O0` (no optimization) for most accurate correspondence between
   executable instructions and source code line
@@ -145,7 +145,9 @@ All compilers accept the `-g` option.
 - Running with `-g` is sometimes sufficient to find a bug. The code crashes and
   indicates where the error occurred
 
-- `cargo` defaults to compiling with the equivalent of `-g -O0`.
+- `cargo` defaults to compiling with the equivalent of `-g -O0` in debug mode
+  (the default). The release profile defaults to optimization with `-O3` and no
+  debug symbols.
 
 ### The `-g` option makes the bug go away!
 
@@ -158,8 +160,8 @@ All compilers accept the `-g` option.
   address when the optimized code is executed
 
 - Look at your compiler’s documentation for how you can use the `-g` option
-  while keeping most of the optimizations intact, such as `-gopt` for the PGI
-  compiler (Portland Group), or simply `-g –O2` for Intel
+  while keeping most of the optimizations intact, such as `-gopt` for the NVIDIA
+  HPC compiler (formerly Portland Group), or simply `-g -O2` for Intel
   - caveat: these solutions can sometimes point you to the wrong location in the
     source code
 
@@ -187,7 +189,7 @@ All compilers accept the `-g` option.
 ### Try different compilers if you can
 
 - Whenever you can, it is always a good idea to try different compilers if you
-  have access to different plavorms or different compilers on the same platform
+  have access to different platforms or different compilers on the same platform
 
 - Some compilers are a lot stricter than others and can catch potential problems
   at compile time
@@ -830,7 +832,7 @@ examples are:
 - In python, you have PyCharm developed by Jetbrains available at
   [this web page](https://www.jetbrains.com/pycharm/).
 
-- For Python, but also C, C++ anf Fortran you have the brand new Visual Studio
+- For Python, but also C, C++ and Fortran you have the brand new Visual Studio
   2022 from Microsoft available [here](https://visualstudio.microsoft.com/vs/).
 
 Here is a screenshot of the PyCharm IDE: ![](complexLook.jpg)

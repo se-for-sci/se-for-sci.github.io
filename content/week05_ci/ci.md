@@ -98,8 +98,8 @@ The `jobs:` dict is the other required key, and it has holds a dict with
 arbitrary keys; we used the name `tests:`, but it could have been `hefalump:`
 instead, it's the unique "id" of the job. Inside each job, you'll at least have
 a `runs-on:` setting that tells GHA which operating system image to run on (like
-`ubuntu-latests`, `ubunutu-24.04`, `macos-latest`, `windows-latest`, etc.) There
-is also are required `steps:`, containing a list of steps.
+`ubuntu-latest`, `ubuntu-24.04`, `macos-latest`, `windows-latest`, etc.) There
+are also required `steps:`, containing a list of steps.
 
 GitHub Actions runs each step. Steps have an optional (but nice) `name:`. Then
 they can either have a `uses:` key, which will load a GitHub "Action", or a
@@ -371,7 +371,7 @@ There are also a few useful tools installed which can really simplify your
 workflow or adding custom actions. This includes system package managers (like
 brew, chocolaty, NuGet, Vcpkg, etc), as well as a fantastic cross platform one:
 
-- [pipx](https://github.com/pypy/pipx): This is pre-installed on all runners
+- [pipx](https://github.com/pypa/pipx): This is pre-installed on all runners
   (GitHub uses to set up other things), and is kept up to date. It enables you
   to use any PyPI application in a single line with `pipx run <app>`.
 

@@ -3,8 +3,8 @@
 This is an introduction to some of the unique design of Rust. This is not
 comprehensive - the fantastic [Rust Book][] is much better if you want to fully
 learn Rust. Instead, we'll look at how it's different from what we've seen so
-far in Python, and discuss some of the aspects that make special, like how it is
-memory safe without resorting to a garbage collector, the trait system, and
+far in Python, and discuss some of the aspects that make it special, like how it
+is memory safe without resorting to a garbage collector, the trait system, and
 syntactic macros.
 
 ## Basic syntax
@@ -47,7 +47,7 @@ You might notice some functions in Rust have a `!` in them, such as:
 println!("Hello world");
 ```
 
-This are not normal functions, but syntactic macros. Functions in Rust cannot
+These are not normal functions, but syntactic macros. Functions in Rust cannot
 take a variable number of arguments or optional arguments, but you can work
 around this using macro functions. These are incredibly powerful - you can
 process the tokens yourself and return the new code, and you can write them in
@@ -64,7 +64,7 @@ let array = vec![1,2,3];
 ### Pattern matching
 
 Both Python (3.10+) and Rust have pattern matching, though Rust has it deeply
-baked in from a much earlier point in it's design. It's an integral part of how
+baked in from a much earlier point in its design. It's an integral part of how
 error propagation works, how optional values are processed, how enums
 (Union+enum in Python) are used, and more.
 
@@ -103,13 +103,13 @@ let cost = match coin {
 };
 ```
 
-You can put `{}` blocks here if you want. This is is so common, there's even a
+You can put `{}` blocks here if you want. This is so common, there's even a
 shortcut for a 1-2 branch match, called `if let`:
 
 ```rust
 if let [x, y] = variable {
     println!("The values are {x}, {y}")
-};
+}
 ```
 
 This will only define `x, y` and run the block if the pattern matches - that is,
@@ -127,7 +127,7 @@ Also error handling, etc.
 
 ### Structs
 
-Rust is careful to call it's data collection type a "struct", though it has many
+Rust is careful to call its data collection type a "struct", though it has many
 similarities with classes from other libraries. The main reason they avoid the
 object-oriented term is due to the fact that Rust's struct doesn't support
 inheritance - the Trait system (later) replaces it. Defining a `struct` looks
@@ -220,11 +220,11 @@ for c in chars {
 }
 ```
 
-This will convert the unicode string into a chars iterator, the apply the lambda
-function to each char. The `.to_digit` call returns `Option`, which is `None` if
-it's not a valid digit, which gets filtered out, so only `3` and `8` remain.
-Here, `chars` is a lazy iterator; it hasn't computed anything yet. It only gets
-processed when you iterator over it.
+This will convert the unicode string into a chars iterator, then apply the
+lambda function to each char. The `.to_digit` call returns `Option`, which is
+`None` if it's not a valid digit, which gets filtered out, so only `3` and `8`
+remain. Here, `chars` is a lazy iterator; it hasn't computed anything yet. It
+only gets processed when you iterator over it.
 
 ### Traits
 
@@ -273,7 +273,7 @@ There are traits for mathematical operations, and much more.
 
 Rust has an interesting rule for traits: Traits can only be implemented if you
 "own" either the trait or the type. So you can add `Display` to your own types,
-but you can't get a third-party library and add a `Display` to one of there
+but you can't get a third-party library and add a `Display` to one of their
 types, since you don't own the stdlib trait or the third party type. This means
 you can't ever collide with multiple trait definitions by mistake when loading
 two libraries.
@@ -375,7 +375,7 @@ many `&` as you want, but not both.
 
 You don't have to worry about cleaning up variables. Since Rust is a compiled
 language, the compiler can check to see if a variable is used again, and the
-last place it's used is it's lifespan. For example, this is valid:
+last place it's used is its lifespan. For example, this is valid:
 
 ```rust
 let mut x = SomeType{};

@@ -146,11 +146,10 @@ Took 2.677322351024486s to run
 ### Threading library
 
 The most general form of threading can be achieved with the `threading` library.
-You can start a thread by using `worker.thread.Thread(target=func, args=(...))`.
-Or you can use the OO interface, and subclass `Thread`, replacing the `run`
-method.
+You can start a thread by using `threading.Thread(target=func, args=(...))`. Or
+you can use the OO interface, and subclass `Thread`, replacing the `run` method.
 
-Once you a ready to start, call `worker.start()`. The code in the Thread will
+Once you are ready to start, call `worker.start()`. The code in the Thread will
 now start executing; Python will switch back and forth between the main thread
 and the worker thread(s). When you are ready to wait until the worker thread is
 done, you can call `worker.join()`.
@@ -337,6 +336,7 @@ but here's the basic idea: The high level interface looks like this:
 
 ```python
 import concurrent.futures
+from concurrent.futures import InterpreterPoolExecutor
 import random
 import statistics
 
@@ -491,8 +491,9 @@ awaited, Python will show a warning otherwise.
 CPU. It is mostly used for "reactive" programs that do something based on
 external input (GUIs, networking, etc).
 
-It is also possible to run `async` code in a thread by awaiting on
-`asyncio.to_thread(async_function, *args)`.
+It is also possible to run synchronous (blocking) code in a thread by awaiting
+on `asyncio.to_thread(sync_function, *args)` (note that the function passed
+should be synchronous, not async).
 
 ```{literalinclude} piexample/asyncpi_thread.py
 :linenos:

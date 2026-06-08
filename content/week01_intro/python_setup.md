@@ -27,7 +27,7 @@ For Linux, if you use your system Python, make sure it is new enough, and never
 modify the base environment except though your package manager (generally true,
 but more so here). The system Python is really intended for use in other system
 packages, and is not intended for you to modify. Modern pip and modern systems
-(like Ubuntu 24.04+) now work together to provide safegaurds for this.
+(like Ubuntu 24.04+) now work together to provide safeguards for this.
 
 ### Virtual environments
 
@@ -52,7 +52,7 @@ than one, your virtual environment should be at the root of your project with
 the name `.venv`. Never check it into git; it should be listed in your
 `.gitignore`. If you have the third-party package `virtualenv`, it's just faster
 and the pre-installed pip is updated more regularly than the Python standard
-library allows - it has the same interface).
+library allows (it has the same interface).
 
 (Notice I didn't mention `python3 -m ensurepip`? That's because you don't need
 it with a virtualenv, the virtualenv will come with pip installed, even if it's
@@ -88,11 +88,11 @@ Virtual environments work great for projects, but what about applications that
 you find on PyPI that you want to use? There's a simple solution for this: pipx,
 which is pip's counterpart for "executables". When you run
 `pipx install <package>`, pipx will create a managed virtual environment for
-just that application, and only expose it's applications on the command line. So
+just that application, and only expose its applications on the command line. So
 `pipx install twine` will allow you to run `twine` anywhere, but you will not be
-able to `import twine`, since it really lives in it's own virtual environment.
+able to `import twine`, since it really lives in its own virtual environment.
 
-Even better, `pip run <app>` will combine the two steps of installing and
+Even better, `pipx run <app>` will combine the two steps of installing and
 running an application into one command; pipx will install the app into a
 temporary virtual environment (reused if you rerun the same command less than a
 week later), and then run it. With `pipx run`, you never have to think about
@@ -120,11 +120,11 @@ that name.
 
 The last common need is to run a series of commands in a specific environment.
 This can be your tests, your documentation, or various other tasks. The original
-tool for this is `tox`, but due to it's custom configuration format, the
+tool for this is `tox`, but due to its custom configuration format, the
 Python-based tool `nox` is recommended instead for newcomers as well as
 experienced users.
 
-You write a `noxfile.py` with functions that represent the tasks you want to to
+You write a `noxfile.py` with functions that represent the tasks you want to
 run. It looks something like this:
 
 ```python
@@ -160,11 +160,12 @@ easier or faster. Here are some popular ones:
 
 - `poetry` - The first major attempt to make a modern package manager. It's
   become a bit too opinionated in some areas, like it is the only one to force
-  you to use it's build-backend, and is behind on following standards.
+  you to use its build-backend, and is behind on following standards.
 - `pdm`: A mostly drop-in replacement for poetry that is more flexible and
   follows standards better. It can also do things like install Python for you.
 - `hatch`: The only tool in this list that can do multiple environments properly
-  (uv might later), but also the only one to not have built-in locking yet.
+  (uv might support this later), but also the only one to not have built-in
+  locking yet.
 - `uv` - The most interesting new tool, it will be covered in depth below.
 
 Each tool has strengths and drawbacks. Before uv, the best tool for projects
@@ -176,8 +177,8 @@ interesting entry, so let's cover that below.
 
 The team at astral-sh has been developing Rust-based tooling for Python. They
 introduced `uv`, which started out as a drop-in replacement for venv, quite
-drop-in), and had many long-requested features added (to be fair, uv has has
-more dedicated developer time than these other tools combined). Since launching,
+drop-in, and had many long-requested features added (to be fair, uv has more
+dedicated developer time than these other tools combined). Since launching,
 they've also replaced pipx, build, Python installers, and are starting to
 replace poetry/pdm. By targeting the stand alone tools first, it's easy to just
 use uv for whatever you want faster without fully committing to it like, for
@@ -245,7 +246,7 @@ using anything besides uv and you aren't going to make SDists/wheels, you can
 leave it off. `"hatchling"` is a great, flexible, and extendable backend, but
 there is a built in backend as well (shown above) for very simple projects. If
 you use hatchling, make sure the import name matches the project name (or look
-up it's configuration options if you have a good reason not to match the names,
+up its configuration options if you have a good reason not to match the names,
 which you don't).
 
 The `[project]` table should always have `name` and `version`, as they are
@@ -342,7 +343,7 @@ there are several installers like "miniforge" and "mambaforge" that are just
 conda or mamba with conda-forge set as the default channel; you can do this
 yourself with the base tools, and pixi already defaults to conda-forge.
 
-Note that conda-forge has it's own compiler toolchain. You generally should not
+Note that conda-forge has its own compiler toolchain. You generally should not
 be compiling code with conda-forge packages; if you have to, make sure you get
 the compiler toolchain from conda-forge as well. Wheels mostly work, but you
 lose the advantages of conda's shared libraries. If you are just using conda to

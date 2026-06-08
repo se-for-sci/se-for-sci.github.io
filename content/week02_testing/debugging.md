@@ -23,7 +23,7 @@ log = logging.getLogger("unique")
 You'll often see this shortcut used in modules:
 
 ```python
-log = logging.getLogger(__module__)
+log = logging.getLogger(__name__)
 ```
 
 Here are a couple of logging statements:
@@ -59,8 +59,8 @@ beautiful setting (for use in applications, not libraries).
 The hardest part of logging is generally setting up the infrastructure for
 controlling the logger, usually; it’s best if you have a flag or environment
 variable that can control this, and you have to decide or allow a choice on
-whether you want all loggers or just yours to change level. And you have might
-want to log to a file, rotate logs, etc; everything is doable but not all that
+whether you want all loggers or just yours to change level. And you might want
+to log to a file, rotate logs, etc; everything is doable but not all that
 pretty.
 
 ### Combining with pytest

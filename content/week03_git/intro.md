@@ -20,7 +20,7 @@ Old school techniques are usually bad.
   - Track changes feature Google Docs or Word --- not so useful for anything
     complex
 
-- Disaster recover is a disaster.
+- Disaster recovery is a disaster.
   - Oh F#\@K! Did I just overwrite all my work from last night??!!!?
 
 ![title](phd101212s.png)
@@ -112,8 +112,8 @@ Open a browser to this URL: https://learngitbranching.js.org/?NODEMO
 Other resources for git:
 
 - https://gitimmersion.com/
-- http://think-like-a-git.net/
+- https://think-like-a-git.net/
 - http://ndpsoftware.com/git-cheatsheet.html
 - https://ohshitgit.com/
-- http://gitready.com/
+- https://gitready.com/
 - https://explainshell.com/

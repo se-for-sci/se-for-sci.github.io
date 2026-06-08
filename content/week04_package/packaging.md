@@ -60,14 +60,14 @@ for specific ecosystems, like bioconda.
 
 Conda packages tend to be a lot larger, because they bundle in more
 dependencies. Binary wheels generally target a minimal subset of the host system
-that works everywhere, while conda packages bundle everything and are build with
+that works everywhere, while conda packages bundle everything and are built with
 custom toolchains. Conda distributes Python itself - it's just another
 dependency to Conda, while Pip can only install to an existing Python.
 
 There are several packages, so here's a quick summary:
 
 - **Conda**: The original, written in Python. The resolver is now from Mamba, so
-  it's much closer to speed in mamba that is used to be. a large ecosystem.
+  it's much closer in speed to what Mamba used to be, with a large ecosystem.
 - **Mamba**: A faster, drop-in replacement for conda that uses a different
   dependency resolver and is written in C++.
 - **MicroMamba**: Used to be different from Mamba, but now is simply a

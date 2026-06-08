@@ -2,6 +2,10 @@
 
 Example job:
 
+Note: this example doesn't include `actions/setup-python` because `pipx` is
+pre-installed on GitHub Actions runners. For workflows that require specific
+Python versions or packages, see the CI section above.
+
 ```yaml
 name: CD
 
@@ -20,8 +24,9 @@ jobs:
       - name: Build SDist and wheel
         run: pipx run build
 
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@v8
         with:
+          name: artifact
           path: dist/*
 
   publish:

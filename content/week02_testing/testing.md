@@ -40,7 +40,7 @@ rely on.
 
 The adversarial view --- don't be wishful. Try to find defects. Document for the
 user things that could cause problems but that you are not guarding against
-(a.k.a. make explicit caveat emptors). We'll discuss documentation later.
+(a.k.a. make explicit caveat emptor). We'll discuss documentation later.
 
 Write code that's amenable to atomic testing --- modularity, DRY vs. WET, etc
 all help (as we'll see). The better your design and workflow play with Git, then
@@ -59,7 +59,7 @@ Tests are themselves code --- it should adhere to good development principles
 (i.e. writing more and more tests is part of the code authoring process).
 
 Test code often outnumbers real code --- or at least it should. SQLite famously
-has 608 times more test code than source code.
+has 590 times more test code than source code.
 
 Testing well isn't trivial --- tools can help, but it's a skill and an art.
 
@@ -147,7 +147,7 @@ development, since you are writing smaller portions at a time.
 
 Test driven development flips the tables on test vs. code; instead of writing
 the code then testing it, you write the tests and then make them pass by writing
-the code. It may seem unnatural at first, but is has some significant benefits:
+the code. It may seem unnatural at first, but it has some significant benefits:
 
 - Forces you to think about and design the _interface_ first. How should this be
   used? It's easier to answer that question when making a change doesn't require

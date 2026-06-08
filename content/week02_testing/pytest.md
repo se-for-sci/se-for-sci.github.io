@@ -53,7 +53,7 @@ def f(x):
 class TestFunction(unittest.TestCase):
     def test_f(self):
         self.assertEqual(f(0), 0)
-        self.assertEqual(f(1), 2)
+        self.assertEqual(f(1), 1)
         self.assertEqual(f(2), 4)
 ```
 
@@ -219,12 +219,12 @@ def slow():
     return "world"
 
 
-def test_a(something):
-    assert something == "world"
+def test_a(slow):
+    assert slow == "world"
 
 
-def test_b(something):
-    assert something == "world"
+def test_b(slow):
+    assert slow == "world"
 ```
 
 Fixtures support setup _and_ teardown, and they do so using the same "trick"
@@ -262,7 +262,7 @@ import sys
 
 
 def test_some_function_linux(monkeypatch):
-    monkepatch.setattr(sys, "platform", "linux")
+    monkeypatch.setattr(sys, "platform", "linux")
     # stuff here will think it's on linux
     ...
     # after the test, the monkeypatching is removed!
@@ -287,7 +287,7 @@ import sys
 
 @pytest.mark.parametrize("platform", ["linux", "win32", "darwin"])
 def test_some_function_linux(monkeypatch, platform):
-    monkepatch.setattr(sys, "platform", platform)
+    monkeypatch.setattr(sys, "platform", platform)
     ...
 ```
 
@@ -305,13 +305,13 @@ import pytest
 import sys
 
 
-@pytest.fixture("platform", ["linux", "win32", "darwin"])
+@pytest.fixture(params=["linux", "win32", "darwin"])
 def platform(request):
     return request.param
 
 
 def test_some_function_linux(monkeypatch, platform):
-    monkepatch.setattr(sys, "platform", platform)
+    monkeypatch.setattr(sys, "platform", platform)
     ...
 ```
 
@@ -324,13 +324,13 @@ import pytest
 import sys
 
 
-@pytest.fixture("platform", ["linux", "win32", "darwin"])
+@pytest.fixture(params=["linux", "win32", "darwin"])
 def platform(request, monkeypatch):
-    monkepatch.setattr(sys, "platform", platform)
+    monkeypatch.setattr(sys, "platform", request.param)
     return request.param
 
 
-def test_some_function_linux(monkeypatch, platform): ...
+def test_some_function_linux(platform): ...
 ```
 
 Now we automatically get the monkeypatching each time, too!
@@ -413,7 +413,7 @@ A few plugins of note:
 
 - `pytest-mock`: Makes the excellent `unittest.mock` built-in library nicer to
   use from pytest as native fixtures.
-- `pytest-ascyncio`: Allows pytest to natively test ascync functions.
+- `pytest-asyncio`: Allows pytest to natively test async functions.
 - `pytest-xdist`: Distributed testing, loop on failing.
 - `pytest-subprocess`: Mocks subprocess calls.
 - `pytest-benchmark`: Compute benchmarks as part of testing (also see
@@ -448,7 +448,7 @@ tests failed and were skipped, and why. `--strict-markers` will make sure you
 don't try to use an unspecified fixture. And `--strict-config` will error if you
 make a mistake in your config. `xfail_strict` will change the default for
 `xfail` to fail the tests if it doesn't fail - you can still override locally in
-a specific xfail for a flaky failure. `filter_warnings` will cause all warnings
+a specific xfail for a flaky failure. `filterwarnings` will cause all warnings
 to be errors (you can add allowed warnings here too). `log_cli_level` will
 report `INFO` and above log messages on a failure. Finally, `testpaths` will
 limit `pytest` to just looking in the folders given - useful if it tries to pick

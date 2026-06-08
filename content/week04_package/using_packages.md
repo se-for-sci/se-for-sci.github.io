@@ -7,8 +7,8 @@ Packaging is absolutely critical as soon as you:
 - Work in more than one place
 - Upgrade or change anything on your computer
 
-Unfortunately, packing has a _lot_ of historical cruft, bad practices that have
-easy solutions today but are still propagated.
+Unfortunately, packaging has a _lot_ of historical cruft, bad practices that
+have easy solutions today but are still propagated.
 
 We will split our focus into two situations, then pull both ideas together.
 
@@ -66,7 +66,7 @@ black myfile.py
 `````
 
 Now you have "black", but nothing has changed in your global site packages! You
-cannot import black or any of it's dependencies! There are no conflicting
+cannot import black or any of its dependencies! There are no conflicting
 requirements (more common in pip 20.3+, which now will refuse to install two
 packages that have incompatible requirements).
 
@@ -90,7 +90,7 @@ pipx run black myfile.py
 ````
 `````
 
-The first time you do this, pipx create a venv and puts black in it, then runs
+The first time you do this, pipx creates a venv and puts black in it, then runs
 it. If you run it again, it will reuse the cached environment if it hasn't been
 cleaned up yet, so it's fast.
 
@@ -123,7 +123,7 @@ pipx run --spec cibuildwheel==2.9.0 cibuildwheel --platform linux
 
 #### Self-contained scripts
 
-You can now make a self-contained script; that is, one that describes it's own
+You can now make a self-contained script; that is, one that describes its own
 requirements. You could make a `print_blue.py` file that looks like this:
 
 ```python

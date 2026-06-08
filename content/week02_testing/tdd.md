@@ -141,7 +141,9 @@ def test_my_max():
     assert my_max([3]) == 3
 ```
 
-To pass this test, we can just accept an argument and return 3.
+To pass this test, we can just accept an argument and return 3. (Note that
+naming the parameter `input` shadows Python's built-in `input` function; we'll
+fix this in the refactor stage below.)
 
 ```python
 # green
@@ -267,7 +269,7 @@ And to pass
 import pytest
 
 
-def my_max(input_list: list[int]) -> int:
+def my_max(input_list: list[int]) -> int | None:
     if not isinstance(input_list, list):
         raise ValueError("Non-list argument passed to my_max")
 
