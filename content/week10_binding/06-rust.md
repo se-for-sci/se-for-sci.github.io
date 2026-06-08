@@ -126,8 +126,8 @@ Bound PyModule and running `.add_*` functions on it to add (much like pybind11).
 Functions need to be given in the `wrap_pyfunction!` macro.
 
 This is the classic interface; there's a new interface based on Rust inline
-modules that is much nicer, as well. Here's the new interface, currently (0.21)
-requires the `experimental-declarative-modules` (PyO3) feature:
+modules that is much nicer, as well. As of PyO3 0.22.0, declarative modules are
+a stable feature available by default (no feature flag needed):
 
 ```rs
 /// A Python module implemented in Rust.
@@ -153,8 +153,8 @@ mod rust_example {
   use super::*;
 
   #[pyfunction]
-  fn square(a: usize, b: usize) -> usize {
-      a * b
+  fn square(a: usize) -> usize {
+      a * a
   }
 }
 ```

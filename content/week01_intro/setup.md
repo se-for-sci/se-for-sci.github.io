@@ -19,10 +19,10 @@ From this point on, we should all be on nearly the same page.
 
 ## Shell
 
-The UNIX shell is Bash (or a Bashwards compatible shell like Zsh). We'll be
-using that (though you might see the Fish shell occasionally, we will point out
-any differences that matter). Fish is a nicer shell than Bash, but Bash is a
-common default.
+The UNIX shell is Bash (or a Bash-compatible shell like Zsh). We'll be using
+that (though you might see the Fish shell occasionally, we will point out any
+differences that matter). Fish is a nicer shell than Bash, but Bash is a common
+default.
 
 ## Version control
 
@@ -37,8 +37,8 @@ the course, you should set up a ssh key pair so we can push to GitHub.
 
 ## Python
 
-For Python, we'll use a recent version of Python (3.11+ highly recommended, 3.9+
-is _probably_ okay). One way to get Python is via Conda (like anaconda,
+For Python, we'll use a recent version of Python (3.12+ highly recommended,
+3.11+ is _probably_ okay). One way to get Python is via Conda (like anaconda,
 miniconda, etc). Another way is to use homebrew (often on Linux). If you are
 using Ubuntu 22.04 or newer, the system Python will be fine.
 
@@ -51,6 +51,6 @@ installation then.
 ## Editor
 
 You should have an editor you like. I'll be using a VI interface, either
-natively or in VS Code. You can pick EMacs, or something else. Software
+natively or in VS Code. You can pick Emacs, or something else. Software
 development _is_ writing and editing text files. Learning a powerful editor will
 vastly improve how you work with code.

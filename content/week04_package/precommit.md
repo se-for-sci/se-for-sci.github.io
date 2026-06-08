@@ -55,8 +55,8 @@ repos:
 ```
 
 **Helpful tip**: Pre-commit runs top-to-bottom, so put checks that modify
-content (like the several of the pre-commit-hooks above, or Black) above checks
-that might be more likely to pass after the modification (like flake8).
+content (like several of the pre-commit-hooks above, or Black) above checks that
+might be more likely to pass after the modification (like flake8).
 
 **Keeping pinned versions fresh**: You can use `pre-commit autoupdate` to move
 your tagged versions forward to the latest tags! Due to the design of
@@ -87,7 +87,7 @@ There are a _few_ options, mostly to enable/disable certain files, remove string
 normalization, and to change the line length, and those go in your
 `pyproject.toml` file.
 
-Here is the snippet to add Black to your `.pre-commit-config.yml`:
+Here is the snippet to add Black to your `.pre-commit-config.yaml`:
 
 ```yaml
 - repo: https://github.com/psf/black-pre-commit-mirror
@@ -146,7 +146,7 @@ additional_dependencies: [attrs==25.3.0]
 
 MyPy has a config section in `pyproject.toml` that looks like this:
 
-```ini
+```toml
 [tool.mypy]
 files = "src"
 python_version = "3.10"

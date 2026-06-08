@@ -23,7 +23,7 @@ you modify a variable, there's a potential problem. Here's an example:
 ```
 
 First, I set up a mutable variable, which is simply a list containing an item. I
-did this so I can avoid writing the word `gllobal`, to show that the problem is
+did this so I can avoid writing the word `global`, to show that the problem is
 about mutating variables shared between threads, not unique to global variables.
 I use `+=` to add 1. Remember, `x+=1` really does `x = x + 1`: the processor
 reads the value, then adds one, then writes the value. If another thread reads
@@ -43,7 +43,7 @@ threads. We'll look at several ways to make or use thread safe variables.
 
 ## Mutex
 
-One of the most general tools for thread safely is a mutex. In Python, it's
+One of the most general tools for thread safety is a mutex. In Python, it's
 called a `Lock` or `RLock`, depending on if you can re-enter it in the same
 thread. Let's take a look:
 
@@ -87,10 +87,10 @@ processors have specialized instructions to allow a value (like an integer) to
 be updated in a way that is threadsafe without all the overhead of a lock (and
 also they don't need a separate lock object).
 
-Python doesn't have this, since modifying a Python object far more than a single
-integer operation, and it's just a performance benefit over a mutex. You can use
-`Event`, which is basically an atomic bool that you can wait on to be set
-(True).
+Python doesn't have this, since modifying a Python object is far more than a
+single integer operation, and it's just a performance benefit over a mutex. You
+can use `Event`, which is basically an atomic bool that you can wait on to be
+set (True).
 
 ## Queue
 
@@ -177,6 +177,6 @@ Let's try the same thing with asyncio:
 ```
 
 We don't sort the output here, but otherwise, it runs about the same, and takes
-the same total amount of time. The difference here is we using a pre-existing
-awaitable (sleep), so we have to use `await`, which is really just `yield from`
-but using the async-named special methods.
+the same total amount of time. The difference here is that we're using a
+pre-existing awaitable (sleep), so we have to use `await`, which is really just
+`yield from` but using the async-named special methods.

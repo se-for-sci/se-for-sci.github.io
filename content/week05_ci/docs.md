@@ -83,9 +83,9 @@ integration tests, however, can be ;)
 There are two documentation engines quite popular in Python. The oldest and most
 used one is Sphinx - Python's own documentation is built in Sphinx! It has
 received a lot of work and good themes lately, like Furo (PyPA) and
-sphinx-pydata-theme (SciPy). It is also the basis for JuyterBook, which is what
+sphinx-pydata-theme (SciPy). It is also the basis for JupyterBook, which is what
 this material was written in! It has third-party tooling to use markdown instead
-of the default RestructredText, include notebooks as pages, and more. Sphinx
+of the default RestructuredText, include notebooks as pages, and more. Sphinx
 uses the aging docutils, which has an intermediate representation that produces
 HTML, or other formats too, like ebooks and LaTeX. Example sites: pretty much
 everything in Python; pip, build, numpy, scipy, etc.
@@ -166,7 +166,7 @@ webbrowser.
 def serve(session: nox.Session) -> None:
     docs(session)
     print("Launching docs at http://localhost:8000/ - use Ctrl-C to quit")
-    session.run("python", "-m", "http.server", "8000", "-d", "_build/html")
+    session.run("python", "-m", "http.server", "8000", "-d", "build/html")
 ```
 
 ### Making the docs yours
@@ -186,7 +186,7 @@ docs = [
 You can select any theme you want; `furo` is an ultra modern, well designed,
 lightweight theme used by the PyPA.
 
-Next, exit your `conf.py` file. Your extensions should look like this:
+Next, edit your `conf.py` file. Your extensions should look like this:
 
 ```python
 extensions = [
@@ -236,27 +236,25 @@ api/index
 
 Any valid markdown or Myst additions valid.
 
-````
-
 This starts by hiding this page from the table of contents (options are in YAML
 format surrounded by `---`'s at the top, this is a common convention in
 markdown).
 
-Then you have some text, then you have a table of contents (this is a Myst addition
-to markdown to give you the ability to do a restructured text thing - in fact, you can see
-a restructured text option `:hidden:` inside the block). The table of contents
-is hidden so it isn't shown inline on the page (since it's already in the side
-bar). This assumes you have three files with more content in them, and a folder where you
-will put your API documentation.
+Then you have some text, then you have a table of contents (this is a Myst
+addition to markdown to give you the ability to do a restructured text thing -
+in fact, you can see a restructured text option `:hidden:` inside the block).
+The table of contents is hidden so it isn't shown inline on the page (since it's
+already in the side bar). This assumes you have three files with more content in
+them, and a folder where you will put your API documentation.
 
 The other pages can be placed in here in the same way, so let's focus on the api
-pages.  You can auto-generate them with
+pages. You can auto-generate them with
 [sphinx-apidoc](https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html)
 (built-in):
 
 ```console
 $ sphinx-apidoc -o docs/api src/my_package
-````
+```
 
 Everything is dynamically imported, so protect code with
 `if __name__ == "__main__"`! There are lots of flags to control how it generates

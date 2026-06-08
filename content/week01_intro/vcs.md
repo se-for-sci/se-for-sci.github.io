@@ -16,9 +16,10 @@ Getting a copy of the repository locally is called **cloning**.
 
 The history of a Git repository is stored with it. Each stored point in time is
 called a **commit**. Git is a bit clever in how it stores history, so making
-lots of commits is fairly cheap. Multiple commits can share a parent, making the
-commit history look a bit like a tree (technically a graph, since you can also
-share parents, but we won't worry about that too much yet).
+lots of commits is fairly cheap. Most commits have one parent, making the commit
+history look like a tree. But some commits can have multiple parents (in
+merges), making the history technically a directed acyclic graph (DAG). For now,
+the tree mental model is fine.
 
 You can create a moving "name" that points at a commit called a **branch**, or a
 stationary name called a **tag** (at least it should be stationary). One of the
@@ -27,11 +28,11 @@ a nice, incrementing number? Because git is distributed.
 
 ## Distributed
 
-Unlike older systems, every full git checkout is a complete, independent copy of
-the repository! You have all history locally. If you clone a remote repository,
-you could push to a different remote if you wished. If GitHub, GitLab, or
-whatever other **hosting** service you are using disappears tomorrow, you can
-simply push somewhere else and have all your history intact.
+Unlike older systems, every cloned git repository is a complete, independent
+copy of the repository! You have all history locally. If you clone a remote
+repository, you could push to a different remote if you wished. If GitHub,
+GitLab, or whatever other **hosting** service you are using disappears tomorrow,
+you can simply push somewhere else and have all your history intact.
 
 ## Hosted
 

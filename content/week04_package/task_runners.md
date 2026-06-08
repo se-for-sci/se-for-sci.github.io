@@ -116,7 +116,7 @@ pytest.
 
 If a user does not have a particular version of Python installed, it will be
 skipped. You can use a Docker container to run in an environment where all
-Python's (3.6+) are available:
+Python versions (3.9+) are available:
 
 ```console
 $ docker run --rm -itv $PWD:/src -w /src quay.io/pypa/manylinux_2_28_x86_64:latest pipx run nox
@@ -218,7 +218,7 @@ A standard
 [powered by nox](https://github.com/scikit-hep/hist/blob/main/noxfile.py)
 package in Pure Python in Scikit-HEP is Hist.
 
-A package that happens to use PDM (like Poetry but better) is Scikit-HEP UHI,
+A package that happens to use Hatch (like Poetry but faster) is Scikit-HEP UHI,
 which is
 [powered by nox](https://github.com/scikit-hep/uhi/blob/main/noxfile.py). Nox
 can setup a conda environment with ROOT (slow, but only nox and conda are
@@ -235,7 +235,6 @@ running pip-tools' compile on every Python version to pin dependencies, as well
 as providing a standard interface to update Python and project listing update
 scripts. The docs job there runs mkdocs instead of Sphinx. Other PyPA projects
 using nox include [pip](https://github.com/pypa/pip/blob/main/noxfile.py),
-[pipx](https://github.com/pypa/pipx/blob/main/noxfile.py),
 [manylinux](https://github.com/pypa/manylinux/blob/main/noxfile.py),
 [packaging](https://github.com/pypa/packaging/blob/main/noxfile.py), and
 [packaging.python.org](https://github.com/pypa/packaging.python.org/blob/main/noxfile.py).

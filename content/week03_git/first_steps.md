@@ -35,7 +35,7 @@ Add this file to the staging area and commit your first change.
 ```console
 $ git add file1.txt
 $ git commit -m "First commit"
-[master (root-commit) c073d19] First commit
+[main (root-commit) c073d19] First commit
  1 file changed, 1 insertion(+)
  create mode 100644 file1.txt
 ```
@@ -51,7 +51,7 @@ We can now check the status of our repository using the command
 
 ```console
 $ git status
-On branch master
+On branch main
 nothing to commit, working tree clean
 ```
 
@@ -61,11 +61,11 @@ Let's now make our first change.
 $ echo "This is my first file but I modified it." > file1.txt
 ```
 
-Let see now the status of our repository.
+Let's see now the status of our repository.
 
 ```console
 $ git status
-On branch master
+On branch main
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git restore <file>..." to discard changes in working directory)
@@ -79,7 +79,7 @@ Let's add these changes to the staging area.
 ```console
 $ git add file1.txt
 $ git status
-On branch master
+On branch main
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
 	modified:   file1.txt
@@ -89,16 +89,17 @@ Let's commit those changes.
 
 ```console
 $ git commit -m "Commit changes"
-[master 476b980] Commit changes
+[main 476b980] Commit changes
  1 file changed, 1 insertion(+), 1 deletion(-)
 $ git status
-On branch master
+On branch main
 nothing to commit, working tree clean
 ```
 
 When you commit changes, using `git commit -m` allows you to give a commit
 message on the command line. Without the `-m` options, git will launch an editor
-(default is usually `vim`). To set your own editor, use:
+(the default depends on your system configuration, often `vi` or `vim` on
+Unix-like systems). To set your own editor, use:
 
 ```console
 $ export GIT_EDITOR='emacs -nw'
@@ -114,7 +115,7 @@ To see the past history of your project, type:
 
 ```console
 $ git log
-commit 476b9801a6fb1efefdcd6c4d1bc82bff43686f9e (HEAD -> master)
+commit 476b9801a6fb1efefdcd6c4d1bc82bff43686f9e (HEAD -> main)
 Author: Romain Teyssier <romain.teyssier@gmail.com>
 Date:   Thu Oct 6 09:48:30 2022 -0400
 
@@ -131,7 +132,7 @@ A nicer way of looking at the history of your repository:
 
 ```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-* 476b980 2022-10-06 | Commit changes (HEAD -> master) [Romain Teyssier]
+* 476b980 2022-10-06 | Commit changes (HEAD -> main) [Romain Teyssier]
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
 ```
 
@@ -142,7 +143,7 @@ and committing the new file. Your history must now look like this:
 
 ```console
 $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-* 41f8d80 2022-10-06 | Committing file3 (HEAD -> master) [Romain Teyssier]
+* 41f8d80 2022-10-06 | Committing file3 (HEAD -> main) [Romain Teyssier]
 * c6e6535 2022-10-06 | Committing file2 [Romain Teyssier]
 * 476b980 2022-10-06 | Commit changes [Romain Teyssier]
 * c073d19 2022-10-06 | First commit [Romain Teyssier]
@@ -202,9 +203,9 @@ $ git log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 We can go back to the last version using
 
 ```console
-$ git checkout master
+$ git checkout main
 Previous HEAD position was 476b980 Commit changes
-Switched to branch 'master'
+Switched to branch 'main'
 $ ls
 file1.txt file2.txt file3.txt
 ```

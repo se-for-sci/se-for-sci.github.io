@@ -142,8 +142,8 @@ classdef Path
             obj.string_location = string_location;
         end
 
-        function res = exists()
-            res = isfile(filename)
+        function res = exists(obj)
+            res = isfile(obj.string_location)
         end
     end
 end
@@ -174,7 +174,7 @@ class Path {
     }
 
     exists() {
-        return fs.existsSync(path);
+        return fs.existsSync(this.string_location);
     }
 }
 ```
@@ -309,7 +309,7 @@ rascal.eat("berries")
 ```
 
 In this case, all `Animal`s can eat - if you know you take an `Animal`, you know
-it can eat. However, `Raccoon` has have a custom eat function. It has the same
+it can eat. However, `Raccoon` has a custom eat function. It has the same
 signature (important!), but it does a bit more. This is also how Python calls a
 method from the "class above", by using `super()`. You could have also said
 `Animal.eat(self, food)` here, but `super()` is better.
@@ -449,7 +449,7 @@ new ones, almost always for Interfaces.
 
 At this point, an ABC is well defined (we have seen how to make one in code),
 but an Interface is a concept, an agreement between implementer and caller. We
-fill formalize this later when we get to static typing with `Protocol`s.
+will formalize this later when we get to static typing with `Protocol`s.
 
 ### Special methods
 
@@ -472,9 +472,9 @@ Here are a few to give you a taste of what is available
 - `__radd__`/`__rsub__`/`__rmul__`/`__rtruediv__`: Reversed versions of math
   operators. These are called if the first operator is not a member of this
   class.
-- `__eq__`/`__neq__`/`__lt__`/...: The comparison operators. You can just
-  specify two and then let `@functools.totalordering` generate the rest for you.
-- `__repr__`/`__str__`: Controls hows the object is printed. Unlike some other
+- `__eq__`/`__ne__`/`__lt__`/...: The comparison operators. You can just specify
+  two and then let `@functools.totalordering` generate the rest for you.
+- `__repr__`/`__str__`: Controls how the object is printed. Unlike some other
   languages, Python allows customizing the repr ("programmer view") and the str
   ("user view").
 
@@ -504,7 +504,7 @@ these days:
 `````{tab-set}
 ````{tab-item} Dataclass
 ```python
-from dataclasses import dataclass
+import dataclasses
 
 
 @dataclasses.dataclass

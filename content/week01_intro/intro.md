@@ -13,7 +13,7 @@ easy to read, always strive for readability.
 What does someone working on code spend time on? Rewriting code that others have
 already written. The action of rewriting code to improve its readability or
 performance without changing how it operates is commonly called refactoring.
-Other reasons to rewrite code is because it didn't scale or was not flexible
+Other reasons to rewrite code are because it didn't scale or was not flexible
 enough. It also can feel like you spend a lot of time debugging. Lots of painful
 debugging. Having strong unit tests and using version control can simplify or
 eliminate some debugging problems.

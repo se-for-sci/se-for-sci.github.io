@@ -93,8 +93,8 @@ is the child class or subclass of A.
 - Provides a way to "realize" or "implement" a specified interface (ABC or
   Protocol).
 
-For example, in `content/week06/geom_example/geometry/classic.py`, `Shape` is a
-base class with `area()` and `parameter()` methods. It doesn't know how to
+For example, in `content/week06_oop/geom_example/geometry/classic.py`, `Shape`
+is a base class with `area()` and `perimeter()` methods. It doesn't know how to
 compute those - they are abstract. This means you can't instantiate `Shape()`,
 doing so would give you an error (from the `abc` module). However, the
 subclasses of `Shape` like `Rectangle` and `Circle` do know how to compute this,
@@ -145,25 +145,25 @@ classDiagram
     Shape <|-- Circle
     class Shape {
         +area()* float
-        +parameter()* float
+        +perimeter()* float
     }
     class Rectangle {
         +height: float
         +width: float
         +area() float
-        +parameter() float
+        +perimeter() float
     }
     class Triangle {
         +a float
         +b float
         +c float
         +area() float
-        +parameter() float
+        +perimeter() float
     }
     class Circle {
         +radius float
         +area() float
-        +parameter() float
+        +perimeter() float
     }
     class Square {
         +side: float
@@ -447,6 +447,7 @@ version of a counter is easier to read:
 import dataclasses
 
 
+@dataclasses.dataclass
 class Incr:
     start: int = 0
 
@@ -499,7 +500,7 @@ build a custom mini-language on top of the Python syntax.
 For example, let's say I want to make path-like objects that I can join with
 `/`:
 
-```{code-cell} Python
+```{code-cell} python3
 class Path(str):
     def __truediv__(self, other):
         return self.__class__(f"{self}/{other}")
@@ -514,11 +515,11 @@ Just in case you want to make a `Path` class like the one above - don’t, use
 ### Mixins
 
 Multiple inheritance can be tricky to use, but a common, useful pattern is a
-limited form of multiple inhertitance called mixins. With mixins, you provide a
+limited form of multiple inheritance called mixins. With mixins, you provide a
 few reusable features, and then compose the classes from one or more mixins,
 with an optional superclass. Let's rewrite the Path example using mixins:
 
-```
+```python
 class PathMixin:
     def __truediv__(self, other):
         return self.__class__(f"{self}/{other}")

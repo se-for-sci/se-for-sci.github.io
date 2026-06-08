@@ -12,7 +12,7 @@ def timer():
     print(f"Took {time.monotonic() - start:.3}s to run")
 
 
-def pi_each(trials: int) -> None:
+def pi_each(trials: int) -> float:
     Ncirc = 0
 
     for _ in range(trials):

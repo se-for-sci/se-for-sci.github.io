@@ -1,4 +1,4 @@
-from geometry.classic import Rectagle, Square, Circle, Triangle
+from geometry.classic import Rectangle, Square, Circle, Triangle
 import math
 from pytest import approx
 
@@ -10,7 +10,7 @@ def test_triangle():
 
 
 def test_rectangle():
-    r = Rectagle(3, 4)
+    r = Rectangle(3, 4)
     assert r.area() == 12
     assert r.perimeter() == 14
 

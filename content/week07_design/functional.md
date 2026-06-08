@@ -285,13 +285,13 @@ println(sum_sq_odds)
 
 This is often considered a highly functional language, so I've included it here for completeness.
 ````
-````{tab-item} Hascal
+````{tab-item} Haskell
 ```
 foldl (+) 0 . filter ((==) 1 . flip mod 2) . map (^2) $ [1..5]
 ```
 
-Hascal is a purely functional language. It's also a bit odd in that idiomatic
-Hascal reads right to left (from mathematics).  However, as of 4.8 it does have
+Haskell is a purely functional language. It's also a bit odd in that idiomatic
+Haskell reads right to left (from mathematics).  However, as of 4.8 it does have
 reverse function application operator (also using a lambda to match the other
 examples more closely):
 
@@ -299,7 +299,7 @@ examples more closely):
 [1..5] & map (^2) & filter (\x -> x `mod` 2 == 1) & foldl (+) 0
 ```
 
-I've left of variable assignment & printing since those are a bit different in online playgrounds.
+I've left out variable assignment & printing since those are a bit different in online playgrounds.
 ````
 ````{tab-item} C++20 Ranges
 ```cpp
@@ -312,13 +312,13 @@ int main() {
     std::vector<int> items {1, 2, 3, 4, 5};
     auto odd_sq = items | std::views::transform([](int i){return i*i;})
                         | std::views::filter([](int i){return i%2==1;});
-    auto sum_sq_odds = std::accumulate(std::begin(odd_sq), std::end(odd_sq), 0, [](int a, int b){return a + b;})
+    auto sum_sq_odds = std::accumulate(std::begin(odd_sq), std::end(odd_sq), 0, [](int a, int b){return a + b;});
     std::cout << sum_sq_odds << std::endl;
     return 0;
 }
 ```
 
-Not that C++ is slowly gaining support; `std::ranges::fold_left` is in C++23, but for
+Note that C++ is slowly gaining support; `std::ranges::fold_left` is in C++23, but for
 C++20, we have to drop back to a classic `std::accumulate` algorithm & begin
 and end iterators.
 
@@ -337,7 +337,7 @@ int main() {
 }
 ```
 
-Not that stdlib module support is not available yet unless you enable it in
+Note that stdlib module support is not yet available unless you enable it in
 CMake experimental mode and have a very recent compiler.
 
 ````
