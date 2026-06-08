@@ -204,5 +204,8 @@ _output/Volumes
 *.doit.db
 _output/
 
+# Node / bun
+node_modules/
+
 # Symlink to AGENTS.md
 .claude/
