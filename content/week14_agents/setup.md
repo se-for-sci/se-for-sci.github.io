@@ -101,14 +101,14 @@ this is just a recommended minimum:
 - Simple models
   - Repetitive edits
   - Categorization/triage of open issues
-  - Simple merge conflicts
+  - Simple merge conflicts (rebase)
   - Simple tests
   - Fixing lints
   - Quick chores
   - Setting up, compiling, running code
   - Working on webpages / theming
 - Workhorse models
-  - Complex merge conflicts
+  - Complex merge conflicts (rebase)
   - Complex tests
   - PR/diff review
   - Assistance with docs
@@ -215,3 +215,47 @@ And try this on issues or PRs if you have any:
 - `Fix #123`
 - `Is #234 still broken?`
 - `Fix the CI` (on a failing PR)
+
+## Important notes
+
+If you generate text on an issue or PR, it should be clearly marked as AI
+generated (handled by example user file above). Respond and talk to reviewers in
+person. You can ask your AI to address reviews, but don't let it comment, and
+understand what it's doing and why.
+
+Add a trailer to AI generated contributions with the model used (handled by
+example user file above). Note that a reviewer should use a different model
+family to help review AI generated contributions! If you review a Claude model
+with a Claude model, it will just praise itself. While Claude vs. GPT (for
+example) will go back and forth and could make the result 70% better. Letting
+them know what you use can help avoid the self praise loop.
+
+Using AI to prototype a few features is really great. Use plan mode to get it to
+ask you questions and build a plan you can edit. (Most harnesses will generate a
+file you can edit in plan mode). AI is _really_ good at making things work (this
+is why it's so good at solving broken tests, failing lints, and CI failures). It
+will very likely succeed at the feature you are working on. But the code it
+produces might either need iteration, or you might need to rewrite it. That's
+okay, that doesn't mean it's bad!
+
+On that note: always iterate. Find things it can clean up. _You don't need to
+hand edit_, you can use the AI to iterate, but iterate. Make sure code is up to
+your standards before making a PR. Be prepared to defend it and/or explain it.
+
+Have extra time on a subscription? Have AI hunt for things to clean up,
+simplify, have it look for bugs. Have it compare documentation and
+implementation. Try a couple of refactors if you have ideas on how code could be
+improved. Have it rewrite your cupy code as raw kernels.
+
+AI will hallucinate occasionally. Just be aware that it does that. If it invents
+a reason for a failure, check it. Good models/harnesses will often verify things
+they can verify by writing little tests, but when that can't be done, the
+hallucinations can leak through. It's okay, verify yourself (including by asking
+the AI to look stuff up or write little tests).
+
+If you have the option, don't tie yourself to a single model family. Even a
+little access to a secondary family can go a long way - "rubber duck" (an actual
+mode in Copilot) is the process of using one family (like Claude) as the
+implementer, and another family (like GPT) as the reviewer, and you can get ~70%
+better results that way. (Not really something very measurable, but I'd say it's
+a good approximate figure).
