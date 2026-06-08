@@ -1,0 +1,12 @@
+{
+  "name": "se-for-sci",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build-slides": "marp --input-dir slides --output _output",
+    "clean": "rm -rf _output"
+  },
+  "dependencies": {
+    "@marp-team/marp-cli": "^4.0"
+  }
+}
