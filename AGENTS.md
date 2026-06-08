@@ -35,7 +35,12 @@ MyST MD course site for _Software Engineering for Scientific Computing_.
 
 - `content/` — Book chapters (mix of `.md` and `.ipynb`).
 - `slides/` — Marp slide decks. These are rendered by CI and deployed to
-  `public/slides`.
+  `public/slides`. Files are named `week-NN-N.md` (e.g. `week-14-1.md`) and use
+  the Marp `gaia` theme; copy the front matter from an existing deck. Slides
+  parallel a content chapter: the chapter links to its deck near the top with
+  `` {button}`Slides <https://se-for-sci.github.io/slides/week-NN-N>` ``, and
+  the deck opens with a `# SE4Sci` / `## <Title>` lead slide, with `---`
+  separating slides.
 - `notes/` — Instructor notes; not built into the book.
 - `myst.yml` drives the project configuration and table of contents.
 

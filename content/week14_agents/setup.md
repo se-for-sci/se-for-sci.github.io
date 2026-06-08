@@ -1,5 +1,7 @@
 # Setting up Agentic AI
 
+{button}`Slides <https://se-for-sci.github.io/slides/week-14-1>`
+
 Agentic AI is the most significant change to software engineering ever. It is
 also still a fast-changing field; we'll try to balance general advice and
 specific examples that might change.
