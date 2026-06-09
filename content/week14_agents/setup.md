@@ -26,9 +26,9 @@ flavors:
 
 - **TUI**, short for Terminal User Interface. These run in your terminal. Works
   anywhere, including on clusters.
-- **GUI**, short for Graphical User Interface. These are stand-alone application
-  with custom graphics. These can often do a little more than TUI's, like render
-  webpage previews.
+- **GUI**, short for Graphical User Interface. These are stand-alone
+  applications with custom graphics. These can often do a little more than TUIs,
+  like render webpage previews.
 - **Editor plugins**: These run in your editor, usually looking like a chat
   window alongside the normal editor.
 
@@ -65,6 +65,11 @@ Most harnesses have these features:
   - `/init`: Set up or update the `AGENTS.md` file (equivalent)
   - `/restore` (or `/sessions`): open up a previous session
   - `/review`: Review a PR and/or other diff (depends on the harness)
+  - `/diff`: See what changed (or just open a new terminal tab and use
+    `git diff`)
+  - `/plan` (or sometimes this is a key to toggle on/off): Prepare a plan before
+    editing
+  - Direct access to skills, including `/skills`
 - `@` to load files into context (just mentioning them works too, but it's up to
   the model to load all or parts)
 
@@ -125,6 +130,15 @@ this is just a recommended minimum:
   - Prototyping new features
   - New features
   - Any of the smaller model items if they fail to do it first
+
+## Subagents
+
+Most harnesses support subagents. While multiple subagents _may_ run in
+parallel, parallelism isn't the main benefit. Subagents have their own LLM
+context window. This allows a subagent to work on a task (like researching
+something) and then report back a summary, and the main session only gets the
+summary added to its context window. If a subagent starts with the parent's
+context window, that's called a fork.
 
 ## Setting up the harness
 
@@ -232,11 +246,12 @@ them know what you use can help avoid the self praise loop.
 
 Using AI to prototype a few features is really great. Use plan mode to get it to
 ask you questions and build a plan you can edit. (Most harnesses will generate a
-file you can edit in plan mode). AI is _really_ good at making things work (this
-is why it's so good at solving broken tests, failing lints, and CI failures). It
-will very likely succeed at the feature you are working on. But the code it
-produces might either need iteration, or you might need to rewrite it. That's
-okay, that doesn't mean it's bad!
+file you can edit in plan mode). You can even use a smart model to make the
+plan, and then a lower level model to implement the plan. AI is _really_ good at
+making things work (this is why it's so good at solving broken tests, failing
+lints, and CI failures). It will very likely succeed at the feature you are
+working on. But the code it produces might either need iteration, or you might
+need to rewrite it. That's okay, that doesn't mean it's bad!
 
 On that note: always iterate. Find things it can clean up. _You don't need to
 hand edit_, you can use the AI to iterate, but iterate. Make sure code is up to
