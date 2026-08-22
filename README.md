@@ -18,7 +18,7 @@ Tuesday/Thursday variation (fall 2026 dates):
 ┌──────────┬──────────────────────────┬─────────────┐
 │   Week   │          Topic           │     Date    │
 ├──────────┼──────────────────────────┼─────────────┤
-│ Half day │ Intro to class / cleanup │ 9/3         │
+│ Week 0   │ Intro to class / cleanup │ 9/3         │
 ├──────────┼──────────────────────────┼─────────────┤
 │ Week 1   │ Git first steps          │ 9/8         │
 │          │ Advanced Git             │ 9/10        │
