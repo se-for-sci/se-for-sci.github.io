@@ -15,33 +15,36 @@ project:
     - "**.virtual_documents"
     - .DS_Store
     - Thumbs.db
-    - "content/week10_binding/03-pybind/build"
+    - "content/week09_binding/03-pybind/build"
   github: https://github.com/se-for-sci/se-for-sci.github.io
   settings:
     output_stderr: remove-warn
     output_matplotlib_strings: remove
   toc:
     - file: content/intro.md
-    - title: "Week 1: Intro"
+    - title: "Week 0: Intro to class and cleanup"
       children:
-        - file: content/week01_intro/intro.md
-        - file: content/week01_intro/setup.md
-        - file: content/week01_intro/vcs.md
-        - file: content/week01_intro/programming_basics.ipynb
-        - file: content/week01_intro/practices.md
-        - file: content/week01_intro/cleanup_bessel.ipynb
-        - file: content/week01_intro/python_setup.md
-    - title: "Week 2: Testing"
+        - file: content/week00_intro/intro.md
+        - file: content/week00_intro/setup.md
+        - file: content/week00_intro/vcs.md
+        - file: content/week00_intro/programming_basics.ipynb
+        - file: content/week00_intro/practices.md
+        - file: content/week00_intro/cleanup_bessel.ipynb
+        - file: content/week00_intro/python_setup.md
+    - title: "Week 1: Version Control"
       children:
-        - file: content/week02_testing/testing.md
-        - file: content/week02_testing/pytest.md
-        - file: content/week02_testing/tdd.md
-        - file: content/week02_testing/debugging.md
-    - title: "Week 3: Version Control"
+        - file: content/week01_git/intro.md
+        - file: content/week01_git/first_steps.md
+        - file: content/week01_git/advanced_steps.md
+    - title: "Week 2: Agentic AI"
       children:
-        - file: content/week03_git/intro.md
-        - file: content/week03_git/first_steps.md
-        - file: content/week03_git/advanced_steps.md
+        - file: content/week02_agents/setup.md
+    - title: "Week 3: Testing"
+      children:
+        - file: content/week03_testing/testing.md
+        - file: content/week03_testing/pytest.md
+        - file: content/week03_testing/tdd.md
+        - file: content/week03_testing/debugging.md
     - title: "Week 4: Packaging and Quality Control"
       children:
         - file: content/week04_package/packaging.md
@@ -54,46 +57,41 @@ project:
         - file: content/week05_ci/ci.md
         - file: content/week05_ci/cd.md
         - file: content/week05_ci/docs.md
-    - title: "Week 6: Object Oriented design"
+    - title: "Week 6: Compiled Languages"
       children:
-        - file: content/week06_oop/introoo.md
-        - file: content/week06_oop/oodesign.md
-    - title: "Week 7: Design Patterns"
+        - file: content/week06_compiled/Compiled_Languages.ipynb
+        - file: content/week06_compiled/rust_example/compiled.md
+        - file: content/week06_compiled/rust_example/rust.md
+        - file: content/week06_compiled/debugging.md
+        - file: content/week06_compiled/profiling.md
+    - title: "Week 7: Parallel Computing"
       children:
-        - file: content/week07_design/designpatt.md
-        - file: content/week07_design/functional.md
-    - title: "Week 8: Static Typing"
+        - file: content/week07_parallel/intro.md
+        - file: content/week07_parallel/openmp.md
+        - file: content/week07_parallel/threading.md
+        - file: content/week07_parallel/concepts.md
+        - file: content/week07_parallel/mpi.md
+    - title: "Week 9: Mixing Languages"
       children:
-        - file: content/week08_static_typing/typing.md
-    - title: "Week 9: Intro to Compilation"
+        - file: content/week09_binding/01-shared-objects/01-shared-objects.ipynb
+        - file: content/week09_binding/02-cpython/02-cpython.ipynb
+        - file: content/week09_binding/03-pybind/03a-pybind.ipynb
+        - file: content/week09_binding/03-pybind/03b-pybind.ipynb
+        - file: content/week09_binding/06-rust.md
+    - title: "Week 10: Object Oriented design"
       children:
-        - file: content/week09_compiled/Compiled_Languages.ipynb
-        - file: content/week09_compiled/rust_example/compiled.md
-        - file: content/week09_compiled/rust_example/rust.md
-        - file: content/week09_compiled/debugging.md
-        - file: content/week09_compiled/profiling.md
-    - title: "Week 10: Mixing Languages"
+        - file: content/week10_oop/introoo.md
+        - file: content/week10_oop/oodesign.md
+    - title: "Week 11: Design Patterns"
       children:
-        - file: content/week10_binding/01-shared-objects/01-shared-objects.ipynb
-        - file: content/week10_binding/02-cpython/02-cpython.ipynb
-        - file: content/week10_binding/03-pybind/03a-pybind.ipynb
-        - file: content/week10_binding/03-pybind/03b-pybind.ipynb
-        - file: content/week10_binding/06-rust.md
-    - title: "Week 11: Parallel Computing"
+        - file: content/week11_design/designpatt.md
+    - title: "Week 12: Functional design and Static Typing"
       children:
-        - file: content/week11_omp/intro.md
-        - file: content/week11_omp/openmp.md
-        - file: content/week11_omp/threading.md
-        - file: content/week11_omp/concepts.md
-    - title: "Week 12: Parallel Computing with MPI"
-      children:
-        - file: content/week12_mpi/mpi.md
+        - file: content/week12_typing/functional.md
+        - file: content/week12_typing/typing.md
     - title: "Bonus: Exotic topics"
       children:
-        - file: content/week13_misc/webassembly.md
-    - title: "WIP: Agentic AI"
-      children:
-        - file: content/week14_agents/setup.md
+        - file: content/bonus_misc/webassembly.md
 site:
   title: SE4Sci
   nav:

@@ -195,10 +195,10 @@ a.out
 compile_flags.txt
 Untitled*
 content/week*/06-rust/Cargo.lock
-content/week09_compiled/hello
-content/week09_compiled/mult
-content/week09_compiled/power
-content/week09_compiled/ramses/
+content/week06_compiled/hello
+content/week06_compiled/mult
+content/week06_compiled/power
+content/week06_compiled/ramses/
 
 _output/Volumes
 *.doit.db
