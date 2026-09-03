@@ -12,7 +12,7 @@ kernelspec:
 
 # Functional programming
 
-{button}`Slides <https://se-for-sci.github.io/slides/week-07-1>`
+{button}`Slides <https://se-for-sci.github.io/slides/week-12-1>`
 
 ## Mutability and state
 

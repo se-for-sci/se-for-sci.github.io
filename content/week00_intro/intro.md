@@ -1,6 +1,6 @@
 # Introductions and motivation
 
-{button}`Slides <https://se-for-sci.github.io/slides/week-01-1>`
+{button}`Slides <https://se-for-sci.github.io/slides/week-00-1>`
 
 ## The importance of software engineering in scientific computing
 
