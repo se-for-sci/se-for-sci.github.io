@@ -160,11 +160,9 @@ out whether the feature is any good:
 
 ## The real cost is after generation
 
-It is tempting to measure the value of an agent by how quickly it produces a
-working feature, but the real time sink is working through the changes and
-understanding them, and an agent can produce far more code than you can
-carefully review in the same amount of time. A large, plausible-looking diff
-still has to be read carefully before it is worth anything.
+Review, not generation, is the bottleneck (see [](./reviewing.md)), and a new
+feature is where that bites hardest: the diff is large and there is no existing
+behavior to check it against.
 
 The practical way to keep this under control is to iterate instead of trying to
 one-shot the feature. Talk to the agent while it works: redirect it when it
@@ -172,9 +170,8 @@ heads somewhere you did not intend, ask it to explain a decision you do not
 follow, and have it fix the parts you are unhappy with. You do not need to
 hand-edit the code yourself, but you do need to keep iterating until it meets
 the standards you would apply to your own work. Reviewing in small pieces as
-they arrive is much easier than reviewing everything at the end (see
-[Reviewing](./reviewing.md)). If you would not merge it from a human
-contributor, do not merge it from the agent.
+they arrive is much easier than reviewing everything at the end. If you would
+not merge it from a human contributor, do not merge it from the agent.
 
 ## Exercise
 

@@ -62,7 +62,8 @@ Splitting also makes review humane:
 Nothing stops you from running several refactors at once, in separate clones or
 `git worktree` checkouts; the prompts above do exactly that.
 {term}`Harnesses <harness>` can manage worktrees for their
-{term}`subagents <subagent>`; you review the resulting PRs one at a time.
+{term}`subagents <subagent>`; you review the resulting PRs one at a time. Larger
+models reach for worktrees on their own; with a smaller model, ask for them.
 
 ## Know your git
 

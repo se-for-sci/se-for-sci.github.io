@@ -17,10 +17,8 @@ interactions.
 Ask for a report with the categorized issues to guide your next steps.
 
 To scale up, have it launch {term}`subagents <subagent>` to fix the bugs it was
-able to reproduce, opening a draft PR for each. Larger models generally know
-that they should use git worktrees to work in parallel so that they don't step
-on each other's toes, but you can explicitly ask for that if you are using
-smaller models.
+able to reproduce, opening a draft PR for each. Ask for git worktrees so the
+subagents do not step on each other, see [](./refactors.md).
 
 A specific issue works too:
 
