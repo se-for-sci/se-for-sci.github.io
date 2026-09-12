@@ -94,6 +94,18 @@ project:
     - title: "WIP: Agentic AI"
       children:
         - file: content/week14_agents/setup.md
+        - file: content/week14_agents/intro.md
+        - file: content/week14_agents/agents_md.md
+        - file: content/week14_agents/inspection.md
+        - file: content/week14_agents/reviewing.md
+        - file: content/week14_agents/issue_triage.md
+        - file: content/week14_agents/ci_and_bugfixes.md
+        - file: content/week14_agents/common_tasks.md
+        - file: content/week14_agents/repetitive_work.md
+        - file: content/week14_agents/writing_tests.md
+        - file: content/week14_agents/profiling.md
+        - file: content/week14_agents/new_features.md
+        - file: content/week14_agents/refactors.md
 site:
   title: SE4Sci
   nav:
