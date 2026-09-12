@@ -34,13 +34,14 @@ repos:
     rev: "v3.6.2"
     hooks:
       - id: prettier
+        exclude: ^pixi\.lock$
 
   - repo: https://github.com/codespell-project/codespell
     rev: "v2.4.1"
     hooks:
       - id: codespell
         args: ["-L", "hist,whet,classe,nd", "-w"]
-        exclude: ^bun\.lock$
+        exclude: ^(bun|pixi)\.lock$
 
   - repo: local
     hooks:
