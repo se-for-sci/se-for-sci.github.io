@@ -92,12 +92,11 @@ Most harnesses come in all three; pick the one you like best.
 
 ## A current breakdown
 
-- **Frontier**: Claude Opus, GPT 5.5
-- **Workhorse**: Claude Sonnet, GPT 5.4, Kimi K2.6, Composer 2.5
-- **Simple**: Claude Haiku, GPT 5.4 mini
-- **Local**: Gemma 4, Qwen 3.6
-
-(GLM 5.1 sits between Simple and Workhorse, and is a personal favorite.)
+- **Huge**: Claude Fable, GPT Astra
+- **Frontier**: Claude Opus, GPT Sol, Kimi K3, Qwen 3.8 Max
+- **Workhorse**: Claude Sonnet, GPT Terra, Kimi K2.x, GLM 5.x
+- **Simple**: Claude Haiku, GPT Luna, Deepseek Flash
+- **Local**: Gemma 4, Qwen 3.8
 
 ---
 
@@ -106,7 +105,28 @@ Most harnesses come in all three; pick the one you like best.
 - **Local**: codebase questions, very simple edits, throw-away scripts, AI config, summaries
 - **Simple**: repetitive edits, issue triage, simple merge conflicts/tests, fixing lints, building & running code, theming
 - **Workhorse**: complex merge conflicts/tests, PR review, docs, bug fixes, fixing CI, conversions, static types
-- **Frontier**: large refactors, profiling/optimization, hard bugs, prototyping and new features
+- **Frontier**: profiling/optimization, hard bugs, prototyping, anything a smaller model failed at
+- **Huge**: bug hunts, performance and modernization sweeps, large refactors, new features
+
+---
+
+## Effort level
+
+- Most commercial models (and some open source ones) have an effort selector
+- It sets the budget for the thinking trace before the answer
+- A smarter model at low effort usually costs less and writes better code
+- High effort explores a larger space — good for searching or a hard bug
+
+---
+
+## Effort level tips
+
+- Default to low or medium for strong models
+- Writing code? Don't turn it up — it causes overengineering
+- Above high, use a stronger model instead (unless you are at the top model)
+- Use high effort for important code reviews and bug hunts (more false positives)
+- Plan at high effort, then implement at low effort or a smaller model
+- Tricky bugs can need more effort, but try less first
 
 ---
 

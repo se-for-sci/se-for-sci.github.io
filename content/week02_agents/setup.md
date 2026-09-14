@@ -73,13 +73,11 @@ sometimes.
 
 Here's a current breakdown of some current models:
 
-- Frontier models: Claude Opus, GPT 5.5
-- Workhorse models: Claude Sonnet, GPT 5.4, Kimi K2.6, Composer 2.5
-- Simple models: Claude Haiku, GPT 5.4 mini
-- Local models: Gemma 4, Qwen 3.6
-
-(GLM 5.1 sits right in between Simple and Workhorse, and is a personal
-favorite).
+- Huge models: Claude Fable, GPT Astra
+- Frontier models: Claude Opus, GPT Sol, Kimi K3, Qwen 3.8 Max
+- Workhorse models: Claude Sonnet, GPT Terra, Kimi K2.x, GLM 5.x
+- Simple models: Claude Haiku, GPT Luna, Deepseek Flash
+- Local models: Gemma 4, Qwen 3.8
 
 Here are some suggested task breakdowns. You can always use a stronger model,
 this is just a recommended minimum:
@@ -111,12 +109,35 @@ this is just a recommended minimum:
   - Recovering old PRs or changes
   - Applying a design document / standard
 - Frontier models
-  - Large refactors
   - Profiling and optimizations
   - Difficult bug fixes
   - Prototyping new features
-  - New features
   - Any of the smaller model items if they fail to do it first
+- Huge models
+  - Finding bugs, performance opportunities, modernization, simplifications
+  - Large refactors
+  - New features
+  - Generating code needing minimal cleanups
+
+## Effort level
+
+Many models (most commercial models and some newer open source models) provide
+an effort level selector. This controls how much a model "thinks" (the budget
+for the thinking trace) before answering. In general, a smarter model at a lower
+effort is more cost effective and writes better code. High effort explores a
+larger space, making it good for searching for things or fixing a hard bug.
+
+Tips:
+
+- Default to low or medium for strong models.
+- Don't turn this up if writing code; it tends to cause "overengineering".
+- Use a stronger model instead of turning up above high (unless you are at the
+  top model level).
+- Use high levels for important code reviews and bug hunts (this can cause more
+  false positives).
+- Planning mode on a higher effort, then implementation on a low effort or
+  smaller model, works well.
+- Fixing tricky bugs can need higher effort levels, but try lower first.
 
 ## Next steps
 
