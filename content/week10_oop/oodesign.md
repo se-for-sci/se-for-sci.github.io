@@ -12,7 +12,7 @@ kernelspec:
 
 # Object Oriented Design
 
-{button}`Slides <https://se-for-sci.github.io/slides/week-06-2>`
+{button}`Slides <https://se-for-sci.github.io/slides/week-10-2>`
 
 ## Intro
 
@@ -93,7 +93,7 @@ is the child class or subclass of A.
 - Provides a way to "realize" or "implement" a specified interface (ABC or
   Protocol).
 
-For example, in `content/week06_oop/geom_example/geometry/classic.py`, `Shape`
+For example, in `content/week10_oop/geom_example/geometry/classic.py`, `Shape`
 is a base class with `area()` and `perimeter()` methods. It doesn't know how to
 compute those - they are abstract. This means you can't instantiate `Shape()`,
 doing so would give you an error (from the `abc` module). However, the

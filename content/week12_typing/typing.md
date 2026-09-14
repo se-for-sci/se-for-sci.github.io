@@ -1,6 +1,6 @@
 # Static Typing
 
-{button}`Slides <https://se-for-sci.github.io/slides/week-08-1>`
+{button}`Slides <https://se-for-sci.github.io/slides/week-12-2>`
 
 What is the best thing about Python? One of the first things you'll hear: no
 explicit typing.
