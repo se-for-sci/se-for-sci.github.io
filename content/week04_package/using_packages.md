@@ -183,7 +183,7 @@ packages (often but not always with matching names).
 
 All systems have an environment specification, something like this:
 
-```
+```text
 requests
 rich >=9.8
 ```
@@ -223,7 +223,7 @@ happened to me with `IPython` and `jedi`, by the way). How do you recover a
 working version without going back to your computer? With a lock file! This
 would look something like this:
 
-```
+```text
 requests ==2.25.1
 rich ==9.8.0
 typing-extensions ==3.7.4

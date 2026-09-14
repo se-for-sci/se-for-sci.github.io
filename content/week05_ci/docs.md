@@ -119,7 +119,7 @@ $ sphinx-quickstart docs
 You can answer the questions, and it will set up a docs folder. A classic
 starting docs folder looks like this:
 
-```
+```text
 - docs
   - make.bat
   - Makefile

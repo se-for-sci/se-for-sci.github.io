@@ -124,7 +124,6 @@ Here's a non-exhaustive list of some types of testing:
 - Static "testing" (**static checking** is the more common term) will be covered
   later. With this, you do not need to run the code. Dynamic testing (often just
   called **testing**) runs your code.
-
 - **Black box**: You can't "see inside" the unit you are testing, and have to
   just test input/output.
 - **White box** (really a bright box or clear box, IMO): You can "see inside",

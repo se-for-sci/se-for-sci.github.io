@@ -174,7 +174,7 @@ What will this output?
 
 A function should be of the form
 
-```
+```text
 name(input, ...) -> output
 ```
 

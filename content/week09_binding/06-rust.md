@@ -24,7 +24,7 @@ parts). Check the flags with `--help/-h`.
 
 Now, you should have a project like this:
 
-```
+```text
 rust_example
 ├── Cargo.toml
 ├── pyproject.toml

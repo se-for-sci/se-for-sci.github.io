@@ -68,10 +68,10 @@ Let's define some terminology we've been seeing, along with a bit of new stuff:
 - Associate functions to a specific type (varies by language)
 
 ```{admonition} Interfaces
-Python refers to an Interface (Java terminology, technically) as a Protocol. C++20
-calls it a Concept. The basic idea is simply that a set of methods/members are
-required in order for a class to be used, without requiring formal inheritance.
-We'll save this until we look at static typing, however.
+Python refers to an Interface (Java terminology, technically) as a Protocol.
+C++20 calls it a Concept. The basic idea is simply that a set of methods/members
+are required in order for a class to be used, without requiring formal
+inheritance. We'll save this until we look at static typing, however.
 
 We also will refer to "interface" meaning the interaction with your API by
 consumers (possibly also you).

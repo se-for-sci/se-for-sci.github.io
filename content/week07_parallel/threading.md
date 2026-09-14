@@ -137,7 +137,7 @@ fractal = run(c, fractal)
 
 For me, I see:
 
-```
+```text
 Took 2.677322351024486s to run
 ```
 

@@ -1,6 +1,1 @@
-proseWrap = "always"
 printWidth = 80
-
-[[overrides]]
-files = "slides/*.md"
-options.proseWrap = "never"

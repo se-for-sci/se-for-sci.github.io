@@ -478,8 +478,9 @@ library that takes advantage of these things.
 
 ```{admonition} No JAX in our environment
 
-We will not be including or running JAX since it is quite large and would slow down setting up an environment. All
-examples will be pre-computed, and we'll not be using it in homework.
+We will not be including or running JAX since it is quite large and would slow
+down setting up an environment. All examples will be pre-computed, and we'll not
+be using it in homework.
 ```
 
 A library that makes use of this is JAX. JAX is a ML inspired library that is a
@@ -545,6 +546,6 @@ is a great GPU NumPy replacement. Etc. JAX here is just intended to be an
 example of what thinking in a functional mindset can do.
 ```
 
-```
+```text
 
 ```

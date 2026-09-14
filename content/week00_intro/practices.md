@@ -135,7 +135,7 @@ Notice the style:
 A function's signature should be a contract between the function implementer
 (you) and the function user (might also be you). Something like this:
 
-```
+```text
 output1, output2, ... = function(input1, input2, ...)
 ```
 

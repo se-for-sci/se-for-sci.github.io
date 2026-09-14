@@ -30,7 +30,8 @@ history and trace through to find answers.
 You can ask it to record artifacts instead of just answering.
 
 ```{tip}
-Harnesses have a way to copy the last response in markdown. Usually `/copy` or a similar shortcut.
+Harnesses have a way to copy the last response in markdown. Usually `/copy` or a
+similar shortcut.
 ```
 
 ## Watch it work

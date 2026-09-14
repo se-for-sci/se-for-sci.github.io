@@ -15,16 +15,19 @@ Design patterns in OOP
 
 - See class notes for some definitions, read on your own - didn't really cover
   in class except inline as we went.
+
 - Why design classes?
   - Modular - not going to give this one up!
   - Can make an API easy to use correctly - hard to use incorrectly
   - Keep values & data together & organized (there's a ~256 or so parameter
     limit in C! I met someone who discovered that first hand.)
   - DRY code
+
 - Two patterns for making classes
   - Inheritance - "is a" & code reuse - spaghetti code warning!
   - Composition - "has a" & restrict interface (you can't delete attributes with
     ) - verbose!
+
 - UML diagrams
   - Can show classes, interface, relationships
   - Several links to read more if interested

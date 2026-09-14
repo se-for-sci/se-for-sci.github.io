@@ -2,7 +2,7 @@ Structural subtyping
 
 - Protocols (Interfaces in Java, Concepts in C++20)
 - Formalized duck typing
-- Example: PlottableHistogram from https://uhi.readthedocs.io
+- Example: PlottableHistogram from <https://uhi.readthedocs.io>
   - Boost-histogram/hist & uproot can produce histograms, but can't depend on
     each other
   - Histoprint & mplhep can visualize histograms, but don't want to be dependent
