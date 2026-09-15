@@ -88,8 +88,7 @@ above. This is called Rubber Duck, and it is built into GitHub Copilot CLI;
 GitHub reports that Claude Sonnet 4.6 reviewed by GPT-5.4 closed 74.7% of the
 gap to Claude Opus 4.6 running alone.[^rubber-duck]
 
-[^rubber-duck]:
-    [GitHub Copilot CLI combines model families for a second opinion](https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-combines-model-families-for-a-second-opinion/),
+[^rubber-duck]: [GitHub Copilot CLI combines model families for a second opinion](https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-combines-model-families-for-a-second-opinion/),
     Nick McKenna and Bartek Perz, 2026-04-06.
 
 If you try this with matching models, they will generally just praise the work.

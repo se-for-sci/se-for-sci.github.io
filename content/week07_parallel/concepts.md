@@ -125,7 +125,9 @@ these exist for `put` as well. And, like locks, you can end up with deadlocks if
 you are not careful.
 
 ```{admonition} Error checking
-This example will swallow errors if you play with it and make a mistake. To fix that, you need to save the returned values from the `.submit(...)`'s, and then call `.result()` on them; that will reraise the exception in the current thread.
+This example will swallow errors if you play with it and make a mistake. To fix
+that, you need to save the returned values from the `.submit(...)`'s, and then
+call `.result()` on them; that will reraise the exception in the current thread.
 ```
 
 ## Barrier

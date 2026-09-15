@@ -47,13 +47,16 @@ MyST MD course site for _Software Engineering for Scientific Computing_.
 ## Lint / format / pre-commit
 
 - Always use `prek -a --quiet` instead of `pre-commit run -a`.
-- Hooks include: ruff-format, blacken-docs, nbstripout, prettier, codespell,
-  blocklint, plus a **custom `disallow-caps` hook** that rejects
+- Hooks include: ruff-format, blacken-docs, nbstripout, rumdl, prettier,
+  codespell, blocklint, plus a **custom `disallow-caps` hook** that rejects
   miscapitalizations of names like pybind11, NumPy, CMake, ccache, GitHub, and
   pytest — always use the canonical spelling (the hook also applies to this
   file).
-- Prettier config (`.prettierrc.toml`): prose wraps at 80 chars by default,
-  **but never for `slides/*.md`**.
+- `rumdl` formats all Markdown; config is `.rumdl.toml`. Prose wraps at 80
+  chars, **but `slides/*.md` keep one line per paragraph**. The MyST flavor is
+  on, so `` ```{directive} `` fences are understood.
+- Prettier (`.prettierrc.toml`) now covers only the non-Markdown files: YAML,
+  JSON, CSS, and JavaScript.
 
 ## CI / deploy
 

@@ -117,7 +117,11 @@ alternatives:
 [cibuildwheel#2946](https://github.com/pypa/cibuildwheel/pull/2946)
 
 ```{note} Model choice matters when building features
-This is the place to use the best model you have available. You are asking for novel code rather than a mechanical transformation, so you want the highest chance that what comes back is usable. A weak model here produces plausible-looking code that costs you far more time in review than it saved in writing.
+This is the place to use the best model you have available. You are asking for
+novel code rather than a mechanical transformation, so you want the highest
+chance that what comes back is usable. A weak model here produces
+plausible-looking code that costs you far more time in review than it saved in
+writing.
 ```
 
 ## Validate beyond your own repo
@@ -176,5 +180,7 @@ not merge it from a human contributor, do not merge it from the agent.
 ## Exercise
 
 ```{exercise}
-Take a small written spec, plan it out in plan mode, implement it in `agentic-ai-example`, and review the result. Ideas: a scatter plot artist, a log-scale axis, or axis labels/titles.
+Take a small written spec, plan it out in plan mode, implement it in
+`agentic-ai-example`, and review the result. Ideas: a scatter plot artist, a
+log-scale axis, or axis labels/titles.
 ```

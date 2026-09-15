@@ -15,7 +15,8 @@ Packaging
 - Minimal setup to build a package
 - Building an sdist/wheel
 - Installing
-- Read more at https://packaging.python.org or https://scikit-hep.org/developer
+- Read more at <https://packaging.python.org> or
+  <https://scikit-hep.org/developer>
 
 Pre-commit (static checks)
 

@@ -260,7 +260,7 @@ warning: `foo` (bin "foo" test) generated 1 warning (run `cargo clippy --fix --b
 ```
 
 > Note: you might not have `cargo-clippy` if you installed Rust minimally. See
-> https://doc.rust-lang.org/stable/clippy/installation.html for info if so.
+> <https://doc.rust-lang.org/stable/clippy/installation.html> for info if so.
 
 This will run the checker (clippy) on all targets (including the test target).
 However, not much is enabled by default. Add the following to your `Cargo.toml`:

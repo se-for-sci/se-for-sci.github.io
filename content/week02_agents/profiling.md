@@ -124,5 +124,6 @@ measurements into a suite you already have:
 ## Exercise
 
 ```{exercise}
-Profile a slow function in `agentic-ai-example`, test two optimization ideas, and report the numbers.
+Profile a slow function in `agentic-ai-example`, test two optimization ideas,
+and report the numbers.
 ```

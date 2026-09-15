@@ -34,7 +34,13 @@ repos:
     rev: "v3.6.2"
     hooks:
       - id: prettier
+        exclude_types: [markdown]
         exclude: ^pixi\.lock$
+
+  - repo: https://github.com/rvben/rumdl-pre-commit
+    rev: "v0.2.73"
+    hooks:
+      - id: rumdl-fmt
 
   - repo: https://github.com/codespell-project/codespell
     rev: "v2.4.1"

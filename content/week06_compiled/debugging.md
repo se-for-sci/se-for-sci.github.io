@@ -43,6 +43,7 @@ When a code crashes it usually writes out a cryptic error message
   - log of a number less or equal to zero
 
 - Does not always crash your code! (depends on compilation and system settings)
+
 - The code can keep going for a long time with `NaN` or `inf` values
 
 - `SIGSEGV`: segmentation violation (see “man 7 signal”)
@@ -79,7 +80,7 @@ x[345] = 0.0; // panics at run-time
   - No space left on disk
     - `checkquota` will check for memory and inodes overflow
 
-```
+```text
 $ checkquota
           Storage/size quota filesystem report for user: rt3504
 Filesystem             Mount              Used   Limit  MaxLim Comment
@@ -237,7 +238,7 @@ All compilers accept the `-g` option.
   - where
   - info stack
 
-```
+```text
 $ apropos debug
 __after_morecore_hook (3) - malloc debugging variables
 __free_hook (3)      - malloc debugging variables
@@ -581,7 +582,7 @@ pdb.set_trace()
 
 - Use `help` to see the commands
 
-```
+```text
 (base) ➜  ~ ./map2deb.py Work/tom/velx_00001.map
 Reading Work/tom/velx_00001.map
 > /Users/rt3504/map2deb.py(21)<module>()
@@ -605,7 +606,7 @@ exec  pdb
 
 Let's see another example
 
-```
+```text
 (base) ➜  ~ ./map2deb.py Work/tom/velx_00001.map
 Reading Work/tom/velx_00001.map
 > /Users/rt3504/map2deb.py(21)<module>()
@@ -727,7 +728,7 @@ int main() {
 We can compile this code using the `-g` option but nothing will be detected both
 at compilation time and at run time.
 
-```
+```text
 $ g++ -g ml.cpp -o ml
 $ ./ml
 ```
@@ -736,7 +737,7 @@ Using the `top` command at several times, one can see the virtual memory (`VIRT`
 below) slowly increasing from slightly less than 0.,5GB to more than 14GB and
 counting. With more than 200 loops, the code would have crashed.
 
-```
+```text
 $ top -n 1 | grep -B1 ml
     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
 3092916 rt3504    20   0 4316088  81436   2232 R  94.4   0.0   0:02.29 ml
@@ -847,7 +848,7 @@ The `ddt` debugger is a good option for C/C++. See web page
 
 Just type:
 
-```
+```text
 $ ddt a.out
 ```
 

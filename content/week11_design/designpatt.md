@@ -65,7 +65,8 @@ Now we can call this with ints or floats, but nothing else. It dispatches
 different versions depending on the types it sees.
 
 ```{admonition} Python specific tips
-* Only the first argument will be used for the dispatch. Other arguments are ignored.
+* Only the first argument will be used for the dispatch. Other arguments are
+  ignored.
 * You can use type annotations instead
 * You can stack multiple registers
     * Or use Unions (Python 3.11+)
@@ -97,8 +98,8 @@ value of this function is not an int, it's an iterable object. Expressions like
 value.
 
 ````{admonition} Empty generator
-The presence of a `yield` anywhere in a function causes a function to be a generator. So
-this is actually an empty generator:
+The presence of a `yield` anywhere in a function causes a function to be a
+generator. So this is actually an empty generator:
 
 ```python
 def empty():
@@ -526,8 +527,8 @@ you might see it happen before you can make it to the collect call.
 ```{admonition} Garbage collector vs. refcount
 CPython will automatically delete anything that has a refcount that drops to 0
 when that happens. The garbage collector is there to detect reference cycles and
-also delete those. You can disable the garbage collector with `gc.disable()`, and
-you will only lose reference cycle deletion.
+also delete those. You can disable the garbage collector with `gc.disable()`,
+and you will only lose reference cycle deletion.
 
 If you ask `sys.getrefcount(...)` for the refcount of an object, it will start
 at 2; the use of it as a parameter increases it by one during the `getrefcount`

@@ -1,0 +1,31 @@
+# Markdown linting and formatting; replaces prettier for *.md.
+
+[global]
+flavor = "myst"
+# rumdl refuses to format any file with conflict markers, even inside a code
+# block, and the rule cannot be disabled.
+exclude = ["content/week01_git/advanced_steps.md"]
+disable = [
+  "MD014", # `$ ` prefixes are required by the `console` lexer
+  "MD024", # repeated headings are normal across course sections
+  "MD025", # heading levels are a content decision
+  "MD026", # headings keep their "!" and ":"
+  "MD028", # separate blockquotes are intentional
+  "MD033", # inline HTML is used in some chapters
+  "MD041", # chapters can start with frontmatter or a directive
+  "MD045", # some images are decorative
+  "MD053", # link definitions are shared between chapters
+  "MD059", # "this page" link text is fine in prose
+]
+
+[per-file-flavor]
+"slides/*.md" = "standard"
+
+[per-file-ignores]
+# Marp decks keep one line per paragraph, as prettier's proseWrap = "never" did.
+"slides/*.md" = ["MD013"]
+
+[MD013]
+line-length = 80
+reflow = true
+code-blocks = false

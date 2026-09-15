@@ -36,7 +36,7 @@ converging on the same repos and even identical features. The OpenClaw
 repository itself became the most famous victim: it went from about 2 PRs per
 week in December 2025 to about 3,400 per week by February 2026, and the merge
 rate fell from roughly 48% to under 10%. One contributor opened 106 PRs in a
-single day, with a median gap of _three seconds_ between submissions
+single day, with a median gap of *three seconds* between submissions
 ([Greptile's statistical study](https://www.greptile.com/blog/prs-on-openclaw)).
 Security maintainers report the same pattern with AI-generated vulnerability
 reports whose submitters cannot answer follow-up questions
@@ -238,8 +238,9 @@ it cannot be traced back to an AI company at all, but most are happy with the
 Linux kernel trailer. Knowing the model helps when reviewing.
 
 ```{tip} Claude Code
-Claude Code adds itself as a coauthor by default. You can turn it off in settings, then
-you are free to add the Linux style trailer in via `~/.claude/CLAUDE.md` (below).
+Claude Code adds itself as a coauthor by default. You can turn it off in
+settings, then you are free to add the Linux style trailer in via
+`~/.claude/CLAUDE.md` (below).
 ```
 
 ````{tip} User configuration
@@ -261,7 +262,9 @@ Linux kernel trailer or have the AI text below marker somewhere in the
 description.
 
 ```{tip} User configuration
-Prefix PR descriptions and comments on PRs with the line ":robot: *AI text below* :robot:" to indicate you are an agent speaking on a user's behalf.
+Prefix PR descriptions and comments on PRs with the line ":robot:
+*AI text below* :robot:" to indicate you are an agent speaking on a user's
+behalf.
 ```
 
 Follow the golden rule (LLVM/curl): a contribution should be worth more than the

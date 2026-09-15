@@ -46,7 +46,12 @@ works on files in that directory. This is useful for a monorepo, where each
 package has its own conventions.
 
 ```{attention} Claude Code
-Claude Code does not read this standard file, so you need to either `ln -s AGENTS.md CLAUDE.md` or make a `CLAUDE.md` that has `@AGENTS.md` mentioned in it somewhere. Other {term}`harnesses <harness>` also have custom files too, but they do read AGENTS.md automatically. You can gitignore `CLAUDE.md` or commit the symlink (also `.claude/`, Claude puts local stuff there).
+Claude Code does not read this standard file, so you need to either
+`ln -s AGENTS.md CLAUDE.md` or make a `CLAUDE.md` that has `@AGENTS.md`
+mentioned in it somewhere. Other {term}`harnesses <harness>` also have custom
+files too, but they do read AGENTS.md automatically. You can gitignore
+`CLAUDE.md` or commit the symlink (also `.claude/`, Claude puts local stuff
+there).
 ```
 
 ## To commit or not to commit

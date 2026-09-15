@@ -526,7 +526,7 @@ def f(x: T) -> T:
 
 TL;DR: Do whatever the type checker tells you
 
-```
+```text
                                A -> B -> C
 ```
 

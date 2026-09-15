@@ -107,13 +107,13 @@ Things to keep in mind during our exercise
 
 Your git branching sandbox
 
-Open a browser to this URL: https://learngitbranching.js.org/?NODEMO
+Open a browser to this URL: <https://learngitbranching.js.org/?NODEMO>
 
 Other resources for git:
 
-- https://gitimmersion.com/
-- https://think-like-a-git.net/
-- http://ndpsoftware.com/git-cheatsheet.html
-- https://ohshitgit.com/
-- https://gitready.com/
-- https://explainshell.com/
+- <https://gitimmersion.com/>
+- <https://think-like-a-git.net/>
+- <http://ndpsoftware.com/git-cheatsheet.html>
+- <https://ohshitgit.com/>
+- <https://gitready.com/>
+- <https://explainshell.com/>

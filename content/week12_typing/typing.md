@@ -234,10 +234,10 @@ bypass checking, especially if your code is not fully typed yet. The reason
 In a compiled language, you have to make the types work. But since they are
 optional in Python and only checked by an optional step, you can simply disable
 them on a line or a file if you need to. In fact, you can even lie about types.
-You can claim something only takes a subset of the types it really could support, you
-can exclude an object type that only exists for backward compatibility or is
-deprecated, etc - all things you could not do in a compiled language. In
-general, you should be more strict with typing than with runtime.
+You can claim something only takes a subset of the types it really could
+support, you can exclude an object type that only exists for backward
+compatibility or is deprecated, etc - all things you could not do in a compiled
+language. In general, you should be more strict with typing than with runtime.
 ```
 
 ## Typing basics
@@ -760,8 +760,8 @@ will immediately notify you if you add an item to Direction but forget to update
 the usage!
 
 ````{admonition} Historical note
-The implementation of `NoReturn`, the type for a function that never makes it to a
-return statement, is also an empty union, so in the past this was how we could
+The implementation of `NoReturn`, the type for a function that never makes it to
+a return statement, is also an empty union, so in the past this was how we could
 implement this feature:
 
 ```python
@@ -1131,7 +1131,8 @@ Results may vary, and it's not as fast as normal compiled code, but it could be
 very useful and basically free once you are statically typed.
 
 ```{admonition} Useful links
-* [Awesome Python Typing](https://github.com/typeddjango/awesome-python-typing): A curated list of links to Python typing related things
+* [Awesome Python Typing](https://github.com/typeddjango/awesome-python-typing):
+  A curated list of links to Python typing related things
 * [Adam Johnson's Typing series](https://adamj.eu/tech/tag/mypy/)
 * [MyPy's cheat sheet](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)
 ```

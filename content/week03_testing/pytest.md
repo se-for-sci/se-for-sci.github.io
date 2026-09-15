@@ -122,10 +122,11 @@ operations on floating point numbers, and you can customize it via keyword
 arguments.
 
 ```{admonition} Correct calculations
-If this bothers you, there are two libraries in the standard library
-that help with exact calculations: `decimal.Decimal` and `fraction.Fraction`. These
-do exact arithmetic, but are many times slower and bulkier than normal floating point calculations.
-99% of the time, you just learn to work around floating point limitations.
+If this bothers you, there are two libraries in the standard library that help
+with exact calculations: `decimal.Decimal` and `fraction.Fraction`. These do
+exact arithmetic, but are many times slower and bulkier than normal floating
+point calculations. 99% of the time, you just learn to work around floating
+point limitations.
 ```
 
 ## Fixtures
@@ -493,9 +494,12 @@ more running tips.
 
 ```{admonition} Further reading and useful links
 * [Scikit-HEP Developer Pages](https://scikit-hep.org/developer/pytest)
-* [Test and Code](https://testandcode.com): a podcast on testing and related topics
-* [The Good Research Code Handbook](https://goodresearch.dev): General resource with a strong focus on testing
-* [Research Software Engineering with Python](https://merely-useful.tech/py-rse/): Also has a testing section.
+* [Test and Code](https://testandcode.com): a podcast on testing and related
+  topics
+* [The Good Research Code Handbook](https://goodresearch.dev): General resource
+  with a strong focus on testing
+* [Research Software Engineering with Python](https://merely-useful.tech/py-rse/):
+  Also has a testing section.
 ```
 
 [hypothesis]: https://hypothesis.readthedocs.io

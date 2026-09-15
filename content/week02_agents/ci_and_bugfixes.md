@@ -51,9 +51,10 @@ mean it's correct or the best fix. Great tests and lints become more important
 with AI; the harder it is to produce an incorrect fix, the better.
 
 ```{tip}
-Add regression tests first, then fix. High end models and {term}`harnesses <harness>` might do
-this for you; you can always request this in your user AGENTS.md or project
-AGENTS.md files, see [](./agents_md.md) and [](./writing_tests.md).
+Add regression tests first, then fix. High end models and
+{term}`harnesses <harness>` might do this for you; you can always request this
+in your user AGENTS.md or project AGENTS.md files, see [](./agents_md.md) and
+[](./writing_tests.md).
 ```
 
 ## Exercise

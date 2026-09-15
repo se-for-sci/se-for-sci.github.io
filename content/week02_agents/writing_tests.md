@@ -76,7 +76,11 @@ This process can occur in two different contexts:
   in this case, even with small models.
 
 ```{note} Model choice matters when writing tests
-Writing a good test requires a model that understands the codebase and the requirements. Small models may be able to write simple tests, but often they will not be able to write a meaningful test, in the sense that it checks for the right things. Larger models are also much better at identifying edge cases and weak points, and at writing tests to check them.
+Writing a good test requires a model that understands the codebase and the
+requirements. Small models may be able to write simple tests, but often they
+will not be able to write a meaningful test, in the sense that it checks for the
+right things. Larger models are also much better at identifying edge cases and
+weak points, and at writing tests to check them.
 ```
 
 ## Improving the test suite
