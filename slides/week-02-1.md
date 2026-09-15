@@ -24,8 +24,9 @@ backgroundImage: url('https://marp.app/assets/hero-background.svg')
 ## LLM details
 
 - The core of agentic programming is an LLM (large language model)
-- Simply completion engines trained on lots of data
+- Initially completion engines trained on lots of data
 - Limited number of parameters, so they learn _concepts_ from the data
+- Reinforcement learning teaches them to work inside a structure and solve problems
 
 ---
 

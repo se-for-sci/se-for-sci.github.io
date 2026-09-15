@@ -1,7 +1,9 @@
 # GPU programming
 
 :::{note}
+
 This chapter is a work in progress.
+
 :::
 
 Two sessions cover GPU programming:
