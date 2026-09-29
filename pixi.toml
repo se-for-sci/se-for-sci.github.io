@@ -15,7 +15,6 @@ jupyterlab = ">=3"
 line_profiler = "*"
 matplotlib = ">=3.5"
 mypy = ">=1"
-nb_conda_kernels = "*"
 numba = "*"
 numpy = ">=1.20"
 pandas = ">=1.3"
@@ -29,7 +28,6 @@ ninja = ">=1.10"
 
 [tasks]
 lab = "jupyter lab"
-install-kernel = "python -m ipykernel install --sys-prefix --name conda-env-se-for-sci-py"
-book = { cmd = "myst build --execute --html", depends-on = ["install-kernel"] }
-serve = { cmd = "myst start --execute", depends-on = ["install-kernel"] }
-pdf = { cmd = "myst build --execute --pdf", depends-on = ["install-kernel"] }
+book = "myst build --execute --html"
+serve = "myst start --execute"
+pdf = "myst build --execute --pdf"

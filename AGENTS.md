@@ -12,10 +12,9 @@ MyST MD course site for _Software Engineering for Scientific Computing_.
 | Live dev server (MyST) | `pixi run serve`                                                     |
 | JupyterLab             | `pixi run lab`                                                       |
 
-- `pixi run book` depends on the `install-kernel` task, which installs the
-  project's Python kernel into the pixi environment (`--sys-prefix`), then
-  builds the site using `myst build --execute --html`. It sets
-  `PYDEVD_DISABLE_FILE_VALIDATION=1`.
+- `pixi run book` runs `myst build --execute --html`. Notebooks use the
+  `python3` kernel that ipykernel provides in the pixi environment, so no
+  kernel install step is needed.
 - `mystmd` is configured to **execute all notebooks** on every build
   (`--execute` flag), so broken code in a notebook breaks CI.
 - Only files listed in the `toc` section of `myst.yml` are included in the

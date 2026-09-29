@@ -252,12 +252,10 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mystmd-1.10.1-pyhcf101f3_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/nb_conda_kernels-2.5.1-pyh707e725_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbclient-0.11.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbconvert-core-7.17.1-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbformat-5.10.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nest-asyncio2-1.7.2-pyhcf101f3_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/notebook-7.6.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/notebook-shim-0.2.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/overrides-7.7.0-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-26.2-pyhc364b38_0.conda
@@ -393,12 +391,10 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mystmd-1.10.1-pyhcf101f3_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/nb_conda_kernels-2.5.1-pyh707e725_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbclient-0.11.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbconvert-core-7.17.1-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbformat-5.10.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nest-asyncio2-1.7.2-pyhcf101f3_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/notebook-7.6.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/notebook-shim-0.2.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/overrides-7.7.0-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-26.2-pyhc364b38_0.conda
@@ -632,12 +628,10 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/munkres-1.1.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mypy_extensions-1.1.0-pyha770c72_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/mystmd-1.10.1-pyhcf101f3_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/nb_conda_kernels-2.5.1-pyh707e725_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbclient-0.11.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbconvert-core-7.17.1-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nbformat-5.10.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nest-asyncio2-1.7.2-pyhcf101f3_0.conda
-      - conda: https://conda.anaconda.org/conda-forge/noarch/notebook-7.6.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/notebook-shim-0.2.4-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/overrides-7.7.0-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-26.2-pyhc364b38_0.conda
@@ -4218,21 +4212,6 @@ packages:
   run_exports: {}
   size: 2189657
   timestamp: 1780749480811
-- conda: https://conda.anaconda.org/conda-forge/noarch/nb_conda_kernels-2.5.1-pyh707e725_2.conda
-  sha256: 2aaf48824b2bba5af5fe6c36c3d2a8314fee52b3b86e9f84c6009817ba19309c
-  md5: 076e6d822442987779a6622092a8fb6a
-  depends:
-  - __unix
-  - jupyter_client >=4.2
-  - notebook
-  - psutil
-  - python >=3.8
-  - requests
-  license: BSD-3-Clause
-  license_family: BSD
-  run_exports: {}
-  size: 22025
-  timestamp: 1714150164539
 - conda: https://conda.anaconda.org/conda-forge/noarch/nbclient-0.11.0-pyhd8ed1ab_0.conda
   sha256: eceb424236fbbb9b337a857fe5448307b57a2a3fb2db389ae37e7a8b8cdca2ab
   md5: cf01a81d7960ad9c829bf2e794fcee9a
@@ -4301,23 +4280,6 @@ packages:
   run_exports: {}
   size: 15903
   timestamp: 1770973502283
-- conda: https://conda.anaconda.org/conda-forge/noarch/notebook-7.6.0-pyhcf101f3_0.conda
-  sha256: 5b48c26a966caae81169cc8056321a4c139103880eb01e1f4f02ad6ff9390421
-  md5: d9eb17006787e506bcb70f16daf1b1c1
-  depends:
-  - jupyter_server >=2.19.0,<3
-  - jupyter-builder >=1.0.2,<2
-  - jupyterlab >=4.6.0,<4.7
-  - jupyterlab_server >=2.28.0,<3
-  - notebook-shim >=0.2,<0.3
-  - python >=3.10
-  - tornado >=6.2.0
-  - python
-  license: BSD-3-Clause
-  license_family: BSD
-  run_exports: {}
-  size: 4629848
-  timestamp: 1781800954960
 - conda: https://conda.anaconda.org/conda-forge/noarch/notebook-shim-0.2.4-pyhd8ed1ab_1.conda
   sha256: 7b920e46b9f7a2d2aa6434222e5c8d739021dbc5cc75f32d124a8191d86f9056
   md5: e7f89ea5f7ea9401642758ff50a2d9c1

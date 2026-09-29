@@ -5,9 +5,9 @@ jupytext:
     extension: .md
     format_name: myst
 kernelspec:
-  display_name: Python [conda env:se-for-sci] *
+  display_name: Python 3 (ipykernel)
   language: python
-  name: conda-env-se-for-sci-py
+  name: python3
 ---
 
 ```{code-cell} python3
