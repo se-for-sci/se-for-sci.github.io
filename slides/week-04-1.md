@@ -18,7 +18,8 @@ backgroundImage: url('https://marp.app/assets/hero-background.svg')
 - PyPI hosts packages for pip / uv
 - pip: the canonical package manager for Python
 - uv: a Rust rewrite of pip, 10-100x faster
-  - 20% of PyPI downloads now come from uv!
+  - About 34% of PyPI downloads come from uv (Feb 2026)!
+  - Better defaults: uses `.venv`, never installs to system/user without a flag
   - Also has a high-level API
 
 ---
@@ -41,8 +42,9 @@ backgroundImage: url('https://marp.app/assets/hero-background.svg')
 - Package owners control PyPI, while conda-forge is community driven
 - If you develop a package, PyPI is first
 - Conda tools can use PyPI packages
+- Conda is often preferred in some fields (like ML); use pixi there
 
-So we'll focus on PyPI.
+So we'll focus on PyPI via uv.
 
 The course website is a pixi project, by the way.
 
@@ -109,6 +111,14 @@ uvx <package> <args...>
 ```
 
 This will create a temporary virtual environment, install the package, run it. The environment is cached for a time, so reruns are fast.
+
+If the command and package names differ, use `--from`:
+
+```bash
+uvx --from <package> <command> <args...>
+```
+
+pipx has the same features: `pipx install` and `pipx run` (`--spec` instead of `--from`). pipx is preinstalled on GitHub Actions, and there is an action to set up uv.
 
 (I believe this name was inspired by `npx` from JavaScript, which does the same thing.)
 
@@ -177,6 +187,32 @@ uv run <command...> # run a command in the project environment
 ```
 
 For an existing project, you just need `uv run`!
+
+---
+
+## What does `uv run` do?
+
+- Creates a `.venv` if not present
+- Installs the project's dependencies
+- Installs the project in editable mode, if it has a build backend
+- Installs the `dev` dependency group, if it exists
+- Uses the lockfile if it exists, otherwise creates one
+
+Works with a standard `pyproject.toml`; no uv-specific configuration needed.
+
+---
+
+## Pixi
+
+Pixi only has a high-level interface, and it needs a manifest (`pixi.toml` or `[tool.pixi]` in `pyproject.toml`).
+
+- Installs conda and PyPI packages
+- Lists platforms and channels in `[workspace]`
+- Has a task system: `pixi run <task>`
+
+```bash
+pixi run lab  # starts JupyterLab for this course
+```
 
 ---
 
