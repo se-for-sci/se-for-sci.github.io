@@ -19,15 +19,15 @@ or `pipx install prek`. You can also run it without installing it with
 You can then run it like this:
 
 ```bash
-prek run -a
+prek -a
 ```
 
 That will check everything. You don't need to know anything about how to run the
 checkers or linters, it's a single standard interface for all projects. Each
 hook gets a unique, cached environment, so the next time you run it, it's
 lightning fast. If you leave off the `-a`, it _only checks the changed files in
-your staging area, even partially staged ones!_ You can also use `prek` alone as
-a shortcut for `prek run`.
+your staging area, even partially staged ones!_ You can also write out `prek
+run`, alone it is a shortcut.
 
 If you want to update to the latest versions of all your hooks, run:
 
