@@ -240,9 +240,9 @@ You can use this for other ecosystems too, including Python.
 
 ### Pre-commit
 
-If you use [pre-commit](https://pre-commit.com) (and you should), and you don't
-want to / can't use [pre-commit.ci](https://pre-commit.ci) yet, then this is a
-job that will check pre-commit for you:
+If you use pre-commit hooks (and you should), and you don't want to / can't use
+[pre-commit.ci](https://pre-commit.ci) yet, then this is a job that will run
+them with [prek](https://prek.j178.dev) for you:
 
 ```yaml
 lint:
@@ -250,15 +250,15 @@ lint:
   runs-on: ubuntu-latest
   steps:
     - uses: actions/checkout@v6
-    - uses: actions/setup-python@v6
-      with:
-        python-version: "3.x"
-    - uses: pre-commit/action@v3.0.1
+    - uses: j178/prek-action@v3.0.0
 ```
+
+prek does not need Python, so you do not need `actions/setup-python`. The action
+caches the hook environments between runs.
 
 If you do use [pre-commit.ci](https://pre-commit.ci), but you need this job to
 run a manual check, like check-manifest, then you can keep it but just use
-`with: extra_args: --all-files --hook-stage manual check-manifest` to run just
+`with: extra-args: --all-files --stage manual check-manifest` to run just
 this one check. You can also use `needs: lint` in your other jobs to keep them
 from running if the lint check does not pass.
 
@@ -360,8 +360,8 @@ And many other useful ones:
   and provide nox.
 - [pypa/gh-action-pypi-publish](https://github.com/pypa/gh-action-pypi-publish):
   Publish Python packages to PyPI.
-- [pre-commit/action](https://github.com/pre-commit/action): Run pre-commit with
-  built-in caching.
+- [j178/prek-action](https://github.com/j178/prek-action): Run pre-commit hooks
+  with prek, with built-in caching.
 - [conda-incubator/setup-miniconda](https://github.com/conda-incubator/setup-miniconda):
   Setup conda or mamba on GitHub Actions.
 - [ruby/setup-ruby](https://github.com/ruby/setup-ruby) Setup Ruby if you need
@@ -493,7 +493,8 @@ pushes but will build each commit on `main`.
 
 ## Setting up pre-commit.ci
 
-To set up pre-commit.ci, visit <https://pre-commit.ci>.
+To set up pre-commit.ci, visit <https://pre-commit.ci>. It reads the same
+`.pre-commit-config.yaml` file that prek uses.
 
 This has two benefits: it can update your hooks weekly/monthly/quarterly, and it
 can automatically push fixes to pull requests.

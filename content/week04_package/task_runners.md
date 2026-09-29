@@ -131,7 +131,7 @@ will likely look similar across different projects:
 
 #### Lint
 
-Developers should be using pre-commit directly, but this helps new users.
+Developers should be using prek directly, but this helps new users.
 
 ```python
 @nox.session
@@ -139,9 +139,9 @@ def lint(session: nox.Session) -> None:
     """
     Run the linter.
     """
-    session.install("pre-commit")
+    session.install("prek")
     session.run(
-        "pre-commit", "run", "--show-diff-on-failure", "--all-files", *session.posargs
+        "prek", "run", "--show-diff-on-failure", "--all-files", *session.posargs
     )
 ```
 

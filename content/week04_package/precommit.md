@@ -1,36 +1,52 @@
 # Pre-commit
 
-## Intro to pre-commit
+## Intro to pre-commit and prek
 
-You can install pre-commit from `brew` (macOS), or via `pipx`/`pip` for anything
-with Python.
+[pre-commit][] is a framework to run checks and formatters on your code. A
+configuration file, `.pre-commit-config.yaml`, lists the checks (called hooks).
+Many projects use this file format.
+
+We will use [prek][] to run these hooks. prek is a fast reimplementation of
+pre-commit, written in Rust. It reads the same `.pre-commit-config.yaml` file,
+so it works on any project that uses pre-commit. It is a single binary without
+dependencies (it does not need Python), and it uses uv to set up Python hooks.
+This makes it much faster than the original pre-commit.
+
+You can install prek with `uv tool install prek`, `brew install prek` (macOS),
+or `pipx install prek`. You can also run it without installing it with
+`uvx prek`.
 
 You can then run it like this:
 
 ```bash
-pre-commit run -a
+prek run -a
 ```
 
 That will check everything. You don't need to know anything about how to run the
 checkers or linters, it's a single standard interface for all projects. Each
 hook gets a unique, cached environment, so the next time you run it, it's
 lightning fast. If you leave off the `-a`, it _only checks the changed files in
-your staging area, even partially staged ones!_
+your staging area, even partially staged ones!_ You can also use `prek` alone as
+a shortcut for `prek run`.
 
 If you want to update to the latest versions of all your hooks, run:
 
 ```bash
-pre-commit autoupdate
+prek update
 ```
 
 If you want to use it in the namesake "pre-commit" mode, then run:
 
 ```bash
-pre-commit install
+prek install
 ```
 
 Now it runs before every commit, and you'll never check in "bad" code again! Use
 `-n` to skip the pre-commit check when committing for emergencies.
+
+The original `pre-commit` tool (install it with `uv tool install pre-commit`)
+has the same commands (`pre-commit run -a`, `pre-commit autoupdate`, and
+`pre-commit install`). You will see it in the documentation of many projects.
 
 PS: This is generally not used for pytest (though it could be), since tests are
 generally slower and take more setup, including being installed properly.
@@ -54,14 +70,13 @@ repos:
       - id: trailing-whitespace
 ```
 
-**Helpful tip**: Pre-commit runs top-to-bottom, so put checks that modify
+**Helpful tip**: Hooks run top-to-bottom, so put checks that modify
 content (like several of the pre-commit-hooks above, or Black) above checks that
 might be more likely to pass after the modification (like flake8).
 
-**Keeping pinned versions fresh**: You can use `pre-commit autoupdate` to move
-your tagged versions forward to the latest tags! Due to the design of
-pre-commit's caching system, these _must_ point at fixed tags, never put a
-branch here.
+**Keeping pinned versions fresh**: You can use `prek update` to move your
+tagged versions forward to the latest tags! Due to the design of the caching
+system, these _must_ point at fixed tags, never put a branch here.
 
 ## A selection of pre-commit checks
 
@@ -74,7 +89,7 @@ allowing you to come up with your own format, it enforces one on you. While I am
 quite sure you can come up with a better format, having a single standard makes
 it possible to learn to read code very fast - you can immediately see nested
 lists, matching brackets, etc. There also is a faction of developers that
-dislikes all auto-formatting tools, but inside a system like pre-commit,
+dislikes all auto-formatting tools, but inside a system like prek,
 auto-formatters are ideal. They also speed up the writing of code because you
 can ignore formatting your code when you write it. By imposing a standard, all
 developers can quickly read any package's code.
@@ -122,8 +137,7 @@ Jupyter outputs:
 
 ### Type checking
 
-We saw how to use mypy before; now let's integrate it into our pre-commit
-runner!
+We saw how to use mypy before; now let's integrate it into our prek runner!
 
 The MyPy addition for pre-commit:
 
@@ -138,7 +152,7 @@ The MyPy addition for pre-commit:
 
 You should always specify args, as the hook's default hides issues - it's
 designed to avoid configuration, but you should add configuration. You can also
-add items to the virtual environment setup for MyPy by pre-commit, for example:
+add items to the virtual environment setup for MyPy by prek, for example:
 
 ```yaml
 additional_dependencies: [attrs==25.3.0]
@@ -182,7 +196,7 @@ typing.
 [Ruff][] [(docs)][ruff docs] is a Python code linter and autofixer that replaces
 many other tools in the ecosystem with a ultra-fast (written in Rust), single
 zero-dependency package. All plugins are compiled in, so you can't get new
-failures from plugins updating without updating your pre-commit hook.
+failures from plugins updating without updating your hook.
 
 [ruff docs]: https://beta.ruff.rs
 [ruff]: https://github.com/astral-sh/ruff
@@ -253,7 +267,7 @@ lot of custom configuration options), `typing-modules`, which helps apply
 typing-specific rules to a re-exported typing module (a common practice for
 unifying typing and `typing_extensions` based on Python version). There's also a
 file `exclude` set, which you can override if you are running this entirely from
-pre-commit (default excludes include "build", so if you have a `build` module or
+prek (default excludes include "build", so if you have a `build` module or
 file named `build.py`, it would get skipped by default without this).
 
 Here are some good error codes to enable on most (but not all!) projects:
@@ -332,4 +346,5 @@ such as the one below:
 
 [codespell]: https://github.com/codespell-project/codespell
 [pre-commit]: https://pre-commit.com
+[prek]: https://prek.j178.dev
 [isort]: https://pycqa.github.io/isort/
