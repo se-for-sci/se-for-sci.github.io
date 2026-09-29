@@ -23,11 +23,10 @@ pip install --user <package>  # Almost never use
 
 Don't use them unless you know exactly what you are doing! The first one will
 try to install globally, and if you don't have permission, will install to your
-user site packages (as of a recent pip update). In global site packages, you can
-get conflicting versions of libraries, you can't tell what you've installed for
-what, it's a mess. And user site packages are worse, because all installs of
-Python on your computer share it, so you might override and break things you
-didn't intend to.
+user site packages. In global site packages, you can get conflicting versions
+of libraries, you can't tell what you've installed for what, it's a mess. And
+user site packages are worse, because all installs of Python on your computer
+share it, so you might override and break things you didn't intend to.
 
 The solution depends on what you are doing:
 
@@ -40,12 +39,12 @@ ones - Linux package managers tend to be too old to use for Python libraries).
 
 Ideas for safe libraries: the other libraries you see listed in this lesson!
 It's likely better than bootstrapping them. In fact, you can get away with just
-one:
+one: uv.
 
-### pipx: pip for executables!
+### uv tool / pipx: pip for executables!
 
 If you are installing an "application", that is, it has a script end-point and
-you don't expect to import it, _do not use pip_; use
+you don't expect to import it, _do not use pip/`uv pip`_; use `uv tool` or
 [pipx](https://pypa.github.io/pipx/). It will isolate it in a virtual
 environment, but hide all that for you, and then you'll just have an application
 you can use with no global/user side effects!
@@ -67,13 +66,13 @@ black myfile.py
 
 Now you have "black", but nothing has changed in your global site packages! You
 cannot import black or any of its dependencies! There are no conflicting
-requirements (more common in pip 20.3+, which now will refuse to install two
-packages that have incompatible requirements).
+requirements (pip 20.3+ refuses to install two packages that have incompatible
+requirements).
 
 #### Directly running applications
 
-Pipx also has a very powerful feature: you can install and run an application in
-a temporary environment!
+uv and pipx also have a very powerful feature: you can install and run an
+application in a temporary environment!
 
 For example, this works just as well as the lines above:
 
@@ -94,19 +93,30 @@ The first time you do this, pipx creates a venv and puts black in it, then runs
 it. If you run it again, it will reuse the cached environment if it hasn't been
 cleaned up yet, so it's fast.
 
-Another example (note: for uv, use `uv build`, which is built-in):
+Another example (`uv build` is a built-in command, `pipx run` is using the
+package named `build`):
 
+`````{tab-set}
+````{tab-item} uv
+```bash
+uv build
+```
+````
+````{tab-item} pipx
 ```bash
 pipx run build
 ```
+````
+`````
 
 > This is great for CI! Pipx is installed by default in GitHub Actions (GHA);
-> you do not need `actions/setup-python` to run it.
+> you do not need `actions/setup-python` to run it. There's an easy action to
+> set up uv, as well.
 
 If the command and the package have different names, then you may have to write
-this with a `--spec` (`--from` with uvx), though pipx has a way to customize
-this, and it will try to guess if there's only one command in the package. You
-can also pin exactly, specify extras, etc:
+this with a `--from` (`--spec` with pipx), though pipx (only) has a way to
+customize this, and it will try to guess if there's only one command in the
+package. You can also pin exactly, specify extras, etc:
 
 `````{tab-set}
 ````{tab-item} uv
@@ -266,7 +276,7 @@ the box.
 
 ### Conda environments
 
-If you use Conda, the environment file is called `environment.yaml`. The one we
+If you use Conda, the environment file is called `environment.yml`. The one we
 are using can be seen here:
 
 ```{literalinclude} ../../environment.yml
@@ -279,3 +289,50 @@ You can specify pip dependencies, too:
 - pip:
     - i_couldnt_think_of_a_library_missing_from_conda
 ```
+
+## High level interface
+
+In practice, you don't need to do manual environment manipulation if you have a
+tool supporting a high level interface (uv or pixi, also hatch, poetry, and
+pdm).
+
+### uv
+
+In order to use uv's high level interface, run:
+
+```console
+uv run <command>
+```
+
+That will:
+
+- Create a `.venv` folder with a virtual environment if not present already
+- Install the project's dependencies
+- Install the project itself in editable mode, if it has a build backend
+- Install the `dev` dependency group if it exists
+- Everything installed will come from the locked versions in the lockfile if it
+  exists, otherwise one will be created.
+
+The `<command>` can be anything; `uv run python`, `uv run pytest`, etc.
+
+While there are some custom configuration options for uv, it works out of the
+box with a standard `pyproject.toml`, so you don't need uv specific
+configuration to support uv's high level mode.
+
+### pixi
+
+Pixi only has a high level interface, and it needs a manifest (`pixi.toml` or
+`[tool.pixi]` in `pyproject.toml`). It can install both conda and PyPI packages.
+There is also a task system in pixi.
+
+For an example, you can see the one in this repo:
+
+```{literalinclude} ../../pixi.toml
+:language: toml
+```
+
+The platforms you want to lock for and conda channels you want to use are listed
+in `workspace`. You have a set of dependencies (the `environment.yml` file above
+lists the same dependencies, by the way). Then you can also make a list of
+tasks. When you do `pixi run <command>`, if the command is listed in the tasks,
+that will get run instead. So `pixi run lab` starts up JupyterLab, for example.

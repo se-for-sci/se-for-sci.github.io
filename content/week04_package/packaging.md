@@ -42,7 +42,12 @@ environment's site-packages.
 
 There is also a Rust rewrite of pip (and several other tools) called "uv" that
 is faster (think 10-100x faster) and has an alternate high-level API. It's only
-about a year old, but already 20% of the PyPI downloads are now via uv.
+a few years old, but already about 34% of PyPI downloads come from uv (as of
+February 2026).
+
+Besides being faster, uv also has better defaults (it defaults to a virtual
+environment named `.venv` and never installs to system/user without a flag, for
+example), and it also has a high-level interface (more on that later).
 
 ## Conda/Mamba/MicroMamba/Pixi and conda-forge
 
@@ -79,9 +84,9 @@ It turns out, writing a tool that can get Python, in Python, has bad
 chicken-and-egg problem. That's why it's been rewritten not once, but twice, in
 compiled languages.
 
-Which do you pick? I'll focus on PyPI; it's the "official" ecosystem, and most
-conda packages just build PyPI packages. But there are often places (like ML)
-where conda is preferred. Unless you are making your own package (in which case
-nearly always start with PyPI). Both systems have great ways to manage
-environments and can do some form of locking, which is all you need for an
-"application" style project.
+Which do you pick? I'll focus on PyPI via uv; it's the "official" ecosystem, and
+most conda packages just build PyPI packages. But there are often places (like
+ML) where conda is preferred; for those I'd recommend pixi. If you are
+making your own package, nearly always start with PyPI. Both
+systems have great ways to manage environments and can do some form of locking,
+which is all you need for an "application" style project.
