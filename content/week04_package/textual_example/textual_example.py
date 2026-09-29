@@ -20,5 +20,9 @@ class PrincetonApp(App):
         yield Footer()
 
 
-if __name__ == "__main__":
+def main():
     PrincetonApp().run()
+
+
+if __name__ == "__main__":
+    main()
