@@ -19,9 +19,6 @@ In this lecture, we will:
 
 - compare MPI and OpenMP, and briefly introduce GPU programming
 
-The original slides are available
-[here](/_static/pdfs/Parallel_Programming_MPI.pdf).
-
 ## Parallel programming languages
 
 Evolution of programming methods:

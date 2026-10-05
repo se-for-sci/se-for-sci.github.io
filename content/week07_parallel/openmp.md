@@ -18,9 +18,6 @@ In this lecture, we will:
 
 - learn best practices to get good performance with OpenMP
 
-The original slides are available
-[here](/_static/pdfs/Parallel_Programming_OpenMP.pdf).
-
 ## Parallel programming languages
 
 Evolution of programming methods:

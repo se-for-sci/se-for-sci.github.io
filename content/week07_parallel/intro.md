@@ -20,9 +20,6 @@ In this lecture, we will:
   - Message Passing Interface (MPI)
   - Graphics Processing Units (GPU)
 
-The original slides are available
-[here](/_static/pdfs/Parallel_Programming_Intro.pdf).
-
 ## Moore's law
 
 ### Statement of the law
