@@ -234,7 +234,7 @@ configurations instead.
 
 ![](intro_fat_tree.png)
 
-See for example <http://www.mellanox.com/clusterconfig/> and
+See for example <https://www.nvidia.com/en-us/networking/infiniband-configurator> and
 <http://clusterdesign.org/fat-trees/>.
 
 The key network parameters (switches and cables) are the **latency** and the
