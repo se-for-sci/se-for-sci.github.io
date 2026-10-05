@@ -49,7 +49,7 @@ Evolution of programming methods:
 - OpenMP uses a **shared memory** paradigm: data are shared implicitly within
   the node through the Random-Access Memory.
 
-![](intro_distributed_memory.png)
+![](images/intro_distributed_memory.png)
 
 ## MPI history
 
@@ -148,7 +148,7 @@ Data (grid cells or particles) are distributed between nodes and cores using a
 equal domains. On the right, the domains of a particle simulation adapt to the
 particle density, so that each process gets roughly the same amount of work.
 
-![](mpi_domain_decomposition.png)
+![](images/mpi_domain_decomposition.png)
 
 ## MPI basics
 
@@ -275,7 +275,7 @@ of the send or receive. The user needs to test that the communication is
 successful in order to proceed with the data, which leads to a higher
 algorithmic complexity.
 
-![](mpi_overlap.png)
+![](images/mpi_overlap.png)
 
 _Computation-communication overlap._
 
@@ -286,7 +286,7 @@ domains. Each process needs the values of the cells along the boundaries of its
 4 neighbors (North, South, West, and East), which are stored in extra "ghost"
 cells around its own domain.
 
-![](mpi_halo_exchange.png)
+![](images/mpi_halo_exchange.png)
 
 The communications with the 4 neighbors are started with non-blocking calls. The
 derived datatypes `rowtype` and `columntype` describe a row and a column of the
@@ -498,13 +498,13 @@ $ mpiexec -n 7 allreduce
 - On a cluster of many large shared memory nodes, the hybrid approach (OpenMP
   within nodes and MPI across nodes) can be optimal.
 
-![](mpi_hybrid.png)
+![](images/mpi_hybrid.png)
 
 ## Graphics Processing Units (GPU)
 
 ### GPU model
 
-![](mpi_gpu_model.png)
+![](images/mpi_gpu_model.png)
 
 A CPU core runs 1 thread at a time, with fast access to its main memory. A GPU
 runs about 32 threads per core, with very fast access to its own memory. But

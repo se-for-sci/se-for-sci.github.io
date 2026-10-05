@@ -32,7 +32,7 @@ Gordon Moore, a founder of Intel, stated in 1965 that:
 > The number of transistors that can be placed on an integrated circuit at a
 > reasonable cost doubles every two years.
 
-![](intro_moore_law.png)
+![](images/intro_moore_law.png)
 
 _Data source: Wikipedia; figure from
 [OurWorldInData.org](https://ourworldindata.org), licensed under CC-BY by Hannah
@@ -62,7 +62,7 @@ Programming instructions (stored-program) and data share the memory unit. They
 are loaded into the Central Processing Unit (CPU) for execution. Results are
 written back to the memory unit.
 
-![](intro_von_neumann.png)
+![](images/intro_von_neumann.png)
 
 ### The Von Neumann bottleneck
 
@@ -87,15 +87,15 @@ twice a year. It gives a nice view of how supercomputers have evolved.
 
 ### Performance
 
-![](intro_top500_performance.png)
+![](images/intro_top500_performance.png)
 
 ### Number of cores
 
-![](intro_top500_cores.png)
+![](images/intro_top500_cores.png)
 
 ### Performance per core
 
-![](intro_top500_per_core.png)
+![](images/intro_top500_per_core.png)
 
 The total performance keeps growing exponentially, but this growth is now driven
 by the number of cores, while the performance of each individual core has
@@ -140,7 +140,7 @@ more cores to solve it faster. The theoretical maximum speedup is:
 | 100000   | 100000       | 9091  | 990  | 99.9 | 49.9 | 19.99 | 10   | 4    | 2     |
 | $\infty$ | $\infty$     | 10000 | 1000 | 100  | 50   | 20    | 10   | 4    | 2     |
 
-![](intro_strong_scaling.png)
+![](images/intro_strong_scaling.png)
 
 Even with only 1% of non-parallel code, you can never go faster than 100 times
 the serial code, no matter how many cores you use. The right panel compares
@@ -198,7 +198,7 @@ the code. Reducing $\alpha$ is called "parallel code optimization".
 
 - Disk Input/Output bandwidth is increasing very slowly.
 
-![](intro_cray_xc50.png)
+![](images/intro_cray_xc50.png)
 
 _A Cray XC50 blade with GPUs._
 
@@ -226,13 +226,13 @@ Connecting millions of processors requires a high-performance network.
 
 - High-quality fiber cables are needed to connect each node to the switch.
 
-![](intro_infiniband_switch.png)
+![](images/intro_infiniband_switch.png)
 
 The fat-tree network is a non-blocking network topology invented by Charles Clos
 (1953). Depending on how many switches you can afford, you might choose blocking
 configurations instead.
 
-![](intro_fat_tree.png)
+![](images/intro_fat_tree.png)
 
 See for example <https://www.nvidia.com/en-us/networking/infiniband-configurator> and
 <http://clusterdesign.org/fat-trees/>.
@@ -268,4 +268,4 @@ Evolution of programming methods:
 - OpenMP uses a **shared memory** paradigm: data are shared implicitly within
   the node through the Random-Access Memory.
 
-![](intro_distributed_memory.png)
+![](images/intro_distributed_memory.png)

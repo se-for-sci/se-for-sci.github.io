@@ -48,7 +48,7 @@ Evolution of programming methods:
 - OpenMP uses a **shared memory** paradigm: data are shared implicitly within
   the node through the Random-Access Memory.
 
-![](intro_distributed_memory.png)
+![](images/intro_distributed_memory.png)
 
 ## OpenMP history
 
@@ -71,7 +71,7 @@ Architecture Review Board (ARB).
 
 ### Multi-threading
 
-![](openmp_threads.png)
+![](images/openmp_threads.png)
 
 - An OpenMP program is executed by only one process, called the master thread.
   The corresponding piece of code is called a **sequential region**.
@@ -90,7 +90,7 @@ Architecture Review Board (ARB).
 
 ### Compilation
 
-![](openmp_compilation.png)
+![](images/openmp_compilation.png)
 
 An OpenMP program relies on three ingredients:
 
