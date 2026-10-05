@@ -209,3 +209,6 @@ node_modules/
 
 # Symlink to AGENTS.md
 .claude/
+
+# macOS
+.DS_Store
