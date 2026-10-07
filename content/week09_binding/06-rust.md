@@ -45,7 +45,7 @@ name = "rust_example"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = {version = "0.27.1", features = ["abi3-py310"]}
+pyo3 = {version = "0.27.1", features = ["abi3-py311"]}
 ```
 
 The standard rust package stuff is at the top. The `lib` table has the library
@@ -70,7 +70,7 @@ build-backend = "maturin"
 
 [project]
 name = "rust_example"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
