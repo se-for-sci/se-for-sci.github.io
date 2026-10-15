@@ -1,13 +1,13 @@
 // Based on Tim Mattson's code for
 // https://github.com/tgmattso/OpenMP_intro_tutorial
 #include <stdio.h>
-#include <time.h>
+#include <omp.h>
 
 int main() {
   unsigned int num_steps = 100000000;
   double step = 1.0 / num_steps;
 
-  clock_t start = clock();
+  double start = omp_get_wtime();
 
   double sum = 0;
 
@@ -18,9 +18,9 @@ int main() {
   }
 
   double pi = step * sum;
-  clock_t end = clock();
+  double end = omp_get_wtime();
 
-  printf("pi is %f in %fs!\n", pi, ((double)(end - start)) / CLOCKS_PER_SEC);
+  printf("pi is %f in %fs!\n", pi, end - start);
 
   return 0;
 }

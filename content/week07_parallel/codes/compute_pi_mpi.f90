@@ -23,7 +23,7 @@ program compute_pi
      call get_command_argument(1, arg)
      read(arg,*) n
   else
-     if(myid==1)then
+     if(myid==0)then
         write(*,*)  'Usage: ./compute_pi [n]'
      endif
      call exit(1)
@@ -31,11 +31,12 @@ program compute_pi
 
   h = 1d0/dble(n)
 
-  if(myid==1)then
+  if(myid==0)then
      write(*,*)'Starting with ',ncpu,' tasks'
   end if
 
-  call cpu_time(strt)
+  call MPI_BARRIER(MPI_COMM_WORLD,info)
+  strt = MPI_WTIME()
 
   imin = int(myid*dble(n)/dble(ncpu),kind=8)+1
   imax = int((myid+1)*dble(n)/dble(ncpu),kind=8)
@@ -48,10 +49,10 @@ program compute_pi
 
   call MPI_ALLREDUCE(integ,integ_tot,1,MPI_DOUBLE_PRECISION,MPI_SUM,MPI_COMM_WORLD,info)
 
-  call cpu_time(stop)
+  stop = MPI_WTIME()
 
   ! Print result and timing
-  if(myid==1)then
+  if(myid==0)then
      write(*,*)4*integ_tot, PI, PI-4*integ_tot
      write(*,'(A, ES13.6, A)') 'Finished in ', stop-strt, ' s'
   endif

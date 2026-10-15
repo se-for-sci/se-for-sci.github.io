@@ -443,3 +443,95 @@ end program parallel
 - On Linux, the memory is mapped to a given socket on a "first touch" basis.
   This is very important for "Non-Uniform Memory Access" (NUMA) machines, for
   which the main memory is not really shared but distributed across the node.
+
+## Examples
+
+The following examples can be found in the `codes/` directory. They were run on
+an Apple M1 Max laptop with 8 performance cores.
+
+### Computing $\pi$
+
+We compute $\pi$ using the integral
+
+$$
+\pi = 4 \int_0^1 \frac{1}{1+x^2} \, dx
+$$
+
+approximated with the rectangle rule using $n = 10^{10}$ points. Each thread
+computes a partial sum over its own iterations, and the `REDUCTION` clause
+combines the partial sums at the end of the loop:
+
+```{literalinclude} codes/compute_pi_omp.f90
+:language: fortran
+```
+
+```sh
+$ gfortran -O3 -funroll-loops -fopenmp compute_pi_omp.f90 -o compute_pi_omp
+$ export OMP_NUM_THREADS=8
+$ ./compute_pi_omp
+ Starting with            8  threads
+   3.1415926534897518        3.1415926535897931        1.0004130857055316E-010
+Finished in  1.816930E+00 s
+```
+
+| Threads | Time (s) | Speedup |
+| ------- | -------- | ------- |
+| 1       | 13.06    | 1.0     |
+| 2       | 6.58     | 2.0     |
+| 4       | 3.36     | 3.9     |
+| 8       | 1.82     | 7.2     |
+
+The speedup is close to ideal up to 8 threads.
+
+### The power function
+
+We now parallelize the loop computing the polynomial
+$y = x + x^2 + \dots + x^8$ for $n = 10^8$ elements that we optimized in the
+previous lecture:
+
+```{literalinclude} codes/power_omp.f90
+:language: fortran
+```
+
+```sh
+$ gfortran -O3 -funroll-loops -fopenmp power_omp.f90 -o power_omp
+$ export OMP_NUM_THREADS=8
+$ ./power_omp
+ Starting with            8  threads
+ pass           1 time (ms):   22.678000153973699        7.2436983268545307E-002
+ pass           2 time (ms):   13.974000001326203        2.1585180102075436
+ pass           3 time (ms):   11.623000027611852       0.49980594530259109
+ pass           4 time (ms):   11.748000048100948        2.1502576334309982
+```
+
+As in the previous lecture, the first pass is slower because of page faults, so
+we report the time of the last pass:
+
+| Threads | Time (ms) | Speedup |
+| ------- | --------- | ------- |
+| 1       | 38.7      | 1.0     |
+| 2       | 20.0      | 1.9     |
+| 4       | 11.7      | 3.3     |
+| 8       | 11.7      | 3.3     |
+
+Note that this is the same performance as the one we obtained in the previous
+lecture using `numba` with `parallel=True` (about 11 ms).
+
+This is disappointing: beyond 4 threads, adding more threads does not help at
+all. The reason is the **memory wall**. For each element, the loop reads 8 bytes
+for `x(i)` and writes 8 bytes for `y(i)` (plus 8 more bytes because the cache
+line of `y` is first loaded from memory before being written). That is 24 bytes
+of memory traffic for only 14 floating point operations. With 4 threads, we move
+$10^8 \times 24$ bytes in 11.7 ms, which is about 200 GB/s: this is the
+maximum bandwidth the cores can get from the main memory on this machine. The
+cores spend most of their time waiting for the data, and adding more cores only
+adds more cores waiting for the data.
+
+In contrast, the $\pi$ example performs only computations on variables that
+stay in the registers, without accessing the main memory at all, so its
+performance scales with the number of cores. The ratio between the number of
+floating point operations and the number of bytes moved to and from the main
+memory is called the **arithmetic intensity**. A code with a low arithmetic
+intensity is **memory bandwidth bound**, while a code with a high arithmetic
+intensity is **compute bound**. Only the latter will scale well with the
+number of threads on a single node.

@@ -478,6 +478,93 @@ $ mpiexec -n 7 allreduce
  I, process            1 , received the value of the global product         7200
 ```
 
+## Examples
+
+We now revisit the two examples of the OpenMP lecture, this time using MPI. They
+can be found in the `codes/` directory. They were run on an Apple M1 Max laptop
+with 8 performance cores.
+
+### Computing $\pi$
+
+We compute $\pi$ using the integral
+
+$$
+\pi = 4 \int_0^1 \frac{1}{1+x^2} \, dx
+$$
+
+approximated with the rectangle rule using $n = 10^{10}$ points. In contrast to
+OpenMP, we have to distribute the work ourselves: each task computes the range
+of indices `imin` to `imax` it is responsible for, computes its partial sum,
+and the partial sums are combined using `MPI_ALLREDUCE`. We use `MPI_WTIME` to
+measure the elapsed time, after an `MPI_BARRIER` to make sure all tasks start
+at the same time:
+
+```{literalinclude} codes/compute_pi_mpi.f90
+:language: fortran
+```
+
+```sh
+$ mpif90 -O3 -funroll-loops compute_pi_mpi.f90 -o compute_pi_mpi
+$ mpiexec -n 8 compute_pi_mpi
+ Starting with            8  tasks
+   3.1415926534897523        3.1415926535897931        1.0004086448134331E-010
+Finished in  1.758260E+00 s
+```
+
+| Tasks | Time (s) | Speedup |
+| ----- | -------- | ------- |
+| 1     | 12.86    | 1.0     |
+| 2     | 6.60     | 1.9     |
+| 4     | 3.37     | 3.8     |
+| 8     | 1.76     | 7.3     |
+
+As with OpenMP, the speedup is close to ideal up to 8 tasks.
+
+### The power function
+
+We now parallelize the loop computing the polynomial
+$y = x + x^2 + \dots + x^8$ for $n = 10^8$ elements. Each task only allocates
+and initializes its own part of the arrays `x` and `y`. The time of a pass is
+the time of the slowest task, which we obtain using `MPI_REDUCE` with the
+`MPI_MAX` operation:
+
+```{literalinclude} codes/power_mpi.f90
+:language: fortran
+```
+
+```sh
+$ mpif90 -O3 -funroll-loops power_mpi.f90 -o power_mpi
+$ mpiexec -n 4 power_mpi
+ Starting with            4  tasks
+ pass           1 time (ms):   29.978000000000002       0.59612052417204020
+ pass           2 time (ms):   15.930000000000000       0.87243766349443730
+ pass           3 time (ms):   10.379000000000000        9.1774036727184136E-002
+ pass           4 time (ms):   10.027000000000001       0.41342141851024644
+```
+
+As before, the first pass is slower because of page faults, so we report the
+time of the last pass:
+
+| Tasks | Time (ms) | Speedup |
+| ----- | --------- | ------- |
+| 1     | 37.1      | 1.0     |
+| 2     | 18.2      | 2.0     |
+| 4     | 10.0      | 3.7     |
+| 8     | 11.9      | 3.1     |
+
+We get the same disappointing result as with OpenMP: beyond 4 tasks, the
+speedup saturates around 3. Using MPI instead of OpenMP does not help, because
+all the tasks running on the same node share the same main memory, and the
+loop is **memory bandwidth bound**: for only 14 floating point operations per
+element, we need 24 bytes of memory traffic, and with 4 tasks we already use
+the maximum bandwidth of about 200 GB/s that the cores can get from the main
+memory on this machine.
+
+The situation is different on a cluster: if we use 4 tasks on each of several
+nodes, each node brings its own memory bandwidth, and the speedup will keep
+increasing with the number of nodes. This is one of the reasons why MPI is so
+widely used on supercomputers.
+
 ## OpenMP versus MPI
 
 - MPI is a multi-process model, for which communication between processes is
@@ -496,40 +583,6 @@ $ mpiexec -n 7 allreduce
   within nodes and MPI across nodes) can be optimal.
 
 ![](images/mpi_hybrid.png)
-
-## Graphics Processing Units (GPU)
-
-### GPU model
-
-![](images/mpi_gpu_model.png)
-
-A CPU core runs 1 thread at a time, with fast access to its main memory. A GPU
-runs about 32 threads per core, with very fast access to its own memory. But
-data has to be copied from the CPU main memory to the GPU memory and back, which
-is slow.
-
-### GPU programming
-
-- **CUDA**: NVIDIA GPUs are usually programmed using the vendor proprietary
-  language CUDA. It is interfaced with C and C++ to create GPU kernels.
-  - Warning: CUDA requires a complete rewrite of the computing intensive
-    sections of the code, and lacks portability. Extracting maximum performance
-    is difficult.
-
-- **OpenACC**: similar to OpenMP, it uses directives to load data on and
-  retrieve data from the GPU, and to translate C and Fortran code into GPU
-  kernels.
-  - Better portability, but it usually also requires a rewrite of the routines.
-  - Available in the NVIDIA HPC SDK (formerly the PGI compiler suite) and in
-    GCC.
-
-- **OpenMP**: since version 4.5, OpenMP allows offloading of parallel sections
-  to the GPU using the `target` directive.
-  - Implemented in the GNU, Intel, LLVM, and NVIDIA compilers.
-
-- **New generation of compilers and frameworks**: the goal is to hide the dirty
-  details from the programmer. Legion is an example of a compiler and runtime
-  system. Kokkos is an example of a framework.
 
 ## Conclusion
 

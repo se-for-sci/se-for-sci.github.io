@@ -24,16 +24,17 @@ program compute_pi
 
   h = 1d0/dble(n)
 
+  call cpu_time(strt)
+  !$ strt = omp_get_wtime()
+
+  integ = 0d0
+
   !$omp parallel default(shared)
 
   !$omp master
   !$ write(*,*)'Starting with ',omp_get_num_threads(),' threads'
   !$omp end master
 
-  call cpu_time(strt)
-  !$ strt = omp_get_wtime()
-
-  integ = 0d0
   !$omp do private(x)  reduction(+: integ)
   do i = 1, n
      x = dble(i)/dble(n)
@@ -41,10 +42,10 @@ program compute_pi
   end do
   !$omp end do
 
+  !$omp end parallel
+
   call cpu_time(stop)
   !$ stop = omp_get_wtime()
-
-  !$omp end parallel
 
   ! Print result and timing
   write(*,*)4*integ, pi, pi-4*integ

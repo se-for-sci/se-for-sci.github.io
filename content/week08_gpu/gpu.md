@@ -21,6 +21,40 @@ In this lecture, we will:
 
 - manage communication and synchronization
 
+## Graphics Processing Units (GPU)
+
+### GPU model
+
+![](images/gpu_model.png)
+
+A CPU core runs 1 thread at a time, with fast access to its main memory. A GPU
+runs about 32 threads per core, with very fast access to its own memory. But
+data has to be copied from the CPU main memory to the GPU memory and back, which
+is slow.
+
+### GPU programming
+
+- **CUDA**: NVIDIA GPUs are usually programmed using the vendor proprietary
+  language CUDA. It is interfaced with C and C++ to create GPU kernels.
+  - Warning: CUDA requires a complete rewrite of the computing intensive
+    sections of the code, and lacks portability. Extracting maximum performance
+    is difficult.
+
+- **OpenACC**: similar to OpenMP, it uses directives to load data on and
+  retrieve data from the GPU, and to translate C and Fortran code into GPU
+  kernels.
+  - Better portability, but it usually also requires a rewrite of the routines.
+  - Available in the NVIDIA HPC SDK (formerly the PGI compiler suite) and in
+    GCC.
+
+- **OpenMP**: since version 4.5, OpenMP allows offloading of parallel sections
+  to the GPU using the `target` directive.
+  - Implemented in the GNU, Intel, LLVM, and NVIDIA compilers.
+
+- **New generation of compilers and frameworks**: the goal is to hide the dirty
+  details from the programmer. Legion is an example of a compiler and runtime
+  system. Kokkos is an example of a framework.
+
 ## Heterogeneous computing
 
 ### Terminology
