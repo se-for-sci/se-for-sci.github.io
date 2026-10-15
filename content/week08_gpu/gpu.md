@@ -716,10 +716,11 @@ cudaGetDeviceProperties(cudaDeviceProp *prop, int device);
 
 We now revisit the two examples of the OpenMP and MPI lectures, this time using
 CUDA. They can be found in the `codes/` directory. They were run on an NVIDIA
-A100 GPU, a GPU designed for High Performance Computing, with 108 SMs and 32
-double precision cores per SM, that is 3456 double precision cores in total.
+A100 GPU (PCIe version with 40 GB of memory), a GPU designed for High
+Performance Computing, with 108 SMs and 32 double precision cores per SM, that
+is 3456 double precision cores in total.
 
-<!-- TODO A100: all the numbers in this section are educated guesses. Replace
+<!-- TODO A100: the GPU numbers in this section are educated guesses. Replace
 them with the actual measurements. -->
 
 ### Computing $\pi$
@@ -752,23 +753,31 @@ this is compute capability 8.0:
 $ nvcc -O3 -arch=sm_80 compute_pi_cuda.cu -o compute_pi_cuda
 $ ./compute_pi_cuda
 Starting with 1024 blocks of 256 threads
+pass 1 time (ms): 54.840000 3.141592653589793
+pass 2 time (ms): 43.220000 3.141592653589793
+pass 3 time (ms): 43.220000 3.141592653589793
+pass 4 time (ms): 43.220000 3.141592653589793
 no error
-pi is 3.141593 in 0.020000s!
 ```
 
-<!-- TODO A100: replace the CUDA time and speedups. -->
+<!-- TODO A100: replace the output above and the CUDA time and speedups below
+with the actual measurements. -->
+
+As for the CPU codes, we repeat the computation 4 times. The first pass is
+slower, because the GPU code of the kernel is only loaded on the device when
+the kernel is launched for the first time. We report the time of the last pass:
 
 | Version             | Time (s) | Speedup |
 | ------------------- | -------- | ------- |
 | 1 CPU core          | 12.86    | 1       |
 | OpenMP (8 threads)  | 1.82     | 7       |
 | MPI (8 tasks)       | 1.76     | 7       |
-| CUDA (1 A100 GPU)   | 0.020    | 640     |
+| CUDA (1 A100 GPU)   | 0.043    | 300     |
 
 The CPU timings are those of the OpenMP and MPI lectures on the Apple M1 Max.
 This example is **compute bound**: it performs only computations on variables
 that stay in the registers. It therefore fully benefits from the thousands of
-cores of the GPU, which is almost 100 times faster than the 8 CPU cores.
+cores of the GPU, which is about 40 times faster than the 8 CPU cores.
 
 ### The power function
 
@@ -806,8 +815,8 @@ copy y to host time (ms): 75.000000
 
 This example is **memory bandwidth bound**. On the CPU, we saw that the speedup
 saturates when the cores reach the maximum memory bandwidth of about 200 GB/s.
-The GPU memory has a much higher bandwidth, about 1.5 to 2 TB/s depending on the
-A100 model. For each element, the kernel reads 8 bytes and writes 8 bytes, so
+The GPU memory has a much higher bandwidth, about 1.5 TB/s for our A100. For
+each element, the kernel reads 8 bytes and writes 8 bytes, so
 the GPU moves $10^8 \times 16$ bytes in 1.3 ms, which is about 1.2 TB/s. The
 speedup compared to the 8 CPU cores is therefore close to the ratio of the
 memory bandwidths, and is much smaller than for the $\pi$ example.

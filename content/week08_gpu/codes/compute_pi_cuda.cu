@@ -50,28 +50,32 @@ int main(void) {
   double sum;     // host copy of sum
   double *sum_d;  // device copy of sum
   double t0, t1;
+  int k;
 
-  // Alloc space for device copy of sum and set it to zero
+  // Alloc space for device copy of sum
   cudaMalloc((void **)&sum_d, sizeof(double));
-  cudaMemset(sum_d, 0, sizeof(double));
 
   printf("Starting with %d blocks of %d threads\n", NBLOCKS, BLOCKSIZE);
 
-  t0 = wtime();
-  // Launch compute_sum() kernel on GPU
-  compute_sum<<<NBLOCKS, BLOCKSIZE>>>(num_steps, step, sum_d);
-  // Kernel launches are asynchronous: wait for the GPU to finish
-  cudaDeviceSynchronize();
-  t1 = wtime();
+  for (k = 0; k < 4; k++) {
+    // Set the device copy of sum to zero
+    cudaMemset(sum_d, 0, sizeof(double));
 
-  // Copy result back to host
-  cudaMemcpy(&sum, sum_d, sizeof(double), cudaMemcpyDeviceToHost);
+    t0 = wtime();
+    // Launch compute_sum() kernel on GPU
+    compute_sum<<<NBLOCKS, BLOCKSIZE>>>(num_steps, step, sum_d);
+    // Kernel launches are asynchronous: wait for the GPU to finish
+    cudaDeviceSynchronize();
+    t1 = wtime();
 
-  // Check for errors (from the API calls or from the kernel)
+    // Copy result back to host
+    cudaMemcpy(&sum, sum_d, sizeof(double), cudaMemcpyDeviceToHost);
+    printf("pass %d time (ms): %f %.15f\n", k + 1, 1000 * (t1 - t0),
+           step * sum);
+  }
+
+  // Check for errors (from the API calls or from the kernels)
   printf("%s\n", cudaGetErrorString(cudaGetLastError()));
-
-  double pi = step * sum;
-  printf("pi is %f in %fs!\n", pi, t1 - t0);
 
   // Cleanup
   cudaFree(sum_d);
