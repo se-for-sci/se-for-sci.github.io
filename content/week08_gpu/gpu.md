@@ -355,47 +355,20 @@ CUDA provides a simple API for handling device memory: `cudaMalloc()`,
 `cudaFree()` and `cudaMemcpy()`. They are similar to their C equivalents
 `malloc()`, `free()` and `memcpy()`.
 
-### Addition on the device: `main()`
+### Addition on the device: the complete program
 
-```c
-int main(void) {
-  int a, b, c;           // host copies of a, b, c
-  int *a_d, *b_d, *c_d;  // device copies of a, b, c
-  int size = sizeof(int);
+A CUDA source file contains both the device code and the host code. Here is the
+complete program, in `codes/add.cu`: the `#include` lines, then the `add()`
+kernel defined above, then the `main()` function that runs on the host and
+launches the kernel:
 
-  // Allocate space for device copies of a, b, c
-  cudaMalloc((void **)&a_d, size);
-  cudaMalloc((void **)&b_d, size);
-  cudaMalloc((void **)&c_d, size);
-
-  // Setup input values
-  a = 2;
-  b = 7;
-
-  // Copy inputs to device
-  cudaMemcpy(a_d, &a, size, cudaMemcpyHostToDevice);
-  cudaMemcpy(b_d, &b, size, cudaMemcpyHostToDevice);
-
-  // Launch add() kernel on GPU
-  add<<<1, 1>>>(a_d, b_d, c_d);
-
-  // Copy result back to host
-  cudaMemcpy(&c, c_d, size, cudaMemcpyDeviceToHost);
-
-  // Print the result
-  printf("c = %d\n", c);
-
-  // Cleanup
-  cudaFree(a_d); cudaFree(b_d); cudaFree(c_d);
-  return 0;
-}
+```{literalinclude} codes/add.cu
+:language: c
 ```
 
 We use the suffix `_d` to identify pointers to device memory. This naming
 convention is not required by CUDA, but it helps avoid dereferencing a device
 pointer in host code by mistake.
-
-The complete program, with the kernel and the error check, is in `codes/add.cu`:
 
 ```sh
 $ nvcc -O3 -arch=sm_80 add.cu -o add
@@ -443,45 +416,15 @@ index. On the device, each block can be executed in parallel:
 | ------------------- | ------------------- | ------------------- | ------------------- |
 | `c[0] = a[0]+b[0];` | `c[1] = a[1]+b[1];` | `c[2] = a[2]+b[2];` | `c[3] = a[3]+b[3];` |
 
-### Vector addition on the device: `main()`
+### Vector addition on the device: the complete program
 
-```c
-#define N 512
+Here is the complete program, with the new kernel and `main()` in the same file.
+Compared to the previous program, `main()` now allocates and copies arrays of
+`N` integers, launches `N` blocks, and checks the result on the host:
 
-int main(void) {
-  int *a, *b, *c;        // host copies of a, b, c
-  int *a_d, *b_d, *c_d;  // device copies of a, b, c
-  int size = N * sizeof(int);
-
-  // Alloc space for device copies of a, b, c
-  cudaMalloc((void **)&a_d, size);
-  cudaMalloc((void **)&b_d, size);
-  cudaMalloc((void **)&c_d, size);
-
-  // Alloc space for host copies of a, b, c and setup input values
-  a = (int *)malloc(size); random_ints(a, N);
-  b = (int *)malloc(size); random_ints(b, N);
-  c = (int *)malloc(size);
-
-  // Copy inputs to device
-  cudaMemcpy(a_d, a, size, cudaMemcpyHostToDevice);
-  cudaMemcpy(b_d, b, size, cudaMemcpyHostToDevice);
-
-  // Launch add() kernel on GPU with N blocks
-  add<<<N, 1>>>(a_d, b_d, c_d);
-
-  // Copy result back to host
-  cudaMemcpy(c, c_d, size, cudaMemcpyDeviceToHost);
-
-  // Cleanup
-  free(a); free(b); free(c);
-  cudaFree(a_d); cudaFree(b_d); cudaFree(c_d);
-  return 0;
-}
+```{literalinclude} codes/vector_add_blocks.cu
+:language: c
 ```
-
-The complete program is in `codes/vector_add_blocks.cu`. It also checks the
-result on the host and counts the errors:
 
 ```sh
 $ nvcc -O3 -arch=sm_80 vector_add_blocks.cu -o vector_add_blocks
@@ -530,8 +473,9 @@ We need to make only one change in `main()`, the kernel launch:
 add<<<1, N>>>(a_d, b_d, c_d);
 ```
 
-The rest of `main()` is identical to the previous version. The complete program
-is in `codes/vector_add_threads.cu`:
+The rest of `main()` is identical to the previous version. As before, the kernel
+and `main()` go in the same file: the complete program is in
+`codes/vector_add_threads.cu`.
 
 ```sh
 $ nvcc -O3 -arch=sm_80 vector_add_threads.cu -o vector_add_threads
@@ -644,6 +588,9 @@ int main(void) {
   return 0;
 }
 ```
+
+As in the previous programs, the `add()` kernel above must be defined in the
+same file, before `main()`.
 
 ### Handling arbitrary vector sizes
 
