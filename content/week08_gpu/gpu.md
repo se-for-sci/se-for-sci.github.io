@@ -70,56 +70,8 @@ code**, which runs on the device. The parallel functions executed on the device
 are called **kernels**. Here is a complete example, which we will build up step
 by step in this lecture:
 
-```c
-#include <cuda.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#define N 100000
-#define M 256
-
-// parallel function
-__global__ void add(int *a, int *b, int *c) {
-  int index = threadIdx.x + blockIdx.x * blockDim.x;
-  if (index < N)
-    c[index] = a[index] + b[index];
-}
-
-void random_ints(int *x, int size) {
-  int i;
-  for (i = 0; i < size; i++) x[i] = rand() % 10;
-}
-
-int main(void) {
-  int *a, *b, *c;        // host copies of a, b, c
-  int *a_d, *b_d, *c_d;  // device copies of a, b, c
-  int size = N * sizeof(int);
-
-  // Alloc space for device copies of a, b, c
-  cudaMalloc((void **)&a_d, size);
-  cudaMalloc((void **)&b_d, size);
-  cudaMalloc((void **)&c_d, size);
-
-  // Alloc space for host copies of a, b, c and setup input values
-  a = (int *)malloc(size); random_ints(a, N);
-  b = (int *)malloc(size); random_ints(b, N);
-  c = (int *)malloc(size);
-
-  // Copy inputs to device
-  cudaMemcpy(a_d, a, size, cudaMemcpyHostToDevice);
-  cudaMemcpy(b_d, b, size, cudaMemcpyHostToDevice);
-
-  // Launch add() kernel on GPU (parallel code)
-  add<<<(N + M - 1) / M, M>>>(a_d, b_d, c_d);
-
-  // Copy result back to host
-  cudaMemcpy(c, c_d, size, cudaMemcpyDeviceToHost);
-
-  // Cleanup
-  free(a); free(b); free(c);
-  cudaFree(a_d); cudaFree(b_d); cudaFree(c_d);
-  return 0;
-}
+```{literalinclude} codes/vector_add.cu
+:language: c
 ```
 
 ### Simple processing flow
@@ -138,6 +90,121 @@ proceeds in three steps:
 Transfers over the PCI bus are slow compared to the GPU memory bandwidth, so a
 good GPU code minimizes the data movement between host and device.
 
+## Compiling and running CUDA code
+
+### What you need
+
+To compile and run the examples of this lecture, you need:
+
+- an **NVIDIA GPU** with its driver. CUDA does not run on other GPUs, such as
+  the Apple GPUs of recent Macs, or AMD and Intel GPUs. If your laptop has no
+  NVIDIA GPU, use a cluster.
+
+- the **CUDA compiler** `nvcc`. It is provided by the CUDA Toolkit and by the
+  NVIDIA HPC SDK.
+
+All the complete programs of this lecture are in the `codes/` directory.
+
+### Using the adroit cluster
+
+At Princeton, students can use the GPUs of the **adroit** cluster. First log in
+and load the NVIDIA HPC SDK, which provides `nvcc`:
+
+```sh
+$ ssh <YourNetID>@adroit.princeton.edu
+$ module load nvhpc/24.11
+$ nvcc --version
+```
+
+You can compile on the login node, but the login node has no GPU: the programs
+must run on a GPU compute node. Like most clusters, adroit uses the **Slurm**
+job scheduler. For short tests, ask for an interactive session on a node with
+one GPU:
+
+```sh
+$ salloc --nodes=1 --ntasks=1 --gres=gpu:1 --time=00:10:00
+$ nvidia-smi
+$ ./hello
+$ exit
+```
+
+The `--gres=gpu:1` option requests one GPU. `nvidia-smi` lists the GPUs you have
+access to. Always `exit` the session when you are done, to release the GPU for
+other users.
+
+For longer runs, write a batch script, for example `job.slurm`:
+
+```sh
+#!/bin/bash
+#SBATCH --job-name=cuda
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --gres=gpu:1
+#SBATCH --time=00:05:00
+
+module purge
+module load nvhpc/24.11
+
+./hello
+```
+
+and submit it with:
+
+```sh
+$ sbatch job.slurm
+```
+
+The output of the program is written to the file `slurm-<jobid>.out`.
+
+### Compiling with `nvcc`
+
+All the examples of this lecture are compiled with the same command:
+
+```sh
+$ nvcc -O3 -arch=sm_80 hello.cu -o hello
+```
+
+- CUDA source files have the extension **`.cu`**. `nvcc` uses it to recognize
+  CUDA code: with a `.c` extension, the file is passed to the host compiler,
+  which does not understand the CUDA extensions such as `__global__`.
+
+- `-o hello` names the executable, as for `gcc`. Without it, the executable is
+  called `a.out`.
+
+- `-O3` turns on optimizations, as for `gcc`.
+
+- `-arch=sm_XX` tells `nvcc` which GPU to compile for. Each GPU generation has a
+  **compute capability**: for example 7.0 for the V100, 8.0 for the A100 and 9.0
+  for the H100, which correspond to `-arch=sm_70`, `-arch=sm_80` and
+  `-arch=sm_90`. You can query the compute capability of your GPU on a compute
+  node with:
+
+  ```sh
+  $ nvidia-smi --query-gpu=name,compute_cap --format=csv
+  ```
+
+  If you compile on the GPU compute node itself, `-arch=native` selects the GPU
+  of that node automatically.
+
+The host code is standard C, so `nvcc` does not need any `#include` to recognize
+CUDA functions such as `cudaMalloc()`: the CUDA runtime header is included
+automatically.
+
+:::{warning}
+If the program is compiled for the wrong GPU, or runs on a node without a GPU,
+`nvcc` gives no error and the program does not crash: the kernels are simply not
+executed, and the results are garbage. This is why all the programs of this
+lecture end with
+
+```c
+printf("%s\n", cudaGetErrorString(cudaGetLastError()));
+```
+
+which prints `no error` if everything went well, and a message such as
+`no kernel image is available for execution on the device` otherwise. We come
+back to error handling in the section on reporting errors.
+:::
+
 ## Hello World!
 
 ### Host code only
@@ -152,30 +219,21 @@ int main(void) {
 ```
 
 ```sh
-$ nvcc hello_world.cu
-$ ./a.out
+$ nvcc hello_host.cu -o hello_host
+$ ./hello_host
 Hello World!
 ```
 
-This is standard C (or Fortran) that runs on the host. The NVIDIA compilers
-(`nvcc` or `nvfortran`) can also be used to compile programs with no device
-code.
+This is standard C that runs on the host. The NVIDIA compiler `nvcc` can also be
+used to compile programs with no device code.
 
 ### Hello World! with device code
 
-```c
-#include <stdio.h>
-
-__global__ void mykernel(void) {}
-
-int main(void) {
-  mykernel<<<1, 1>>>();
-  printf("Hello World!\n");
-  return 0;
-}
+```{literalinclude} codes/hello.cu
+:language: c
 ```
 
-There are two new syntactic elements here. First, the `__global__` keyword
+There are three new syntactic elements here. First, the `__global__` keyword
 indicates a function, called a **kernel**, that:
 
 - runs on the device
@@ -197,15 +255,22 @@ Second, the call `mykernel<<<1,1>>>()`:
 - The arguments inside the brackets correspond to
   `<<<blocks, threads_per_block>>>`. We will return to this terminology later.
 
-That's all that is required to execute a function on the GPU!
+Third, `cudaDeviceSynchronize()` makes the host wait for the kernel to finish.
+Kernel launches are **asynchronous**: control returns to the host immediately.
+Without this call, the program could exit before the GPU prints its message.
+
+That's all that is required to execute a function on the GPU! On a GPU node of
+adroit:
 
 ```sh
-$ nvcc hello.cu
-$ ./a.out
-Hello World!
+$ nvcc -O3 -arch=sm_80 hello.cu -o hello
+$ ./hello
+Hello World from the GPU!
+Hello World from the CPU!
+no error
 ```
 
-So far, `mykernel()` does nothing. Let's write a parallel code.
+So far, `mykernel()` only prints a message. Let's write a parallel code.
 
 ## Parallel programming in CUDA
 
@@ -286,6 +351,15 @@ We use the suffix `_d` to identify pointers to device memory. This naming
 convention is not required by CUDA, but it helps avoid dereferencing a device
 pointer in host code by mistake.
 
+The complete program, with the kernel and the error check, is in `codes/add.cu`:
+
+```sh
+$ nvcc -O3 -arch=sm_80 add.cu -o add
+$ ./add
+c = 9
+no error
+```
+
 ## Moving to parallel
 
 ### Parallel blocks
@@ -294,13 +368,13 @@ So how do we run code in parallel on the device? Instead of executing `add()`
 once:
 
 ```c
-add<<<1, 1>>>();
+add<<<1, 1>>>(a_d, b_d, c_d);
 ```
 
 we execute it `N` times in parallel:
 
 ```c
-add<<<N, 1>>>();
+add<<<N, 1>>>(a_d, b_d, c_d);
 ```
 
 With `add()` running in parallel, we can do vector addition:
@@ -362,6 +436,16 @@ int main(void) {
 }
 ```
 
+The complete program is in `codes/vector_add_blocks.cu`. It also checks the
+result on the host and counts the errors:
+
+```sh
+$ nvcc -O3 -arch=sm_80 vector_add_blocks.cu -o vector_add_blocks
+$ ./vector_add_blocks
+0 errors
+no error
+```
+
 ### Recapitulation
 
 - Difference between host and device:
@@ -402,7 +486,15 @@ We need to make only one change in `main()`, the kernel launch:
 add<<<1, N>>>(a_d, b_d, c_d);
 ```
 
-The rest of `main()` is identical to the previous version.
+The rest of `main()` is identical to the previous version. The complete program
+is in `codes/vector_add_threads.cu`:
+
+```sh
+$ nvcc -O3 -arch=sm_80 vector_add_threads.cu -o vector_add_threads
+$ ./vector_add_threads
+0 errors
+no error
+```
 
 ## Combining blocks and threads
 
@@ -526,6 +618,16 @@ and update the kernel launch to round the number of blocks up:
 
 ```c
 add<<<(N + BLOCKSIZE - 1) / BLOCKSIZE, BLOCKSIZE>>>(a_d, b_d, c_d, N);
+```
+
+This is the complete example shown at the beginning of the lecture, which is in
+`codes/vector_add.cu`:
+
+```sh
+$ nvcc -O3 -arch=sm_80 vector_add.cu -o vector_add
+$ ./vector_add
+0 errors
+no error
 ```
 
 ### Why bother with threads and blocks?
@@ -742,9 +844,9 @@ same time:
 :language: c
 ```
 
-`atomicAdd()` for double precision numbers requires a GPU of compute capability
-6.0 or higher, so we need to tell `nvcc` which GPU we compile for. For the A100,
-this is compute capability 8.0:
+Here the `-arch` option is essential: `atomicAdd()` for double precision numbers
+requires a GPU of compute capability 6.0 or higher, and does not compile for
+older targets. For the A100, we use `-arch=sm_80`:
 
 ```sh
 $ nvcc -O3 -arch=sm_80 compute_pi_cuda.cu -o compute_pi_cuda

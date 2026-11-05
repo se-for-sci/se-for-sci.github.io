@@ -1,6 +1,5 @@
 // Based on Tim Mattson's code for
 // https://github.com/tgmattso/OpenMP_intro_tutorial
-#include <cuda.h>
 #include <stdio.h>
 #include <sys/time.h>
 
