@@ -122,15 +122,59 @@ job scheduler. For short tests, ask for an interactive session on a node with
 one GPU:
 
 ```sh
-$ salloc --nodes=1 --ntasks=1 --gres=gpu:1 --time=00:10:00
-$ nvidia-smi
-$ ./hello
-$ exit
+[user@adroit5 ~]$ salloc -N 1 -n 1 --gres=gpu:1 -t 00:10:00
+salloc: Granted job allocation 3455102
+salloc: Waiting for resource configuration
+salloc: Nodes adroit-h11g2 are ready for job
+[user@adroit-h11g2 ~]$ nvidia-smi
+Wed Nov  4 23:29:05 2026
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:17:00.0 Off |                   On |
+| N/A   30C    P0             32W /  250W |     203MiB /  40960MiB |     N/A      Default |
+|                                         |                        |              Enabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| MIG devices:                                                                            |
++------------------+----------------------------------+-----------+-----------------------+
+| GPU  GI  CI  MIG |              Shared Memory-Usage |        Vol|        Shared         |
+|      ID  ID  Dev |                Shared BAR1-Usage | SM     Unc| CE ENC  DEC  OFA  JPG |
+|                  |                                  |        ECC|                       |
+|==================+==================================+===========+=======================|
+|  0    1   0   0  |             102MiB / 20096MiB    | 42      0 |  3   0    2    0    0 |
+|                  |               0MiB / 12199MiB    |           |                       |
++------------------+----------------------------------+-----------+-----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+[user@adroit-h11g2 ~]$ exit
 ```
 
-The `--gres=gpu:1` option requests one GPU. `nvidia-smi` lists the GPUs you have
-access to. Always `exit` the session when you are done, to release the GPU for
-other users.
+The options request 1 node (`-N 1`), 1 task (`-n 1`), 1 GPU (`--gres=gpu:1`)
+for 10 minutes (`-t 00:10:00`). Note that the prompt changes from the login node
+`adroit5` to the compute node `adroit-h11g2`: you are now on a machine with a
+GPU, where you can run your programs. Always `exit` the session when you are
+done, to release the GPU for other users.
+
+`nvidia-smi` describes the GPU you have access to. Here, it is an NVIDIA A100
+(PCIe version with 40 GB of memory), of compute capability 8.0, so we compile
+with `-arch=sm_80`. Note the `MIG M.` field, which is `Enabled`: on adroit, the
+A100 GPUs are split into several smaller GPUs using **Multi-Instance GPU**
+(MIG), so that several users can share the same A100. The `MIG devices` table
+shows the slice you were given: 42 SMs (out of 108 for the full A100) and about
+20 GB of memory. For your program, this slice behaves like a smaller,
+independent GPU.
 
 For longer runs, write a batch script, for example `job.slurm`:
 
@@ -820,7 +864,9 @@ We now revisit the two examples of the OpenMP and MPI lectures, this time using
 CUDA. They can be found in the `codes/` directory. They were run on an NVIDIA
 A100 GPU (PCIe version with 40 GB of memory), a GPU designed for High
 Performance Computing, with 108 SMs and 32 double precision cores per SM, that
-is 3456 double precision cores in total.
+is 3456 double precision cores in total. On adroit, your job only gets a MIG
+slice of an A100, with fewer SMs and less memory bandwidth, so expect longer
+run times than the ones shown below.
 
 ### Computing $\pi$
 
