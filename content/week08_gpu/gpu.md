@@ -379,141 +379,44 @@ no error
 
 ## Moving to parallel
 
-### Parallel blocks
-
 So how do we run code in parallel on the device? Instead of executing `add()`
-once:
+once with `add<<<1, 1>>>`, we launch many copies of it at the same time, one per
+element of the vectors.
+
+### Grids, blocks and threads
+
+A kernel is launched as a **grid** of **blocks** of **threads**:
+
+- each parallel invocation of `add()` is a **thread**;
+
+- threads are grouped into **blocks**, all of the same size;
+
+- the set of blocks is the **grid**.
+
+The two numbers between `<<< >>>` are the number of blocks in the grid and the
+number of threads per block:
 
 ```c
-add<<<1, 1>>>(a_d, b_d, c_d);
+add<<<blocks, threads_per_block>>>(a_d, b_d, c_d);
 ```
-
-we execute it `N` times in parallel:
-
-```c
-add<<<N, 1>>>(a_d, b_d, c_d);
-```
-
-With `add()` running in parallel, we can do vector addition:
-
-- Terminology: each parallel invocation of `add()` is referred to as a
-  **block**.
-
-- The set of blocks is referred to as a **grid**.
-
-- Each invocation can refer to its block index using `blockIdx.x`.
-
-```c
-__global__ void add(int *a, int *b, int *c) {
-  c[blockIdx.x] = a[blockIdx.x] + b[blockIdx.x];
-}
-```
-
-By using `blockIdx.x` to index into the array, each block handles a different
-index. On the device, each block can be executed in parallel:
-
-| Block 0             | Block 1             | Block 2             | Block 3             |
-| ------------------- | ------------------- | ------------------- | ------------------- |
-| `c[0] = a[0]+b[0];` | `c[1] = a[1]+b[1];` | `c[2] = a[2]+b[2];` | `c[3] = a[3]+b[3];` |
-
-### Vector addition on the device: the complete program
-
-Here is the complete program, with the new kernel and `main()` in the same file.
-Compared to the previous program, `main()` now allocates and copies arrays of
-`N` integers, launches `N` blocks, and checks the result on the host:
-
-```{literalinclude} codes/vector_add_blocks.cu
-:language: c
-```
-
-```sh
-$ nvcc -O3 -arch=sm_80 vector_add_blocks.cu -o vector_add_blocks
-$ ./vector_add_blocks
-0 errors
-no error
-```
-
-### Recapitulation
-
-- Difference between host and device:
-  - Host: CPU
-  - Device: GPU
-
-- Using `__global__` to declare a function as device code:
-  - executes on the device
-  - is called from the host
-
-- Passing parameters from host code to a device function.
-
-- Basic device memory management:
-  - `cudaMalloc()`
-  - `cudaMemcpy()`
-  - `cudaFree()`
-
-- Launching parallel kernels:
-  - launch `N` copies of `add()` with `add<<<N,1>>>(...);`
-  - use `blockIdx.x` to access the block index
-
-## CUDA threads
-
-Terminology: a block can be split into parallel **threads**. Let's change
-`add()` to use parallel threads instead of parallel blocks. We use `threadIdx.x`
-instead of `blockIdx.x`:
-
-```c
-__global__ void add(int *a, int *b, int *c) {
-  c[threadIdx.x] = a[threadIdx.x] + b[threadIdx.x];
-}
-```
-
-We need to make only one change in `main()`, the kernel launch:
-
-```c
-// Launch add() kernel on GPU with N threads
-add<<<1, N>>>(a_d, b_d, c_d);
-```
-
-The rest of `main()` is identical to the previous version. As before, the kernel
-and `main()` go in the same file: the complete program is in
-`codes/vector_add_threads.cu`.
-
-```sh
-$ nvcc -O3 -arch=sm_80 vector_add_threads.cu -o vector_add_threads
-$ ./vector_add_threads
-0 errors
-no error
-```
-
-## Combining blocks and threads
-
-We have seen parallel vector addition using:
-
-- many blocks with one thread each: `add<<<N,1>>>`
-
-- one block with many threads: `add<<<1,N>>>`
-
-Let's adapt vector addition to use the full parallel power of the device by
-incorporating both blocks and threads. We start with data indexing.
-
-### Indexing
-
-A kernel is launched as a **grid** of **blocks** of **threads**.
 
 ![](images/gpu_grid_blocks.png)
 
-CUDA provides the following built-in variables:
+Inside the kernel, each thread finds out where it is with the following built-in
+variables:
 
-| Variable      | Meaning                          |
-| ------------- | -------------------------------- |
-| `threadIdx.x` | Thread index inside the block    |
-| `blockIdx.x`  | Block index                      |
-| `blockDim.x`  | Number of threads per block      |
-| `gridDim.x`   | Number of blocks in the grid     |
+| Variable      | Meaning                       |
+| ------------- | ----------------------------- |
+| `threadIdx.x` | Thread index inside the block |
+| `blockIdx.x`  | Block index                   |
+| `blockDim.x`  | Number of threads per block   |
+| `gridDim.x`   | Number of blocks in the grid  |
 
 ### Indexing arrays
 
-Indexing is no longer as simple as using `blockIdx.x` or `threadIdx.x`. Consider
-indexing an array with one element per thread, with 8 threads per block:
+To add two vectors, we give each thread one element of the arrays. Each thread
+must therefore compute a unique global index from its block and thread indices.
+Consider an array with one element per thread, with 8 threads per block:
 
 ![](images/gpu_indexing_arrays.png)
 
@@ -620,6 +523,29 @@ $ ./vector_add
 0 errors
 no error
 ```
+
+### Recapitulation
+
+- Difference between host and device:
+  - Host: CPU
+  - Device: GPU
+
+- Using `__global__` to declare a function as device code:
+  - executes on the device
+  - is called from the host
+
+- Passing parameters from host code to a device function.
+
+- Basic device memory management:
+  - `cudaMalloc()`
+  - `cudaMemcpy()`
+  - `cudaFree()`
+
+- Launching parallel kernels:
+  - launch a grid of blocks of threads with
+    `add<<<blocks, threads_per_block>>>(...);`
+  - compute a global index with `threadIdx.x + blockIdx.x * blockDim.x`
+  - guard against out-of-bounds accesses with `if (index < n)`
 
 ### Why bother with threads and blocks?
 
