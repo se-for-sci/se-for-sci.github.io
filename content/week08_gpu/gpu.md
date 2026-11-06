@@ -808,12 +808,19 @@ cudaGetDeviceProperties(cudaDeviceProp *prop, int device);
 ## Examples
 
 We now revisit the two examples of the OpenMP and MPI lectures, this time using
-CUDA. They can be found in the `codes/` directory. They were run on an NVIDIA
-A100 GPU (PCIe version with 40 GB of memory), a GPU designed for High
-Performance Computing, with 108 SMs and 32 double precision cores per SM, that
-is 3456 double precision cores in total. On adroit, your job only gets a MIG
-slice of an A100, with fewer SMs and less memory bandwidth, so expect longer
-run times than the ones shown below.
+CUDA. They can be found in the `codes/` directory. They were run on adroit, on
+a node with an NVIDIA A100 GPU, a GPU designed for High Performance Computing,
+with 108 SMs and 32 double precision cores per SM, that is 3456 double
+precision cores in total. We request one GPU of this type with:
+
+```sh
+$ salloc --nodes=1 --ntasks=1 --time=00:15:00 --gres=gpu:1 --constraint=a100
+```
+
+As explained above, on adroit this gives us a MIG slice of the A100, with 42 of
+its 108 SMs, that is 1344 double precision cores, and 20 GB of memory, half of
+the full GPU. The timings below were measured on such a slice: on a full A100,
+the $\pi$ example runs about 2.5 times faster.
 
 ### Computing $\pi$
 
@@ -845,10 +852,10 @@ older targets. For the A100, we use `-arch=sm_80`:
 $ nvcc -O3 -arch=sm_80 compute_pi_cuda.cu -o compute_pi_cuda
 $ ./compute_pi_cuda
 Starting with 1024 blocks of 256 threads
-pass 1 time (ms): 29.883862 3.141592653589794
-pass 2 time (ms): 29.698133 3.141592653589794
-pass 3 time (ms): 29.675961 3.141592653589794
-pass 4 time (ms): 29.706001 3.141592653589794
+pass 1 time (ms): 72.767019 3.141592653589794
+pass 2 time (ms): 72.654009 3.141592653589794
+pass 3 time (ms): 72.764158 3.141592653589794
+pass 4 time (ms): 72.829962 3.141592653589794
 no error
 ```
 
@@ -860,12 +867,12 @@ the last pass:
 | 1 CPU core          | 12.86    | 1       |
 | OpenMP (8 threads)  | 1.82     | 7       |
 | MPI (8 tasks)       | 1.76     | 7       |
-| CUDA (1 A100 GPU)   | 0.030    | 430     |
+| CUDA (A100 slice)   | 0.073    | 176     |
 
 The CPU timings are those of the OpenMP and MPI lectures on the Apple M1 Max.
 This example is **compute bound**: it performs only computations on variables
 that stay in the registers. It therefore fully benefits from the thousands of
-cores of the GPU, which is about 60 times faster than the 8 CPU cores.
+cores of the GPU, which is about 24 times faster than the 8 CPU cores.
 
 ### The power function
 
@@ -883,13 +890,13 @@ end. We also time the two copies:
 $ nvcc -O3 -arch=sm_80 power_cuda.cu -o power_cuda
 $ ./power_cuda
 Starting with 390625 blocks of 256 threads
-copy x to device time (ms): 40.080070
-pass 1 time (ms): 1.658916 3.951842
-pass 2 time (ms): 1.163960 0.650827
-pass 3 time (ms): 1.163960 3.099792
-pass 4 time (ms): 1.164913 3.307003
+copy x to device time (ms): 70.031166
+pass 1 time (ms): 2.600908 3.951842
+pass 2 time (ms): 2.340078 0.650827
+pass 3 time (ms): 2.340078 3.099792
+pass 4 time (ms): 2.335072 3.307003
 no error
-copy y to host time (ms): 94.070911
+copy y to host time (ms): 174.663782
 ```
 
 As for the CPU codes, the first pass is slower, and we report the time of the
@@ -900,20 +907,21 @@ last pass:
 | 1 CPU core          | 37.1      | 1       |
 | OpenMP (8 threads)  | 11.7      | 3.2     |
 | MPI (8 tasks)       | 11.9      | 3.1     |
-| CUDA (1 A100 GPU)   | 1.16      | 32      |
+| CUDA (A100 slice)   | 2.34      | 16      |
 
 This example is **memory bandwidth bound**. On the CPU, we saw that the speedup
 saturates when the cores reach the maximum memory bandwidth of about 200 GB/s.
-The GPU memory has a much higher bandwidth, about 1.5 TB/s for our A100. For
-each element, the kernel reads 8 bytes and writes 8 bytes, so the GPU moves
-$10^8 \times 16$ bytes in 1.16 ms, which is about 1.4 TB/s, close to the
-maximum bandwidth. The speedup compared to the 8 CPU cores, about 10, is
-therefore close to the ratio of the memory bandwidths, and is much smaller than
-for the $\pi$ example.
+The GPU memory has a much higher bandwidth, about 1.5 TB/s for a full A100, and
+half of that, about 0.75 TB/s, for our MIG slice, which gets half of the memory.
+For each element, the kernel reads 8 bytes and writes 8 bytes, so the GPU moves
+$10^8 \times 16$ bytes in 2.34 ms, which is about 0.7 TB/s, close to the
+maximum bandwidth of the slice. The speedup compared to the 8 CPU cores, about
+5, is therefore close to the ratio of the memory bandwidths, and is much smaller
+than for the $\pi$ example.
 
 But this is not the whole story. Copying `x` to the GPU and `y` back to the CPU
-over the PCI bus takes about 135 ms, more than 100 times the time of the kernel
-itself, and even 3.5 times more than the time of the serial CPU code! The GPU
+over the PCI bus takes about 245 ms, more than 100 times the time of the kernel
+itself, and even 6.5 times more than the time of the serial CPU code! The GPU
 only pays off if the data stays in the GPU memory long enough, so that many
 kernels can be executed between the copies. This is why porting an application
 to the GPU often means moving most of the code to the GPU, not only the most
