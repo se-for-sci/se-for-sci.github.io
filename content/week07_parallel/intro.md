@@ -225,13 +225,14 @@ Connecting millions of processors requires a high-performance network.
 
 ![](images/intro_infiniband_switch.png)
 
-The fat-tree network is a non-blocking network topology invented by Charles Clos
-(1953). Depending on how many switches you can afford, you might choose blocking
-configurations instead.
+The fat-tree network is a non-blocking network topology invented by Charles
+Clos (1953). Depending on how many switches you can afford, you might choose
+blocking configurations instead.
 
 ![](images/intro_fat_tree.png)
 
-See for example <https://www.nvidia.com/en-us/networking/infiniband-configurator> and
+See for example
+<https://www.nvidia.com/en-us/networking/infiniband-configurator> and
 <http://clusterdesign.org/fat-trees/>.
 
 The key network parameters (switches and cables) are the **latency** and the
