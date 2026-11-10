@@ -165,8 +165,7 @@ For local models, add `Use relative paths when possible.`
 - A fresh harness knows nothing — everything must be investigated
 - A project-level `AGENTS.md` speeds this up, cuts tokens, gives a big-picture view
 - Type `/init` to generate one; rename to `AGENTS.md` if needed
-- Claude Code is the only tool not supporting `AGENTS.md`:
-  - `ln -s AGENTS.md CLAUDE.md` and gitignore `CLAUDE.md` (and `.claude`)
+- All major harnesses read `AGENTS.md` (older Claude Code needed a `CLAUDE.md` symlink)
 - Review and edit anything it got wrong
 
 ---

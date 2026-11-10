@@ -45,13 +45,11 @@ You can also put an `AGENTS.md` in a subdirectory. The agent reads it when it
 works on files in that directory. This is useful for a monorepo, where each
 package has its own conventions.
 
-```{attention} Claude Code
-Claude Code does not read this standard file, so you need to either
-`ln -s AGENTS.md CLAUDE.md` or make a `CLAUDE.md` that has `@AGENTS.md`
-mentioned in it somewhere. Other {term}`harnesses <harness>` also have custom
-files too, but they do read AGENTS.md automatically. You can gitignore
-`CLAUDE.md` or commit the symlink (also `.claude/`, Claude puts local stuff
-there).
+```{note} Claude Code
+Older versions of Claude Code read only `CLAUDE.md`, so many projects have a
+`CLAUDE.md` symlink to `AGENTS.md`, or a `CLAUDE.md` that has `@AGENTS.md` in
+it. Current versions read `AGENTS.md`, so you do not need this. Claude puts
+local files in `.claude/`; you can gitignore that directory.
 ```
 
 ## To commit or not to commit
