@@ -305,7 +305,7 @@ install(TARGETS minuit2 DESTINATION .)
 
 ```toml
 [build-system]
-requires = ["scikit-build-core>=0.11", "pybind11>=3"]
+requires = ["scikit-build-core>=0.11", "pybind11>=3.1"]
 build-backend = "scikit_build_core.build"
 ```
 
