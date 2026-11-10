@@ -386,8 +386,8 @@ for (ii = 0; ii < n; ii += B)
 ## Algorithms and data structures
 
 Most of the speed-up in scientific computing comes from **algorithms**, not from
-faster computers: iterative versus direct solvers, multigrid, conjugate gradient,
-FFT, tree codes, fast multipole methods...
+faster computers: iterative versus direct solvers, multigrid, conjugate
+gradient, FFT, tree codes, fast multipole methods...
 
 The importance of scaling is illustrated by this example from _Programming
 Pearls_ (Column 8), with 4 different algorithms for the same problem:
