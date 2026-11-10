@@ -3,10 +3,10 @@
 
 namespace py = pybind11;
 
-void init_FCNBase(py::module &);
-void init_MnUserParameters(py::module &);
-void init_MnMigrad(py::module &);
-void init_FunctionMinimum(py::module &);
+void init_FCNBase(py::module_ &);
+void init_MnUserParameters(py::module_ &);
+void init_MnMigrad(py::module_ &);
+void init_FunctionMinimum(py::module_ &);
 
 PYBIND11_MODULE(minuit2, m) {
     init_FCNBase(m);

@@ -2,10 +2,10 @@ use pyo3::prelude::*;
 
 #[pymodule]
 mod rust_example {
-    use super::*;
+    use pyo3::prelude::*;
 
-  #[pyfunction]
-  fn square(a: usize, b: usize) -> usize {
-      a * b
-  }
+    #[pyfunction]
+    fn square(a: usize) -> usize {
+        a * a
+    }
 }

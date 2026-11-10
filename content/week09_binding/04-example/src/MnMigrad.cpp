@@ -1,6 +1,6 @@
 #include "PyHeader.h"
 
-void init_MnMigrad(py::module &m) {
+void init_MnMigrad(py::module_ &m) {
     py::class_<MnApplication>(m, "MnApplication")
         .def("__call__",
              &MnApplication::operator(),
