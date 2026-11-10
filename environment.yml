@@ -5,7 +5,7 @@ dependencies:
   - black *
   - cattrs *
   - cffi *
-  - cmake >=3.18
+  - cmake >=3.26
   - ipykernel >=6.0
   - ipython >=8.0
   - ipywidgets *
