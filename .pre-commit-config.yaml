@@ -46,7 +46,7 @@ repos:
     rev: "v2.4.1"
     hooks:
       - id: codespell
-        args: ["-L", "hist,whet,classe,nd", "-w"]
+        args: ["-L", "hist,whet,classe,nd,clos", "-w"]
         exclude: ^(bun|pixi)\.lock$
 
   - repo: local
