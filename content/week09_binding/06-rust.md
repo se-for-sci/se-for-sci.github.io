@@ -1,5 +1,7 @@
 # Extensions with Rust
 
+{button}`Slides <https://se-for-sci.github.io/slides/week-09-1>`
+
 Rust has enjoyed fantastic synergy with Python; it's one of the reasons Rust has
 been doing so well in the Python extension module landscape. There are two key
 projects: PyO3, which functions as a powerful pure Rust library for creating
