@@ -45,7 +45,7 @@ name = "rust_example"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = {version = "0.27.1", features = ["abi3-py311"]}
+pyo3 = {version = "0.30.1", features = ["abi3-py311"]}
 ```
 
 The standard rust package stuff is at the top. The `lib` table has the library
@@ -54,10 +54,10 @@ name (this must match the module name), and the crate-type, which must include
 can add to this list.
 
 The line that might look a little different vs. the template is the
-`dependencies`; we've ensured that we have a version of pyo3 new enough to use
-the new `Bound`, and we are compiling for the Limited ABI - which will make our
-compiles without needing Python (at least on Unix) and allow us to support all
-versions of Python newer than some minimum with a single binary. The cost is a
+`dependencies`; we use a recent version of pyo3, and we are compiling for the
+Limited ABI. This lets us compile without needing Python (at least on Unix) and
+lets us support all versions of Python newer than some minimum with a single
+binary. The cost is a
 few features will be disabled (less if the version is higher), and some
 optimizations will be disabled.
 
@@ -65,7 +65,7 @@ The `pyproject.toml` file should look pretty normal:
 
 ```toml
 [build-system]
-requires = ["maturin>=1.9,<2.0"]
+requires = ["maturin>=1.16,<2.0"]
 build-backend = "maturin"
 
 [project]
@@ -77,18 +77,53 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dynamic = ["version"]
-
-[tool.maturin]
-features = ["pyo3/extension-module"]
 ```
 
-The main thing of note here is the `tool.maturin.features` field, which tells it
-you have a PyO3 module. Otherwise, this is pretty similar to other build
-backends. It it able to pull the version from the `Cargo.toml` file if you
-include `"version"` in the `dynamic` list.
+This is pretty similar to other build backends. Maturin detects PyO3 from
+`Cargo.toml`, so no `tool.maturin` section is needed. It is able to pull the
+version from the `Cargo.toml` file if you include `"version"` in the `dynamic`
+list.
 
 Finally, we have the library itself. Here's the simple template example,
 `src/lib.rs`:
+
+```rs
+use pyo3::prelude::*;
+
+/// A Python module implemented in Rust.
+#[pymodule]
+mod rust_example {
+    use pyo3::prelude::*;
+
+    /// Formats the sum of two numbers as string.
+    #[pyfunction]
+    fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
+        Ok((a + b).to_string())
+    }
+}
+```
+
+It starts with a `use` statement that pulls in the basics for using PyO3.
+
+The module is a Rust inline module annotated with `#[pymodule]`. Everything
+annotated inside it is added to the Python module.
+
+Then there's a docstring on a function (notice the triple slashes) - PyO3 will
+actually be able to capture this for the Python docstring! You can't natively do
+this in C++; you can write scripts that try to collect these, but Rust supports
+it natively.
+
+The function is annotated with `#[pyfunction]`, which will make it a function
+you can add to Python. You return a `PyResult<...>` if a function could "throw"
+an error in Python. Functions that don't ever throw errors can just return
+normal Rust values that have known conversions. Otherwise, it's pretty normal.
+(Actually, we don't ever return a non-OK value in this example, so feel free to
+simplify this to just return `String`).
+
+This declarative interface has been the default since PyO3 0.22. In older code,
+you will see the classic interface. There, the module is a function that takes a
+Bound PyModule and runs `.add_*` functions on it (much like pybind11). Functions
+need to be given in the `wrap_pyfunction!` macro:
 
 ```rs
 use pyo3::prelude::*;
@@ -107,42 +142,6 @@ fn rust_example(m: &Bound<'_, PyModule>) -> PyResult<()> {
 }
 ```
 
-It starts with a `use` statement that pulls in the basics for using PyO3.
-
-Then there's a docstring on a function (notice the triple slashes) - PyO3 will
-actually be able to capture this for the Python docstring! You can't natively do
-this in C++; you can write scripts that try to collect these, but Rust supports
-it natively.
-
-The function is annotated with `#[pyfunction]`, which will make it a function
-you can add to Python. You return a `PyResult<...>` if a function could "throw"
-an error in Python. Functions that don't ever throw errors can just return
-normal Rust values that have known conversions. Otherwise, it's pretty normal.
-(Actually, we don't ever return a non-OK value in this example, so feel free to
-simplify this to just return `String`).
-
-Now, we have a module. This is a function that sets up a module by taking a
-Bound PyModule and running `.add_*` functions on it to add (much like pybind11).
-Functions need to be given in the `wrap_pyfunction!` macro.
-
-This is the classic interface; there's a new interface based on Rust inline
-modules that is much nicer, as well. As of PyO3 0.22.0, declarative modules are
-a stable feature available by default (no feature flag needed):
-
-```rs
-/// A Python module implemented in Rust.
-#[pymodule]
-mod rust_example {
-  use super::*;
-
-  /// Formats the sum of two numbers as string.
-  #[pyfunction]
-  fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
-      Ok((a + b).to_string())
-  }
-}
-```
-
 Our square example would look like this:
 
 ```rs
@@ -150,12 +149,12 @@ use pyo3::prelude::*;
 
 #[pymodule]
 mod rust_example {
-  use super::*;
+    use pyo3::prelude::*;
 
-  #[pyfunction]
-  fn square(a: usize) -> usize {
-      a * a
-  }
+    #[pyfunction]
+    fn square(a: usize) -> usize {
+        a * a
+    }
 }
 ```
 
@@ -165,4 +164,4 @@ You can use all the usual Python tools (like pip, build, etc), but you can also
 build directly with maturin. In many cases, this will skip many of the Python
 calls altogether. The `maturin build` command will build a wheel. The
 `maturin develop` command will do an editable install (requires `pip` in the
-venv you are building in).
+venv you are building in, or pass `--uv` to use uv instead).

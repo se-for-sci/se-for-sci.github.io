@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.18...3.25)
-project(Minuit2SimpleExamle LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.18...4.4)
+project(Minuit2SimpleExample LANGUAGES CXX)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -19,7 +19,7 @@ if(NOT DEFINED SKBUILD)
   target_include_directories(simpleminuit PRIVATE ${minuit2_SOURCE_DIR})
   target_link_libraries(simpleminuit PRIVATE Minuit2::Minuit2)
 else()
-  find_package(pybind11)
+  find_package(pybind11 CONFIG REQUIRED)
 
   file(GLOB OUTPUT src/*.cpp)
   pybind11_add_module(minuit2 ${OUTPUT})

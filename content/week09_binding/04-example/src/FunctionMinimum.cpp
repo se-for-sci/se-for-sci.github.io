@@ -3,7 +3,7 @@
 #include <sstream>
 #include <Minuit2/MnPrint.h>
 
-void init_FunctionMinimum(py::module &m) {
+void init_FunctionMinimum(py::module_ &m) {
     py::class_<FunctionMinimum>(m, "FunctionMinimum")
         .def("__str__", [](const FunctionMinimum &self) {
             std::stringstream os;

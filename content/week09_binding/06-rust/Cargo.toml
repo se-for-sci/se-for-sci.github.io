@@ -9,4 +9,4 @@ name = "rust_example"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = {version = "0.27.1", features = ["abi3-py311"]}
+pyo3 = {version = "0.30.1", features = ["abi3-py311"]}

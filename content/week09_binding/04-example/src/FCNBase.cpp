@@ -4,13 +4,13 @@ class PyFCNBase : public FCNBase {
      using FCNBase::FCNBase;
 
      double operator()(const std::vector<double> &v) const override {
-         PYBIND11_OVERLOAD_PURE_NAME(
+         PYBIND11_OVERRIDE_PURE_NAME(
              double, FCNBase, "__call__", operator(), v);}
 
      double Up() const override {
-         PYBIND11_OVERLOAD_PURE(double, FCNBase, Up, );}
+         PYBIND11_OVERRIDE_PURE(double, FCNBase, Up, );}
  };
-void init_FCNBase(py::module &m) {
+void init_FCNBase(py::module_ &m) {
     py::class_<FCNBase, PyFCNBase>(m, "FCNBase")
          .def(py::init<>())
          .def("__call__", &FCNBase::operator())
