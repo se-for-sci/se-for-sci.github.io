@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "minuit2"
-version = "6.26.10"
+version = "6.40.4"
 
 [tool.scikit-build]
 install.components = ["python"]

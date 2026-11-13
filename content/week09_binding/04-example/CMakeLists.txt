@@ -6,12 +6,13 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 include(FetchContent)
 FetchContent_Declare(
   minuit2
-  URL           https://github.com/root-project/root/archive/refs/tags/v6-26-10.tar.gz
-  URL_HASH      SHA256=a84ed095252614c6e2084987fce9ce4a5a62057bfd5a4a2725123ca9f60f674f
+  URL           https://github.com/root-project/root/archive/refs/tags/v6-40-04.tar.gz
+  URL_HASH      SHA256=02b994fd645dbb7b89f5ab9342278d3c53bf2ed46d50aebd1aecccfa040711c4
   SOURCE_SUBDIR math/minuit2
   DOWNLOAD_NO_PROGRESS
   EXCLUDE_FROM_ALL
 )
+set(minuit2_standalone ON CACHE BOOL "Copy in the needed ROOT headers" FORCE)
 FetchContent_MakeAvailable(minuit2)
 
 if(NOT DEFINED SKBUILD)
