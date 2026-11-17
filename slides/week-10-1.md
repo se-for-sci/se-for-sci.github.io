@@ -64,13 +64,11 @@ vector.x=1, vector.y=2
 ```python
 from types import SimpleNamespace
 
-
 def make_path(string_location):
     self = SimpleNamespace()
     self.string_location = string_location
     self.exists = lambda: os.path.exists(string_location)
     return self
-
 
 my_dir = make_path("my/dir")
 print(f"{my_dir.string_location = }")
@@ -84,13 +82,11 @@ print(f"{my_dir.exists() = }")
 ```python
 from types import SimpleNamespace
 
-
 def make_path(string_location):  # Construction function
     self = SimpleNamespace()
     self.string_location = string_location  # Member
     self.exists = lambda: os.path.exists(string_location)  # Method
     return self  # Instance
-
 
 my_dir = make_path("my/dir")
 print(f"{my_dir.string_location = }")
@@ -224,10 +220,8 @@ class Animal:
     def eat(self, food):
         print(f"{self.__class__.__name__} eating {food}")
 
-
 class Dog(Animal):
     pass
-
 
 bluey = Dog()
 bluey.eat("fruit")
@@ -246,7 +240,6 @@ class Raccoon(Animal):
     def eat(self, food):
         print("Washing first")
         super().eat(food)
-
 
 rascal = Raccoon()
 rascal.eat("berries")
@@ -291,7 +284,6 @@ class Vector2D:
     def mag(self):
         return (self.x**2 + self.y**2) ** 0.5
 
-
 class Vector3D(Vector2D):
     z: float
 ```
@@ -307,12 +299,10 @@ class Vector3D(Vector2D):
 class Vector:
     pass
 
-
 @dataclasses.dataclass
 class Vector2D(Vector):
     x: float
     y: float
-
 
 class Vector3D(Vector):
     x: float

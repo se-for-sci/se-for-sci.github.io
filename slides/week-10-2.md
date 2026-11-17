@@ -58,7 +58,6 @@ A: **Parent class** / **super class** B: **Child class**
 class A:
     pass
 
-
 class B(A):
     pass
 ```
@@ -73,7 +72,6 @@ class B(A):
 ```python
 class A:
     pass
-
 
 class B:
     def __init__(self):
@@ -131,7 +129,6 @@ _class: lead
 class Container:
     def __init__(self, x):
         self.x = x
-
 
 c = Container(1)
 c.x = 2
@@ -191,7 +188,6 @@ class NewSteps(SteppedCode):
     def step_2(self):
         print("Replaced step 2")
 
-
 NewSteps().run()
 ```
 
@@ -207,7 +203,6 @@ class SurroundedSteps(SteppedCode):
         print("Before step 2")
         super().step_2()
         print("After step 2")
-
 
 SurroundedSteps().run()
 ```
@@ -228,12 +223,10 @@ Extended "Integrator" example in class notes.
 ```python
 _start = 0
 
-
 def incr():
     global _start
     _start += 1
     return _start
-
 
 print(f"{incr() = }")  # incr() = 1
 print(f"{incr() = }")  # incr() = 2
@@ -257,7 +250,6 @@ def make_incr():
 
     return incr
 
-
 incr1 = make_incr()
 print(f"{incr1() = }")  # incr1() = 1
 print(f"{incr1() = }")  # incr1() = 2
@@ -276,7 +268,6 @@ class Incr:
     def __call__(self):
         self.start += 1
         return self.start
-
 
 incr = Incr()
 print(f"{incr() = }")  # incr() = 1
@@ -301,7 +292,6 @@ Some languages allow you to define classes in multiple places (Ruby, Rust), and 
 class Path(str):
     def __truediv__(self, other):
         return self.__class__(f"{self}/{other}")
-
 
 print(Path("one") / Path("two"))
 ```
@@ -334,10 +324,8 @@ class PathMixin:
     def __truediv__(self, other):
         return self.__class__(f"{self}/{other}")
 
-
 class Path(str, PathMixin):
     pass
-
 
 print(Path("one") / Path("two"))
 ```

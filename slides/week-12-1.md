@@ -59,7 +59,6 @@ class Mutable:
     x: int
     y: int
 
-
 mutable = Mutable(1, 2)
 mutable.x = 2
 print(mutable)
@@ -79,7 +78,6 @@ class Immutable:
     x: int
     y: int
 
-
 immutable_1 = Immutable(1, 2)
 immutable_2 = Immutable(2, immutable_1.y)
 print(immutable_2)
@@ -98,7 +96,6 @@ Immutable(x=2, y=2)
 class Immutable:
     x: int
     y: int
-
 
 immutable_1 = Immutable(1, 2)
 immutable_2 = dataclasses.replace(immutable_1, x=2)
@@ -159,7 +156,6 @@ This style is common in functional programming (which is where we are headed).
 ```python
 def evil(x):
     x.append("Muhahaha")
-
 
 mutable = []
 evil(mutable)
@@ -312,7 +308,6 @@ int main() {
 def power(y, x):
     return x**y
 
-
 pow2 = functools.partial(power, 2)
 pow3 = functools.partial(power, 3)
 
@@ -337,7 +332,6 @@ Subset of functors!
 def not_pure(x):
     print("computing x")
     return x
-
 
 values = [1, 2, 3]
 results = map(not_pure, values)
@@ -400,7 +394,6 @@ arr = arr.at[0].set(4)
 @jax.jit
 def f(x):
     return x**3 + x**2 + x
-
 
 dfdx = jax.grad(f)
 print(f"{dfdx(1.0) = }")

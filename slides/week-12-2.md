@@ -156,11 +156,9 @@ x: int = 2
 # No assignment is allowed ("declaration")
 y: int
 
-
 # Function annotation
 def f(x: int) -> int:
     return x
-
 
 # Class annotations
 class X:
@@ -301,7 +299,6 @@ You can help narrow with `assert`:
 def could_be_none(y: bool) -> int | None:
     return 42 if y else None
 
-
 y = could_be_none(True)
 assert y is not None
 print(f"Bitcount: {y.bit_count()}")
@@ -317,7 +314,6 @@ Literals are often useful with type narrowing. Taking the following example:
 
 ```python
 from typing import Literal
-
 
 def run(action: Literal["start", "stop"]) -> bool:
     if action == "start":
@@ -335,10 +331,8 @@ We'd like to be able to a) run this on `str` too, and b) get a literal True/Fals
 @typing.overload
 def run(action: Literal["start"]) -> Literal[True]: ...
 
-
 @typing.overload
 def run(action: Literal["stop"]) -> Literal[False]: ...
-
 
 def run(action: str) -> bool:
     if action == "start":
@@ -356,7 +350,6 @@ Now if we use a literal, the type system will know the actual value!
 class Direction(enum.Enum):
     up = enum.auto()
     down = enum.auto()
-
 
 def handle_direciton(direction: Direction) -> str:
     if direction == Direction.up:  # direction contains [up, down]
@@ -402,7 +395,6 @@ Or we could formalize what we know what a Protocol!
 class Duck(typing.Protocol):
     def quack(self) -> None: ...  # This is actually part of the syntax
 
-
 def f(x: Duck) -> None:
     x.quack()
 ```
@@ -420,11 +412,9 @@ Opt-in, though types are not checked.
 class Duck(typing.Protocol):
     def quack(self) -> None: ...
 
-
 class MyDuck:
     def quack(self) -> None:
         print("Quack!")
-
 
 # Works at runtime
 assert isinstance(MyDuck, Duck)
@@ -469,7 +459,6 @@ Note that `typing.assert_type` (3.11) only checks exact types, not structural su
 ```python
 from collections.abc import Sequence, Sized
 
-
 def match_ints(a: Sequence[int], b: Sized) -> list[int]:
     return list(a[: len(b)])
 ```
@@ -508,7 +497,6 @@ This also handles covariance/contravariance for you!
 
 ```python
 T = typing.TypeVar("T")
-
 
 def f(x: T) -> T:
     return x
@@ -558,7 +546,6 @@ Following are some examples.
 def all_upper(values):
     return [v.upper() for v in values]
 
-
 items = ["one", "two"]
 result = all_upper(items)
 ```
@@ -570,7 +557,6 @@ result = all_upper(items)
 ```python
 def all_upper(values: list[str]) -> list[str]:
     return [v.upper() for v in values]
-
 
 items = ["one", "two"]
 result = all_upper(items)
@@ -584,7 +570,6 @@ result = all_upper(items)
 def all_upper(values: list[str]) -> list[str]:
     return [v.upper() for v in values]
 
-
 items = ("one", "two")
 result = all_upper(items)  # ❌
 ```
@@ -596,7 +581,6 @@ result = all_upper(items)  # ❌
 ```python
 def all_upper(values: Sequence[str]) -> list[str]:
     return [v.upper() for v in values]
-
 
 items = ("one", "two")
 result = all_upper(items)
@@ -619,10 +603,8 @@ from collections.abc import Sequence
 from typing import Any, reveal_type
 import copy
 
-
 def copy_sequence(seq: Sequence[Any]) -> Sequence[Any]:
     return copy.copy(seq)
-
 
 a = ["1", "2"]
 b = copy_sequence(a)
@@ -640,10 +622,8 @@ from collections.abc import Sequence
 from typing import Any, reveal_type
 import copy
 
-
 def copy_sequence[T: Sequence[Any]](seq: T) -> T:
     return copy.copy(seq)
-
 
 a = ["1", "2"]
 b = copy_sequence(a)
@@ -663,7 +643,6 @@ def call(*args: str, quiet: bool = False) -> str | None:
         return f"result of {args}"
     return None
 
-
 call("echo", "hi", quiet=True).strip()  # ❌ Can't call on None
 ```
 
@@ -675,10 +654,8 @@ call("echo", "hi", quiet=True).strip()  # ❌ Can't call on None
 @overload
 def call(*args: str, quiet: Literal[False] = ...) -> None: ...
 
-
 @overload
 def call(*args: str, quiet: Literal[True]) -> str: ...
-
 
 def call(*args: str, quiet: bool = False) -> str | None:
     "See above"

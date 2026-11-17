@@ -34,11 +34,9 @@ Can be alternative (Julia) or used in conjunction with OOP.
 def generic(x):
     raise NotImplementedError("General implementation")
 
-
 @generic.register(int)
 def _(x):
     print(f"I know how to compute {x}, it's an int!")
-
 
 @generic.register(float)
 def _(x):
@@ -169,7 +167,6 @@ def word_counter(name):
             words_per_line = len(words_line)
             yield words_per_line
 
-
 print("Total words:", sum(word_counter(name)))
 ```
 
@@ -241,10 +238,8 @@ Based on the idea of a callback function.
 ```python
 import threading
 
-
 def delayed_callback():
     print("Callback fired after delay!")
-
 
 timer = threading.Timer(2.0, delayed_callback)
 timer.start()
@@ -258,10 +253,8 @@ print("Waiting...")
 ```python
 import asyncio
 
-
 def delayed_callback():
     print("Callback fired after delay!")
-
 
 loop = asyncio.get_running_loop()
 loop.call_later(2, delayed_callback)
@@ -275,12 +268,10 @@ print("Waiting...")
 ```python
 import argparse
 
-
 class PrintMessage(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         print(f"Callback triggered! You passed: {values}")
         setattr(namespace, self.dest, values)
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--say", action=PrintMessage)
@@ -304,7 +295,6 @@ class Signal:
     def emit(self, value):
         for callback in self.slots:
             callback(value)
-
 
 sig = Signal()
 sig.connect(lambda x: print(f"Got update: {x}"))
@@ -356,7 +346,6 @@ Cons:
 class CheckDestruct:
     def __del__(self):
         print("Bye!")
-
 
 a = CheckDestruct()
 del a
