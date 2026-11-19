@@ -28,7 +28,7 @@ You absolutely can design a spaghetti mess of code with OOP!
 
 - **Encapsulation** (1): Bundling data & operations together
 - **Encapsulation** (2): Isolating implementation & minimal public part
-- **Object**/**Instance**: A variable holding data with a type holding
+- **Object**/**Instance**: A variable holding data with a type that holds the methods
 - **Attribute**/**Property**: Something accessible on an object
 - **Member**: A data attribute stored in each object
 - **Method**/**Member function**: A callable attribute stored in a class
@@ -42,7 +42,7 @@ You absolutely can design a spaghetti mess of code with OOP!
 
 ## Why use classes?
 
-- Keep related values tother
+- Keep related values together
 - **Inheritance** and **Composition** can be used to keep code DRY
 - Clean way to establish interfaces (ABCs/Protocols)
 - Ensure required code is run
@@ -80,14 +80,14 @@ class B:
 
 - Provides the concept of "has a", or "inherent part of".
 - **Composition**: contained object's lifetime is tied to the parent
-- **Aggregation** parent holds objects, but they exist separately too
-- "Wrapped" class can re-expose (some) of contained methods (remember inheritance can't remove attributes!)
+- **Aggregation**: parent holds objects, but they exist separately too
+- "Wrapped" class can re-expose (some of) the contained methods (remember inheritance can't remove attributes!)
 
 ---
 
 ## UML diagrams
 
-UML, or Unified Modeling Language, is a method of displaying class diagrams [(read more here)](https://www.lucidchart.com/pages/what-is-UML-unified-modeling-language), or read about it for [mermaid](https://mermaid-js.github.io/mermaid/#/classDiagram), which is supported quite a lot of places these days, including GitHub.
+UML, or Unified Modeling Language, is a method of displaying class diagrams [(read more here)](https://www.lucidchart.com/pages/what-is-UML-unified-modeling-language), or read about it for [mermaid](https://mermaid.js.org/syntax/classDiagram.html), which is supported quite a lot of places these days, including GitHub.
 
 ---
 
@@ -105,11 +105,11 @@ UML, or Unified Modeling Language, is a method of displaying class diagrams [(re
 
 ## Interfaces example
 
-- Xerox makes a mutlifunction machine
+- Xerox makes a multifunction machine
   - `Stapler` and `Printer` are subclasses of `Job`
   - `Job` holds _everything_ for interacting with the machine
   - `Printer` can access stapling functions since they are in `Job`
-- Now they want to make a coper that can't staple
+- Now they want to make a copier that can't staple
   - But `Job` still knows about stapling!
 - Testing is also much harder
 
@@ -150,7 +150,7 @@ class Container:
         return self._x
 ```
 
-Now a user can't change `x`, only set it
+Now a user can't change `x`, only set it at construction
 
 - `frozen=True` does this with dataclasses
 - We can also make this hashable now (usable in dict keys and sets)
@@ -161,7 +161,6 @@ Now a user can't change `x`, only set it
 ## Pattern: code reuse
 
 ```python
-# fmt: off
 class SteppedCode:
     def step_1(self):
         print("Working on step 1")
@@ -173,7 +172,6 @@ class SteppedCode:
         self.step_1()
         self.step_2()
         self.step_3()
-# fmt: on
 SteppedCode().run()
 ```
 
@@ -211,7 +209,7 @@ SurroundedSteps().run()
 
 ## Required interface
 
-- Require an implementer to provide one or methods
+- Require an implementer to provide one or more methods
 - Often via `@abstractmethod` and ABCs
 
 Extended "Integrator" example in class notes.
@@ -233,7 +231,7 @@ print(f"{incr() = }")  # incr() = 2
 print(f"{incr() = }")  # incr() = 3
 ```
 
-This is _global_, there can only by one.
+This is _global_, there can only be one.
 
 ---
 
@@ -255,13 +253,14 @@ print(f"{incr1() = }")  # incr1() = 1
 print(f"{incr1() = }")  # incr1() = 2
 ```
 
-Not global anymore, but still ugly. `_start` is kept around via reference counting.
+Not global anymore, but still ugly. `_start` is captured in the closure.
 
 ---
 
 ## Functors: the solution
 
 ```python
+@dataclasses.dataclass
 class Incr:
     start: int = 0
 
@@ -311,7 +310,7 @@ A very specific form of multiple inheritance.
 - No `__init__`
 - No members (those need `__init__`)
 - No `super()`
-- No overloading the class they are to mix into
+- No overriding the class they are to mix into
 
 You _can_ bend these rules a bit, but then you are moving into multiple inheritance territory, so be very careful.
 
@@ -324,11 +323,11 @@ class PathMixin:
     def __truediv__(self, other):
         return self.__class__(f"{self}/{other}")
 
-class Path(str, PathMixin):
+class Path(PathMixin, str):
     pass
 
 print(Path("one") / Path("two"))
 ```
 
 - Example: a drag-and-drop mixin for a GUI framework
-- FYI, Python specific simi-alternative: new class keywords
+- FYI, Python specific semi-alternative: new class keywords
