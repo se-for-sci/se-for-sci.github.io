@@ -15,10 +15,13 @@ backgroundImage: url('https://marp.app/assets/hero-background.svg')
 
 ## Prelude
 
-To keep the slides simples, I will assume the following imports:
+To keep the slides simple, I will assume the following imports:
 
 ```python
+import enum
 import typing
+from collections.abc import Sequence
+from typing import Literal, assert_never, overload
 ```
 
 ---
@@ -63,14 +66,14 @@ times_three(["hi"])
 
 ## Optional static typing (2)
 
-Python doesn't care about type annotations! Some are accessible to libraries, but using that is not as common. Use via a type checker!
+Python doesn't check type annotations! Libraries can read them at runtime, but this is uncommon. Use a type checker to check them.
 
-- MyPy: The original type checker, from the CPython authors.
-- PyRight: Microsoft's type checker. Powers PyLance in VSCode.
-- PyRE (Pyrefly): Meta's type checker for Instagram. In OCaml (Rust).
-- PyType: Google's type checker with inference. Deprecated.
+- mypy: The original type checker, started by Jukka Lehtosalo with help from CPython core developers.
+- Pyright: Microsoft's type checker. Powers Pylance in VS Code.
+- Pyre / Pyrefly: Meta's type checkers. Pyre is in OCaml; Pyrefly (its replacement) is in Rust.
+- pytype: Google's type checker with inference. Deprecated.
 - PyCharm also has a built-in one.
-- Ty (beta): from Astral, written in Rust. (Ruff/uv devs)
+- ty (beta): from Astral, written in Rust (by the Ruff/uv devs).
 
 ---
 
@@ -78,7 +81,7 @@ Python doesn't care about type annotations! Some are accessible to libraries, bu
 
 - Final step toward compiled languages
 - Type checker is basically a compiler (that doesn't compile)
-- MyPyC actually can compile, by the way
+- mypyc actually can compile, by the way
 - Valuable skill in Python, too!
 
 We can study types, generics, Protocols, etc. All without leaving Python!
@@ -87,20 +90,20 @@ We can study types, generics, Protocols, etc. All without leaving Python!
 
 ## Runtime usage
 
-- Type annotations are evaluated & stored on class/module/function
+- Type annotations are evaluated & stored on class/module/function (lazily evaluated on access in 3.14+)
 - Type annotations are thrown away inside functions
-- A string is identical to it's evaluated contents
+- A string is identical to its evaluated contents
 - If you `from __future__ import annotations` (Python 3.7), then unevaluated strings are stored instead
 
 Some libraries that use runtime annotations are Pydantic and beartype. They should still be types, though.
 
-The stdlib uses them in a couple of places (dataclasses look for `typing.ClassVar` and single dispatch can use them)
+The stdlib uses them in a couple of places (dataclasses look for `typing.ClassVar`, and `functools.singledispatch` can use them).
 
 ---
 
 ## Demo `simple.py`
 
-Run MyPy with:
+Run mypy with:
 
 ```bash
 mypy simple.py
@@ -118,7 +121,7 @@ mypy --strict simple.py
 
 ## Demo: Optional example
 
-MyPy is great at checking for None handling. See if you can spot the error in `optional.py`. MyPy can!
+mypy is great at checking for `None` handling. See if you can spot the error in `optional.py`. mypy can!
 
 ---
 
@@ -128,7 +131,7 @@ You can use `reveal_type(x)` or `typing.reveal_type(x)` (newer versions of Pytho
 
 ## Ignoring errors
 
-You can ignore errors with `type: ignore` statements!
+You can ignore errors with `# type: ignore` comments!
 
 ```python
 x: str = f()
@@ -143,7 +146,7 @@ You can lie about typing in Python, since it's not actually using them.
 
 Doesn't work in a compiled language!
 
-But a useful escape hatch sometimes, or a way to deprecate code.
+But a useful escape hatch sometimes.
 
 ---
 
@@ -178,7 +181,7 @@ c: bytes = b"hi"
 d: float = 1.0
 e: complex = 1 + 1j
 f: bool = True
-g: None = None  # is it's own type
+g: None = None  # is its own type
 ```
 
 ---
@@ -209,7 +212,7 @@ c: tuple[int, ...] = (1, 2, 3)
 d: dict[str, int] = {"one": 1, "two": 2}
 ```
 
-Lists have a single parameter, the type the list holds. Tuples either take one parameter each, or have a `...`. And dicts take one for the key and one for the value.
+Lists have a single parameter, the type the list holds. Tuples take one parameter per element, or a single type followed by `...` for any length. And dicts take one for the key and one for the value.
 
 ---
 
@@ -237,7 +240,7 @@ These are things common in compiled languages.
 
 - `Literal[X]`: Only this value (or values) exactly. Enum-like
 - `Final[X]`: Not allowed to be replaced later
-- `@final`: A decorator for methods that can't be overridden
+- `@final`: A decorator for methods that can't be overridden or classes that can't be subclassed
 - `enum.Enum`: An enum type (subclass to make one)
 - `TypedDict`: A string keyed dict with types per key
 - `NamedTuple`: A tuple with names for items (and types, of course)
@@ -328,11 +331,14 @@ We'd like to be able to a) run this on `str` too, and b) get a literal True/Fals
 ## Overloads
 
 ```python
-@typing.overload
+@overload
 def run(action: Literal["start"]) -> Literal[True]: ...
 
-@typing.overload
+@overload
 def run(action: Literal["stop"]) -> Literal[False]: ...
+
+@overload
+def run(action: str) -> bool: ...
 
 def run(action: str) -> bool:
     if action == "start":
@@ -351,7 +357,7 @@ class Direction(enum.Enum):
     up = enum.auto()
     down = enum.auto()
 
-def handle_direciton(direction: Direction) -> str:
+def handle_direction(direction: Direction) -> str:
     if direction == Direction.up:  # direction contains [up, down]
         return "up"
     if direction == Direction.down:  # direction contains [down]
@@ -365,12 +371,13 @@ If you add a new enum item later, this will fail until you handle it!
 
 ## Structural subtyping
 
-This is basically formalized ducktyping
+This is basically formalized duck typing.
 
 - Python: Protocol
 - C++: Concepts
-- Java: Interface
-- Rust: Traits (_partial parametric polymorphism_, but similar)
+- Go: Interfaces
+
+Similar, but nominal (you must opt in explicitly): Java interfaces, Rust traits.
 
 ---
 
@@ -385,7 +392,7 @@ def f(x) -> None:
 
 We could look up the actual type(s) this is called on.
 
-Or we could formalize what we know what a Protocol!
+Or we could formalize what we know with a Protocol!
 
 ---
 
@@ -393,7 +400,7 @@ Or we could formalize what we know what a Protocol!
 
 ```python
 class Duck(typing.Protocol):
-    def quack(self) -> None: ...  # This is actually part of the syntax
+    def quack(self) -> None: ...  # `...` is the conventional stub body
 
 def f(x: Duck) -> None:
     x.quack()
@@ -405,7 +412,7 @@ Now, `f` can be called on any object that has a `.quack()` method, and the type 
 
 ## Runtime protocols
 
-Opt-in, though types are not checked.
+Opt-in. Only checks that the methods exist, not their signatures.
 
 ```python
 @typing.runtime_checkable
@@ -417,7 +424,7 @@ class MyDuck:
         print("Quack!")
 
 # Works at runtime
-assert isinstance(MyDuck, Duck)
+assert isinstance(MyDuck(), Duck)
 ```
 
 ---
@@ -440,18 +447,18 @@ Note that `typing.assert_type` (3.11) only checks exact types, not structural su
 ## Standard ABCs
 
 - `Iterable[T]`: Something that can be iterated (has `__iter__`)
-- `Iterator[T]`: Something that is being iterated (has `__next__`)
+- `Iterator[T]`: Something that is being iterated (has `__next__` and `__iter__`)
 - `Sized`: Something that has a `__len__`
 - `Collection[T]`: This can be iterated over and is `Sized`
 - `Sequence[T]`: `Collection` with random access (`list`, `tuple`)
-- `Generator[T, None, None]`: This is what a `yield` function returns
+- `Generator[T, None, None]`: This is what a `yield` function returns (`Generator[T]` in 3.13+)
 - `Mapping[K, V]`: Something that acts like a `dict`
 - `Callable[[Args, ...], RetValue]`: Something that is callable
-- `Set[T]` A `set` or `frozenset`, or similar
+- `Set[T]` (from `collections.abc`, not `typing`): A `set` or `frozenset`, or similar
 
 ---
 
-## When to use Protocols vs. concrete types
+## When to use abstract vs. concrete types
 
 - Input parameters should be as general as possible
 - Output should be as specific as possible
@@ -487,9 +494,9 @@ def f[T](x: T) -> T:
     return x
 ```
 
-In Python 3.12, we could do it as shown. But that is _not_ valid at runtime in older versions, since it's new syntax, and not only an annotation.
+In Python 3.12+, we could do it as shown. But that is _not_ valid at runtime in older versions, since it's new syntax, and not only an annotation.
 
-This also handles covariance/contravariance for you!
+For generic classes, this syntax also infers covariance/contravariance for you!
 
 ---
 
@@ -502,11 +509,11 @@ def f(x: T) -> T:
     return x
 ```
 
-- `TypeVar`'s must be used in the input of a function.
+- TypeVars must be used in the input of a function.
 - `TypeVar` can be inside another type
 - You can constrain `TypeVar` to certain types & subclasses (`bound=`)
 - Or just to specific types (positional arguments)
-- TypeVar's can be covariant, contravariant, or invariant (more later)
+- TypeVars can be covariant, contravariant, or invariant (more later)
 
 ---
 
@@ -514,23 +521,23 @@ def f(x: T) -> T:
 
 TL;DR: Do whatever the type checker tells you
 
-```text
-                               A -> B -> C
-```
+Variance is a property of a generic type. If `C` is a subclass of `B`:
 
-Let's say the typevar is `B`. Accepting `C` would be covariant and `A` would be contravariant.
+- Covariant: `Container[C]` is a subtype of `Container[B]`
+- Contravariant: `Container[B]` is a subtype of `Container[C]`
+- Invariant: neither
 
-Unions/immutable collections are covariant. `B | None` would accept `C`. Lists (or anything mutable) are invariant.
+Immutable collections are covariant: `Sequence[C]` works where `Sequence[B]` is expected. Lists (or anything mutable) are invariant. Callable arguments are contravariant.
 
 ---
 
 ## Going further
 
-Try `mypyc`; it can compile your Python, giving a 2-5x speedup on a fully typed codebase.
+Try `mypyc`; it can compile your Python, often giving a 1.5-5x speedup on a fully typed codebase.
 
 - [Awesome Python Typing](https://github.com/typeddjango/awesome-python-typing): A curated list of links to Python typing related things
 - [Adam Johnson's Typing series](https://adamj.eu/tech/tag/mypy/)
-- [MyPy's cheat sheet](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)
+- [mypy's cheat sheet](https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html)
 
 ---
 
@@ -564,7 +571,7 @@ result = all_upper(items)
 
 ---
 
-## What about different container?
+## What about a different container?
 
 ```python
 def all_upper(values: list[str]) -> list[str]:
@@ -576,7 +583,7 @@ result = all_upper(items)  # ❌
 
 ---
 
-## Attempt 2: Protocol
+## Attempt 2: abstract type (ABC)
 
 ```python
 def all_upper(values: Sequence[str]) -> list[str]:
@@ -590,13 +597,13 @@ result = all_upper(items)
 
 ## Details
 
-This is fairly common: Use a Protocol for input arguments, and be as exact as possible on output arguments!
+This is fairly common: Use an abstract type (ABC or Protocol) for input arguments, and be as exact as possible on return types!
 
-In fact, _try never to return a Protocol_. You want the type system to track _actual_ types.
+In fact, _try never to return an abstract type_. You want the type system to track _actual_ types.
 
 ---
 
-## Bad use of Protocol
+## Bad use of abstract types
 
 ```python
 from collections.abc import Sequence
@@ -648,7 +655,7 @@ call("echo", "hi", quiet=True).strip()  # ❌ Can't call on None
 
 ---
 
-## Smarter return types
+## Smarter return types (2)
 
 ```python
 @overload
@@ -656,6 +663,9 @@ def call(*args: str, quiet: Literal[False] = ...) -> None: ...
 
 @overload
 def call(*args: str, quiet: Literal[True]) -> str: ...
+
+@overload
+def call(*args: str, quiet: bool = ...) -> str | None: ...
 
 def call(*args: str, quiet: bool = False) -> str | None:
     "See above"

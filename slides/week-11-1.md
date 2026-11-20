@@ -40,14 +40,14 @@ def _(x):
 
 @generic.register(float)
 def _(x):
-    print(f"I know how to compute {x}, it's an float!")
+    print(f"I know how to compute {x}, it's a float!")
 ```
 
 ---
 
 ## Type Dispatch: Python specific tips
 
-- Only the first argument used (single dispatch)
+- Only the first argument is used (single dispatch)
 - You can use type annotations instead
 - You can stack multiple registers
 - Or use Unions (Python 3.11+)
@@ -96,11 +96,11 @@ Lots of places in Python do this for you, like `for` loops, `list(...)`, etc.
 
 ## Coroutines (3)
 
-Two way communication is possible (though not as nicely supported via syntax). Call `y.send(...)` instead of `next(y)`. The `yield` expression returns the sent value.
+Two-way communication is possible (though not as nicely supported via syntax). Call `y.send(...)` instead of `next(y)`. The `yield` expression returns the sent value.
 
 `yield from` lets you factor out generators.
 
-Python's `async`/`await` are also generators, just specialized for asyncio.
+Python's `async`/`await` coroutines are built on the same machinery as generators. An event loop (like asyncio) runs them.
 
 ---
 
@@ -118,7 +118,7 @@ words_per_line = [len(words) for words in words_lines]
 print("Total words:", sum(words_per_line))
 ```
 
-Make many unneeded lists!
+Makes many unneeded lists!
 
 ---
 
@@ -134,9 +134,10 @@ with open(name, encoding="utf-8") as f:
         words_line = stripped_line.split()
         words_per_line = len(words_line)
         total += words_per_line
+    print("Total words:", total)
 ```
 
-May not want to write this way!
+May not want to write this way! All the steps are mixed in one loop.
 
 ---
 
@@ -156,7 +157,7 @@ with open(name, encoding="utf-8") as f:
 
 ## Coroutines as a design pattern
 
-### Generator version (1)
+### Generator version (2)
 
 ```python
 def word_counter(name):
@@ -176,14 +177,14 @@ print("Total words:", sum(word_counter(name)))
 
 You could always make your own, but nicer with language support.
 
-- Python: Generators and Async, generator comprehensions
-- C++: Coroutines new in C++20 and `std::generator` added in C++23. Various libraries like `boost::async`
-- Rust has third-party libraries implementing coroutines
+- Python: Generators and Async, generator expressions
+- C++: Coroutines new in C++20 and `std::generator` added in C++23. Various libraries like Boost.Cobalt and Boost.Coroutine2
+- Rust has built-in `async`/`await` (coroutines internally); generators are from third-party libraries
 
 Iterators are similar, though a bit less powerful (one directional):
 
 - C++ also has iterators (with begin/end)
-- Rust has a `std::iter::IntoIterator` Trait
+- Rust has the `std::iter::Iterator` (and `IntoIterator`) Traits
 
 ---
 
@@ -210,7 +211,7 @@ output_data = input_data**2
 
 ## Array programming (2)
 
-Originally a language feature (APL, Matlab), it is a library feature in modern languages (Python, C++, Rust).
+Originally a language feature (APL, MATLAB), it is a library feature in modern languages (Python, C++, Rust).
 
 ```python
 x, y = np.mgrid[0:5:501j, 0.5:3.5:301j]
@@ -233,7 +234,7 @@ Based on the idea of a callback function.
 
 ---
 
-## Reactive programming: callback (sync)
+## Reactive programming: callback (threaded)
 
 ```python
 import threading
@@ -256,9 +257,13 @@ import asyncio
 def delayed_callback():
     print("Callback fired after delay!")
 
-loop = asyncio.get_running_loop()
-loop.call_later(2, delayed_callback)
-print("Waiting...")
+async def main():
+    loop = asyncio.get_running_loop()
+    loop.call_later(2, delayed_callback)
+    print("Waiting...")
+    await asyncio.sleep(3)
+
+asyncio.run(main())
 ```
 
 ---
@@ -312,8 +317,8 @@ import reaktiv
 name = reaktiv.Signal("Alice")
 age = reaktiv.Signal(30)
 
-greeting = Computed(lambda: f"Hello, {name()}! You are {age()} years old.")
-greeting_effect = Effect(lambda: print(f"Updated: {greeting()}"))
+greeting = reaktiv.Computed(lambda: f"Hello, {name()}! You are {age()} years old.")
+greeting_effect = reaktiv.Effect(lambda: print(f"Updated: {greeting()}"))
 # Updated: Hello, Alice! You are 30 years old.
 
 name.set("Bob")
@@ -335,7 +340,7 @@ Pros:
 Cons:
 
 - Unpredictable performance
-- Counting reference cycles can take time
+- Finding reference cycles can take time
 - Objects may never be deleted (implementation defined)
 
 ---
@@ -384,9 +389,9 @@ There are other ways to get a reference. Like:
 - The REPL keeps the last expression (`_`)
 - IPython keeps every output (in `Out[...]`)
 
-If you miss one, `__del__` gets called during Python shutdown, and even `sys.modules` might not be reliable!
+If you miss one, `__del__` may be called during Python shutdown (or not at all), and even `sys.modules` might not be reliable!
 
-Use `sys.getrefcount` to see how many refs you have (remember it takes one, so 2 is the smallest value).
+Use `sys.getrefcount` to see how many refs you have (remember it takes one, so 2 is usually the smallest value; 3.14+ can report 1).
 
 ---
 
@@ -426,7 +431,7 @@ Don't leave it off!
 
 ## A valid garbage collector
 
-A garbage collected is _only required_ to delete objects to keep memory from running out.
+A garbage collector is _only required_ to delete objects to keep memory from running out.
 
 Infinite system memory is a valid implementation of a garbage collector!
 
@@ -444,7 +449,7 @@ b.other = weakref.ref(a)
 del a, b
 ```
 
-This is rarely used with a GC, and `del a` would invalidate `b`!
+This is rarely used with a GC. Also, `del a` alone would make `b.other()` return `None`!
 
 ---
 
@@ -467,7 +472,7 @@ Heap:
 
 - Requested during runtime
 - Can be any size
-- Requested in consecutive chunks
+- Each allocation is one contiguous block
 - Can leak if you forget to deallocate
 
 ---
@@ -482,7 +487,7 @@ int main() {  // The variables (x, y) pushed onto the stack
 } // Stack values (x, y) dropped here
 ```
 
-C used to require all variable at the top of a function.
+C used to require all variables at the top of a function.
 
 ---
 
@@ -490,9 +495,9 @@ C used to require all variable at the top of a function.
 
 ```cpp
 int main() {
-    int* x = new int;  // Request 32 bits on heap, store 64 bit pointer on stack
+    int* x = new int;  // Request an int (usually 32 bits) on heap, store pointer (64 bits) on stack
     *x = 2;            // Put 2 in the location in the heap
-    delete x;          // Release 32 bits on heap back to OS
+    delete x;          // Release memory on heap
     x = nullptr;       // Protect against mistakes later
     return 0;
 }
@@ -500,17 +505,19 @@ int main() {
 
 Don't do this in C++! Better solution next.
 
-What happens if the middle line throws an error and you catch it later?
+What happens if code between `new` and `delete` throws an error and you catch it later?
 
 ---
 
 ## RAII
 
-We can use a classes and the stack to help us with the heap!
+We can use classes and the stack to help us with the heap!
 
-RAII: Resource Allocation Is Initialization pattern.
+RAII: Resource Acquisition Is Initialization pattern.
 
 ---
+
+## RAII code
 
 ```cpp
 class HeapInt {
@@ -538,6 +545,8 @@ class HeapInt {
 ## RAII code (2)
 
 ```cpp
+#include <iostream>
+
 int main() {
     HeapInt three{3};  // Memory allocated here
 
@@ -559,7 +568,7 @@ Obviously, don't do this yourself. This is used in the standard library heavily:
 - `std::unique_ptr<T>`: Basically what we just wrote
 - `std::shared_ptr<T>`: Also has reference counting
 - `std::vector<T>`: Stores sequence of values
-- `std::string`: Stores letters
+- `std::string`: Stores characters
 
 ---
 
@@ -574,8 +583,10 @@ C++11 added the idea of moves (and Rust moves by default). You can't "move" the 
 
 ---
 
+## Moves: example
+
 ```cpp
-#include <memory>
+#include <utility>
 
 template<typename T>
 class HeapHolder {
@@ -590,9 +601,10 @@ class HeapHolder {
     }
     HeapHolder& operator=(const HeapHolder& other) = delete;  // copy assignment
     HeapHolder& operator=(HeapHolder&& other) noexcept {      // move assignment
-        return *this = HeapHolder(other);
+        std::swap(value, other.value);
+        return *this;
     }
-    ~HeapHolder() { if(value != nullptr) delete value; }
+    ~HeapHolder() { delete value; }
     T& operator*() { return *value; }
 };
 ```
@@ -606,9 +618,10 @@ class HeapHolder {
 
 int main() {
     HeapHolder<int> start{3};
-    HeapHolder<int> middle{std::move(start)}; // a
-    HeapHolder<int> moved = std::move(middle); // b
-    std::cout << *moved << std::endl;
+    HeapHolder<int> middle{std::move(start)};   // move constructor
+    HeapHolder<int> moved = std::move(middle);  // also move constructor
+    start = std::move(moved);                   // move assignment
+    std::cout << *start << std::endl;
     return 0;
 }
 ```
@@ -634,7 +647,6 @@ With a copy, you have to make a decision on ownership: who owns the heap now?
 int main() {
     std::unique_ptr<int> heap_int_a{new int(3)};  // Original C++11
     auto heap_int_b = std::make_unique<int>(3);   // C++14 required
-    auto heap_int_b = std::make_unique(3);        // Can infer type
 
     std::cout << *heap_int_a << " " << *heap_int_b << std::endl;
     return 0;
@@ -662,7 +674,7 @@ if(x)
 // Good
 std::optional<int> x = optional_int_func();
 if(x)
-  use(*x);
+    use(*x);
 
 // Also works
 use(x.value_or(0));
@@ -680,13 +692,16 @@ int_or_float = 12;
 int i = std::get<int>(int_or_float);  // i is now 12
 ```
 
-An optional is just a special case of a two-item variant!
+An optional is like a two-item variant (`std::variant<std::monostate, T>`)!
 
 ---
 
 ## Type erasure
 
 ```cpp
+#include <any>
+#include <iostream>
+
 std::any a = 1;
 std::cout << a.type().name() << " " << std::any_cast<int>(a) << std::endl;
 ```
@@ -697,20 +712,20 @@ Replacement for using `void *`. Casting checked at runtime.
 
 ## Exceptions (bonus)
 
-The others were replacements for pointers, but C++23 also has a replacement for exceptions also built on a variant: `std::expected`!
+The others were replacements for pointers, but C++23 also has a replacement for exceptions, similar to a variant: `std::expected`!
 
 - A good value if the operation succeeded
 - An error value if the operation failed.
 
-This forces a programmer to always explicitly acknowledge every error that can happen, and handle them.
+This makes errors explicit in the return type, so a programmer has to acknowledge them.
 
-This is the _only_ way to handle exceptions in Rust, by the way!
+`Result` is the standard way to handle recoverable errors in Rust, by the way!
 
 ---
 
 ## A new approach to memory (Rust)
 
-Rust focuses on ownership, and has an explicit borrow checker. Moves by default. Const by default.
+Rust focuses on ownership, and has an explicit borrow checker. Moves by default. Immutable by default.
 
 ```rust
 fn main() {
@@ -732,7 +747,7 @@ fn main() {
 }
 ```
 
-Note you are allowed as many const references as you want without `mut` references, but only one `mut` reference at a time!
+Note you are allowed as many shared (`&`) references as you want without `mut` references, but only one `mut` reference at a time!
 
 ---
 
@@ -754,7 +769,7 @@ fn main() {
 fn main() {
   let s1 = "Hello world";
   let s2 = s1;
-  println!("{} {}", s, s2);
+  println!("{} {}", s1, s2);
 }
 ```
 
@@ -762,13 +777,13 @@ Like `std::string_view` in C++17. Already a reference, so safe to copy (string i
 
 ---
 
-## Example of a buggy C++ code
+## Example of buggy C++ code
 
 ```cpp
-val = std::vector {1, 2, 3};
-first_element = &val[0];
+auto val = std::vector{1, 2, 3};
+auto* first_element = &val[0];
 val.push_back(4);
-std::cout << first_element << std::endl;
+std::cout << *first_element << std::endl;
 ```
 
 This can't happen in Rust!
@@ -794,29 +809,29 @@ Differences vs. normal Interfaces:
 
 - Must explicitly opt-in to a trait, not just simple name matching
 - Only the library defining the Trait or the library defining the type can opt-in to a trait
-- Trait methods can overlap, including with struct methods!
-- Lookup will use the trait method if available and non-overlapping
+- Trait methods can overlap, including with inherent (struct) methods!
+- Inherent methods win; the trait must be in scope (`use`)
 
 ---
 
 ## Traits (2)
 
 ```rust
-foo = Foo::new();
+let foo = Foo::new();
 foo.bar();
 ```
 
-If there's a `Foo::bar()`, call that. If not, if there's a Trait with a `.bar()` implemented on `Foo`, call that.
+If there's an inherent `Foo::bar()`, call that. If not, if there's a Trait in scope with a `.bar()` implemented on `Foo`, call that. If two traits provide `.bar()`, you must write `Trait::bar(&foo)`.
 
 ---
 
 ## Other patterns
 
-- **Singleton pattern**: There can only be one instance of a class. Like `None`, `True`, `False`.
+- **Singleton pattern**: There can only be one instance of a class. Like `None` (`bool` is similar, with exactly two instances).
 - **Registries**: logging uses this design.
-- **State machine**: this is used heavily by Matlab.
-- **Factory pattern**: We've touched on this lightly, classes `__init__` method, for example.
-- **Ascync patterns**: Lightly touched on during generators.
+- **State machine**: matplotlib's pyplot interface (MATLAB-style) uses this heavily.
+- **Factory pattern**: We've touched on this lightly, like alternate constructors (`@classmethod`s such as `dict.fromkeys`).
+- **Async patterns**: Lightly touched on during generators.
 - **Event loop**: A common pattern for reacting to multiple possible inputs.
 
 ---
@@ -827,6 +842,6 @@ A great way to go further is to learn another language. It helps generalize conc
 
 - **Python**: A great choice for interpreted language.
 - **C++**: The classic compiled language choice, modernized.
-- **Rust**: A really interesting option due to packaging, moves, & traits
+- **Rust**: A really interesting option due to packaging, moves, & traits.
 
 You should at least be familiar with whatever is common in your field.

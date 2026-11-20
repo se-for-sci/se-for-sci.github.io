@@ -22,6 +22,8 @@ import dataclasses
 import functools
 ```
 
+---
+
 ## Python is a multi-paradigm language
 
 But it favors OO programming pretty heavily. We may reach out to other languages to learn lessons about different paradigms.
@@ -37,9 +39,9 @@ First we need to talk about **mutability** and **state**. Functional programming
 ## Mutability in Python
 
 - Some built-in objects are truly immutable (like `int`). You can't mutate them.
-- Immutable objects have a hash (`__hash__` is present and not None)
+- Hashable objects (`__hash__` is present and not None) are usually immutable, but this is a convention, not a rule
 
-Immutability by convention more than language.
+Immutability is enforced by convention more than by the language.
 
 ---
 
@@ -124,7 +126,7 @@ What happens if you forget a step?
 
 ## Immutable API + classes
 
-We could replace a mutating state with (immutable) classes:
+We could replace mutable state with (immutable) classes:
 
 ```python
 empty_data = EmptyData()
@@ -134,7 +136,7 @@ computed_data = prepared_data.do_calculations()
 computed_data.plot()
 ```
 
-Now mistakes can be detected statically! Tab completion will tell you what you can do. Etc.
+Now mistakes can be detected statically (type checker/IDE)! Tab completion will tell you what you can do. Etc.
 
 ---
 
@@ -180,7 +182,7 @@ We tend to allow:
 x.do_something()
 ```
 
-Though that also mutates an argument (`self`).
+Though that can also mutate an argument (`self`).
 
 ---
 
@@ -191,7 +193,7 @@ Though that also mutates an argument (`self`).
 - No issues with copying vs. references
 - Avoid one mutable reference breaking another
 
-These don't require immutability, they require _we don't mutate_.
+These don't require immutability; they require that _we don't mutate_.
 
 ---
 
@@ -199,6 +201,7 @@ These don't require immutability, they require _we don't mutate_.
 
 Defining **pure function**:
 
+- Same input always gives the same output
 - Does not mutate arguments
 - Does not contain internal state
 - No side effects (like printing to screen!)
@@ -254,8 +257,9 @@ class FunctionalIterable:
 ```python
 items = FunctionalIterable([1, 2, 3, 4, 5])
 sum_sq_odds = (
-    items.map(lambda x: x**2).filter(lambda x: x % 2).reduce(lambda x, y: x + y)
+    items.map(lambda x: x**2).filter(lambda x: x % 2 == 1).reduce(lambda x, y: x + y)
 )
+print(sum_sq_odds)
 ```
 
 ---
@@ -265,7 +269,7 @@ sum_sq_odds = (
 ```ruby
 items = [1,2,3,4,5]
 sum_sq_odds = items.map{_1**2}.filter{_1 % 2 == 1}.reduce{_1 + _2}
-puts items
+puts sum_sq_odds
 ```
 
 ---
@@ -285,24 +289,24 @@ fn main() {
 
 ---
 
-## Other languages: C++23 (modules very experimental)
+## Other languages: C++23 (`import std` needs recent compilers and build support)
 
 ```cpp
 import std;
 
 int main() {
     std::vector items {1, 2, 3, 4, 5};
-    auto oddsq = items | std::views::transform([](int i){return i*i;})
+    auto sq_odds = items | std::views::transform([](int i){return i*i;})
                         | std::views::filter([](int i){return i%2==1;});
-    auto soddsq = std::ranges::fold_left(oddsq, 0, [](int a, int b){return a + b;});
-    std::println("{}", soddsq);
+    auto sum_sq_odds = std::ranges::fold_left(sq_odds, 0, [](int a, int b){return a + b;});
+    std::println("{}", sum_sq_odds);
     return 0;
 }
 ```
 
 ---
 
-## Currying
+## Partial application
 
 ```python
 def power(y, x):
@@ -320,7 +324,7 @@ pow2(10) = 100
 pow3(10) = 1000
 ```
 
-Subset of functors!
+Related to currying. Returns a callable object (a functor, in the C++ sense).
 
 ---
 
@@ -347,13 +351,13 @@ Where does the print statement run?
 
 ### Parallelization
 
-(Not Python) Can run in parallel, since when you run doesn't matter.
+(Not Python) Can run in parallel, since the order of execution doesn't matter.
 
 ### Easy to optimize
 
 (Not Python) Easy to reason about.
 
-Not Python only means not the _language_, libraries can implement!
+"Not Python" means the language does not do it; libraries can implement it!
 
 ---
 
@@ -368,7 +372,7 @@ import jax.numpy as jnp
 arr = jnp.array([1, 2, 3])
 ```
 
-Looks like NumPy right? Try to modify the array. ;)
+Looks like NumPy, right? Try to modify the array. ;)
 
 ---
 
@@ -382,8 +386,8 @@ arr = arr.at[0].set(4)
 
 ### What you get:
 
-- You can fuse functions together with `jax.jit` & they get compiled into machine code
-- You can target CPU, GPU, and TPU (Google’s tensor processing units)
+- You can fuse functions together with `jax.jit` and they get compiled into machine code
+- You can target CPU, GPU, and TPU (Google's tensor processing units)
 - You can compute gradients of functions
 
 ---
@@ -400,5 +404,5 @@ print(f"{dfdx(1.0) = }")
 ```
 
 ```output
-dfdx(1.0) = DeviceArray(6., dtype=float32, weak_type=True)
+dfdx(1.0) = Array(6., dtype=float32, weak_type=True)
 ```
