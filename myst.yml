@@ -99,8 +99,8 @@ project:
         - file: content/week10_oop/oodesign.md
     - title: "Week 11: Design Patterns"
       children:
-        - file: content/week11_design/designpatt.md
         - file: content/week11_design/functional.md
+        - file: content/week11_design/designpatt.md
     - title: "Week 12: Static Typing"
       children:
         - file: content/week12_typing/typing.md

@@ -21,15 +21,12 @@ print = console.print
 
 # Design patterns
 
-{button}`Slides <https://se-for-sci.github.io/slides/week-11-1>`
+{button}`Slides <https://se-for-sci.github.io/slides/week-11-2>`
 
-Let's move beyond OO and learn from other paradigms and patterns. These are not
-exclusive - you may use some or all of the ideas here to inform your class
-design. You might use OOP ideas to help your functional patterns. Etc.
-
-## Functional Programming
-
-In its own section, see following page.
+After functional programming, let's look at more paradigms and patterns beyond
+OO. These are not exclusive - you may use some or all of the ideas here to
+inform your class design. You might use OOP ideas to help your functional
+patterns. Etc.
 
 ## Type dispatch
 

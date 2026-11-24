@@ -12,7 +12,10 @@ kernelspec:
 
 # Functional programming
 
-{button}`Slides <https://se-for-sci.github.io/slides/week-12-1>`
+{button}`Slides <https://se-for-sci.github.io/slides/week-11-1>`
+
+Let's move beyond OO and learn from other paradigms, starting with functional
+programming.
 
 ## Mutability and state
 
